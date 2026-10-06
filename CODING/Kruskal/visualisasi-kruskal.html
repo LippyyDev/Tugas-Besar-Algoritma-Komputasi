@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kruskal MST | Visualisasi</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#f6f7f9; --panel:#ffffff; --panel2:#eef0f3; --border:#d3d8de; --text:#1c2127; --muted:#5f6b7c;
+  --accent:#2d72d2; --ok:#238551; --bad:#cd4246; --warn:#c87619; --hl:rgba(200,118,25,.16); --grid:#d3d8de;
+  --c0:#2d72d2; --c1:#7961db; --c2:#00a396; --c3:#c9459a;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111418; --panel:#1c2127; --panel2:#252a31; --border:#383e47; --text:#e5e8eb; --muted:#abb3bf;
+    --accent:#4c90f0; --ok:#3dcc91; --bad:#e76a6e; --warn:#fbb360; --hl:rgba(251,179,96,.14); --grid:#323840;
+    --c0:#4c90f0; --c1:#9d7bea; --c2:#2eb8c0; --c3:#e45ea0;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111418; --panel:#1c2127; --panel2:#252a31; --border:#383e47; --text:#e5e8eb; --muted:#abb3bf;
+  --accent:#4c90f0; --ok:#3dcc91; --bad:#e76a6e; --warn:#fbb360; --hl:rgba(251,179,96,.14); --grid:#323840;
+  --c0:#4c90f0; --c1:#9d7bea; --c2:#2eb8c0; --c3:#e45ea0;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+code,.mono{font-family:var(--mono)}
+code{font-size:.9em;background:var(--panel2);border:1px solid var(--border);border-radius:3px;padding:0 5px}
+
+/* ---- scrollbar tipis, transparan, mengikuti tema ---- */
+*::-webkit-scrollbar{width:10px;height:10px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:color-mix(in srgb,var(--muted) 32%,transparent);border-radius:10px;border:3px solid transparent;background-clip:padding-box;transition:background .2s}
+*::-webkit-scrollbar-thumb:hover{background:color-mix(in srgb,var(--muted) 60%,transparent);background-clip:padding-box}
+*::-webkit-scrollbar-corner{background:transparent}
+@supports not selector(::-webkit-scrollbar){
+  *{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--muted) 40%,transparent) transparent}
+}
+
+/* ---- header ---- */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 16px;height:48px;background:var(--panel);border-bottom:1px solid var(--border);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand .name{font-weight:700;letter-spacing:.14em;font-size:13px}
+.brand .sep{color:var(--muted)}
+.brand .crumb{color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-r{display:flex;align-items:center;gap:8px}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border);background:var(--panel2);color:var(--muted);padding:3px 8px;border-radius:2px;white-space:nowrap}
+.chip.live{color:var(--accent);border-color:var(--accent)}
+
+.wrap{max-width:none;margin:0;padding:0 env(safe-area-inset-right,0px) 24px env(safe-area-inset-left,0px)}
+
+/* ---- tombol ---- */
+button{font:inherit;font-size:13px;font-weight:500;color:var(--text);background:var(--panel2);border:1px solid var(--border);border-radius:2px;height:30px;padding:0 14px;cursor:pointer;transition:border-color .15s, background .15s, transform .1s}
+button:hover:not(:disabled){border-color:var(--accent)}
+button:active:not(:disabled){transform:scale(.97)}
+button:disabled{opacity:.4;cursor:default}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+/* ---- bar kontrol ---- */
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--panel);border-bottom:1px solid var(--border);padding:10px 16px}
+.barstep{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.btns{display:flex;gap:6px;flex-wrap:wrap}
+.timeline{flex:1;min-width:220px;display:flex;gap:3px}
+.timeline button{flex:1;height:22px;padding:0;border-radius:1px;background:var(--panel2);font-family:var(--mono);font-size:10px;color:var(--muted);min-width:0}
+.timeline button.done{background:color-mix(in srgb,var(--accent) 35%,var(--panel2));color:var(--text)}
+.timeline button.now{background:var(--accent);border-color:var(--accent);color:#fff}
+.keys{font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+/* ---- KPI ---- */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-bottom:1px solid var(--border)}
+@media(max-width:700px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{background:var(--panel);border-right:1px solid var(--border);padding:10px 16px;border-top:2px solid var(--accent)}
+.kpi:last-child{border-right:0}
+.kpi .l{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.kpi .v{font-family:var(--mono);font-size:24px;font-weight:700;line-height:1.2;display:inline-block}
+.kpi .v small{font-size:13px;color:var(--muted);font-weight:500}
+.kpi .v.bump{animation:bump .5s ease}
+@keyframes bump{40%{transform:scale(1.35);color:var(--ok)}}
+
+/* ---- panel ---- */
+.panel{background:var(--panel);border:0;border-bottom:1px solid var(--border);margin:0;min-width:0}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:8px;height:34px;padding:0 16px;border-bottom:1px solid var(--border);background:var(--panel2)}
+.ph .t{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.ph .m{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.pb{padding:12px 16px}
+.grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);grid-template-areas:"a b" "a c";gap:0}
+.col{min-width:0}
+.col.a{grid-area:a;border-right:1px solid var(--border)} .col.b{grid-area:b} .col.c{grid-area:c}
+.split{display:none}
+body.resizing{user-select:none;cursor:col-resize}
+@media(max-width:980px){.grid{grid-template-columns:1fr;grid-template-areas:"a" "b" "c"}.col.a{border-right:0}}
+
+/* ---- log ---- */
+.log .pb{display:flex;gap:12px;align-items:flex-start;min-height:92px}
+.badge{flex:none;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;padding:3px 8px;border:1px solid var(--muted);color:var(--muted);border-radius:2px;transition:all .25s}
+.badge.find{color:var(--warn);border-color:var(--warn)}
+.badge.ok{color:var(--ok);border-color:var(--ok)}
+.badge.bad{color:var(--bad);border-color:var(--bad)}
+#msg{font-size:14px}
+#msg.fade{animation:fadein .4s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+/* ---- kanvas ---- */
+.canvas{position:relative;background:var(--bg)}
+.canvas svg{width:100%;height:auto;display:block}
+.overlay{position:absolute;left:10px;top:8px;display:flex;gap:6px;flex-wrap:wrap;pointer-events:none}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:11.5px;color:var(--muted);padding:8px 16px;border-top:1px solid var(--border)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:18px;height:0;border-top:3px solid;display:inline-block}
+.hint{color:var(--muted);font-size:12px;padding:8px 16px;border-top:1px solid var(--border)}
+
+/* ---- kode ---- */
+.codebox{position:relative;height:560px;overflow:auto;background:var(--bg);font-family:var(--mono);font-size:12.5px;line-height:19px;padding:6px 0}
+.cl{display:flex;align-items:flex-start;white-space:pre;border-left:3px solid transparent;transition:background .3s, border-color .3s}
+.cl .n{flex:none;width:44px;text-align:right;padding-right:12px;color:var(--muted);user-select:none;opacity:.75}
+.cl.on{background:var(--hl);border-left-color:var(--warn)}
+.cl.on .n{color:var(--warn);opacity:1}
+.kw{color:var(--c1);font-weight:500} .st{color:var(--ok)} .cm{color:var(--muted);font-style:italic} .nu{color:var(--warn)}
+
+/* ---- tabel ---- */
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:12.5px}
+th,td{border-bottom:1px solid var(--border);padding:6px 16px;text-align:center;white-space:nowrap}
+th{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--panel2)}
+td{font-family:var(--mono);transition:background .4s, opacity .4s}
+tr.cur td{background:var(--hl)}
+td.flash{animation:flash 1s ease}
+@keyframes flash{0%{background:var(--ok);color:#fff}100%{background:transparent}}
+.tag{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--border);color:var(--muted);padding:1px 8px;border-radius:2px}
+.tag.acc{color:var(--ok);border-color:var(--ok)} .tag.rej{color:var(--bad);border-color:var(--bad)} .tag.now{color:var(--warn);border-color:var(--warn)} .tag.skip{border-style:dashed}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:middle;transition:background .5s}
+
+/* ---- graf ---- */
+.base{stroke:var(--border);stroke-width:2;stroke-linecap:round}
+.over{fill:none;stroke-dasharray:1;stroke-dashoffset:1;stroke-width:5;stroke:var(--warn);
+  transition:stroke-dashoffset .65s ease, stroke .35s ease, stroke-width .35s ease, opacity .35s}
+.over.cur{stroke:var(--warn);stroke-width:6;stroke-dashoffset:0}
+.over.acc{stroke:var(--ok);stroke-width:5;stroke-dashoffset:0}
+.over.rej{stroke:var(--bad);stroke-width:3;stroke-dashoffset:0;opacity:.6}
+.lab rect{fill:var(--panel);stroke:var(--border);stroke-width:1;transition:stroke .3s}
+.lab text{fill:var(--text);font-family:var(--mono);font-size:13px;font-weight:700;text-anchor:middle}
+.lab.cur rect{stroke:var(--warn);stroke-width:2}
+.lab.rej rect{stroke:var(--bad)} .lab.rej text{fill:var(--bad);text-decoration:line-through}
+.lab.acc rect{stroke:var(--ok);stroke-width:2}
+.lab,.node,.in{transform-box:fill-box;transform-origin:center}
+.lab.pop{animation:pop .6s ease}
+.lab.shake,.in.shake{animation:shake .5s ease}
+@keyframes pop{40%{transform:scale(1.5)}}
+@keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.node rect.body{stroke:var(--bg);stroke-width:3;transition:fill .6s ease, stroke .3s}
+.node text{fill:#fff;font-family:var(--mono);font-size:13px;font-weight:700;text-anchor:middle;pointer-events:none}
+.node.hot rect.body{stroke:var(--warn);stroke-width:4}
+.node.pulse,.in.pulse{animation:pulse .7s ease}
+@keyframes pulse{40%{transform:scale(1.3)}}
+.ring{fill:none;stroke:var(--ok);stroke-width:3;opacity:0;transform-box:fill-box;transform-origin:center}
+.ring.go{animation:ring .9s ease-out}
+@keyframes ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.35)}}
+
+/* ---- pohon disjoint set ---- */
+.tn rect.body{stroke:var(--bg);stroke-width:3;transition:fill .5s ease, stroke .3s}
+.tn text.id{fill:#fff;font-family:var(--mono);font-size:13px;font-weight:700;text-anchor:middle;pointer-events:none}
+.tn text.tg{fill:var(--warn);font-family:var(--mono);font-size:12px;font-weight:700;text-anchor:middle}
+.tn text.rk{fill:#fff;opacity:.85;font-family:var(--mono);font-size:10px;text-anchor:middle;pointer-events:none}
+.tn.pu rect.body{stroke:var(--warn);stroke-width:5}
+.tn.pv rect.body{stroke:var(--accent);stroke-width:5}
+.tn.ok rect.body{stroke:var(--ok);stroke-width:5}
+.tn.bad rect.body{stroke:var(--bad);stroke-width:5}
+.arrow{stroke:var(--muted);stroke-width:2.5;opacity:0;transition:opacity .4s}
+.arrow.on{opacity:1}
+#ah polygon{fill:var(--muted)}
+
+
+/* ---- mode fokus: visualisasi, kode, variabel, tombol navigasi ---- */
+body.focus .kpis, body.focus .timeline, body.focus .keys, body.focus #dsTableWrap, body.focus .hint{display:none}
+body.focus{height:100vh;height:100dvh;overflow:hidden;display:flex;flex-direction:column}
+body.focus .wrap{flex:1;min-height:0;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
+body.focus .log{flex:none;display:block}
+body.focus .log .pb{min-height:0;padding:8px 16px}
+body.focus #msg{font-size:13.5px}
+body.focus .grid{order:1;flex:1;min-height:0}
+body.focus .bar{order:2;border-top:1px solid var(--border);border-bottom:0;justify-content:center;padding:10px 16px}
+body.focus .bar button{height:36px;padding:0 20px;font-size:14px}
+body.focus .canvas{position:relative}
+body.focus .canvas svg{position:absolute;inset:0;width:100%;height:100%}
+@media(min-width:1200px){
+  body.focus .grid{grid-template-columns:minmax(0,var(--fa,1.05fr)) 6px minmax(0,var(--fb,1.1fr)) 6px minmax(0,var(--fc,.95fr));grid-template-areas:"a s1 b s2 c"}
+  body.focus .split{display:block;background:var(--border);cursor:col-resize;touch-action:none;transition:background .15s}
+  body.focus .split:hover, body.focus .split.drag{background:var(--accent)}
+  body.focus .split.s1{grid-area:s1} body.focus .split.s2{grid-area:s2}
+  body.focus .col.a{border-right:0}
+  body.focus .col{display:flex;flex-direction:column;min-height:0}
+  body.focus .col .panel{display:flex;flex-direction:column;min-height:0}
+  body.focus #pGraph{flex:3} body.focus #pTree{flex:2} body.focus #pCode{flex:1}
+  body.focus #pVars{flex:3} body.focus #pEdges{flex:2}
+  body.focus .canvas{flex:1;min-height:0}
+  body.focus .codebox, body.focus .vars, body.focus .tw{flex:1;min-height:0;height:auto;max-height:none;overflow:auto}
+}
+@media(max-width:1199px){
+  body.focus{height:auto;overflow:auto;display:block}
+  body.focus .wrap{display:block}
+  body.focus .canvas{height:44vh}
+  body.focus .codebox{height:50vh}
+  body.focus .bar{position:sticky;bottom:0;z-index:4}
+}
+
+/* ---- muncul bertahap dari kanvas kosong ---- */
+.node{opacity:0;transition:opacity .5s ease}
+.node.vis{opacity:1}
+.node rect.body{fill:var(--panel2)}
+.node text.nm{fill:var(--text)} .node.colored text.nm{fill:#fff}
+.node .numb{opacity:0;transition:opacity .4s} .node.shownum .numb{opacity:1}
+.numb circle{fill:var(--panel);stroke:var(--border);stroke-width:1.5}
+.numb text{fill:var(--text);font-family:var(--mono);font-size:10px;font-weight:700;text-anchor:middle}
+.tn{opacity:0;transition:opacity .5s ease} .tn.vis{opacity:1}
+.base,.lab{transition:opacity .4s ease}
+.hid{opacity:0!important}
+.empty{fill:var(--muted);font-family:var(--mono);font-size:13px;text-anchor:middle;transition:opacity .4s}
+.empty.sm{font-size:11px} .empty.gone{opacity:0}
+.hidrow td{opacity:0}
+table.fade{animation:fadein .5s ease}
+
+/* ---- penanda: kode menunjuk panel visualisasi ---- */
+.cl .tx{flex:none}
+.wrap-on .cl .tx{flex:1;min-width:0;white-space:pre-wrap;overflow-wrap:anywhere;padding-left:calc(var(--k,0)*1ch);text-indent:calc(var(--k,0)*-1ch)}
+.wrap-on .cl .mk{margin-left:8px}
+.cl .mk{display:none;flex:none;margin:1px 8px 0 14px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;background:var(--panel);color:var(--accent);border:1px solid var(--accent);padding:0 7px;border-radius:2px;line-height:14px;white-space:pre}
+.cl.on .mk.has{display:inline-block}
+
+/* ---- panel variabel ---- */
+.vars{max-height:330px;overflow:auto;font-family:var(--mono);font-size:12px}
+.vsc{padding:4px 16px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--panel2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.vleg{padding:6px 16px;color:var(--muted);font-size:11px;border-bottom:1px solid var(--border)}
+.vrow{display:grid;grid-template-columns:minmax(96px,max-content) 1fr;gap:12px;padding:5px 16px;border-bottom:1px solid var(--border);align-items:start}
+.vrow .vn{color:var(--c1);font-weight:700;word-break:break-word}
+.vrow .vv{word-break:break-word}
+.vnm{color:var(--muted)}
+.vrow.chg{animation:vflash 1.3s ease}
+@keyframes vflash{0%{background:var(--hl);box-shadow:inset 3px 0 var(--warn)}100%{background:transparent;box-shadow:inset 0 0 transparent}}
+
+/* ---- animasi pemanggilan fungsi ---- */
+#gwrap{transition:transform 1s cubic-bezier(.5,0,.2,1)}
+.call #gwrap{transform:translate(30px,112px) scale(.42)}
+.mach{opacity:0;transition:opacity .4s ease;pointer-events:none}
+.call .mach{opacity:1}
+.mbox{fill:var(--panel2);stroke:var(--accent);stroke-width:2;stroke-dasharray:6 4}
+.mt{fill:var(--text);font-family:var(--mono);font-size:16px;font-weight:700;text-anchor:middle}
+.ms{fill:var(--muted);font-family:var(--mono);font-size:10px;text-anchor:middle}
+.m-wait,.m-got{fill:var(--text);font-family:var(--mono);font-size:11px;text-anchor:middle}
+.m-got{opacity:0}
+.call .m-wait{animation:fadeout .3s ease 2.1s forwards}
+.call .m-got{animation:fadein2 .5s ease 2.3s forwards}
+@keyframes fadeout{to{opacity:0}}
+@keyframes fadein2{to{opacity:1}}
+.sendlbl{fill:var(--accent);font-family:var(--mono);font-size:10px;text-anchor:middle}
+.sendline{stroke:var(--accent);stroke-width:2;stroke-dasharray:4 3}
+.pkt{opacity:0;pointer-events:none}
+.pkt rect{fill:var(--accent)}
+.pkt text{fill:#fff;font-family:var(--mono);font-size:10px;font-weight:700;text-anchor:middle}
+.call .pkt{animation:pkt 1.5s ease 1s forwards}
+@keyframes pkt{0%{opacity:0;transform:translate(236px,179px)}10%{opacity:1}85%{opacity:1;transform:translate(384px,179px)}100%{opacity:0;transform:translate(430px,179px)}}
+.frame{opacity:0;transition:opacity .5s ease;pointer-events:none}
+.infn .frame{opacity:1}
+.frame rect{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:7 5}
+.frame .ft{fill:var(--accent);font-family:var(--mono);font-size:12px;font-weight:700}
+.frame .fp{fill:var(--muted);font-family:var(--mono);font-size:11px;text-anchor:end}
+/* ---- kilau graf saat hasil dicetak ---- */
+.glow .node,.glow .lab,.glow .base{animation:glow .9s ease 2}
+@keyframes glow{50%{filter:drop-shadow(0 0 9px var(--accent))}}
+tr.rowin{animation:rowin .45s ease both}
+@keyframes rowin{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="1" y="1" width="20" height="20" rx="2" fill="none" stroke="var(--accent)" stroke-width="2"/><path d="M5 16 L9 7 L13 13 L17 5" fill="none" stroke="var(--accent)" stroke-width="2"/></svg>
+    <span class="name">KRUSKAL</span><span class="sep">/</span><span class="crumb">Minimum Spanning Tree</span>
+  </div>
+  <div class="top-r">
+    <span class="chip live" id="chipStep"></span>
+    <button id="focus" title="Mode fokus (tombol F)">Fokus</button>
+    <button id="theme" title="Ganti tema">Tema</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="bar">
+    <div class="btns">
+      <button id="prev">Sebelumnya</button>
+      <button id="next" class="primary">Selanjutnya</button>
+      <button id="reset">Reset</button>
+      <button id="auto">Putar otomatis</button>
+    </div>
+    <div class="timeline" id="timeline" aria-label="Linimasa langkah"></div>
+    <span class="barstep" id="barStep"></span>
+    <span class="keys">KIRI / KANAN</span>
+  </section>
+
+  <section class="kpis">
+    <div class="kpi"><div class="l">Langkah</div><div class="v" id="kStep">0</div></div>
+    <div class="kpi"><div class="l">Sisi MST</div><div class="v" id="kCnt">0</div></div>
+    <div class="kpi"><div class="l">Total biaya (juta Rp)</div><div class="v" id="kTot">0</div></div>
+    <div class="kpi"><div class="l">Kelompok</div><div class="v" id="kSets">0</div></div>
+  </section>
+
+  <section class="panel log">
+    <div class="ph"><span class="t">Penjelasan langkah</span><span class="m" id="logMeta"></span></div>
+    <div class="pb"><span class="badge" id="badge">INFO</span><div id="msg"></div></div>
+  </section>
+
+  <div class="grid">
+    <div class="col a">
+      <section class="panel" id="pGraph">
+        <div class="ph"><span class="t">Graf</span><span class="m" id="graphMeta"></span></div>
+        <div class="canvas fill">
+          <svg id="graph" viewBox="0 0 600 380" role="img" aria-label="Graf berbobot">
+            <defs><pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" style="fill:var(--grid)"/></pattern><marker id="ah2" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><polygon points="0,0 10,5 0,10" style="fill:var(--accent)"/></marker></defs>
+            <rect width="600" height="380" fill="url(#dots)"/>
+          </svg>
+        </div>
+        <div class="legend">
+          <span><i class="sw" style="border-color:var(--warn)"></i>sedang diperiksa</span>
+          <span><i class="sw" style="border-color:var(--ok)"></i>diterima (masuk MST)</span>
+          <span><i class="sw" style="border-color:var(--bad)"></i>ditolak (siklus)</span>
+          <span><i class="sw" style="border-color:var(--border)"></i>belum dipindai</span>
+          <span>angka pada garis = biaya (juta Rp)</span>
+        </div>
+      </section>
+
+      <section class="panel" id="pTree">
+        <div class="ph"><span class="t">Cara kerja Himpunan Terpisah</span><span class="m">cari_akar / gabung</span></div>
+        <div class="canvas fill">
+          <svg id="tree" viewBox="0 0 600 260" role="img" aria-label="Pohon himpunan terpisah">
+            <defs><marker id="ah" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto" markerUnits="userSpaceOnUse"><polygon points="0,0 10,5 0,10"/></marker></defs>
+            <rect width="600" height="260" fill="url(#dots)"/>
+          </svg>
+        </div>
+        <div class="hint">Setiap kelompok kota punya satu ketua (akar) di posisi paling atas. Panah menunjuk ke <em>induk</em>, yaitu atasan langsung. <b style="color:var(--warn)">A</b> dan <b style="color:var(--accent)">B</b> adalah dua kota pada jalur yang sedang diperiksa. Jalur <code>cari_akar</code> menyala bergantian dari simpul menuju akar.</div>
+        <div class="tw" id="dsTableWrap"><table id="dstable"></table></div>
+      </section>
+    </div>
+
+    <div class="split s1" id="sp1" role="separator" aria-orientation="vertical" title="Geser untuk mengubah lebar. Klik dua kali untuk mengembalikan."></div>
+
+    <div class="col b">
+      <section class="panel" id="pCode">
+        <div class="ph"><span class="t">Kode</span><span class="m"><span id="fileName">kruskal.py</span> <button id="wrap" title="Bungkus baris panjang (Alt+Z)" style="height:22px;padding:0 8px;font-size:11px;margin-left:8px">Bungkus: ON</button> <button id="copy" style="height:22px;padding:0 8px;font-size:11px;margin-left:8px">Salin</button></span></div>
+        <div class="codebox" id="codebox"></div>
+        <div class="hint">Isi panel ini sama persis dengan file <code>kruskal.py</code>. Baris yang menyala sedang dijalankan. Chip biru di ujung baris menunjuk panel mana yang menampilkannya.</div>
+      </section>
+    </div>
+
+    <div class="split s2" id="sp2" role="separator" aria-orientation="vertical" title="Geser untuk mengubah lebar. Klik dua kali untuk mengembalikan."></div>
+
+    <div class="col c">
+      <section class="panel" id="pVars">
+        <div class="ph"><span class="t">Variabel</span><span class="m">isi memori saat ini</span></div>
+        <div class="vars" id="vars"></div>
+      </section>
+      <section class="panel" id="pEdges">
+        <div class="ph"><span class="t"><span id="edgeTitle">Jalur terurut</span></span><span class="m" id="edgeMeta">termurah dulu</span></div>
+        <div class="tw"><table id="edgetable"></table></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<script>
+// ============ ISI kruskal.py (disisipkan apa adanya dari file) ============
+const PY = "\"\"\"Algoritma Kruskal untuk MST, beserta Himpunan Terpisah (Disjoint Set).\n\nGraf: simpul bernomor 0..jumlah_simpul-1.\nSatu sisi ditulis (simpul_a, simpul_b, bobot).\nsorted() dipakai sebagai alat bantu pengurutan, biaya O(m log m).\n\"\"\"\n\n\nclass HimpunanTerpisah:\n    \"\"\"Disjoint Set (Union-Find) dengan union by rank dan path halving.\"\"\"\n\n    def __init__(self, jumlah_simpul):\n        self.induk = list(range(jumlah_simpul))  # awalnya induk tiap simpul adalah dirinya\n        self.peringkat = [0] * jumlah_simpul     # perkiraan tinggi pohon\n\n    def cari_akar(self, simpul):\n        \"\"\"Mencari akar (ketua) himpunan dari simpul.\"\"\"\n        while self.induk[simpul] != simpul:\n            self.induk[simpul] = self.induk[self.induk[simpul]]  # path halving\n            simpul = self.induk[simpul]\n        return simpul\n\n    def gabung(self, simpul_a, simpul_b):\n        \"\"\"Gabungkan himpunan kedua simpul. False jika sudah satu himpunan (siklus).\"\"\"\n        akar_a = self.cari_akar(simpul_a)\n        akar_b = self.cari_akar(simpul_b)\n        if akar_a == akar_b:\n            return False\n        if self.peringkat[akar_a] < self.peringkat[akar_b]:  # pohon pendek digantung ke pohon tinggi\n            akar_a, akar_b = akar_b, akar_a\n        self.induk[akar_b] = akar_a\n        if self.peringkat[akar_a] == self.peringkat[akar_b]:\n            self.peringkat[akar_a] += 1\n        return True\n\n\ndef kruskal(jumlah_simpul, daftar_sisi):\n    \"\"\"Mengembalikan (sisi_mst, total_bobot). ValueError jika graf tidak terhubung.\"\"\"\n    # Urut menaik menurut bobot (sisi[2]); bila sama, menurut simpul_a lalu simpul_b.\n    sisi_terurut = sorted(daftar_sisi, key=lambda sisi: (sisi[2], sisi[0], sisi[1]))\n\n    himpunan = HimpunanTerpisah(jumlah_simpul)\n    sisi_mst = []\n    total_bobot = 0\n\n    for simpul_a, simpul_b, bobot in sisi_terurut:  # dari sisi paling ringan\n        if himpunan.gabung(simpul_a, simpul_b):  # terima jika belum terhubung (tanpa siklus)\n            sisi_mst.append((simpul_a, simpul_b, bobot))\n            total_bobot += bobot\n            if len(sisi_mst) == jumlah_simpul - 1:  # MST sudah lengkap\n                break\n\n    if len(sisi_mst) != jumlah_simpul - 1:\n        raise ValueError(\"Graf tidak terhubung\")\n    return sisi_mst, total_bobot\n\n\nif __name__ == \"__main__\":\n    # Contoh: 4 kota disambung kabel internet. Bobot = biaya (juta rupiah).\n    nama_kota = [\"Maros\", \"Makassar\", \"Gowa\", \"Takalar\"]\n    MAROS, MAKASSAR, GOWA, TAKALAR = 0, 1, 2, 3  # nomor simpul tiap kota\n\n    # Tiap sisi = (kota_a, kota_b, biaya). Hasil yang benar: total 7.\n    contoh = [\n        (GOWA, TAKALAR, 4),\n        (MAROS, GOWA, 3),\n        (MAKASSAR, TAKALAR, 5),\n        (MAROS, MAKASSAR, 1),\n        (MAKASSAR, GOWA, 2),\n    ]\n    sisi_mst, total_bobot = kruskal(4, contoh)\n    for simpul_a, simpul_b, bobot in sisi_mst:\n        print(f\"{nama_kota[simpul_a]} ke {nama_kota[simpul_b]}, biaya {bobot} juta\")\n    print(\"Total biaya:\", total_bobot, \"juta\")\n";
+const LINES = PY.split("\n"); if(LINES[LINES.length-1]==="") LINES.pop();
+
+// ---------- Cari nomor baris penting di kode (otomatis mengikuti file) ----------
+const findLine=(text,from=0)=>{
+  for(let i=from;i<LINES.length;i++) if(LINES[i].trim().startsWith(text)) return i;
+  throw new Error("Baris tidak ditemukan: "+text);
+};
+const L={
+  initParent:findLine("self.induk = list(range("), initRank:findLine("self.peringkat = [0] *"),
+  defFind:findLine("def cari_akar("), whileP:findLine("while self.induk[simpul] != simpul:"),
+  halve:findLine("self.induk[simpul] = self.induk[self.induk[simpul]]"), stepUp:findLine("simpul = self.induk[simpul]"), retX:findLine("return simpul"),
+  defUnion:findLine("def gabung("), findA:findLine("akar_a = self.cari_akar(simpul_a)"), findB:findLine("akar_b = self.cari_akar(simpul_b)"),
+  ifSame:findLine("if akar_a == akar_b:"), ifRank:findLine("if self.peringkat[akar_a] < self.peringkat[akar_b]:"),
+  attach:findLine("self.induk[akar_b] = akar_a"), ifEq:findLine("if self.peringkat[akar_a] == self.peringkat[akar_b]:"), retTrue:findLine("return True"),
+  sortCmt:findLine("# Urut menaik"), sortLine:findLine("sisi_terurut = sorted("),
+  dsNew:findLine("himpunan = HimpunanTerpisah(jumlah_simpul)"), mstInit:findLine("sisi_mst = []"), totalInit:findLine("total_bobot = 0"),
+  forLoop:findLine("for simpul_a, simpul_b, bobot in sisi_terurut:"), ifUnion:findLine("if himpunan.gabung(simpul_a, simpul_b):"),
+  append:findLine("sisi_mst.append("), totalAdd:findLine("total_bobot += bobot"),
+  ifLen:findLine("if len(sisi_mst) == jumlah_simpul - 1:"), brk:findLine("break"), ret:findLine("return sisi_mst, total_bobot")
+};
+L.retFalse=L.ifSame+1; L.swap=L.ifRank+1; L.bump=L.ifEq+1;
+const findRegex=re=>{for(let i=0;i<LINES.length;i++) if(re.test(LINES[i].trim())) return i; throw new Error("Baris tidak ditemukan: "+re);};
+L.main=findLine("if __name__"); L.cmtContoh=findLine("# Contoh:"); L.cmtSisi=findLine("# Tiap sisi");
+L.nama=findLine("nama_kota = ["); L.konst=findRegex(/^[A-Z][A-Z, ]*=\s*\d/);
+L.contoh=findLine("contoh = ["); L.callK=findLine("sisi_mst, total_bobot = kruskal("); L.defK=findLine("def kruskal(");
+L.printLoop=findLine("for simpul_a, simpul_b, bobot in sisi_mst:"); L.printEach=L.printLoop+1; L.printTotal=findLine('print("Total biaya:"');
+L.tuples=[]; for(let i=L.contoh+1;i<LINES.length&&!LINES[i].trim().startsWith("]");i++) if(LINES[i].trim().startsWith("(")) L.tuples.push(i);
+
+// ---------- Peta: baris kode -> panel visualisasi yang menampilkannya ----------
+const TG={graf:"GRAF",pohon:"POHON",vars:"VARIABEL",daftar:"JALUR"};
+const MAP={};
+const mapL=(ln,t)=>{MAP[ln]=t;};
+mapL(L.main,["vars"]); mapL(L.nama,["graf","vars"]); mapL(L.konst,["graf","vars"]);
+L.tuples.forEach(t=>mapL(t,["graf","daftar","vars"]));
+mapL(L.callK,["graf"]); mapL(L.defK,["vars","graf"]); mapL(L.sortLine,["daftar","vars"]);
+[L.initParent,L.initRank,L.dsNew].forEach(x=>mapL(x,["pohon","vars"]));
+mapL(L.mstInit,["vars"]); mapL(L.totalInit,["vars"]);
+mapL(L.forLoop,["graf","daftar","vars"]); mapL(L.ifUnion,["pohon","graf"]);
+mapL(L.findA,["pohon","vars"]); mapL(L.findB,["pohon","vars"]);
+[L.defFind,L.whileP,L.halve,L.stepUp,L.retX].forEach(x=>mapL(x,["pohon"]));
+mapL(L.ifSame,["pohon","graf"]); mapL(L.retFalse,["graf","daftar"]);
+[L.ifRank,L.swap,L.attach,L.ifEq,L.bump,L.retTrue].forEach(x=>mapL(x,["pohon"]));
+mapL(L.append,["graf","vars","daftar"]); mapL(L.totalAdd,["vars"]);
+mapL(L.ifLen,["vars"]); mapL(L.brk,["vars","graf"]); mapL(L.ret,["vars"]);
+[L.printLoop,L.printEach,L.printTotal].forEach(x=>mapL(x,["graf","vars"]));
+
+// ---------- Ambil data contoh dari blok __main__ pada file ----------
+const N=+PY.match(/kruskal\((\d+),\s*contoh\)/)[1];
+const NAMA=[...PY.match(/nama_kota\s*=\s*\[([^\]]*)\]/)[1].matchAll(/"([^"]+)"/g)].map(m=>m[1]);
+const idDariNama=nm=>{const k=NAMA.findIndex(x=>x.toUpperCase()===nm); if(k<0) throw new Error("Nama tidak dikenal: "+nm); return k;};
+const blokContoh=PY.match(/contoh\s*=\s*\[([\s\S]*?)\n\s*\]/)[1];
+const EDGES=[...blokContoh.matchAll(/\((\w+),\s*(\w+),\s*(\d+)\)/g)].map(m=>[idDariNama(m[1]),idDariNama(m[2]),+m[3]]);
+const POS = N===4 ? [[110,190],[300,70],[300,310],[490,190]]
+  : [...Array(N).keys()].map(i=>[300+170*Math.cos(-Math.PI/2+i*2*Math.PI/N),190+140*Math.sin(-Math.PI/2+i*2*Math.PI/N)]);
+
+// ---------- Disjoint set (cermin kelas DisjointSet di kruskal.py) ----------
+class DS {
+  constructor(n){ this.parent=[...Array(n).keys()]; this.rank=Array(n).fill(0); }
+  findTrace(x){
+    const path=[x];
+    while(this.parent[x]!==x){ this.parent[x]=this.parent[this.parent[x]]; x=this.parent[x]; path.push(x); }
+    return {root:x,path};
+  }
+  find(x){ return this.findTrace(x).root; }
+  union(a,b){
+    let ra=this.find(a), rb=this.find(b);
+    if(ra===rb) return false;
+    if(this.rank[ra]<this.rank[rb]) [ra,rb]=[rb,ra];
+    this.parent[rb]=ra;
+    if(this.rank[ra]===this.rank[rb]) this.rank[ra]++;
+    return true;
+  }
+}
+const rootOf=(parent,x)=>{ while(parent[x]!==x) x=parent[x]; return x; };
+
+// ---------- Susun langkah dengan menjalankan algoritma ----------
+function buildSteps(){
+  const n=N, nm=i=>NAMA[i], range=[...Array(n).keys()];
+  const sorted=EDGES.map(e=>e.slice()).sort((a,b)=>a[2]-b[2]||a[0]-b[0]||a[1]-b[1]);
+  const steps=[], ds=new DS(n), status=sorted.map(()=>"idle");
+  let mst=[], total=0;
+  // st = variabel mana saja yang sudah ada di memori pada langkah ini
+  const st={nama:false,konst:false,lc:0,fn:false,sorted:false,ds:false,mst:false,loop:null,akar:null,ret:false};
+  const ke=NAMA.map(x=>x.toUpperCase()).join(", ");
+  const fmtT=t=>`(${t.join(", ")})`, fmtL=a=>"["+a.map(fmtT).join(", ")+"]";
+  const fmtN=e=>`(${NAMA[e[0]].toUpperCase()}, ${NAMA[e[1]].toUpperCase()}, ${e[2]})`;
+  const withName=i=>`${i} <span class="vnm">(${nm(i)})</span>`;
+  const mkVars=()=>{
+    const main=[], fn=[];
+    if(st.nama) main.push({n:"nama_kota",v:`[${NAMA.map(x=>`"${x}"`).join(", ")}]`});
+    if(st.konst) main.push({n:ke,v:range.join(", ")});
+    if(st.lc>0) main.push({n:"contoh",v:`[${EDGES.slice(0,st.lc).map(fmtN).join(", ")}]`});
+    if(st.fn){
+      fn.push({n:"jumlah_simpul",v:`${n}`},{n:"daftar_sisi",v:fmtL(EDGES)});
+      if(st.sorted) fn.push({n:"sisi_terurut",v:fmtL(sorted)});
+      if(st.ds) fn.push({n:"himpunan",v:`induk=[${ds.parent.join(", ")}] peringkat=[${ds.rank.join(", ")}]`});
+      if(st.mst) fn.push({n:"sisi_mst",v:fmtL(mst)},{n:"total_bobot",v:`${total}`});
+      if(st.loop) fn.push({n:"simpul_a",v:withName(st.loop[0])},{n:"simpul_b",v:withName(st.loop[1])},{n:"bobot",v:`${st.loop[2]}`});
+      if(st.akar) fn.push({n:"akar_a",v:withName(st.akar[0])},{n:"akar_b",v:withName(st.akar[1])});
+    }
+    if(st.ret) main.push({n:"sisi_mst",v:fmtL(mst)},{n:"total_bobot",v:`${total}`});
+    return {main,fn,legend:st.konst};
+  };
+  const snap=o=>steps.push(Object.assign({parent:[...ds.parent],rank:[...ds.rank],status:[...status],mst:mst.length,total,cur:-1,lines:[],type:"INFO",kind:"info",verdict:null,pu:[],pv:[],tags:{},ev:null,title:"",nodes:N,nums:true,ecount:EDGES.length,treeOn:true,table:"sorted",lc:EDGES.length,vars:mkVars(),out:[],flash:false,callAnim:false,inFn:st.fn},o));
+  const jalur=(u,v)=>`${nm(u)} ke ${nm(v)}`;
+  const pathTxt=p=>p.length===1?"ketuanya dirinya sendiri":`naik ke ${p.slice(1).map(nm).join(" lalu ke ")}, ketuanya ${nm(p[p.length-1])}`;
+
+  // ----- bagian 1: menyiapkan data di blok utama -----
+  const B={nodes:0,nums:false,ecount:0,treeOn:false,table:"list",lc:0};
+  snap(Object.assign({},B,{title:"Mulai",type:"MULAI",lines:[L.main],msg:`Bayangkan kamu pemasang kabel internet yang harus menyambung ${n} kota dengan biaya semurah mungkin. Kita mulai dari nol: program baru dijalankan dan baru masuk ke blok utama. Belum ada kota, belum ada jalur, belum ada variabel. Tekan Selanjutnya untuk menyiapkan datanya baris demi baris.`}));
+  st.nama=true;
+  snap(Object.assign({},B,{title:"Daftar kota",type:"DATA",nodes:n,lines:[L.cmtContoh,L.nama],msg:`Baris <code>nama_kota = [...]</code> menyimpan daftar ${n} kota yang akan disambung: ${NAMA.join(", ")}. Variabelnya muncul di panel Variabel, dan kota-kota itu muncul di Graf, tetapi belum ada jalur di antara mereka. (Istilah teknisnya, kota disebut simpul.)`}));
+  st.konst=true;
+  snap(Object.assign({},B,{title:"Nomor kota",type:"DATA",nodes:n,nums:true,lines:[L.konst],msg:`Baris <code>${ke} = ${range.join(", ")}</code> memberi setiap kota sebuah nomor, seperti nomor induk. Algoritma bekerja dengan nomor ini di balik layar, sedangkan nama hanya agar kita mudah membaca. Nomornya tampil di pojok kartu kota.`}));
+  EDGES.forEach((e,k)=>{
+    const cnt=k+1; st.lc=cnt;
+    snap(Object.assign({},B,{title:`jalur ${cnt}`,type:"DATA",nodes:n,nums:true,ecount:cnt,lc:cnt,lines:[L.cmtSisi,L.tuples[k]],
+      msg:(k===0?"Sekarang jalur ditambahkan satu per satu ke daftar <code>contoh</code>. ":"")+`Jalur ke-${cnt}: <code>(${NAMA[e[0]].toUpperCase()}, ${NAMA[e[1]].toUpperCase()}, ${e[2]})</code> artinya jalur kabel yang menyambung ${NAMA[e[0]]} dan ${NAMA[e[1]]} dengan biaya ${e[2]} juta. Garisnya muncul di Graf, barisnya masuk ke tabel Daftar jalur, dan isi <code>contoh</code> bertambah.`+(k===0?" (Istilah teknisnya, jalur disebut sisi dan biaya disebut bobot.)":"")+(k===EDGES.length-1?` Semua ${EDGES.length} jalur sudah masuk. Perhatikan urutannya acak, belum dari yang termurah.`:"")}));
+  });
+
+  // ----- bagian 2: memanggil fungsi kruskal -----
+  const A={nodes:n,nums:true,ecount:EDGES.length,lc:EDGES.length};
+  snap(Object.assign({},A,{title:"Panggil kruskal",type:"PANGGIL",treeOn:false,table:"list",callAnim:true,lines:[L.callK],msg:`Baris <code>kruskal(${n}, contoh)</code> dipanggil: seluruh graf (${n} kota dan ${EDGES.length} jalur) diserahkan ke fungsi <code>kruskal</code>, seperti menyerahkan peta dan daftar harga kepada seorang ahli. Hasilnya akan ditampung di <code>sisi_mst</code> (kabel terpilih) dan <code>total_bobot</code> (total biaya). Lihat animasinya di Graf: grafnya mengecil menjadi satu paket, lalu masuk ke kotak <code>kruskal()</code> di sebelah kanan.`}));
+  st.fn=true;
+  snap(Object.assign({},A,{title:"Masuk kruskal",type:"PANGGIL",treeOn:false,table:"list",lines:[L.defK],msg:`Python masuk ke dalam fungsi <code>kruskal</code>. Di Graf, kotak tadi terbuka: grafnya membesar lagi dan kini berada di dalam bingkai <code>kruskal()</code>. Dua kiriman diterima sebagai variabel baru: <code>jumlah_simpul</code> = ${n} dan <code>daftar_sisi</code> = daftar ${EDGES.length} jalur (lihat bagian "di dalam kruskal()" pada panel Variabel). Isinya masih acak.`}));
+  st.sorted=true;
+  snap(Object.assign({},A,{title:"Urutkan",type:"URUT",treeOn:false,table:"sorted",lines:[L.sortCmt,L.sortLine],msg:"Langkah 1: daftarkan semua jalur dari yang paling murah sampai paling mahal, seperti belanja dari harga terendah. Lihat tabel berganti menjadi Jalur terurut (kolom Semula menunjukkan nomor asalnya), dan variabel <code>sisi_terurut</code> terisi. Kalau ada dua jalur yang sama murah, urutannya diatur tetap supaya hasilnya selalu sama."}));
+  st.ds=true; st.mst=true;
+  snap({title:"Inisialisasi",type:"SIAPKAN",lines:[L.initParent,L.initRank,L.dsNew,L.mstInit,L.totalInit],msg:"Langkah 2: <code>HimpunanTerpisah</code> dibuat (lihat panel Cara kerja Himpunan Terpisah). Awalnya belum ada kabel. Setiap kota berdiri sendiri sebagai satu kelompok dan menjadi ketuanya sendiri. Setiap kelompok punya peringkat (semacam ukuran), awalnya 0. Variabel <code>himpunan</code>, <code>sisi_mst</code> (kosong), dan <code>total_bobot</code> (0) ikut muncul."});
+
+  // ----- bagian 3: putaran Kruskal -----
+  for(let i=0;i<sorted.length;i++){
+    const [u,v,w]=sorted[i];
+    st.loop=[u,v,w]; st.akar=null;
+    snap({title:`ambil ${jalur(u,v)}`,type:"AMBIL",kind:"cur",cur:i,lines:[L.forLoop],tags:{u,v},
+      msg:`Putaran ke-${i+1}: ambil jalur termurah berikutnya yang belum diperiksa, seperti mengambil kartu teratas dari tumpukan yang sudah terurut. Jalurnya ${jalur(u,v)} dengan biaya ${w} juta. Tiga variabel diisi: <code>simpul_a</code> = ${u} (${nm(u)}), <code>simpul_b</code> = ${v} (${nm(v)}), <code>bobot</code> = ${w}.`});
+    const before=[...ds.parent];
+    const fu=ds.findTrace(u), fv=ds.findTrace(v);
+    const halved=ds.parent.some((p,k)=>p!==before[k]);
+    const ru=fu.root, rv=fv.root;
+    st.akar=[ru,rv];
+    const fl=[L.findA,L.findB,L.defFind,L.whileP]; if(halved) fl.push(L.halve); fl.push(L.stepUp,L.retX);
+    snap({title:`cek ketua`,type:"CARI",kind:"cur",cur:i,lines:fl,pu:fu.path,pv:fv.path,tags:{u,v},
+      msg:`Pertanyaannya: apakah ${nm(u)} dan ${nm(v)} sudah tersambung lewat kabel yang sudah dipasang? Cara mengeceknya, tanya ketua kelompok masing-masing. ${nm(u)}: ${pathTxt(fu.path)}. ${nm(v)}: ${pathTxt(fv.path)}. Hasilnya tersimpan di <code>akar_a</code> dan <code>akar_b</code>.`+(halved?" (Jalurnya dipendekkan supaya pengecekan berikutnya lebih cepat.)":"")});
+    const rkU=ds.rank[ru], rkV=ds.rank[rv];
+    const ok=ds.union(u,v);
+    if(ok){
+      status[i]="accepted"; mst.push(sorted[i]); total+=w;
+      const last=mst.length===n-1;
+      if(last) for(let j=i+1;j<sorted.length;j++) status[j]="skipped";
+      const swap=rkU<rkV, ra=swap?rv:ru, rb=swap?ru:rv, bump=rkU===rkV;
+      const dl=[L.ifUnion,L.ifSame,L.ifRank]; if(swap) dl.push(L.swap); dl.push(L.attach,L.ifEq); if(bump) dl.push(L.bump);
+      dl.push(L.retTrue,L.append,L.totalAdd,L.ifLen); if(last) dl.push(L.brk);
+      const alasan=bump
+        ? `Kedua kelompok sama besar, jadi ${nm(ra)} dipilih menjadi ketua gabungan dan peringkatnya naik menjadi ${ds.rank[ra]}.`
+        : `Kelompok ${nm(ra)} lebih besar (peringkat ${Math.max(rkU,rkV)}), jadi ${nm(rb)} ikut ke bawah ${nm(ra)}.`;
+      snap({title:`pasang ${jalur(u,v)}`,type:"GABUNG",kind:"ok",verdict:"acc",cur:i,lines:dl,tags:{u,v},ev:{child:rb,parent:ra},
+        msg:`Ketuanya berbeda (${nm(ru)} dan ${nm(rv)}), artinya kedua kota belum tersambung. Kabel ${jalur(u,v)} DITERIMA: biaya ${w} juta, total sekarang ${total} juta. Dua kelompok kini digabung. ${alasan}`+(last?` Sudah ada ${n-1} kabel, cukup untuk menyambung ${n} kota, jadi proses berhenti (<code>break</code>).`:"")});
+    }else{
+      status[i]="rejected";
+      snap({title:`tolak ${jalur(u,v)}`,type:"TOLAK",kind:"bad",verdict:"rej",cur:i,lines:[L.ifUnion,L.ifSame,L.retFalse],tags:{u,v},ev:{bad:ru},
+        msg:`Ketua kedua kota sama, yaitu ${nm(ru)}. Artinya ${nm(u)} dan ${nm(v)} sudah tersambung lewat jalur lain. Kalau kabel ${jalur(u,v)} dipasang juga, jaringan jadi melingkar (siklus) dan biaya terbuang. Kabel DITOLAK.`});
+    }
+    if(mst.length===n-1) break;
+  }
+
+  // ----- bagian 4: hasil dan cetak -----
+  st.fn=false; st.ret=true;
+  const hasil=mst.map(e=>`${jalur(e[0],e[1])}, biaya ${e[2]} juta`);
+  snap({title:"kruskal selesai",type:"HASIL",kind:"ok",lines:[L.ret],msg:`Fungsi <code>kruskal</code> selesai dan mengembalikan hasilnya (<code>return</code>). Variabel di dalam fungsi hilang, dan hasilnya kini ditampung di blok utama sebagai <code>sisi_mst</code> dan <code>total_bobot</code>. Kabel yang dipasang: ${mst.map(e=>`${jalur(e[0],e[1])} (${e[2]} juta)`).join(", ")}. Total biaya ${total} juta, dan semua ${n} kota tersambung dengan biaya paling murah.`});
+  snap({title:"Cetak hasil",type:"CETAK",kind:"ok",flash:true,lines:[L.printLoop,L.printEach,L.printTotal],out:[...hasil,`Total biaya: ${total} juta`],msg:`Hasil dicetak: satu baris untuk tiap kabel terpilih (garis hijau di Graf), lalu totalnya. Keluaran programnya:<span class="mono" style="display:block;margin-top:6px">${[...hasil,`Total biaya: ${total} juta`].join("<br>")}</span>`});
+  const listToSorted=EDGES.map(e=>sorted.findIndex(x=>x[0]===e[0]&&x[1]===e[1]&&x[2]===e[2]));
+  return {steps,sorted,listToSorted};
+}
+
+// ============ TAMPILAN ============
+const $=id=>document.getElementById(id);
+const NS="http://www.w3.org/2000/svg";
+const mk=(tag,attrs={},parent)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;};
+const COLORS=["var(--c0)","var(--c1)","var(--c2)","var(--c3)"];
+const REDUCED=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const range=[...Array(N).keys()];
+
+const model=buildSteps();
+const {steps,sorted,listToSorted}=model;
+let idx=0, timer=null, token=0, prev=null;
+
+// ---------- graf utama ----------
+const svg=$("graph");
+const gwrap=mk("g",{id:"gwrap"},svg); // seluruh graf dibungkus agar bisa mengecil saat dikirim ke fungsi
+const edgeEls=sorted.map(([u,v,w])=>{
+  const a=POS[u], b=POS[v];
+  return {base:mk("line",{class:"base",x1:a[0],y1:a[1],x2:b[0],y2:b[1]},gwrap),u,v,w};
+});
+edgeEls.forEach(E=>{const a=POS[E.u], b=POS[E.v];
+  E.over=mk("line",{class:"over",x1:a[0],y1:a[1],x2:b[0],y2:b[1],pathLength:1},gwrap);});
+edgeEls.forEach(E=>{
+  const a=POS[E.u], b=POS[E.v], mx=(a[0]+b[0])/2, my=(a[1]+b[1])/2;
+  E.lab=mk("g",{class:"lab"},gwrap);
+  mk("rect",{x:mx-14,y:my-12,width:28,height:24,rx:2},E.lab);
+  mk("text",{x:mx,y:my+5},E.lab).textContent=E.w;
+});
+const PW=92, PH=34;
+const nodeEls=POS.map((p,i)=>{
+  const g=mk("g",{class:"node"},gwrap);
+  const ring=mk("rect",{class:"ring",x:p[0]-PW/2,y:p[1]-PH/2,width:PW,height:PH,rx:6},g);
+  const c=mk("rect",{class:"body",x:p[0]-PW/2,y:p[1]-PH/2,width:PW,height:PH,rx:6},g);
+  mk("text",{class:"nm",x:p[0],y:p[1]+5},g).textContent=NAMA[i];
+  const nb=mk("g",{class:"numb"},g);
+  mk("circle",{cx:p[0]-PW/2+4,cy:p[1]-PH/2+2,r:9},nb);
+  mk("text",{x:p[0]-PW/2+4,y:p[1]-PH/2+5.5},nb).textContent=i;
+  return {g,c,ring};
+});
+const emptyG=mk("text",{class:"empty",x:300,y:195},svg); emptyG.textContent="Kanvas kosong: belum ada kota dan jalur";
+
+// ----- animasi saat kruskal(...) dipanggil: graf mengecil jadi paket, masuk ke kotak fungsi -----
+const fx=mk("g",{id:"fx"},svg);
+const mach=mk("g",{class:"mach"},fx);
+mk("rect",{class:"mbox",x:372,y:100,width:200,height:180,rx:10},mach);
+mk("text",{class:"mt",x:472,y:138},mach).textContent="kruskal()";
+mk("text",{class:"ms",x:472,y:158},mach).textContent="jumlah_simpul, daftar_sisi";
+mk("text",{class:"m-wait",x:472,y:216},mach).textContent="menunggu data...";
+mk("text",{class:"m-got",x:472,y:206},mach).textContent=`jumlah_simpul = ${N}`;
+mk("text",{class:"m-got",x:472,y:226},mach).textContent=`daftar_sisi = ${EDGES.length} jalur`;
+mk("line",{class:"sendline",x1:292,y1:190,x2:366,y2:190,"marker-end":"url(#ah2)"},mach);
+mk("text",{class:"sendlbl",x:329,y:180},mach).textContent="kirim";
+const pkt=mk("g",{class:"pkt"},fx);
+mk("rect",{x:0,y:0,width:96,height:22,rx:4},pkt);
+mk("text",{x:48,y:15},pkt).textContent="paket data";
+// bingkai "di dalam kruskal()" selama fungsi berjalan
+const frame=mk("g",{class:"frame"},fx);
+mk("rect",{x:6,y:6,width:588,height:368,rx:8},frame);
+mk("text",{class:"ft",x:20,y:28},frame).textContent="di dalam kruskal()";
+mk("text",{class:"fp",x:584,y:28},frame).textContent=`jumlah_simpul = ${N}`;
+mk("text",{class:"fp",x:584,y:46},frame).textContent=`daftar_sisi = ${EDGES.length} jalur`;
+$("graphMeta").textContent=`${N} kota, ${EDGES.length} jalur`;
+
+// ---------- pohon disjoint set ----------
+const tsvg=$("tree");
+const tn=[];
+const PHT=44; // tinggi kartu pada panel pohon
+for(let i=0;i<N;i++) tn[i]={arrow:mk("line",{class:"arrow","marker-end":"url(#ah)"},tsvg)};
+for(let i=0;i<N;i++){
+  const g=mk("g",{class:"tn"},tsvg);
+  const inn=mk("g",{class:"in"},g);
+  const circ=mk("rect",{class:"body",x:-PW/2,y:-PHT/2,width:PW,height:PHT,rx:6},inn);
+  const id=mk("text",{class:"id",x:0,y:5},inn); id.textContent=NAMA[i];
+  const rk=mk("text",{class:"rk",x:0,y:14},inn);
+  const tag=mk("text",{class:"tg",x:0,y:-30},g);
+  Object.assign(tn[i],{g,inn,circ,id,tag,rk});
+}
+const emptyT=mk("text",{class:"empty",x:300,y:120},tsvg); emptyT.textContent="Himpunan belum dibuat";
+const emptyT2=mk("text",{class:"empty sm",x:300,y:142},tsvg); emptyT2.textContent="Dibuat saat himpunan = HimpunanTerpisah(...) dijalankan";
+// Daun mengisi slot berurutan; induk diletakkan di tengah anak-anaknya.
+function targetPos(parent){
+  const kids=range.map(()=>[]);
+  parent.forEach((p,i)=>{ if(p!==i) kids[p].push(i); });
+  const w=600/range.filter(i=>kids[i].length===0).length;
+  const pos=Array(N); let slot=0;
+  const place=(i,d)=>{
+    if(!kids[i].length){ pos[i]={x:(slot+0.5)*w,y:50+d*86}; slot++; return; }
+    kids[i].forEach(c=>place(c,d+1));
+    const xs=kids[i].map(c=>pos[c].x);
+    pos[i]={x:(Math.min(...xs)+Math.max(...xs))/2,y:50+d*86};
+  };
+  range.filter(i=>parent[i]===i).forEach(r=>place(r,0));
+  return pos;
+}
+let curPos=targetPos(range), curParent=[...range], raf=0;
+// titik potong garis pusat-ke-pusat dengan tepi kartu (supaya panah tidak menembus kartu)
+const frac=(dx,dy,pad)=>Math.min(dx?(PW/2+pad)/Math.abs(dx):Infinity, dy?(PHT/2+pad)/Math.abs(dy):Infinity);
+function applyPos(){
+  tn.forEach((T,i)=>{
+    T.g.setAttribute("transform",`translate(${curPos[i].x},${curPos[i].y})`);
+    const p=curParent[i];
+    if(p!==i){
+      const a=curPos[i], b=curPos[p], dx=b.x-a.x, dy=b.y-a.y;
+      const t1=frac(dx,dy,2), t2=frac(dx,dy,5);
+      T.arrow.setAttribute("x1",a.x+dx*t1); T.arrow.setAttribute("y1",a.y+dy*t1);
+      T.arrow.setAttribute("x2",b.x-dx*t2); T.arrow.setAttribute("y2",b.y-dy*t2);
+    }
+  });
+}
+function tweenTo(parent){
+  curParent=parent; cancelAnimationFrame(raf);
+  const to=targetPos(parent), from=curPos.map(p=>({...p})), t0=performance.now(), dur=REDUCED?0:650;
+  const frame=t=>{
+    const k=dur?Math.min(1,(t-t0)/dur):1, e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+    curPos=from.map((f,i)=>({x:f.x+(to[i].x-f.x)*e,y:f.y+(to[i].y-f.y)*e}));
+    applyPos(); if(k<1) raf=requestAnimationFrame(frame);
+  };
+  raf=requestAnimationFrame(frame);
+}
+
+// ---------- panel kode: tampil sama persis dengan file ----------
+const KW=new Set(["class","def","return","if","for","in","while","break","raise","import","from","and","or","not","lambda","True","False","None","self"]);
+function highlight(lines){
+  let inDoc=false;
+  return lines.map(line=>{
+    let out="", i=0;
+    while(i<line.length){
+      if(inDoc){
+        const j=line.indexOf('"""',i);
+        if(j<0){out+=`<span class="st">${esc(line.slice(i))}</span>`;i=line.length;}
+        else{out+=`<span class="st">${esc(line.slice(i,j+3))}</span>`;i=j+3;inDoc=false;}
+      }else if(line.startsWith('"""',i)){
+        const j=line.indexOf('"""',i+3);
+        if(j<0){out+=`<span class="st">${esc(line.slice(i))}</span>`;i=line.length;inDoc=true;}
+        else{out+=`<span class="st">${esc(line.slice(i,j+3))}</span>`;i=j+3;}
+      }else if(line[i]==="#"){
+        out+=`<span class="cm">${esc(line.slice(i))}</span>`;i=line.length;
+      }else if(line[i]==='"'){
+        let j=i+1; while(j<line.length&&line[j]!=='"'){ if(line[j]==="\\") j++; j++; }
+        out+=`<span class="st">${esc(line.slice(i,j+1))}</span>`;i=j+1;
+      }else{
+        const m=/^[A-Za-z_]\w*/.exec(line.slice(i));
+        if(m){ out+=KW.has(m[0])?`<span class="kw">${m[0]}</span>`:esc(m[0]); i+=m[0].length; continue; }
+        const d=/^\d+/.exec(line.slice(i));
+        if(d){ out+=`<span class="nu">${d[0]}</span>`; i+=d[0].length; continue; }
+        out+=esc(line[i]); i++;
+      }
+    }
+    return out;
+  });
+}
+const hlLines=highlight(LINES);
+$("codebox").innerHTML=hlLines.map((h,i)=>`<div class="cl" id="cl${i}"><span class="n">${i+1}</span><span class="tx" style="--k:${(LINES[i].match(/^ */)[0].length)+2}">${h||" "}</span><span class="mk" id="mk${i}"></span></div>`).join("");
+$("copy").onclick=async()=>{
+  try{ await navigator.clipboard.writeText(PY); $("copy").textContent="Tersalin"; }
+  catch(e){ const t=document.createElement("textarea"); t.value=PY; document.body.appendChild(t); t.select(); try{document.execCommand("copy");$("copy").textContent="Tersalin";}catch(_){$("copy").textContent="Gagal";} t.remove(); }
+  setTimeout(()=>$("copy").textContent="Salin",1500);
+};
+
+// ---------- tabel ----------
+$("dstable").innerHTML=
+  "<tr><th>Kota</th>"+range.map(i=>`<th>${NAMA[i]}</th>`).join("")+"</tr>"+
+  "<tr><th>induk</th>"+range.map(i=>`<td id="pa${i}"></td>`).join("")+"</tr>"+
+  "<tr><th>peringkat</th>"+range.map(i=>`<td id="rk${i}"></td>`).join("")+"</tr>"+
+  "<tr><th>akar</th>"+range.map(i=>`<td id="rt${i}"></td>`).join("")+"</tr>";
+let tableMode=null;
+function ensureTable(mode){
+  if(tableMode===mode) return; tableMode=mode;
+  if(mode==="list"){
+    $("edgeTitle").textContent="Daftar jalur (contoh)"; $("edgeMeta").textContent="urutan di file";
+    $("edgetable").innerHTML="<tr><th>#</th><th>Jalur</th><th>Biaya</th></tr>"+
+      EDGES.map((e,k)=>`<tr id="lr${k}" class="hidrow"><td>${k+1}</td><td>${NAMA[e[0]]} ke ${NAMA[e[1]]}</td><td>${e[2]}</td></tr>`).join("");
+  }else{
+    $("edgeTitle").textContent="Jalur terurut"; $("edgeMeta").textContent="termurah dulu";
+    $("edgetable").innerHTML="<tr><th>#</th><th>Jalur</th><th>Biaya</th><th>Semula</th><th>Status</th></tr>"+
+      sorted.map((e,i)=>`<tr id="er${i}" class="rowin" style="animation-delay:${i*110}ms"><td>${i+1}</td><td>${NAMA[e[0]]} ke ${NAMA[e[1]]}</td><td>${e[2]}</td><td>#${listToSorted.indexOf(i)+1}</td><td id="es${i}"></td></tr>`).join("");
+  }
+  restart($("edgetable"),"fade");
+}
+
+// ---------- linimasa ----------
+const tl=$("timeline");
+steps.forEach((s,i)=>{
+  const b=document.createElement("button");
+  b.textContent=i+1; b.title=`${i+1}. ${s.title}`;
+  b.onclick=()=>{stopAuto();idx=i;render();};
+  tl.appendChild(b);
+});
+
+function restart(el,cls){el.classList.remove(cls);void el.getBoundingClientRect();el.classList.add(cls);}
+const finalClass=st=>st==="accepted"?"acc":st==="rejected"?"rej":"";
+const tag=(cls,t)=>`<span class="tag ${cls}">${t}</span>`;
+
+// gulirkan panel kode ke tengah blok baris yang menyala
+function scrollCode(s,smooth){
+  if(!s.lines.length) return;
+  const lo=Math.min(...s.lines), hi=Math.max(...s.lines);
+  const box=$("codebox"), first=$("cl"+lo), last=$("cl"+hi), lh=$("cl0").offsetHeight||19;
+  const a=first.offsetTop, b=last.offsetTop+last.offsetHeight;
+  // blok muat di layar: taruh di tengah. Terlalu panjang: ratakan ke baris pertama.
+  const top=(b-a)<=box.clientHeight-2*lh ? (a+b)/2-box.clientHeight/2 : a-2*lh;
+  box.scrollTo({top:Math.max(0,top),behavior:(REDUCED||!smooth)?"auto":"smooth"});
+}
+
+// ---------- Render satu langkah ----------
+function render(){
+  const s=steps[idx]; token++; const my=token;
+  const roots=s.parent.map((_,i)=>rootOf(s.parent,i));
+  const rootIds=[...new Set(roots)];
+  const colOf=i=>COLORS[rootIds.indexOf(roots[i])%COLORS.length];
+
+  // pesan, lencana, KPI
+  const m=$("msg"); m.innerHTML=s.msg; restart(m,"fade");
+  const bd=$("badge"); bd.textContent=s.type; bd.className="badge "+(s.type==="CARI"||s.type==="AMBIL"?"find":s.type==="GABUNG"||s.type==="HASIL"||s.type==="CETAK"?"ok":s.type==="TOLAK"?"bad":"");
+  $("logMeta").textContent=s.title;
+  $("chipStep").textContent=`LANGKAH ${idx+1}/${steps.length}`;
+  $("barStep").textContent=`${idx+1} / ${steps.length}  ${s.title}`;
+  $("kStep").innerHTML=`${idx+1} <small>/ ${steps.length}</small>`;
+  $("kCnt").innerHTML=`${s.mst} <small>/ ${N-1}</small>`;
+  $("kTot").textContent=s.total;
+  $("kSets").textContent=s.treeOn?rootIds.length:"-";
+  $("graphMeta").textContent=`${s.nodes} kota, ${s.ecount} jalur`;
+  if(prev && s.mst>prev.mst){restart($("kCnt"),"bump");restart($("kTot"),"bump");}
+  if(prev && s.treeOn && prev.treeOn && rootIds.length<prev.sets){restart($("kSets"),"bump");}
+  s.sets=rootIds.length;
+  $("prev").disabled=idx===0; $("next").disabled=idx===steps.length-1;
+  [...tl.children].forEach((b,i)=>{b.className=i===idx?"now":i<idx?"done":"";});
+
+  // kode: sorot baris dan gulirkan ke tengah blok
+  LINES.forEach((_,i)=>{
+    $("cl"+i).classList.toggle("on",s.lines.includes(i));
+    const tg=s.lines.includes(i)?(MAP[i]||[]):[];
+    const mk=$("mk"+i); mk.textContent=tg.length?"→ "+tg.map(x=>TG[x]).join(" · "):""; mk.classList.toggle("has",tg.length>0);
+  });
+  scrollCode(s,true);
+
+  // panel variabel: baris yang baru atau berubah berkedip
+  const oldV=new Map();
+  if(prev){ prev.vars.main.forEach(r=>oldV.set("m|"+r.n,r.v)); prev.vars.fn.forEach(r=>oldV.set("f|"+r.n,r.v)); }
+  const vrow=(sc,r)=>`<div class="vrow${oldV.get(sc+"|"+r.n)!==r.v?" chg":""}"><span class="vn">${r.n}</span><span class="vv">${r.v}</span></div>`;
+  let vh=s.vars.legend?`<div class="vleg">Nomor kota: ${NAMA.map((x,i)=>`${i} = ${x}`).join(" · ")}</div>`:"";
+  vh+=`<div class="vsc">blok utama</div>`+(s.vars.main.length?s.vars.main.map(r=>vrow("m",r)).join(""):`<div class="vrow"><span class="vv vnm">belum ada variabel</span></div>`);
+  if(s.vars.fn.length) vh+=`<div class="vsc">di dalam kruskal()</div>`+s.vars.fn.map(r=>vrow("f",r)).join("");
+  $("vars").innerHTML=vh;
+
+  // kilau graf saat seluruh graf diserahkan ke fungsi
+  svg.classList.remove("call"); if(s.callAnim){ void svg.getBoundingClientRect(); svg.classList.add("call"); }
+  svg.classList.toggle("infn",s.inFn);
+  svg.classList.remove("glow"); if(s.flash){ void svg.getBoundingClientRect(); svg.classList.add("glow"); }
+
+  // sisi pada graf (muncul satu per satu sesuai data yang sudah disiapkan)
+  const visIdx=new Set(listToSorted.slice(0,s.ecount));
+  const prevVis=prev?new Set(listToSorted.slice(0,prev.ecount)):new Set();
+  edgeEls.forEach((E,i)=>{
+    const vis=visIdx.has(i), hid=vis?"":" hid";
+    const fin=finalClass(s.status[i]);
+    E.lab.classList.remove("cur","acc","rej");
+    E.lab.classList.toggle("hid",!vis); E.base.classList.toggle("hid",!vis);
+    if(vis&&prev&&!prevVis.has(i)) setTimeout(()=>{ if(my===token) restart(E.lab,"pop"); },250);
+    if(i===s.cur){
+      E.over.setAttribute("class","over cur"+hid);
+      E.lab.classList.add("cur");
+      if(s.verdict){
+        setTimeout(()=>{
+          if(my!==token) return;
+          E.over.setAttribute("class","over "+fin);
+          E.lab.classList.remove("cur"); E.lab.classList.add(fin);
+          if(fin==="acc"){ restart(E.lab,"pop"); [E.u,E.v].forEach(k=>restart(nodeEls[k].ring,"go")); }
+          if(fin==="rej") restart(E.lab,"shake");
+        },600);
+      }
+    }else{
+      E.over.setAttribute("class","over "+fin+hid);
+      if(fin) E.lab.classList.add(fin);
+    }
+  });
+  nodeEls.forEach((Nd,i)=>{
+    const show=i<s.nodes, wasShown=prev?i<prev.nodes:false;
+    Nd.g.style.transitionDelay=(show&&!wasShown)?(i*130)+"ms":"0ms";
+    Nd.g.classList.toggle("vis",show);
+    Nd.g.classList.toggle("shownum",s.nums);
+    Nd.g.classList.toggle("colored",s.treeOn);
+    Nd.c.style.fill=s.treeOn?colOf(i):"";
+    const hot=s.cur>=0&&(sorted[s.cur][0]===i||sorted[s.cur][1]===i);
+    Nd.g.classList.toggle("hot",hot);
+    if(hot&&!s.verdict) restart(Nd.g,"pulse");
+  });
+  emptyG.classList.toggle("gone",s.nodes>0);
+
+  // pohon disjoint set
+  tweenTo(s.parent);
+  tn.forEach((T,i)=>{
+    T.g.setAttribute("class","tn"+(s.treeOn?" vis":""));
+    T.circ.style.fill=colOf(i);
+    const isU=s.tags.u===i, isV=s.tags.v===i;
+    T.tag.textContent=isU&&isV?"A, B":isU?"A":isV?"B":"";
+    T.tag.style.fill=isV&&!isU?"var(--accent)":"var(--warn)";
+    const isRoot=s.parent[i]===i;
+    T.rk.textContent=isRoot&&s.treeOn?"peringkat "+s.rank[i]:"";
+    T.id.setAttribute("y",isRoot?-3:5);
+    T.arrow.classList.toggle("on",s.treeOn&&!isRoot);
+  });
+  emptyT.classList.toggle("gone",s.treeOn); emptyT2.classList.toggle("gone",s.treeOn);
+  s.pu.forEach((k,j)=>setTimeout(()=>{if(my!==token)return;tn[k].g.classList.add("pu");restart(tn[k].inn,"pulse");},j*380));
+  s.pv.forEach((k,j)=>setTimeout(()=>{if(my!==token)return;tn[k].g.classList.add("pv");restart(tn[k].inn,"pulse");},j*380+190));
+  if(s.ev){
+    if(s.ev.bad!==undefined){
+      tn[s.ev.bad].g.classList.add("bad"); restart(tn[s.ev.bad].inn,"shake");
+    }else{
+      setTimeout(()=>{if(my!==token)return;
+        tn[s.ev.child].g.classList.add("ok"); tn[s.ev.parent].g.classList.add("ok");
+        restart(tn[s.ev.parent].inn,"pulse");},700);
+    }
+  }
+
+  // tabel disjoint set (kedip bila berubah)
+  range.forEach(i=>{
+    const set=(id,val,html)=>{const el=$(id);const old=el.dataset.v;el.dataset.v=val;el.innerHTML=html??val;if(old!==undefined&&old!==String(val))restart(el,"flash");};
+    const on=s.treeOn;
+    set("pa"+i,on?s.parent[i]:"-",on?NAMA[s.parent[i]]:"-");
+    set("rk"+i,on?s.rank[i]:"-");
+    set("rt"+i,on?roots[i]:"-",on?`<span class="dot" style="background:${colOf(i)}"></span> ${NAMA[roots[i]]}`:"-");
+  });
+
+  // tabel jalur
+  ensureTable(s.table);
+  if(s.table==="list"){
+    EDGES.forEach((_,k)=>$("lr"+k).classList.toggle("hidrow",k>=s.lc));
+  }else{
+    sorted.forEach((_,i)=>{
+      const st=s.status[i];
+      $("er"+i).classList.toggle("cur",i===s.cur);
+      $("es"+i).innerHTML= i===s.cur?tag("now","diperiksa")
+        : st==="accepted"?tag("acc","diterima")
+        : st==="rejected"?tag("rej","ditolak")
+        : st==="skipped"?tag("skip","tidak dipindai")
+        : tag("","menunggu");
+    });
+    if(s.cur>=0&&s.verdict){
+      const i=s.cur;
+      setTimeout(()=>{ if(my!==token) return;
+        $("es"+i).innerHTML=s.verdict==="acc"?tag("acc","diterima"):tag("rej","ditolak");
+      },600);
+    }
+  }
+  prev=s;
+}
+
+// ---------- kontrol ----------
+function go(d){const k=idx+d;if(k>=0&&k<steps.length){idx=k;render();}}
+function stopAuto(){if(timer){clearInterval(timer);timer=null;}$("auto").textContent="Putar otomatis";}
+$("next").onclick=()=>{stopAuto();go(1)};
+$("prev").onclick=()=>{stopAuto();go(-1)};
+$("reset").onclick=()=>{stopAuto();idx=0;prev=null;render()};
+$("auto").onclick=()=>{
+  if(timer){stopAuto();return;}
+  if(idx===steps.length-1){idx=0;prev=null;render();}
+  $("auto").textContent="Jeda";
+  timer=setInterval(()=>{if(idx>=steps.length-1){stopAuto();return;}go(1);},2800);
+};
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowRight"){stopAuto();go(1)}
+  if(e.key==="ArrowLeft"){stopAuto();go(-1)}
+});
+// mode fokus: sembunyikan semua kecuali visualisasi, kode, dan tombol navigasi
+function toggleFocus(){
+  const on=document.body.classList.toggle("focus");
+  $("focus").textContent=on?"Keluar fokus":"Fokus";
+  setTimeout(()=>scrollCode(steps[idx],false),60);
+}
+$("focus").onclick=toggleFocus;
+document.addEventListener("keydown",e=>{ if(e.key==="f"||e.key==="F") toggleFocus(); });
+// tema: gelap sebagai bawaan, tombol untuk berganti
+document.documentElement.dataset.theme="dark";
+$("theme").onclick=()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="dark"?"light":"dark";};
+
+// bungkus baris (word wrap) pada panel kode
+function toggleWrap(){
+  const on=$("codebox").classList.toggle("wrap-on");
+  $("wrap").textContent="Bungkus: "+(on?"ON":"OFF");
+  scrollCode(steps[idx],false);
+}
+$("codebox").classList.add("wrap-on");
+$("wrap").onclick=toggleWrap;
+document.addEventListener("keydown",e=>{ if(e.altKey&&(e.key==="z"||e.key==="Z")){ e.preventDefault(); toggleWrap(); } });
+
+// ubah lebar tiga kolom pada mode fokus dengan menggeser pemisah
+(function(){
+  const grid=document.querySelector(".grid");
+  const cols=[".col.a",".col.b",".col.c"].map(q=>document.querySelector(q));
+  const MIN=240;
+  const setW=w=>{ ["--fa","--fb","--fc"].forEach((k,i)=>grid.style.setProperty(k,w[i]+"fr")); };
+  [["sp1",0],["sp2",1]].forEach(([id,i])=>{
+    const sp=$(id);
+    sp.addEventListener("pointerdown",e=>{
+      e.preventDefault();
+      try{ sp.setPointerCapture(e.pointerId); }catch(_){}
+      const w0=cols.map(c=>c.getBoundingClientRect().width), x0=e.clientX;
+      document.body.classList.add("resizing"); sp.classList.add("drag");
+      const move=ev=>{
+        const d=Math.max(MIN-w0[i],Math.min(w0[i+1]-MIN,ev.clientX-x0));
+        const w=[...w0]; w[i]=w0[i]+d; w[i+1]=w0[i+1]-d; setW(w);
+      };
+      const up=()=>{
+        sp.removeEventListener("pointermove",move); sp.removeEventListener("pointerup",up); sp.removeEventListener("pointercancel",up);
+        document.body.classList.remove("resizing"); sp.classList.remove("drag");
+        scrollCode(steps[idx],false);
+      };
+      sp.addEventListener("pointermove",move); sp.addEventListener("pointerup",up); sp.addEventListener("pointercancel",up);
+    });
+    sp.addEventListener("dblclick",()=>{ ["--fa","--fb","--fc"].forEach(k=>grid.style.removeProperty(k)); scrollCode(steps[idx],false); });
+  });
+})();
+
+applyPos();
+render();
+</script>
+</body>
+</html>
