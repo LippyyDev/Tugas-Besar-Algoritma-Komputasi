@@ -41,7 +41,7 @@ Dengan hanya lima simpul, studi kasus ini membuktikan kebenaran keluaran dan keg
 
 ---
 
-Seluruh pengukuran dijalankan pada satu sesi Google Colab versi gratis (*free tier*), yaitu mesin virtual yang bersifat pribadi bagi akun pengguna dengan sumber daya yang tidak dijamin tetap. Spesifikasinya dicatat oleh program pada awal sesi dan disajikan pada Tabel 4.3. Spesifikasi dapat berbeda antar sesi, sehingga seluruh angka pada laporan ini berasal dari satu sesi yang sama dan tidak dicampur dengan sesi lain.
+Seluruh pengukuran dijalankan pada satu sesi Google Colab versi gratis (*free tier*), yaitu mesin virtual yang bersifat pribadi bagi akun pengguna dengan sumber daya yang tidak dijamin tetap. Spesifikasinya dicatat oleh program pada awal sesi dan disajikan pada Tabel 4.3.
 
 **Tabel 4.3** Lingkungan uji
 
