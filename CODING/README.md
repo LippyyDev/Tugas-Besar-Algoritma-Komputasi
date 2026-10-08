@@ -21,7 +21,9 @@ CODING/
 │   ├── boruvka.py              # boruvka() (pembanding), memakai HimpunanTerpisah dari Kruskal
 │   └── visualisasi-boruvka.html
 └── Eksperimen/
-    └── Tugas_MST_Lokal.ipynb   # uji kasus kecil, graf acak, eksperimen, grafik, CSV
+    ├── Tugas_MST_Lokal.ipynb   # uji kasus kecil, studi kasus, graf acak, eksperimen, grafik, CSV
+    └── data/
+        └── studi_kasus_gedung_unhas.csv   # data tetap studi kasus (5 gedung); ganti angka ILUSTRASI dengan hasil ukur
 ```
 Folder `Eksperimen/hasil/` (CSV) dan `Eksperimen/grafik/` (gambar) **dibuat otomatis** saat notebook dijalankan.
 
@@ -56,6 +58,9 @@ python -m notebook Tugas_MST_Lokal.ipynb
 Di VS Code: buka `Tugas_MST_Lokal.ipynb`, pilih kernel dari `.venv`, lalu **Run All**.
 
 Lama eksperimen penuh sekitar 1 sampai 3 menit. Untuk uji coba cepat, ubah `MODE_CEPAT = True` di Sel 1 notebook.
+
+### Studi kasus nyata (Sel 7B)
+Sel 7B menjalankan ketiga algoritma pada jaringan kabel antar 5 gedung Fakultas Teknik Unhas dari `Eksperimen/data/studi_kasus_gedung_unhas.csv`. Datanya tetap, jadi **tanpa seed**. Selama kolom `keterangan` masih berisi ILUSTRASI, angkanya contoh; ganti dengan jarak hasil ukur dan catat sumbernya.
 
 ### 3. Halaman visualisasi
 Klik dua kali berkas `.html` di folder algoritma masing-masing. Dibuka di browser, tidak perlu internet (font memakai cadangan sistem bila offline). Tombol **Selanjutnya** menjalankan satu langkah, tombol **Fokus** (atau tombol F) menyembunyikan panel yang tidak perlu. Kode di halaman sama persis dengan file `.py`.
