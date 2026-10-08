@@ -21,7 +21,7 @@ Panjang jalur pada studi kasus ini merupakan nilai ilustrasi, bukan hasil penguk
 | Sipil | Elektro | 60 |
 | Industri | Geologi | 80 |
 
-Seluruh panjang pada Tabel 4.1 berbeda, sehingga MST pada graf ini tunggal dan kunci pemutus seri pada Persamaan (6) tidak pernah dipakai. Kruskal mengurutkan sisi secara menaik lalu menerima sisi Sipil dan Industri (20), Elektro dan Geologi (30), serta Arsitektur dan Sipil (40). Sisi Arsitektur dan Elektro (50) juga diterima karena menghubungkan dua komponen yang berbeda, yaitu {Arsitektur, Sipil, Industri} dan {Elektro, Geologi}. Sisi Sipil dan Elektro (60) serta Industri dan Geologi (80) ditolak karena menutup siklus.
+Seluruh panjang pada Tabel 4.1 berbeda, sehingga MST pada graf ini tunggal dan komponen pemutus seri pada kunci κ (Persamaan (6)) tidak pernah menentukan urutan sisi. Kruskal mengurutkan sisi secara menaik lalu menerima sisi Sipil dan Industri (20), Elektro dan Geologi (30), serta Arsitektur dan Sipil (40). Sisi Arsitektur dan Elektro (50) juga diterima karena menghubungkan dua komponen yang berbeda, yaitu {Arsitektur, Sipil, Industri} dan {Elektro, Geologi}. Sisi Sipil dan Elektro (60) serta Industri dan Geologi (80) ditolak karena menutup siklus.
 
 **Tabel 4.2** Hasil ketiga algoritma pada studi kasus
 
@@ -60,7 +60,7 @@ Seluruh pengukuran dijalankan pada satu sesi Google Colab versi gratis (*free ti
 | Pengukur waktu | `time.perf_counter()` |
 | Eksekusi | sekuensial |
 
-Waktu diambil dengan `time.perf_counter()` hanya di sekitar pemanggilan algoritma, setelah `gc.collect()`, dan pengumpul sampah tetap aktif selama pengukuran. Ketiga algoritma dijalankan pada graf yang sama. Kruskal dan Borůvka menerima daftar sisi, sedangkan Prim menerima daftar ketetanggaan (butir 4 subbab 1.4). Karena itu waktu Prim dicatat dua kali, yaitu waktu inti tanpa pembuatan daftar ketetanggaan dan waktu yang ditambah konversi daftar sisi menjadi daftar ketetanggaan. Pada setiap ulangan, total bobot ketiga algoritma dibandingkan dan program berhenti jika ada yang berbeda.
+Waktu diambil dengan `time.perf_counter()` hanya di sekitar pemanggilan algoritma, setelah `gc.collect()`, dan pengumpul sampah tetap aktif selama pengukuran. Ketiga algoritma dijalankan pada graf yang sama. Kruskal dan Borůvka menerima daftar sisi, sedangkan Prim menerima daftar ketetanggaan (butir 4 subbab 1.4). Karena itu waktu Prim dicatat dua kali, yaitu waktu inti tanpa pembuatan daftar ketetanggaan dan waktu yang ditambah konversi daftar sisi menjadi daftar ketetanggaan.
 
 Ketiga algoritma ditulis dalam Python dan berjalan sekuensial (butir 3 subbab 1.4). Kode tersimpan pada tiga berkas di repositori, yaitu `Kruskal/kruskal.py`, `Prim/prim.py`, dan `Borůvka/boruvka.py`. Pemetaan setiap bagian *pseudocode* ke fungsi pada kode ada di Tabel 3.7. Pengurutan memakai `sorted` pada Kruskal, antrean prioritas memakai `heapq` pada Prim, dan keduanya hanya alat bantu. Struktur *disjoint set* ditulis sendiri pada kelas `HimpunanTerpisah` dengan *union by rank* dan *path halving*, dan Borůvka memakai kelas yang sama dari `kruskal.py`. Kode lengkap tersedia di repositori (lihat Lampiran). Berikut kutipan bagian intinya, dengan komentar pada kode asli dihilangkan agar ringkas.
 
@@ -101,7 +101,7 @@ for simpul_a, simpul_b, bobot in sisi_terurut:
             break
 ```
 
-Kunci pengurutan adalah tripel κ pada Persamaan (6), yaitu bobot, simpul terkecil, lalu simpul terbesar. Sisi diterima hanya jika `gabung` mengembalikan `True`, dan perulangan berhenti segera setelah *n* − 1 sisi terkumpul. Jika setelah perulangan jumlah sisi kurang dari *n* − 1, fungsi melempar `ValueError` karena graf tidak terhubung.
+Kunci pengurutan adalah tripel κ pada Persamaan (6), yaitu bobot, simpul terkecil, lalu simpul terbesar. Sisi diterima hanya jika `gabung` mengembalikan `True`, dan perulangan berhenti segera setelah *n* − 1 sisi terkumpul. Jika setelah perulangan jumlah sisi kurang dari *n* − 1, fungsi melempar `ValueError` karena graf tidak terhubung (bagian ini tidak ditampilkan pada kutipan).
 
 **Kode 4.3** Prim (*Pseudocode* 3.3)
 
@@ -141,7 +141,7 @@ for simpul_a, simpul_b, bobot in termurah.values():
         jumlah_komponen -= 1
 ```
 
-Pada setiap putaran, setiap komponen memilih sisi termurah yang keluar darinya menurut `kunci_sisi`, yaitu κ yang sama. Sisi di dalam satu komponen diabaikan. Setelah semua komponen memilih, pilihan dipasang satu per satu, dan `gabung` yang mengembalikan `False` menandakan sisi itu sudah terpasang oleh komponen lain pada putaran yang sama. Putaran diulang sampai tersisa satu komponen, dan jika tidak ada sisi yang keluar dari komponen mana pun padahal komponen masih lebih dari satu, fungsi melempar `ValueError`.
+Pada setiap putaran, setiap komponen memilih sisi termurah yang keluar darinya menurut `kunci_sisi`, yaitu κ yang sama. Sisi di dalam satu komponen diabaikan. Setelah semua komponen memilih, pilihan dipasang satu per satu, dan `gabung` yang mengembalikan `False` menandakan sisi itu sudah terpasang oleh komponen lain pada putaran yang sama. Putaran diulang sampai tersisa satu komponen, dan jika tidak ada sisi yang keluar dari komponen mana pun padahal komponen masih lebih dari satu, fungsi melempar `ValueError` (bagian ini dan pembuatan `himpunan` serta `jumlah_komponen` tidak ditampilkan pada kutipan).
 
 ---
 
@@ -156,7 +156,7 @@ Kebenaran kode diperiksa sebelum waktu dicatat, karena waktu dari kode yang sala
 | Pemeriksaan | Cara | Yang ditunjukkan | Batas |
 |---|---|---|---|
 | Kasus uji kecil | Empat graf: tiga graf terhubung dengan total 7, 3, dan 6, serta satu graf tak terhubung yang harus menghasilkan `ValueError` | Ketiga algoritma lolos pada keempat kasus. Total 7 dan 6 sama dengan hitungan tangan di 3.1 | Hanya empat graf |
-| Himpunan sisi | Kasus 3 berbobot kembar membandingkan himpunan sisi, dan pada studi kasus 4.1 total yang sama berarti himpunan sisi yang sama karena MST tunggal | Kesamaan himpunan sisi pada graf kecil | Pada graf eksperimen yang dibandingkan hanya total bobot |
+| Himpunan sisi | Kasus 3 berbobot kembar membandingkan himpunan sisi. Pada studi kasus 4.1, total yang sama berarti himpunan sisi yang sama berdasarkan argumen keunikan MST | Kesamaan himpunan sisi pada graf kecil | Pada graf eksperimen yang dibandingkan hanya total bobot |
 | Pembanding `networkx` | Total bobot ketiga algoritma dibandingkan dengan hasil `networkx` pada 300 graf acak kecil | Total bobot sama dengan pustaka standar | `networkx` hanya pembanding, tidak dipakai di dalam algoritma (butir 3 subbab 1.4). Yang dibandingkan total bobot |
 | Uji *seed* dan pembangkit graf | Seed yang sama menghasilkan graf yang sama dan seed berbeda menghasilkan graf lain. Pada ukuran terkecil tiap skenario, graf terhubung, tanpa sisi ganda, dan tanpa *loop* | Data uji dapat diulang dan memenuhi syarat graf | Hanya diperiksa pada ukuran terkecil |
 | Setiap ulangan pengukuran | Total bobot ketiga algoritma dibandingkan pada setiap ulangan, dan program berhenti jika berbeda | Tidak ada pengukuran dari hasil yang berbeda pada graf besar | Total bobot yang sama belum menjamin himpunan sisi yang sama |
@@ -183,4 +183,4 @@ Graf dibangkitkan dengan `random.Random` ber-*seed* 2026. Pembangkit membentuk p
 
 Untuk setiap pasangan skenario dan ukuran, satu graf dibangkitkan. Satu putaran pemanasan dijalankan lebih dahulu dan tidak dicatat, lalu pengukuran diulang lima kali pada graf yang sama (butir 6 subbab 1.4). Karena graf yang sama dipakai pada kelima ulangan, simpangan baku hanya mengukur gangguan waktu pada mesin, bukan variasi antar graf. Hasil setiap kombinasi dilaporkan sebagai rata-rata dan simpangan baku sampel (pembagi *n* − 1).
 
-<!-- CATATAN UNTUK 4.6 (hapus sebelum final): keterbatasan yang belum ditulis. (1) Simpangan baku mencapai sekitar 57% dari rata-rata pada satu titik (Borůvka, skenario jarang, n = 16000) dan 20% sampai 30% pada banyak ukuran dengan n >= 16000, sehingga selisih waktu kecil tidak ditafsirkan. (2) Urutan eksekusi dalam setiap ulangan tetap: pembuatan daftar ketetanggaan, Kruskal, Prim, lalu Borůvka. (3) Sumber daya mesin virtual Colab versi gratis tidak dijamin tetap sehingga waktu berfluktuasi. (4) Ukuran n terbesar 64000 (jarang) dan 1000 (padat), jauh di bawah 10^6 pada contoh di slide 10 (contoh, bukan syarat). (5) Rasio waktu terhadap teori pada ukuran terbesar masih naik pada ketiga algoritma. -->
+<!-- CATATAN UNTUK 4.6 (hapus sebelum final): keterbatasan yang belum ditulis. (1) Simpangan baku mencapai sekitar 57% dari rata-rata pada satu titik (Borůvka, skenario jarang, n = 16000), dan 32 dari 60 kombinasi algoritma dan ukuran memiliki simpangan baku sekurang-kurangnya 20% dari rata-rata (dihitung dari ringkasan.csv), sehingga selisih waktu kecil tidak ditafsirkan. (2) Urutan eksekusi dalam setiap ulangan tetap: pembuatan daftar ketetanggaan, Kruskal, Prim, lalu Borůvka. (3) Sumber daya mesin virtual Colab versi gratis tidak dijamin tetap sehingga waktu berfluktuasi. (4) Ukuran n terbesar 64000 (jarang) dan 1000 (padat), jauh di bawah 10^6 pada contoh di slide 10 (contoh, bukan syarat). (5) Rasio waktu terhadap teori pada ukuran terbesar masih naik pada ketiga algoritma. -->
