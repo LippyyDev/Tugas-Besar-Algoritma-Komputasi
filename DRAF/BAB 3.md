@@ -52,7 +52,7 @@ Pada langkah 3, Maros dan Gowa sudah terhubung lewat Makassar, sehingga sisi (0,
 | 3 | (3, 0, 2), (4, 2, 3), (5, 1, 3) | (3, 0, 2) | Buang, kedua ujung sudah di *S* | {0, 1, 2} | 3 |
 | 4 | (4, 2, 3), (5, 1, 3) | (4, 2, 3) | Terima, simpul 3 masuk | {0, 1, 2, 3} | 7 |
 
-Pada langkah 3, tripel (3, 0, 2) sudah usang karena simpul 2 masuk lewat sisi (1, 2) pada langkah 2. Inilah entri usang yang dibiarkan di antrean karena `heapq` tidak menyediakan operasi *decrease-key* (lihat 2.1.2). Setelah langkah 4 terkumpul tiga sisi, sehingga perulangan berhenti dan tripel (5, 1, 3) tetap tersisa di antrean tanpa diproses. Hasilnya adalah {(0, 1), (1, 2), (2, 3)} dengan total bobot 7, sama dengan hasil Kruskal.
+Pada langkah 3, tripel (3, 0, 2) sudah usang karena simpul 2 masuk lewat sisi (1, 2) pada langkah 2. Inilah entri usang yang dibiarkan di antrean (lihat 3.2.3). Setelah langkah 4 terkumpul tiga sisi, sehingga perulangan berhenti dan tripel (5, 1, 3) tetap tersisa di antrean tanpa diproses. Hasilnya adalah {(0, 1), (1, 2), (2, 3)} dengan total bobot 7, sama dengan hasil Kruskal.
 
 **Pemeriksaan hasil.** Graf ini memiliki delapan *spanning tree*, yaitu sepuluh kombinasi tiga sisi dikurangi dua kombinasi yang membentuk siklus, yakni {(0, 1), (1, 2), (0, 2)} dan {(1, 2), (2, 3), (1, 3)}. Total bobot kedelapan pohon itu berkisar dari 7 sampai 12, dan hanya satu yang bernilai 7, yaitu pohon di atas. Jadi hasil Kruskal dan Prim memang MST, dan MST-nya unik, sesuai dengan Teorema 2.3 karena seluruh bobot berbeda.
 
@@ -182,7 +182,7 @@ Jika graf tidak terhubung, sisi yang tersedia habis sebelum *n* − 1 sisi terku
 
 ---
 
-Prim tumbuh dari satu simpul awal *s*, dengan *s* = 0 pada implementasi ini. Antrean prioritas *Q* menyimpan sisi, bukan simpul, karena `heapq` tidak menyediakan operasi *decrease-key* (lihat 2.1.2). Elemen antrean adalah kunci κ dari sisi, sehingga urutan pengeluaran dari *Q* otomatis mengikuti aturan pemutus seri. Sisi yang kedua ujungnya sudah berada di pohon dibuang saat dikeluarkan (baris 7), sehingga *Q* dapat memuat hingga *O*(*m*) elemen.
+Prim tumbuh dari satu simpul awal *s*, dengan *s* = 0 pada implementasi ini. Rumusan Prim berbasis simpul memerlukan operasi *decrease-key* untuk menurunkan kunci simpul di antrean (lihat 2.1.2), tetapi `heapq` tidak menyediakannya. Karena itu antrean prioritas *Q* menyimpan sisi, bukan simpul. Setiap sisi yang menghubungkan pohon dengan simpul di luar pohon dimasukkan ke *Q*, dan sisi yang ujung lainnya sudah berada di pohon dibuang saat dikeluarkan (baris 7), sehingga *Q* dapat memuat entri usang dan hingga *O*(*m*) elemen. Elemen antrean adalah kunci κ dari sisi, sehingga urutan pengeluaran dari *Q* otomatis mengikuti aturan pemutus seri.
 
 ```
 Pseudocode 3.3  Prim
@@ -344,11 +344,15 @@ Bukti ini berlaku untuk sembarang simpul awal *s* dan menunjukkan mengapa elemen
 
 ---
 
-### 3.3.5 Keluaran Kruskal dan Prim pada Aturan Pemutus Seri
+### 3.3.5 Keunikan MST dan Keluaran Kruskal dan Prim pada Aturan Pemutus Seri
 
 ---
 
-Teorema 3.1 dan 3.2 menjamin bahwa keluaran keduanya adalah sebuah MST, padahal pada bobot sama sebuah graf dapat memiliki beberapa MST (lihat 3.1.2). Teorema berikut menunjukkan bahwa dengan aturan pemutus seri pada butir 7 subbab 1.4, keluaran keduanya adalah MST yang sama.
+Teorema 3.1 dan 3.2 menjamin bahwa keluaran keduanya adalah sebuah MST, padahal pada bobot sama sebuah graf dapat memiliki beberapa MST (lihat 3.1.2). Keunikan MST pada bobot berbeda (Teorema 2.3) dibuktikan lebih dulu, karena menjadi dasar teorema berikutnya.
+
+**Bukti Teorema 2.3.** Buktinya memakai syarat yang lebih umum daripada bobot berbeda, yaitu setiap potongan *G* hanya memiliki satu *light edge*. Misalkan *T*₁ dan *T*₂ adalah MST dengan *e* ∈ *T*₁ tetapi *e* ∉ *T*₂. Menghapus *e* dari *T*₁ memecah *T*₁ menjadi dua komponen, sehingga terbentuk sebuah potongan yang hanya dilintasi *e* dari sisi-sisi *T*₁. Setiap MST memuat sedikitnya satu *light edge* dari setiap potongan (*cut rule*; Nešetřil *et al.*, 2001, Bagian 8), sebab jika semua sisi MST yang melintasi potongan bukan *light edge*, penukaran seperti pada 3.3.1 dengan sebuah *light edge* menghasilkan *spanning tree* yang lebih ringan secara ketat. Jadi *e*, satu-satunya sisi *T*₁ pada potongan itu, adalah *light edge*-nya, dan satu-satunya menurut syarat tersebut. Karena *T*₂ juga MST, *T*₂ memuat *light edge* itu, yaitu *e*, yang bertentangan dengan *e* ∉ *T*₂. Jadi *T*₁ ⊆ *T*₂, dan karena keduanya memiliki |*V*| − 1 sisi, *T*₁ = *T*₂. Bobot sisi yang berbeda membuat *light edge* pada setiap potongan menjadi tunggal, sehingga syarat tersebut terpenuhi dan Teorema 2.3 terbukti. ∎ (Nešetřil *et al.*, 2001, Bagian 7 dan 8; Sanders *et al.*, 2019, Latihan 11.5)
+
+Dengan aturan pemutus seri pada butir 7 subbab 1.4, teorema berikut menunjukkan bahwa keluaran Kruskal dan Prim adalah MST yang sama.
 
 **Teorema 3.3 (Keluaran sama).** Misalkan ρ(*e*) ∈ {1, …, *m*} adalah peringkat sisi *e* menurut κ, dengan peringkat 1 untuk κ terkecil. Karena κ berbeda untuk setiap pasangan sisi (lihat 2.2.3), ρ berbeda untuk setiap sisi, sehingga graf *G* dengan bobot ρ memiliki tepat satu MST *M* menurut Teorema 2.3. Maka KRUSKAL dan PRIM pada *G* dengan bobot *w*, untuk sembarang simpul awal *s*, mengembalikan *M*, dan *M* adalah MST dari *G* menurut bobot *w*.
 
@@ -437,7 +441,7 @@ Pembuktian diawali dengan batas banyaknya masukan ke antrean, karena batas ini y
 
 *Bukti.* BUAT-DAFTAR-TETANGGA membuat *n* daftar kosong dan memproses setiap sisi dengan dua penambahan, sehingga berbiaya *O*(*n* + *m*). Pada PRIM, baris 1 dan 2 berbiaya *O*(*n*). Setiap simpul masuk pohon paling banyak satu kali (baris 9), dan pada saat itu daftar tetangganya dipindai satu kali (baris 3 atau baris 11). Jumlah panjang seluruh daftar tetangga adalah 2*m*, sehingga seluruh pemindaian berbiaya *O*(*m*) di luar operasi antrean. Menurut Lemma 3.1, antrean menerima paling banyak *m* MASUKKAN dan melayani paling banyak *m* KELUARKAN-TERKECIL, dan setiap operasi berbiaya *O*(log *m*) = *O*(log *n*) karena ukuran antrean paling banyak *m*. Pengeluaran elemen yang sudah usang (baris 7) hanya berbiaya satu KELUARKAN-TERKECIL tanpa pekerjaan lain, sehingga sudah terhitung dalam batas *m* pengeluaran. Jumlah seluruhnya *O*(*n* + *m* + *m* log *n*) = *O*(*m* log *n*). ∎
 
-Batas ini berlaku untuk tumpukan biner. Rumusan berbasis simpul dengan *decrease-key* pada *Fibonacci heap* menghasilkan *O*(*m* + *n* log *n*) (subbab 1.1), tetapi `heapq` tidak menyediakan operasi itu, sehingga batas tersebut tidak berlaku untuk kode yang ditulis dalam laporan ini.
+Batas ini berlaku untuk tumpukan biner dengan antrean berisi sisi (3.2.3). Rumusan berbasis simpul dengan *decrease-key* pada *Fibonacci heap* menghasilkan *O*(*m* + *n* log *n*) (subbab 1.1), tetapi batas tersebut tidak berlaku untuk kode yang ditulis dalam laporan ini.
 
 ---
 
@@ -534,7 +538,7 @@ Kedua fakta ini diperiksa pada 4000 graf acak terhadap transkripsi *pseudocode*.
 
 **Kruskal.** Kelebihannya adalah masukan berupa daftar sisi langsung dapat diproses tanpa membangun struktur graf lain, dan algoritmanya sederhana karena seluruh keputusan berada pada satu urutan sisi. Keterbatasannya ada tiga. Seluruh sisi harus tersedia dan diurutkan lebih dulu, sehingga algoritma tidak dapat mulai sebelum semua sisi dikenal. Salinan terurut membuat ruang tambahannya *O*(*n* + *m*). Terakhir, penghentian dini tidak mengurangi biaya pengurutan, sebagaimana dibahas pada 3.4.3. Algoritma ini cocok bila graf sudah berupa daftar sisi, misalnya daftar jalur kabel beserta biayanya, dan bila graf cukup jarang sehingga *m* kecil.
 
-**Prim.** Kelebihannya adalah pohon tumbuh dari satu simpul dan sisi dipilih dari batas pohon, sehingga algoritma ini alami bila graf sudah tersedia sebagai daftar ketetanggaan. Keterbatasannya berasal dari pilihan implementasi. Karena `heapq` tidak menyediakan *decrease-key*, antrean menyimpan sisi dan memuat entri usang, sehingga ruangnya mencapai *O*(*m*) dan batas waktunya *O*(*m* log *n*), bukan *O*(*m* + *n* log *n*) milik *Fibonacci heap* (subbab 1.1). Jika graf tersedia sebagai daftar sisi, daftar ketetanggaan harus dibangun lebih dulu dengan biaya *O*(*n* + *m*) dan ruang tambahan 2*m* entri.
+**Prim.** Kelebihannya adalah pohon tumbuh dari satu simpul dan sisi dipilih dari batas pohon, sehingga algoritma ini alami bila graf sudah tersedia sebagai daftar ketetanggaan. Keterbatasannya berasal dari pilihan implementasi. Antrean menyimpan sisi dan memuat entri usang (3.2.3), sehingga ruangnya mencapai *O*(*m*) dan batas waktunya *O*(*m* log *n*), bukan batas rumusan berbasis simpul (3.4.4). Jika graf tersedia sebagai daftar sisi, daftar ketetanggaan harus dibangun lebih dulu dengan biaya *O*(*n* + *m*) dan ruang tambahan 2*m* entri.
 
 **Borůvka.** Kelebihannya adalah strukturnya berputaran, sehingga pemilihan sisi tiap komponen pada satu putaran saling bebas dan secara konsep mudah diparalelkan (subbab 2.4, yang berada di luar batasan laporan ini). Ruang tambahannya paling kecil, yaitu *O*(*n*). Keterbatasan pada implementasi ini ada dua. Pertama, kode tidak melakukan kontraksi (varian pada 2.4), sehingga setiap putaran memindai seluruh *m* sisi termasuk sisi yang kedua ujungnya sudah berada dalam satu komponen (baris 6 pada Pseudocode 3.4). Kedua, komponen ditentukan dengan CARI-AKAR, sehingga batas yang dapat dibuktikan adalah *O*(*m* log² *n*), satu faktor log *n* di atas batas pustaka (3.4.5). Algoritma ini dipilih sebagai pembanding karena strateginya berbeda, bukan karena diharapkan lebih cepat pada kode ini.
 
@@ -546,7 +550,7 @@ Kedua fakta ini diperiksa pada 4000 graf acak terhadap transkripsi *pseudocode*.
 
 ---
 
-Laporan ini membatasi alternatif pada yang sudah dibahas pada subbab sebelumnya. Untuk Prim, *Fibonacci heap* dengan *decrease-key* memberi batas *O*(*m* + *n* log *n*) (Osipov *et al.*, 2009; Sanders *et al.*, 2019, Bagian 11.2), tetapi tidak dapat dibangun langsung dari `heapq`. Filter-Kruskal (Osipov *et al.*, 2009) adalah varian Kruskal yang tidak dibahas (butir 2 subbab 1.4). Untuk graf sangat besar, tersedia implementasi paralel dan terdistribusi (Fallin *et al.*, 2023; Sanders dan Schimek, 2023), yang berada di luar batasan laporan ini. Untuk graf kecil seperti studi kasus, tidak ada alasan memakai alternatif tersebut.
+Laporan ini membatasi alternatif pada yang sudah dibahas pada subbab sebelumnya. Untuk Prim, rumusan berbasis simpul dengan *Fibonacci heap* memberi batas yang lebih kecil (3.4.4; Osipov *et al.*, 2009; Sanders *et al.*, 2019, Bagian 11.2), tetapi tidak dapat dibangun langsung dari `heapq`. Filter-Kruskal (Osipov *et al.*, 2009) adalah varian Kruskal yang tidak dibahas (butir 2 subbab 1.4). Untuk graf sangat besar, tersedia implementasi paralel dan terdistribusi (Fallin *et al.*, 2023; Sanders dan Schimek, 2023), yang berada di luar batasan laporan ini. Untuk graf kecil seperti studi kasus, tidak ada alasan memakai alternatif tersebut.
 
 ---
 
