@@ -219,11 +219,17 @@ Hasil pengukuran disajikan per skenario pada Tabel 4.6 sampai 4.8 sebagai rata-r
 | 32000 | 96000 | 248,12 ± 54,68 | 279,25 ± 65,48 | 349,15 ± 75,85 | 1193,91 ± 305,30 |
 | 64000 | 192000 | 625,08 ± 162,42 | 708,80 ± 165,96 | 1007,71 ± 228,62 | 2300,94 ± 251,26 |
 
-**Gambar 4.1** Waktu eksekusi terhadap jumlah sisi pada skenario jarang. Kiri: skala linear. Kanan: skala log-log. Batang galat adalah simpangan baku, dan garis putus-putus adalah kurva teoretis dengan konstanta yang dicocokkan dengan kuadrat terkecil melalui titik asal. (Sisipkan berkas `grafik/waktu_jarang.png`.)
+![Gambar 4.1](gambar/waktu_jarang.png)
 
-**Gambar 4.2** Waktu eksekusi terhadap jumlah sisi pada skenario padat, dengan keterangan yang sama dengan Gambar 4.1. (Sisipkan berkas `grafik/waktu_padat.png`.)
+**Gambar 4.1** Waktu eksekusi terhadap jumlah sisi pada skenario jarang. Kiri: skala linear. Kanan: skala log-log. Batang galat adalah simpangan baku, dan garis putus-putus adalah kurva teoretis dengan konstanta yang dicocokkan dengan kuadrat terkecil melalui titik asal.
 
-**Gambar 4.3** Waktu eksekusi terhadap jumlah sisi pada skenario jarang_kembar, dengan keterangan yang sama dengan Gambar 4.1. (Sisipkan berkas `grafik/waktu_jarang_kembar.png`.)
+![Gambar 4.2](gambar/waktu_padat.png)
+
+**Gambar 4.2** Waktu eksekusi terhadap jumlah sisi pada skenario padat, dengan keterangan yang sama dengan Gambar 4.1.
+
+![Gambar 4.3](gambar/waktu_jarang_kembar.png)
+
+**Gambar 4.3** Waktu eksekusi terhadap jumlah sisi pada skenario jarang_kembar, dengan keterangan yang sama dengan Gambar 4.1.
 
 Kurva teoretis pada gambar memakai suku *m* log₂ *m* untuk Kruskal dan *m* log₂ *n* untuk Prim dan Borůvka. Kurva Prim (+konversi) tidak memiliki kurva teoretis sendiri.
 
