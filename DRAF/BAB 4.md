@@ -41,13 +41,13 @@ Dengan hanya lima simpul, studi kasus ini membuktikan kebenaran keluaran dan keg
 
 ---
 
-Seluruh pengukuran dijalankan pada satu sesi Google Colab, yaitu mesin virtual yang dipakai bersama pengguna lain. Spesifikasinya dicatat oleh program pada awal sesi dan disajikan pada Tabel 4.3. Kapasitas memori tidak dicatat dan karena itu tidak dilaporkan. Spesifikasi mesin virtual dapat berbeda antar sesi. Pada percobaan awal prosesornya AMD EPYC 7B12, sehingga seluruh angka pada laporan ini hanya berasal dari satu sesi akhir dan tidak dicampur dengan sesi lain.
+Seluruh pengukuran dijalankan pada satu sesi Google Colab versi gratis (*free tier*), yaitu mesin virtual yang dipakai bersama pengguna lain. Spesifikasinya dicatat oleh program pada awal sesi dan disajikan pada Tabel 4.3. Kapasitas memori tidak dicatat dan karena itu tidak dilaporkan. Spesifikasi mesin virtual dapat berbeda antar sesi, sehingga seluruh angka pada laporan ini berasal dari satu sesi yang sama dan tidak dicampur dengan sesi lain.
 
 **Tabel 4.3** Lingkungan uji
 
 | Komponen | Keterangan |
 |---|---|
-| Platform | Google Colab (mesin virtual bersama) |
+| Platform | Google Colab versi gratis (mesin virtual bersama) |
 | Prosesor | Intel(R) Xeon(R) CPU @ 2.20GHz, 2 CPU |
 | Sistem operasi | Linux 6.6.122+ |
 | Python | 3.13.16 |
