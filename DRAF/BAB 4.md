@@ -39,8 +39,6 @@ Dengan hanya lima simpul, studi kasus ini membuktikan kebenaran keluaran dan keg
 
 ---
 
----
-
 ## 4.2 Lingkungan Uji dan Implementasi
 
 ---
