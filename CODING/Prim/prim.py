@@ -2,6 +2,8 @@
 
 Graf: daftar ketetanggaan, daftar_tetangga[simpul] = [(simpul_tetangga, bobot), ...].
 heapq dipakai sebagai alat bantu antrean prioritas, biaya O(log m) per operasi.
+Isi antrean (bobot, simpul_kecil, simpul_besar): bila bobot sama, simpul terkecil diambil dulu,
+lalu simpul terbesar (aturan yang sama dengan Kruskal dan Borůvka).
 """
 
 import heapq
@@ -26,18 +28,19 @@ def prim(jumlah_simpul, daftar_tetangga, simpul_awal=0):
     sudah_masuk[simpul_awal] = True
     antrean = []
     for simpul_tetangga, bobot in daftar_tetangga[simpul_awal]:
-        heapq.heappush(antrean, (bobot, simpul_awal, simpul_tetangga))
+        heapq.heappush(antrean, (bobot, min(simpul_awal, simpul_tetangga), max(simpul_awal, simpul_tetangga)))
 
     while antrean and len(sisi_mst) < jumlah_simpul - 1:
-        bobot, asal, tujuan = heapq.heappop(antrean)  # sisi termurah yang menyentuh pohon
-        if sudah_masuk[tujuan]:  # ujung lain sudah di pohon: sisi ini membentuk siklus
+        bobot, kecil, besar = heapq.heappop(antrean)  # sisi termurah yang menyentuh pohon
+        if sudah_masuk[kecil] and sudah_masuk[besar]:  # kedua ujung sudah di pohon: siklus
             continue
+        asal, tujuan = (kecil, besar) if sudah_masuk[kecil] else (besar, kecil)  # tujuan = ujung baru
         sudah_masuk[tujuan] = True  # simpul baru bergabung ke pohon
         sisi_mst.append((asal, tujuan, bobot))
         total_bobot += bobot
         for simpul_tetangga, bobot_baru in daftar_tetangga[tujuan]:
             if not sudah_masuk[simpul_tetangga]:
-                heapq.heappush(antrean, (bobot_baru, tujuan, simpul_tetangga))
+                heapq.heappush(antrean, (bobot_baru, min(tujuan, simpul_tetangga), max(tujuan, simpul_tetangga)))
 
     if len(sisi_mst) != jumlah_simpul - 1:
         raise ValueError("Graf tidak terhubung")

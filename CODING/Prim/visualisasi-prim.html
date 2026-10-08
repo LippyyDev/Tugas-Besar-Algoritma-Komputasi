@@ -404,7 +404,7 @@ body.focus .qwrap{flex:1;min-height:0}
 
 <script>
 // ============ ISI prim.py (disisipkan apa adanya dari file) ============
-const PY = "\"\"\"Algoritma Prim untuk MST (varian lazy, antrean prioritas binary heap).\n\nGraf: daftar ketetanggaan, daftar_tetangga[simpul] = [(simpul_tetangga, bobot), ...].\nheapq dipakai sebagai alat bantu antrean prioritas, biaya O(log m) per operasi.\n\"\"\"\n\nimport heapq\n\n\ndef buat_daftar_tetangga(jumlah_simpul, daftar_sisi):\n    \"\"\"Ubah daftar sisi (simpul_a, simpul_b, bobot) menjadi daftar ketetanggaan.\"\"\"\n    daftar_tetangga = [[] for _ in range(jumlah_simpul)]\n    for simpul_a, simpul_b, bobot in daftar_sisi:\n        daftar_tetangga[simpul_a].append((simpul_b, bobot))\n        daftar_tetangga[simpul_b].append((simpul_a, bobot))  # graf tak berarah\n    return daftar_tetangga\n\n\ndef prim(jumlah_simpul, daftar_tetangga, simpul_awal=0):\n    \"\"\"Mengembalikan (sisi_mst, total_bobot). ValueError jika graf tidak terhubung.\"\"\"\n    sudah_masuk = [False] * jumlah_simpul  # simpul yang sudah ada di pohon\n    sisi_mst = []\n    total_bobot = 0\n\n    # Pohon dimulai dari satu simpul; masukkan semua sisi yang keluar darinya.\n    sudah_masuk[simpul_awal] = True\n    antrean = []\n    for simpul_tetangga, bobot in daftar_tetangga[simpul_awal]:\n        heapq.heappush(antrean, (bobot, simpul_awal, simpul_tetangga))\n\n    while antrean and len(sisi_mst) < jumlah_simpul - 1:\n        bobot, asal, tujuan = heapq.heappop(antrean)  # sisi termurah yang menyentuh pohon\n        if sudah_masuk[tujuan]:  # ujung lain sudah di pohon: sisi ini membentuk siklus\n            continue\n        sudah_masuk[tujuan] = True  # simpul baru bergabung ke pohon\n        sisi_mst.append((asal, tujuan, bobot))\n        total_bobot += bobot\n        for simpul_tetangga, bobot_baru in daftar_tetangga[tujuan]:\n            if not sudah_masuk[simpul_tetangga]:\n                heapq.heappush(antrean, (bobot_baru, tujuan, simpul_tetangga))\n\n    if len(sisi_mst) != jumlah_simpul - 1:\n        raise ValueError(\"Graf tidak terhubung\")\n    return sisi_mst, total_bobot\n\n\nif __name__ == \"__main__\":\n    # Contoh 4 simpul (sama dengan kruskal.py). Sisi = (simpul_a, simpul_b, bobot).\n    nama_kota = [\"Maros\", \"Makassar\", \"Gowa\", \"Takalar\"]\n    MAROS, MAKASSAR, GOWA, TAKALAR = 0, 1, 2, 3  # nomor simpul tiap kota\n\n    # Hasil yang benar: total 7.\n    contoh = [\n        (GOWA, TAKALAR, 4),\n        (MAROS, GOWA, 3),\n        (MAKASSAR, TAKALAR, 5),\n        (MAROS, MAKASSAR, 1),\n        (MAKASSAR, GOWA, 2),\n    ]\n    daftar_tetangga = buat_daftar_tetangga(4, contoh)\n    sisi_mst, total_bobot = prim(4, daftar_tetangga, simpul_awal=MAROS)\n    for simpul_a, simpul_b, bobot in sisi_mst:\n        print(f\"{nama_kota[simpul_a]} ke {nama_kota[simpul_b]}, biaya {bobot} juta\")\n    print(\"Total biaya:\", total_bobot, \"juta\")\n";
+const PY = "\"\"\"Algoritma Prim untuk MST (varian lazy, antrean prioritas binary heap).\n\nGraf: daftar ketetanggaan, daftar_tetangga[simpul] = [(simpul_tetangga, bobot), ...].\nheapq dipakai sebagai alat bantu antrean prioritas, biaya O(log m) per operasi.\nIsi antrean (bobot, simpul_kecil, simpul_besar): bila bobot sama, simpul terkecil diambil dulu,\nlalu simpul terbesar (aturan yang sama dengan Kruskal dan Bor\u016fvka).\n\"\"\"\n\nimport heapq\n\n\ndef buat_daftar_tetangga(jumlah_simpul, daftar_sisi):\n    \"\"\"Ubah daftar sisi (simpul_a, simpul_b, bobot) menjadi daftar ketetanggaan.\"\"\"\n    daftar_tetangga = [[] for _ in range(jumlah_simpul)]\n    for simpul_a, simpul_b, bobot in daftar_sisi:\n        daftar_tetangga[simpul_a].append((simpul_b, bobot))\n        daftar_tetangga[simpul_b].append((simpul_a, bobot))  # graf tak berarah\n    return daftar_tetangga\n\n\ndef prim(jumlah_simpul, daftar_tetangga, simpul_awal=0):\n    \"\"\"Mengembalikan (sisi_mst, total_bobot). ValueError jika graf tidak terhubung.\"\"\"\n    sudah_masuk = [False] * jumlah_simpul  # simpul yang sudah ada di pohon\n    sisi_mst = []\n    total_bobot = 0\n\n    # Pohon dimulai dari satu simpul; masukkan semua sisi yang keluar darinya.\n    sudah_masuk[simpul_awal] = True\n    antrean = []\n    for simpul_tetangga, bobot in daftar_tetangga[simpul_awal]:\n        heapq.heappush(antrean, (bobot, min(simpul_awal, simpul_tetangga), max(simpul_awal, simpul_tetangga)))\n\n    while antrean and len(sisi_mst) < jumlah_simpul - 1:\n        bobot, kecil, besar = heapq.heappop(antrean)  # sisi termurah yang menyentuh pohon\n        if sudah_masuk[kecil] and sudah_masuk[besar]:  # kedua ujung sudah di pohon: siklus\n            continue\n        asal, tujuan = (kecil, besar) if sudah_masuk[kecil] else (besar, kecil)  # tujuan = ujung baru\n        sudah_masuk[tujuan] = True  # simpul baru bergabung ke pohon\n        sisi_mst.append((asal, tujuan, bobot))\n        total_bobot += bobot\n        for simpul_tetangga, bobot_baru in daftar_tetangga[tujuan]:\n            if not sudah_masuk[simpul_tetangga]:\n                heapq.heappush(antrean, (bobot_baru, min(tujuan, simpul_tetangga), max(tujuan, simpul_tetangga)))\n\n    if len(sisi_mst) != jumlah_simpul - 1:\n        raise ValueError(\"Graf tidak terhubung\")\n    return sisi_mst, total_bobot\n\n\nif __name__ == \"__main__\":\n    # Contoh 4 simpul (sama dengan kruskal.py). Sisi = (simpul_a, simpul_b, bobot).\n    nama_kota = [\"Maros\", \"Makassar\", \"Gowa\", \"Takalar\"]\n    MAROS, MAKASSAR, GOWA, TAKALAR = 0, 1, 2, 3  # nomor simpul tiap kota\n\n    # Hasil yang benar: total 7.\n    contoh = [\n        (GOWA, TAKALAR, 4),\n        (MAROS, GOWA, 3),\n        (MAKASSAR, TAKALAR, 5),\n        (MAROS, MAKASSAR, 1),\n        (MAKASSAR, GOWA, 2),\n    ]\n    daftar_tetangga = buat_daftar_tetangga(4, contoh)\n    sisi_mst, total_bobot = prim(4, daftar_tetangga, simpul_awal=MAROS)\n    for simpul_a, simpul_b, bobot in sisi_mst:\n        print(f\"{nama_kota[simpul_a]} ke {nama_kota[simpul_b]}, biaya {bobot} juta\")\n    print(\"Total biaya:\", total_bobot, \"juta\")\n";
 const LINES = PY.split("\n"); if(LINES[LINES.length-1]==="") LINES.pop();
 
 // ---------- Cari nomor baris penting di kode (otomatis mengikuti file) ----------
@@ -420,12 +420,12 @@ const L={
   retBuild:findLine("return daftar_tetangga"),
   defPrim:findLine("def prim("), initSudah:findLine("sudah_masuk = [False]"), initMst:findLine("sisi_mst = []"), initTotal:findLine("total_bobot = 0"),
   cmtStart:findLine("# Pohon dimulai"), markStart:findLine("sudah_masuk[simpul_awal] = True"), initAntrean:findLine("antrean = []"),
-  forStart:findLine("for simpul_tetangga, bobot in daftar_tetangga[simpul_awal]:"), pushStart:findLine("heapq.heappush(antrean, (bobot, simpul_awal"),
-  whileL:findLine("while antrean and"), popL:findLine("bobot, asal, tujuan = heapq.heappop(antrean)"),
-  ifSudah:findLine("if sudah_masuk[tujuan]:"), markTujuan:findLine("sudah_masuk[tujuan] = True"),
+  forStart:findLine("for simpul_tetangga, bobot in daftar_tetangga[simpul_awal]:"), pushStart:findLine("heapq.heappush(antrean, (bobot, min(simpul_awal"),
+  whileL:findLine("while antrean and"), popL:findLine("bobot, kecil, besar = heapq.heappop(antrean)"),
+  ifSudah:findLine("if sudah_masuk[kecil] and sudah_masuk[besar]:"), tentukan:findLine("asal, tujuan = (kecil, besar)"), markTujuan:findLine("sudah_masuk[tujuan] = True"),
   appendMst:findLine("sisi_mst.append("), totalAdd:findLine("total_bobot += bobot"),
   forNew:findLine("for simpul_tetangga, bobot_baru in daftar_tetangga[tujuan]:"), ifNot:findLine("if not sudah_masuk[simpul_tetangga]:"),
-  pushNew:findLine("heapq.heappush(antrean, (bobot_baru"),
+  pushNew:findLine("heapq.heappush(antrean, (bobot_baru, min("),
   ifLen:findLine("if len(sisi_mst) != jumlah_simpul - 1:"), retPrim:findLine("return sisi_mst, total_bobot"),
   main:findLine("if __name__"), cmtContoh:findLine("# Contoh"), cmtSisi:findLine("# Hasil yang benar"),
   nama:findLine("nama_kota = ["), konst:findRegex(/^[A-Z][A-Z, ]*=\s*\d/), contoh:findLine("contoh = ["),
@@ -449,7 +449,7 @@ mapL(L.initSudah,["graf","vars"]); mapL(L.initMst,["vars"]); mapL(L.initTotal,["
 mapL(L.markStart,["graf","vars"]); mapL(L.initAntrean,["antrean","vars"]);
 mapL(L.forStart,["tetangga"]); mapL(L.pushStart,["antrean","graf"]);
 mapL(L.whileL,["vars"]); mapL(L.popL,["antrean","graf","vars"]);
-mapL(L.ifSudah,["graf"]); mapL(L.contL,["graf"]); mapL(L.markTujuan,["graf","vars"]);
+mapL(L.ifSudah,["graf"]); mapL(L.tentukan,["graf","vars"]); mapL(L.contL,["graf"]); mapL(L.markTujuan,["graf","vars"]);
 mapL(L.appendMst,["graf","vars"]); mapL(L.totalAdd,["vars"]);
 mapL(L.forNew,["tetangga"]); mapL(L.ifNot,["graf"]); mapL(L.pushNew,["antrean","graf"]);
 mapL(L.ifLen,["vars"]); mapL(L.retPrim,["vars"]);
@@ -487,7 +487,7 @@ function buildSteps(){
   let mst=[], total=0;
   const st={nama:false,konst:false,lc:0,fb:false,fbInit:false,fbLoop:null,adjMain:false,adjOn:false,
             fp:false,fpInit:false,fpHeap:false,ret:false,frame:null,
-            v:{tet:null,bobot:null,asal:null,tujuan:null,bobotBaru:null}};
+            v:{tet:null,bobot:null,kecil:null,besar:null,asal:null,tujuan:null,bobotBaru:null}};
   const ke=NAMA.map(x=>x.toUpperCase()).join(", ");
   const T=t=>`(${t.join(", ")})`, fmtL=a=>"["+a.map(T).join(", ")+"]";
   const fmtAdj=a=>"["+a.map(fmtL).join(", ")+"]";
@@ -518,6 +518,7 @@ function buildSteps(){
       const V=st.v;
       if(V.tet!==null) r.push({n:"simpul_tetangga",v:withName(V.tet)});
       if(V.bobot!==null) r.push({n:"bobot",v:`${V.bobot}`});
+      if(V.kecil!==null) r.push({n:"kecil",v:withName(V.kecil)},{n:"besar",v:withName(V.besar)});
       if(V.asal!==null) r.push({n:"asal",v:withName(V.asal)},{n:"tujuan",v:withName(V.tujuan)});
       if(V.bobotBaru!==null) r.push({n:"bobot_baru",v:`${V.bobotBaru}`});
       groups.push({key:"fp",label:"di dalam prim()",rows:r});
@@ -578,7 +579,7 @@ function buildSteps(){
   const awalPush=[];
   for(const [t,bw] of adj[AWAL]){
     st.v.tet=t; st.v.bobot=bw;
-    const e=[bw,AWAL,t]; heappush(heap,e); est[eidx[ekey(AWAL,t)]]="que"; awalPush.push(e);
+    const e=[bw,Math.min(AWAL,t),Math.max(AWAL,t)]; heappush(heap,e); est[eidx[ekey(AWAL,t)]]="que"; awalPush.push(e);
   }
   snap({title:`tawaran dari ${nm(AWAL)}`,type:"TETANGGA",lines:[L.forStart,L.pushStart],pushed:awalPush,adjHi:[AWAL],
     msg:`Langkah 3: semua jalur yang keluar dari ${nm(AWAL)} dimasukkan ke antrean sebagai tawaran: ${daftarTawaran(awalPush)}. Di Graf, jalur-jalur itu menjadi garis biru (calon kabel). Panel Antrean prioritas menampilkannya dari yang paling murah.`});
@@ -587,23 +588,26 @@ function buildSteps(){
   let putaran=0;
   while(heap.length && mst.length<n-1){
     putaran++;
-    const ent=heappop(heap); const [bw,asal,tujuan]=ent; const k=eidx[ekey(asal,tujuan)];
-    st.v.bobot=bw; st.v.asal=asal; st.v.tujuan=tujuan;
-    snap({title:`ambil ${jalur(asal,tujuan)}`,type:"AMBIL",cur:k,lines:[L.whileL,L.popL],held:{e:ent,verdict:null},
-      msg:`Putaran ke-${putaran}: ambil tawaran termurah dari antrean, yaitu jalur ${jalur(asal,tujuan)} dengan biaya ${bw} juta. Tawaran ini keluar dari antrean (lihat kartu Diambil), dan isinya masuk ke variabel <code>bobot</code>, <code>asal</code>, dan <code>tujuan</code>.`});
-    if(inTree[tujuan]){
+    const ent=heappop(heap); const [bw,kecil,besar]=ent; const k=eidx[ekey(kecil,besar)];
+    const duaDiPohon=inTree[kecil]&&inTree[besar];
+    const asal=inTree[kecil]?kecil:besar, tujuan=inTree[kecil]?besar:kecil;   // dipakai bila hanya satu ujung yang sudah di pohon
+    st.v.bobot=bw; st.v.kecil=kecil; st.v.besar=besar; st.v.asal=null; st.v.tujuan=null;
+    snap({title:`ambil ${jalur(kecil,besar)}`,type:"AMBIL",cur:k,lines:[L.whileL,L.popL],held:{e:ent,verdict:null},
+      msg:`Putaran ke-${putaran}: ambil tawaran termurah dari antrean, yaitu jalur ${jalur(kecil,besar)} dengan biaya ${bw} juta. Kalau ada tawaran yang sama murah, yang simpulnya bernomor lebih kecil diambil lebih dulu. Tawaran ini keluar dari antrean (lihat kartu Diambil), dan isinya masuk ke variabel <code>bobot</code>, <code>kecil</code>, dan <code>besar</code> (kedua ujung kabel, nomor kecil lebih dulu).`});
+    if(duaDiPohon){
       est[k]="rej";
-      snap({title:`tolak ${jalur(asal,tujuan)}`,type:"TOLAK",cur:k,verdict:"rej",lines:[L.ifSudah,L.contL],held:{e:ent,verdict:"rej"},
-        msg:`${nm(tujuan)} sudah ada di jaringan, jadi kabel ${jalur(asal,tujuan)} tidak diperlukan: kalau dipasang, jaringan menjadi melingkar (siklus) dan biaya terbuang. Tawaran DITOLAK dan dibuang (<code>continue</code>), lalu lanjut ke tawaran berikutnya.`});
+      snap({title:`tolak ${jalur(kecil,besar)}`,type:"TOLAK",cur:k,verdict:"rej",lines:[L.ifSudah,L.contL],held:{e:ent,verdict:"rej"},
+        msg:`${nm(kecil)} dan ${nm(besar)} sudah sama-sama ada di jaringan, jadi kabel ${jalur(kecil,besar)} tidak diperlukan: kalau dipasang, jaringan menjadi melingkar (siklus) dan biaya terbuang. Tawaran DITOLAK dan dibuang (<code>continue</code>), lalu lanjut ke tawaran berikutnya.`});
       continue;
     }
+    st.v.asal=asal; st.v.tujuan=tujuan;
     inTree[tujuan]=true; mst.push([asal,tujuan,bw]); total+=bw; est[k]="acc";
-    snap({title:`pasang ${jalur(asal,tujuan)}`,type:"MASUK",cur:k,verdict:"acc",lines:[L.ifSudah,L.markTujuan,L.appendMst,L.totalAdd],held:{e:ent,verdict:"acc"},newNode:tujuan,
-      msg:`${nm(tujuan)} belum ada di jaringan, jadi kabel ${jalur(asal,tujuan)} DITERIMA: ${nm(tujuan)} dicentang di <code>sudah_masuk</code>, kabelnya masuk <code>sisi_mst</code>, dan total biaya menjadi ${total} juta. Jaringan kini berisi ${mst.length+1} kota.`});
+    snap({title:`pasang ${jalur(asal,tujuan)}`,type:"MASUK",cur:k,verdict:"acc",lines:[L.ifSudah,L.tentukan,L.markTujuan,L.appendMst,L.totalAdd],held:{e:ent,verdict:"acc"},newNode:tujuan,
+      msg:`Ujung kabel yang sudah ada di jaringan menjadi <code>asal</code> (${nm(asal)}), ujung satunya menjadi <code>tujuan</code> (${nm(tujuan)}). ${nm(tujuan)} belum ada di jaringan, jadi kabel ${jalur(asal,tujuan)} DITERIMA: ${nm(tujuan)} dicentang di <code>sudah_masuk</code>, kabelnya masuk <code>sisi_mst</code>, dan total biaya menjadi ${total} juta. Jaringan kini berisi ${mst.length+1} kota.`});
     const catatan=[], pushed=[];
     for(const [t,bwb] of adj[tujuan]){
       st.v.tet=t; st.v.bobotBaru=bwb;
-      if(!inTree[t]){ const e2=[bwb,tujuan,t]; heappush(heap,e2); est[eidx[ekey(tujuan,t)]]="que"; pushed.push(e2); catatan.push(`${nm(t)} (biaya ${bwb}) belum ada di jaringan, jadi tawarannya masuk antrean`); }
+      if(!inTree[t]){ const e2=[bwb,Math.min(tujuan,t),Math.max(tujuan,t)]; heappush(heap,e2); est[eidx[ekey(tujuan,t)]]="que"; pushed.push(e2); catatan.push(`${nm(t)} (biaya ${bwb}) belum ada di jaringan, jadi tawarannya masuk antrean`); }
       else catatan.push(`${nm(t)} (biaya ${bwb}) sudah ada di jaringan, jadi dilewati`);
     }
     snap({title:`tetangga ${nm(tujuan)}`,type:"TETANGGA",lines:[L.forNew,L.ifNot,L.pushNew],pushed,adjHi:[tujuan],

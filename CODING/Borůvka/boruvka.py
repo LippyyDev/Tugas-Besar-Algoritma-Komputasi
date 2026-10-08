@@ -14,8 +14,8 @@ from kruskal import HimpunanTerpisah
 
 
 def kunci_sisi(sisi):
-    """Kunci pembanding sisi: bobot, lalu simpul_a, lalu simpul_b (sama seperti Kruskal)."""
-    return (sisi[2], sisi[0], sisi[1])
+    """Kunci pembanding sisi: bobot, lalu simpul terkecil, lalu simpul terbesar (sama seperti Kruskal)."""
+    return (sisi[2], min(sisi[0], sisi[1]), max(sisi[0], sisi[1]))
 
 
 def boruvka(jumlah_simpul, daftar_sisi):

@@ -36,8 +36,8 @@ class HimpunanTerpisah:
 
 def kruskal(jumlah_simpul, daftar_sisi):
     """Mengembalikan (sisi_mst, total_bobot). ValueError jika graf tidak terhubung."""
-    # Urut menaik menurut bobot (sisi[2]); bila sama, menurut simpul_a lalu simpul_b.
-    sisi_terurut = sorted(daftar_sisi, key=lambda sisi: (sisi[2], sisi[0], sisi[1]))
+    # Urut menaik menurut bobot; bila sama, simpul terkecil dulu, lalu simpul terbesar.
+    sisi_terurut = sorted(daftar_sisi, key=lambda sisi: (sisi[2], min(sisi[0], sisi[1]), max(sisi[0], sisi[1])))
 
     himpunan = HimpunanTerpisah(jumlah_simpul)
     sisi_mst = []
