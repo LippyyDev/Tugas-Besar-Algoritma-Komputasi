@@ -2,7 +2,7 @@
 
 Mahasiswa: Muhammad Alif Qadri (D082261018) | Mata kuliah: Algoritma Komputasi, Magister Teknik Informatika
 
-Folder ini siap ditaruh di `D:\TUGAS BESAR PAK ABDI\CODING`. Semua berjalan di komputer sendiri, tanpa Google Drive.
+Folder ini siap ditaruh di `D:\TUGAS BESAR PAK ABDI\CODING`. Bisa dijalankan di komputer sendiri atau di Google Colab, dengan hasil disimpan ke folder khusus di Google Drive.
 
 ## Isi folder
 
@@ -22,10 +22,11 @@ CODING/
 │   └── visualisasi-boruvka.html
 └── Eksperimen/
     ├── Tugas_MST_Lokal.ipynb   # uji kasus kecil, studi kasus, graf acak, eksperimen, grafik, CSV
+    ├── PENJELASAN_NOTEBOOK.md  # penjelasan rinci tiap sel, hitungan tangan, keputusan desain, draf laporan AI
     └── data/
         └── studi_kasus_gedung_unhas.csv   # data tetap studi kasus (5 gedung); ganti angka ILUSTRASI dengan hasil ukur
 ```
-Folder `Eksperimen/hasil/` (CSV) dan `Eksperimen/grafik/` (gambar) **dibuat otomatis** saat notebook dijalankan.
+Folder `hasil/` (CSV), `grafik/` (gambar), dan `data/`, serta berkas `lingkungan_dan_log.txt`, **dibuat otomatis** saat notebook dijalankan: di samping notebook (lokal) atau di folder Google Drive (Colab).
 
 ## Cara menjalankan
 
@@ -57,13 +58,34 @@ python -m notebook Tugas_MST_Lokal.ipynb
 ```
 Di VS Code: buka `Tugas_MST_Lokal.ipynb`, pilih kernel dari `.venv`, lalu **Run All**.
 
-Lama eksperimen penuh sekitar 1 sampai 3 menit. Untuk uji coba cepat, ubah `MODE_CEPAT = True` di Sel 1 notebook.
+Lama eksperimen penuh sekitar 1 sampai 3 menit. Untuk uji coba cepat, ubah `MODE_CEPAT = True` di Sel 1 notebook (hasilnya jangan dipakai di laporan).
+
+### Google Colab dan Google Drive
+Unggah `Tugas_MST_Lokal.ipynb` ke Google Drive, buka dengan Colab, lalu **Runtime > Run all** dan izinkan akses Drive di Sel 2. Semua hasil disimpan ke `My Drive/TUGAS BESAR PAK ABDI/HASIL_EKSPERIMEN` (nama folder bisa diubah di Sel 2), berisi `hasil/`, `grafik/`, `data/`, dan `lingkungan_dan_log.txt` (spesifikasi mesin dan seluruh keluaran teks). Sel 18 dijalankan paling akhir supaya semuanya tersinkron.
+Waktu yang terukur di Colab adalah waktu mesin virtual Google yang dipakai bersama, jadi spesifikasinya harus ditulis di Bab 4.1. Untuk komputer sendiri dengan Google Drive for Desktop, isi `FOLDER_DRIVE_LOKAL` di Sel 2.
 
 ### Studi kasus nyata (Sel 7B)
 Sel 7B menjalankan ketiga algoritma pada jaringan kabel antar 5 gedung Fakultas Teknik Unhas dari `Eksperimen/data/studi_kasus_gedung_unhas.csv`. Datanya tetap, jadi **tanpa seed**. Selama kolom `keterangan` masih berisi ILUSTRASI, angkanya contoh; ganti dengan jarak hasil ukur dan catat sumbernya.
 
 ### 3. Halaman visualisasi
 Klik dua kali berkas `.html` di folder algoritma masing-masing. Dibuka di browser, tidak perlu internet (font memakai cadangan sistem bila offline). Tombol **Selanjutnya** menjalankan satu langkah, tombol **Fokus** (atau tombol F) menyembunyikan panel yang tidak perlu. Kode di halaman sama persis dengan file `.py`.
+
+## Pustaka
+| Pustaka | Dipakai untuk |
+|---|---|
+| `random`, `time`, `math`, `heapq`, `csv`, `os`, `sys`, `platform`, `statistics`, `gc` (bawaan Python) | Pembuat graf, pengukuran, antrean prioritas (alat bantu Prim) |
+| `pandas`, `numpy` | Ringkasan data, rata-rata dan simpangan baku |
+| `matplotlib` | Grafik |
+| `networkx` | **Hanya verifikasi** (Sel 10), tidak dipakai di dalam algoritma |
+
+## Contoh keluaran (uji kasus kecil, Sel 7)
+```
+[LOLOS] Kasus 1: 4 kota biasa (satu jalur ditolak) | total = 7 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 2: segitiga 3 kota | total = 3 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 3: bobot kembar (total dan himpunan sisi) | total = 6 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 4: graf tak terhubung (harus ValueError) | ketiganya melempar ValueError
+```
+Penjelasan rinci tiap sel, hitungan tangan kasus uji, dan keputusan desain: `Eksperimen/PENJELASAN_NOTEBOOK.md`.
 
 ## Hasil eksperimen yang dihasilkan notebook
 | Berkas | Isi |
@@ -72,9 +94,10 @@ Klik dua kali berkas `.html` di folder algoritma masing-masing. Dibuka di browse
 | `Eksperimen/hasil/ringkasan.csv` | Rata-rata dan simpangan baku per ukuran |
 | `Eksperimen/hasil/rasio_terhadap_teori.csv` | Kesesuaian dengan kurva teori |
 | `Eksperimen/grafik/waktu_<skenario>.png` | Grafik waktu dengan kurva teori |
+| `Eksperimen/lingkungan_dan_log.txt` | Spesifikasi mesin dan seluruh keluaran teks notebook |
 
 ## Pengingat sebelum dikumpulkan
-- Hasil waktu dari komputermu sendiri yang dipakai di laporan (Bab 4), bukan angka dari orang lain.
-- Hitung ulang sendiri jawaban uji kasus kecil di Sel 7 notebook (draf hitungan ada di sel penjelasannya).
-- Isi laporan penggunaan AI di Sel 17 notebook dengan kata-katamu sendiri. Kode di folder ini disusun dengan bantuan AI, jadi pelajari dan tulis ulang versimu sendiri sebelum diklaim sebagai karya sendiri.
+- Pakai hasil waktu dari eksperimen yang kamu jalankan sendiri di laporan (Bab 4), bukan angka dari orang lain. Catat mesinnya (Colab atau komputer sendiri) sesuai `lingkungan_dan_log.txt`.
+- Hitung ulang sendiri jawaban uji kasus kecil di Sel 7 notebook (draf hitungan ada di `Eksperimen/PENJELASAN_NOTEBOOK.md`, bagian 6.7).
+- Isi laporan penggunaan AI (draf di `Eksperimen/PENJELASAN_NOTEBOOK.md`, bagian 6.17) dengan kata-katamu sendiri. Kode di folder ini disusun dengan bantuan AI, jadi pelajari dan tulis ulang versimu sendiri sebelum diklaim sebagai karya sendiri.
 - Buat repositori GitHub atau GitLab publik untuk tautan di lampiran laporan.
