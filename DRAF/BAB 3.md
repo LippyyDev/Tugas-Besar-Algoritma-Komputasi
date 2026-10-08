@@ -6,7 +6,7 @@
 
 ---
 
-Algoritma Kruskal dan Prim dijalankan langkah demi langkah pada dua graf kecil agar cara kerja keduanya dapat diperiksa dengan hitungan tangan. Graf pertama, empat kota dengan bobot berbeda, memperlihatkan penolakan sisi yang membentuk siklus. Graf kedua memuat sisi berbobot sama dan memperlihatkan peran aturan pemutus seri pada butir 7 subbab 1.4. Kedua graf sama dengan Kasus 1 dan Kasus 3 pada uji kasus kecil di kode program, sehingga hasil hitungan tangan dapat dibandingkan langsung dengan keluaran program (Bab 4).
+Algoritma Kruskal dan Prim dijalankan langkah demi langkah pada dua graf kecil agar cara kerja keduanya dapat diperiksa dengan perhitungan manual. Graf pertama, empat kota dengan bobot berbeda, memperlihatkan penolakan sisi yang membentuk siklus. Graf kedua memuat sisi berbobot sama dan memperlihatkan peran aturan pemutus seri pada butir 7 subbab 1.4. Kedua graf sama dengan Kasus 1 dan Kasus 3 pada uji kasus kecil di kode program, sehingga hasil perhitungan manual dapat dibandingkan langsung dengan keluaran program (Bab 4).
 
 Simpul diberi nomor tetap, yaitu Maros = 0, Makassar = 1, Gowa = 2, dan Takalar = 3. Bobot sisi menyatakan biaya pemasangan kabel dalam juta rupiah. Biaya ini merupakan angka contoh, bukan data hasil pengukuran. Setiap sisi ditulis sebagai (*u*, *v*) dengan *u* < *v*, dan dalam antrean prioritas Prim ditulis sebagai tripel (*w*, *u*, *v*) sesuai kunci pembanding pada 2.2.3.
 
@@ -366,7 +366,7 @@ Pada graf 3.1.2, peringkat sisi adalah (0, 1) = 1, (0, 3) = 2, (1, 2) = 3, (2, 3
 
 ---
 
-Analisis ini menurunkan batas atas waktu dan ruang ketiga algoritma dari *pseudocode* pada 3.2, dengan notasi *O* saja (2.3). Batas yang diturunkan berlaku untuk urutan bobot sisi apa pun pada kepadatan yang bersangkutan. Penurunan dilakukan baris demi baris agar setiap suku dapat ditelusuri ke satu blok pada *pseudocode* dan kode program (Tabel 3.7).
+Batas atas waktu dan ruang ketiga algoritma diturunkan dari *pseudocode* pada 3.2, dengan notasi *O* saja (2.3). Batas tersebut berlaku untuk urutan bobot sisi apa pun pada kepadatan yang bersangkutan. Penurunan dilakukan baris demi baris agar setiap suku dapat ditelusuri ke satu blok pada *pseudocode* dan kode program (Tabel 3.7).
 
 ---
 
@@ -392,7 +392,7 @@ Pengurutan bawaan Python bersifat adaptif, yaitu dapat lebih cepat pada masukan 
 
 ---
 
-**Teorema 3.4.** Pada struktur *disjoint set* Pseudocode 3.1 yang berisi *n* elemen, BUAT-HIMPUNAN berbiaya *O*(*n*), serta CARI-AKAR dan GABUNG masing-masing berbiaya *O*(log *n*) pada kasus terburuk.
+**Teorema 3.4.** Pada struktur *disjoint set* *Pseudocode* 3.1 yang berisi *n* elemen, BUAT-HIMPUNAN berbiaya *O*(*n*), serta CARI-AKAR dan GABUNG masing-masing berbiaya *O*(log *n*) pada kasus terburuk.
 
 *Bukti.* BUAT-HIMPUNAN menjalankan satu perulangan sebanyak *n* kali, sehingga berbiaya *O*(*n*). Untuk dua operasi lainnya, dibuktikan dua sifat berikut.
 
@@ -410,9 +410,9 @@ Batas *O*(log *n*) pada Teorema 3.4 dapat dibuktikan langsung dari kode yang dit
 
 ---
 
-**Teorema 3.5.** Pseudocode 3.2 berjalan dalam waktu *O*(*m* log *n*).
+**Teorema 3.5.** *Pseudocode* 3.2 berjalan dalam waktu *O*(*m* log *n*).
 
-*Bukti.* Biaya tiap baris pada Pseudocode 3.2 adalah sebagai berikut.
+*Bukti.* Biaya tiap baris pada *Pseudocode* 3.2 adalah sebagai berikut.
 
 | Baris | Pekerjaan | Biaya |
 |---|---|---|
@@ -433,11 +433,11 @@ Penghentian dini pada baris 6 tidak menurunkan batas ini. Pengurutan pada baris 
 
 Pembuktian diawali dengan batas banyaknya masukan ke antrean, karena batas ini yang membedakan analisis Prim berbasis sisi dari rumusan berbasis simpul pada 2.1.2.
 
-**Lemma 3.1.** Pada Pseudocode 3.3, setiap sisi dimasukkan ke *Q* paling banyak satu kali. Akibatnya jumlah MASUKKAN paling banyak *m*, jumlah KELUARKAN-TERKECIL paling banyak *m*, dan *Q* tidak pernah memuat lebih dari *m* elemen.
+**Lemma 3.1.** Pada *Pseudocode* 3.3, setiap sisi dimasukkan ke *Q* paling banyak satu kali. Akibatnya jumlah MASUKKAN paling banyak *m*, jumlah KELUARKAN-TERKECIL paling banyak *m*, dan *Q* tidak pernah memuat lebih dari *m* elemen.
 
 *Bukti.* Sisi (*u*, *v*) dimasukkan hanya pada baris 4 atau baris 12, yaitu ketika salah satu ujungnya, misalnya *u*, baru masuk pohon dan ujung lainnya *v* belum masuk pohon. Sesudah itu *u* sudah masuk pohon. Ketika *v* kelak masuk, baris 12 memeriksa tetangga *u* dan menemukan `masuk[u]` bernilai BENAR, sehingga sisi yang sama tidak dimasukkan lagi. Jadi setiap sisi dimasukkan paling banyak satu kali. Elemen hanya dapat dikeluarkan setelah dimasukkan, dan setiap elemen dikeluarkan paling banyak satu kali. ∎
 
-**Teorema 3.6.** Pseudocode 3.3, termasuk BUAT-DAFTAR-TETANGGA, berjalan dalam waktu *O*(*m* log *n*).
+**Teorema 3.6.** *Pseudocode* 3.3, termasuk BUAT-DAFTAR-TETANGGA, berjalan dalam waktu *O*(*m* log *n*).
 
 *Bukti.* BUAT-DAFTAR-TETANGGA membuat *n* daftar kosong dan memproses setiap sisi dengan dua penambahan, sehingga berbiaya *O*(*n* + *m*). Pada PRIM, baris 1 dan 2 berbiaya *O*(*n*). Setiap simpul masuk pohon paling banyak satu kali (baris 9), dan pada saat itu daftar tetangganya dipindai satu kali (baris 3 atau baris 11). Jumlah panjang seluruh daftar tetangga adalah 2*m*, sehingga seluruh pemindaian berbiaya *O*(*m*) di luar operasi antrean. Menurut Lemma 3.1, antrean menerima paling banyak *m* MASUKKAN dan melayani paling banyak *m* KELUARKAN-TERKECIL, dan setiap operasi berbiaya *O*(log *m*) = *O*(log *n*) karena ukuran antrean paling banyak *m*. Pengeluaran elemen yang sudah usang (baris 7) hanya berbiaya satu KELUARKAN-TERKECIL tanpa pekerjaan lain, sehingga sudah terhitung dalam batas *m* pengeluaran. Jumlah seluruhnya *O*(*n* + *m* + *m* log *n*) = *O*(*m* log *n*). ∎
 
@@ -451,11 +451,11 @@ Batas ini berlaku untuk tumpukan biner dengan antrean berisi sisi (3.2.3). Rumus
 
 Batas banyaknya putaran dibuktikan lebih dulu, lalu biaya satu putaran.
 
-**Lemma 3.2.** Pada graf terhubung, Pseudocode 3.4 berhenti setelah paling banyak ⌈log₂ *n*⌉ putaran.
+**Lemma 3.2.** Pada graf terhubung, *Pseudocode* 3.4 berhenti setelah paling banyak ⌈log₂ *n*⌉ putaran.
 
 *Bukti.* Misalkan sebuah putaran dimulai dengan *c* ≥ 2 komponen. Karena graf terhubung, setiap komponen memiliki sedikitnya satu sisi yang keluar dari komponen itu, sehingga *T* memuat satu sisi untuk setiap komponen. Sisi yang dipilih komponen *r* menghubungkan *r* dengan komponen lain *r′*. Pada baris 10 sampai 13, sisi itu diproses oleh GABUNG. GABUNG berhasil menyatukan keduanya, atau mengembalikan SALAH karena keduanya sudah disatukan lebih dulu pada putaran yang sama. Dalam kedua kasus, *r* dan *r′* berakhir pada komponen yang sama. Jadi setiap komponen pada akhir putaran memuat sedikitnya dua komponen awal putaran, sehingga *c* paling banyak menjadi ⌊*c*/2⌋. Setelah *k* putaran, jumlah komponen paling banyak *n*/2^*k*, yang bernilai 1 atau kurang untuk *k* = ⌈log₂ *n*⌉. ∎
 
-**Teorema 3.7.** Pseudocode 3.4 berjalan dalam waktu *O*(*m* log² *n*).
+**Teorema 3.7.** *Pseudocode* 3.4 berjalan dalam waktu *O*(*m* log² *n*).
 
 *Bukti.* Baris 1 berbiaya *O*(*n*). Satu putaran terdiri atas dua bagian. Bagian pemilihan (baris 4 sampai 8) memproses *m* sisi, masing-masing dengan dua CARI-AKAR berbiaya *O*(log *n*) menurut Teorema 3.4 dan sejumlah perbandingan κ berbiaya *O*(1), sehingga berbiaya *O*(*m* log *n*). Bagian pemasangan (baris 10 sampai 13) memproses paling banyak satu sisi untuk setiap komponen, yaitu paling banyak *n* sisi, masing-masing satu GABUNG berbiaya *O*(log *n*), sehingga berbiaya *O*(*n* log *n*) = *O*(*m* log *n*). Satu putaran berbiaya *O*(*m* log *n*). Menurut Lemma 3.2 terdapat paling banyak ⌈log₂ *n*⌉ = *O*(log *n*) putaran, sehingga totalnya *O*(*m* log² *n*). ∎
 
@@ -528,7 +528,7 @@ Dua fakta tentang jumlah pekerjaan per sisi melengkapi Tabel 3.10 dan menunjukka
 
 **Kruskal memeriksa sisi sampai sisi terberat MST.** Sisi diterima menurut urutan κ dan perulangan berhenti pada penerimaan sisi ke-(*n* − 1), yaitu sisi MST dengan κ terbesar. Jumlah sisi yang diperiksa pada perulangan sama dengan urutan sisi itu dalam daftar terurut, sehingga berada di antara *n* − 1 dan *m*. Pengurutan pada baris 1 tetap mencakup seluruh *m* sisi.
 
-Kedua fakta ini diperiksa pada 4000 graf acak terhadap transkripsi *pseudocode*. Akibatnya, pada graf yang mana pun, Kruskal dan Prim sama-sama memproses sisi dalam jumlah yang berorde *m*, dan batas atasnya sama (Tabel 3.8). Selisih waktu di antara keduanya hanya dapat berasal dari faktor konstanta, yaitu biaya satu GABUNG dibandingkan biaya satu MASUKKAN dan KELUARKAN-TERKECIL, serta biaya pembuatan daftar ketetanggaan pada Prim. Faktor konstanta tidak dapat ditentukan dari analisis asimtotik dan diukur pada Bab 4.
+Akibat kedua fakta ini, pada graf yang mana pun, Kruskal dan Prim sama-sama memproses sisi dalam jumlah yang berorde *m*, dan batas atasnya sama (Tabel 3.8). Selisih waktu di antara keduanya hanya dapat berasal dari faktor konstanta, yaitu biaya satu GABUNG dibandingkan biaya satu MASUKKAN dan KELUARKAN-TERKECIL, serta biaya pembuatan daftar ketetanggaan pada Prim. Faktor konstanta tidak dapat ditentukan dari analisis asimtotik dan diukur pada Bab 4.
 
 ---
 
@@ -540,7 +540,7 @@ Kedua fakta ini diperiksa pada 4000 graf acak terhadap transkripsi *pseudocode*.
 
 **Prim.** Kelebihannya adalah pohon tumbuh dari satu simpul dan sisi dipilih dari batas pohon, sehingga algoritma ini alami bila graf sudah tersedia sebagai daftar ketetanggaan. Keterbatasannya berasal dari pilihan implementasi. Antrean menyimpan sisi dan memuat entri usang (3.2.3), sehingga ruangnya mencapai *O*(*m*) dan batas waktunya *O*(*m* log *n*), bukan batas rumusan berbasis simpul (3.4.4). Jika graf tersedia sebagai daftar sisi, daftar ketetanggaan harus dibangun lebih dulu dengan biaya *O*(*n* + *m*) dan ruang tambahan 2*m* entri.
 
-**Borůvka.** Kelebihannya adalah strukturnya berputaran, sehingga pemilihan sisi tiap komponen pada satu putaran saling bebas dan secara konsep mudah diparalelkan (subbab 2.4, yang berada di luar batasan laporan ini). Ruang tambahannya paling kecil, yaitu *O*(*n*). Keterbatasan pada implementasi ini ada dua. Pertama, kode tidak melakukan kontraksi (varian pada 2.4), sehingga setiap putaran memindai seluruh *m* sisi termasuk sisi yang kedua ujungnya sudah berada dalam satu komponen (baris 6 pada Pseudocode 3.4). Kedua, komponen ditentukan dengan CARI-AKAR, sehingga batas yang dapat dibuktikan adalah *O*(*m* log² *n*), satu faktor log *n* di atas batas pustaka (3.4.5). Algoritma ini dipilih sebagai pembanding karena strateginya berbeda, bukan karena diharapkan lebih cepat pada kode ini.
+**Borůvka.** Kelebihannya adalah strukturnya berputaran, sehingga pemilihan sisi tiap komponen pada satu putaran saling bebas dan secara konsep mudah diparalelkan (subbab 2.4, yang berada di luar batasan laporan ini). Ruang tambahannya paling kecil, yaitu *O*(*n*). Keterbatasan pada implementasi ini ada dua. Pertama, kode tidak melakukan kontraksi (varian pada 2.4), sehingga setiap putaran memindai seluruh *m* sisi termasuk sisi yang kedua ujungnya sudah berada dalam satu komponen (baris 6 pada *Pseudocode* 3.4). Kedua, komponen ditentukan dengan CARI-AKAR, sehingga batas yang dapat dibuktikan adalah *O*(*m* log² *n*), satu faktor log *n* di atas batas pustaka (3.4.5). Algoritma ini dipilih sebagai pembanding karena strateginya berbeda, bukan karena diharapkan lebih cepat pada kode ini.
 
 **Kesesuaian untuk studi kasus.** Studi kasus pada Bab 4 adalah jaringan kabel antar lima gedung, yaitu graf dengan *n* = 5 dan *m* paling banyak 10. Pada ukuran sekecil itu perbedaan orde pertumbuhan tidak berarti, dan ketiga algoritma menghasilkan himpunan sisi yang sama karena memakai aturan pemutus seri yang sama (Teorema 3.3). Pilihan di antara ketiganya ditentukan oleh bentuk data. Daftar jalur beserta biayanya sudah berbentuk daftar sisi, sehingga Kruskal paling langsung dipakai. Ada pula keterbatasan yang berasal dari modelnya, bukan dari algoritmanya. MST meminimalkan total biaya, tetapi hasilnya berupa pohon, sehingga putusnya satu jalur memutus jaringan, dan MST tidak memperhitungkan syarat lain seperti cadangan jalur atau kondisi medan. Jika syarat itu penting, masalahnya bukan lagi MST murni.
 
@@ -567,7 +567,7 @@ Pengukuran pada Bab 4 hanya mencakup graf jarang, padat, dan jarang berbobot kem
 | 1 | Pertumbuhan Kruskal dan Prim | Teorema 3.5 dan 3.6 | *T* tidak tumbuh lebih cepat daripada *m* log *n*, yaitu *n* log *n* pada graf jarang dan *n*² log *n* pada graf padat | *T*/(*m* log *n*) terhadap *n* |
 | 2 | Pertumbuhan Borůvka | Teorema 3.7 | *T* tidak tumbuh lebih cepat daripada *m* log² *n*, dan dapat berada di antara *m* log *n* dan *m* log² *n* | *T*/(*m* log *n*) dan *T*/(*m* log² *n*) |
 | 3 | Mana yang lebih cepat, Kruskal atau Prim | Tabel 3.8 tidak membedakan | Tidak ada prediksi dari analisis asimtotik. Osipov *et al.* (2009) melaporkan Kruskal baik hingga sekitar 8*n* sisi pada C++, dan hasil itu belum tentu berlaku pada Python | Bandingkan keduanya pada graf jarang dan padat. Dua kepadatan tidak cukup untuk menetapkan titik silang |
-| 4 | Biaya daftar ketetanggaan | Pseudocode 3.3 | Prim dengan pembuatan *Adj* lebih lambat daripada tanpa pembuatan *Adj* sebesar suku *O*(*n* + *m*) | Ukur Prim tanpa dan dengan pembuatan *Adj* (3.2.3) |
+| 4 | Biaya daftar ketetanggaan | *Pseudocode* 3.3 | Prim dengan pembuatan *Adj* lebih lambat daripada tanpa pembuatan *Adj* sebesar suku *O*(*n* + *m*) | Ukur Prim tanpa dan dengan pembuatan *Adj* (3.2.3) |
 | 5 | Pengaruh bobot kembar | κ mengurutkan seluruh sisi secara total | Batas waktu tidak berubah. Hasil ketiga algoritma sama | Bandingkan himpunan sisi dan waktu pada graf jarang berbobot kembar |
 | 6 | Kesamaan keluaran | Teorema 3.3 (Kruskal dan Prim), tanpa bukti untuk Borůvka | Himpunan sisi Kruskal sama dengan Prim, dan Borůvka diharapkan sama | Bandingkan himpunan sisi pada semua graf uji. Kesamaan pada data bukan bukti untuk Borůvka |
 

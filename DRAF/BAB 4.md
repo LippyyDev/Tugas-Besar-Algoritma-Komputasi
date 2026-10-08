@@ -31,7 +31,7 @@ Seluruh panjang pada Tabel 4.1 berbeda, sehingga MST pada graf ini tunggal dan k
 | Prim | 4 | 140 |
 | Borůvka | 4 | 140 |
 
-Keluaran ketiga program sama dengan hitungan tangan di atas, yaitu empat sisi, sesuai banyaknya sisi pohon rentang untuk lima simpul, dengan total 140 m. Karena MST pada graf ini tunggal, total yang sama berarti himpunan sisinya juga sama.
+Keluaran ketiga program sama dengan perhitungan manual di atas, yaitu empat sisi, sesuai banyaknya sisi pohon rentang untuk lima simpul, dengan total 140 m. Karena MST pada graf ini tunggal, total yang sama berarti himpunan sisinya juga sama.
 
 Hasil ini memiliki keterbatasan yang berasal dari model, bukan dari algoritma. MST meminimalkan total panjang kabel, tetapi hasilnya berupa pohon, sehingga putusnya satu jalur memutus jaringan. MST juga tidak memperhitungkan syarat lain seperti cadangan jalur atau kondisi medan (lihat 3.5.2).
 
@@ -153,7 +153,7 @@ Kebenaran kode diperiksa sebelum waktu dicatat, karena waktu dari kode yang sala
 
 | Pemeriksaan | Cara | Yang ditunjukkan | Batas |
 |---|---|---|---|
-| Kasus uji kecil | Empat graf: tiga graf terhubung dengan total 7, 3, dan 6, serta satu graf tak terhubung yang harus menghasilkan `ValueError` | Ketiga algoritma lolos pada keempat kasus. Total 7 dan 6 sama dengan hitungan tangan di 3.1 | Hanya empat graf |
+| Kasus uji kecil | Empat graf: tiga graf terhubung dengan total 7, 3, dan 6, serta satu graf tak terhubung yang harus menghasilkan `ValueError` | Ketiga algoritma lolos pada keempat kasus. Total 7 dan 6 sama dengan perhitungan manual di 3.1 | Hanya empat graf |
 | Himpunan sisi | Kasus 3 berbobot kembar membandingkan himpunan sisi. Pada studi kasus 4.1, total yang sama berarti himpunan sisi yang sama berdasarkan argumen keunikan MST | Kesamaan himpunan sisi pada graf kecil | Pada graf eksperimen yang dibandingkan hanya total bobot |
 | Pembanding `networkx` | Total bobot ketiga algoritma dibandingkan dengan hasil `networkx` pada 300 graf acak kecil | Total bobot sama dengan pustaka standar | `networkx` hanya pembanding, tidak dipakai di dalam algoritma (butir 3 subbab 1.4). Yang dibandingkan total bobot |
 | Uji *seed* dan pembangkit graf | Seed yang sama menghasilkan graf yang sama dan seed berbeda menghasilkan graf lain. Pada ukuran terkecil tiap skenario, graf terhubung, tanpa sisi ganda, dan tanpa *loop* | Data uji dapat diulang dan memenuhi syarat graf | Hanya diperiksa pada ukuran terkecil |

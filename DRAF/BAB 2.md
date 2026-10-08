@@ -151,7 +151,7 @@ Kebenaran algoritma ini dibuktikan dengan asumsi bobot sisi berbeda (Nešetřil 
 
 ---
 
-Empat penelitian terbaru ditinjau pada subbab ini, dan ringkasannya ada pada Tabel 2.3. Tiga di antaranya mengembangkan varian algoritma MST (paralel, terdistribusi, dan aproksimasi), sedangkan satu menerapkan MST pada *clustering*.
+Tiga dari empat penelitian terbaru berikut mengembangkan varian algoritma MST (paralel, terdistribusi, dan aproksimasi), sedangkan satu menerapkan MST pada *clustering*. Ringkasannya ada pada Tabel 2.3.
 
 Fallin *et al.* (2023) mengembangkan ECL-MST, implementasi MST untuk GPU yang memparalelkan algoritma Kruskal. Hasilnya hampir identik dengan paralelisasi Borůvka karena keduanya memakai struktur data *disjoint set* yang sama. Pada GPU Titan V, ECL-MST dilaporkan rata-rata 4,6 kali lebih cepat daripada kode tercepat berikutnya. Pada sistem kedua (RTX 3080 Ti), penulis juga menunjukkan bahwa delapan optimasi yang dievaluasi, bila digabung, membuat kodenya lebih dari 8 kali lebih cepat daripada versi tanpa optimasi tersebut.
 
