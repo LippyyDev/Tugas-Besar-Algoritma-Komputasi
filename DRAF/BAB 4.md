@@ -41,13 +41,13 @@ Dengan hanya lima simpul, studi kasus ini membuktikan kebenaran keluaran dan keg
 
 ---
 
-Seluruh pengukuran dijalankan pada satu sesi Google Colab versi gratis (*free tier*), yaitu mesin virtual yang dipakai bersama pengguna lain. Spesifikasinya dicatat oleh program pada awal sesi dan disajikan pada Tabel 4.3. Kapasitas memori tidak dicatat dan karena itu tidak dilaporkan. Spesifikasi mesin virtual dapat berbeda antar sesi, sehingga seluruh angka pada laporan ini berasal dari satu sesi yang sama dan tidak dicampur dengan sesi lain.
+Seluruh pengukuran dijalankan pada satu sesi Google Colab versi gratis (*free tier*), yaitu mesin virtual yang bersifat pribadi bagi akun pengguna dengan sumber daya yang tidak dijamin tetap. Spesifikasinya dicatat oleh program pada awal sesi dan disajikan pada Tabel 4.3. Spesifikasi dapat berbeda antar sesi, sehingga seluruh angka pada laporan ini berasal dari satu sesi yang sama dan tidak dicampur dengan sesi lain.
 
 **Tabel 4.3** Lingkungan uji
 
 | Komponen | Keterangan |
 |---|---|
-| Platform | Google Colab versi gratis (mesin virtual bersama) |
+| Platform | Google Colab versi gratis (mesin virtual) |
 | Prosesor | Intel(R) Xeon(R) CPU @ 2.20GHz, 2 CPU |
 | Sistem operasi | Linux 6.6.122+ |
 | Python | 3.13.16 |
@@ -71,4 +71,4 @@ Untuk setiap pasangan skenario dan ukuran, satu graf dibangkitkan dan ketiga alg
 
 Kebenaran kode diperiksa sebelum pengukuran. Empat kasus uji kecil lolos pada ketiga algoritma, yaitu tiga graf terhubung dengan total 7, 3, dan 6 serta satu graf tak terhubung yang harus menghasilkan `ValueError`. Total bobot ketiga algoritma juga sama dengan `networkx` pada 300 graf acak kecil, dan `networkx` hanya dipakai sebagai pembanding, tidak di dalam algoritma (butir 3 subbab 1.4).
 
-Rancangan ini memiliki beberapa keterbatasan. Pertama, kelima ulangan memakai graf yang sama, sehingga simpangan baku hanya mengukur gangguan waktu pada mesin, bukan variasi antar graf. Kedua, mesin virtual dipakai bersama sehingga gangguan itu besar. Simpangan baku mencapai sekitar 57% dari rata-rata pada satu titik (Borůvka, skenario jarang, *n* = 16000) dan 20% sampai 30% pada banyak ukuran dengan *n* ≥ 16000, sehingga selisih waktu yang kecil tidak ditafsirkan. Ketiga, urutan eksekusi dalam setiap ulangan tetap, yaitu pembuatan daftar ketetanggaan, Kruskal, Prim, lalu Borůvka. Keempat, pencocokan berkas `.py` dengan kode notebook dilewati di Colab, sehingga kode yang diukur adalah kode di dalam notebook.
+Rancangan ini memiliki beberapa keterbatasan. Pertama, kelima ulangan memakai graf yang sama, sehingga simpangan baku hanya mengukur gangguan waktu pada mesin, bukan variasi antar graf. Kedua, sumber daya mesin virtual tidak dijamin tetap dan waktu eksekusi berfluktuasi cukup besar. Simpangan baku mencapai sekitar 57% dari rata-rata pada satu titik (Borůvka, skenario jarang, *n* = 16000) dan 20% sampai 30% pada banyak ukuran dengan *n* ≥ 16000, sehingga selisih waktu yang kecil tidak ditafsirkan. Ketiga, urutan eksekusi dalam setiap ulangan tetap, yaitu pembuatan daftar ketetanggaan, Kruskal, Prim, lalu Borůvka. Keempat, pencocokan berkas `.py` dengan kode notebook dilewati di Colab, sehingga kode yang diukur adalah kode di dalam notebook.
