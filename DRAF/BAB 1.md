@@ -73,7 +73,7 @@ Ruang lingkup kajian ini dibatasi sebagai berikut.
 4. Graf masukan untuk Kruskal dan Borůvka direpresentasikan sebagai daftar sisi, sedangkan untuk Prim sebagai daftar ketetanggaan.
 5. Data uji pengukuran waktu berupa graf acak sintetis yang dibangkitkan dengan *seed* tetap dan dijamin terhubung, pada kondisi jarang, padat, dan jarang berbobot kembar dengan minimal lima ukuran input per kondisi. Rentang ukuran ditetapkan di Bab 4 dengan mempertimbangkan bahwa jumlah sisi graf padat tumbuh sebesar Θ(*n*²). Studi kasus berupa satu graf kecil jaringan kabel antar lima gedung dengan data tetap, sehingga tidak memakai *seed* dan tidak dipakai untuk mengukur waktu.
 6. Pengukuran empiris terbatas pada waktu eksekusi, diulang minimal lima kali per percobaan pada graf yang sama, dan dilaporkan sebagai rata-rata dan simpangan baku pada satu lingkungan perangkat keras dan perangkat lunak. Kompleksitas ruang hanya dianalisis secara teoretis.
-7. Ketiga algoritma memakai aturan pemutus seri yang sama untuk sisi berbobot sama, yaitu membandingkan bobot, lalu nomor simpul ujung terkecil, lalu nomor simpul ujung terbesar, dengan simpul diberi nomor bulat tetap. Dengan aturan ini MST yang dihasilkan unik, sehingga keluaran ketiga algoritma dapat dibandingkan.
+7. Ketiga algoritma memakai aturan pemutus seri yang sama untuk sisi berbobot sama, yaitu membandingkan bobot, lalu nomor simpul ujung terkecil, lalu nomor simpul ujung terbesar, dengan simpul diberi nomor bulat tetap. Dengan aturan ini seluruh sisi terurut total, sehingga keluaran ketiga algoritma dapat dibandingkan.
 
 ---
 
