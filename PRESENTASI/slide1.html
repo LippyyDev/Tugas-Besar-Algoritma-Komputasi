@@ -90,15 +90,25 @@ h1 .w{display:inline-block;opacity:0}
 
 /* ───────── Dock navigasi (pop up, muncul saat kursor di bawah) ───────── */
 .prog{width:100%}
-#dock{position:absolute;left:50%;bottom:104px;transform:translate(-50%,28px);opacity:0;pointer-events:none;z-index:10;
-  display:flex;flex-direction:column;align-items:center;gap:12px;padding:18px 22px 14px;
+#dock{position:absolute;left:50%;bottom:78px;transform:translate(-50%,28px);opacity:0;pointer-events:none;z-index:10;
+  display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 16px 9px;
   background:#0a0b0f;border:1px solid rgba(255,255,255,.2);border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.6);
   transition:opacity .35s ease,transform .35s ease}
 #dock.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 #dock .hint{position:static}
+
+#dock .btn{font-size:14px;height:36px;padding:0 16px;letter-spacing:.08em}
+#dock .cnt{font-size:14px;min-width:54px;margin-right:6px}
+#dock .ctrl{gap:8px}
+#dock .hint{font-size:11px}
+.edge-hint{position:fixed;top:0;bottom:0;width:7vw;pointer-events:none;opacity:0;transition:opacity .25s ease;z-index:5}
+.edge-hint.l{left:0;background:linear-gradient(90deg,rgba(125,180,255,.14),transparent)}
+.edge-hint.r{right:0;background:linear-gradient(270deg,rgba(125,180,255,.14),transparent)}
+.edge-hint.on{opacity:1}
 </style>
 </head>
 <body>
+<div class="edge-hint l" id="eh-l"></div><div class="edge-hint r" id="eh-r"></div>
 <div id="stage">
   <canvas id="net" width="1920" height="1080"></canvas>
   <div class="veil"></div>
@@ -133,9 +143,9 @@ h1 .w{display:inline-block;opacity:0}
   <div id="dock">
     <div class="ctrl">
     <span class="cnt" id="cnt">1 / 1</span>
-      <button class="btn" id="prev" disabled>‹ Sebelumnya</button>
-      <button class="btn" id="reset" title="Putar ulang animasi (R)">↺ Reset</button>
-      <button class="btn pri" id="next" title="Slide berikutnya (→ / Spasi)">Berikutnya ›</button>
+      <button class="btn" id="prev" disabled>Sebelumnya</button>
+      <button class="btn" id="reset" title="Putar ulang animasi (R)">Reset</button>
+      <button class="btn pri" id="next" title="Slide berikutnya (→ / Spasi)">Berikutnya</button>
     </div>
     <div class="hint">← → navigasi · R reset · F layar penuh · I indeks</div>
   </div>
@@ -253,9 +263,23 @@ setTimeout(play,350);
 (function(){
   const dock=document.getElementById('dock'); let t=null, armed=false;
   const show=()=>{dock.classList.add('show');clearTimeout(t);armed=false;};
-  const arm=()=>{ if(armed||!dock.classList.contains('show'))return; armed=true; t=setTimeout(()=>{dock.classList.remove('show');armed=false;},2000); };
+  const arm=()=>{ if(armed||!dock.classList.contains('show'))return; armed=true; t=setTimeout(()=>{dock.classList.remove('show');armed=false;},1000); };
   addEventListener('mousemove',e=>{ if(e.clientY>innerHeight*0.85||dock.matches(':hover')) show(); else arm(); });
   document.addEventListener('mouseleave',arm);
+})();
+const EDGE_PREV=null, EDGE_NEXT=()=>leave(NEXT_SLIDE);
+
+/* ═════════ Zona tepi layar ala Canva: kiri jauh = mundur, kanan jauh = maju ═════════ */
+(function(){
+  const EDGE=0.07, mkCur=d=>'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'44\' height=\'44\'><circle cx=\'22\' cy=\'22\' r=\'20\' fill=\'%230a0b0f\' stroke=\'%237db4ff\' stroke-width=\'2\'/><path d=\''+d+'\' fill=\'none\' stroke=\'%23c4dcff\' stroke-width=\'3.2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/></svg>") 22 22, pointer';
+  const CL=mkCur('M25 13l-9 9 9 9'), CR=mkCur('M19 13l9 9-9 9');
+  const zoneOf=x=>{const r=x/innerWidth; const z=r<EDGE?-1:(r>1-EDGE?1:0); return (z===-1&&!EDGE_PREV)?0:z;};
+  const L=document.getElementById('eh-l'), R=document.getElementById('eh-r');
+  addEventListener('mousemove',e=>{ const z=zoneOf(e.clientX);
+    document.documentElement.style.cursor = z<0?CL:(z>0?CR:'');
+    L.classList.toggle('on',z<0); R.classList.toggle('on',z>0); });
+  document.addEventListener('mouseleave',()=>{L.classList.remove('on');R.classList.remove('on');document.documentElement.style.cursor='';});
+  addEventListener('click',e=>{ if(e.target.closest('#dock'))return; const z=zoneOf(e.clientX); if(z<0)EDGE_PREV(); else if(z>0)EDGE_NEXT(); });
 })();
 </script>
 </body>
