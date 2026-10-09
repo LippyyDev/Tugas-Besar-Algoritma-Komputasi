@@ -6,44 +6,44 @@
 
 ---
 
-Algoritma Kruskal dan Prim dijalankan langkah demi langkah pada dua graf kecil agar cara kerja keduanya dapat diperiksa dengan perhitungan manual. Graf pertama, empat kota dengan bobot berbeda, memperlihatkan penolakan sisi yang membentuk siklus. Graf kedua memuat sisi berbobot sama dan memperlihatkan peran aturan pemutus seri pada butir 7 subbab 1.4. Kedua graf sama dengan Kasus 1 dan Kasus 3 pada uji kasus kecil di kode program, sehingga hasil perhitungan manual dapat dibandingkan langsung dengan keluaran program (Bab 4).
+Algoritma Kruskal dan Prim dijalankan langkah demi langkah pada dua graf kecil agar cara kerja keduanya dapat diperiksa dengan perhitungan manual. Graf pertama, empat simpul dengan bobot berbeda, memperlihatkan penolakan sisi yang membentuk siklus. Graf kedua memuat sisi berbobot sama dan memperlihatkan peran aturan pemutus seri pada butir 7 subbab 1.4. Kedua graf sama dengan Kasus 1 dan Kasus 3 pada uji kasus kecil di kode program, sehingga hasil perhitungan manual dapat dibandingkan langsung dengan keluaran program (Bab 4).
 
-Simpul diberi nomor tetap, yaitu Maros = 0, Makassar = 1, Gowa = 2, dan Takalar = 3. Bobot sisi menyatakan biaya pemasangan kabel dalam juta rupiah. Biaya ini merupakan angka contoh, bukan data hasil pengukuran. Setiap sisi ditulis sebagai (*u*, *v*) dengan *u* < *v*, dan dalam antrean prioritas Prim ditulis sebagai tripel (*w*, *u*, *v*) sesuai kunci pembanding pada 2.2.3.
+Simpul diberi nomor tetap 0 sampai 3. Bobot sisi berupa bilangan bulat contoh, bukan data hasil pengukuran, dan sengaja tidak dikaitkan dengan data nyata apa pun karena penerapan pada data nyata baru dibahas pada studi kasus (Bab 4). Setiap sisi ditulis sebagai (*u*, *v*) dengan *u* < *v*, dan dalam antrean prioritas Prim ditulis sebagai tripel (*w*, *u*, *v*) sesuai kunci pembanding pada 2.2.3.
 
 ---
 
-### 3.1.1 Graf Empat Kota dengan Bobot Berbeda
+### 3.1.1 Graf Empat Simpul dengan Bobot Berbeda
 
 ---
 
 Graf pertama memiliki *n* = 4 simpul dan *m* = 5 sisi, sehingga setiap *spanning tree* memiliki *n* − 1 = 3 sisi (lihat 1.2). Sisi-sisinya tercantum pada Tabel 3.1.
 
-**Tabel 3.1** Graf contoh empat kota (bobot dalam juta rupiah)
+**Tabel 3.1** Graf contoh empat simpul
 
-| Sisi (*u*, *v*) | Kota | Bobot *w* |
-|---|---|---|
-| (0, 1) | Maros dan Makassar | 1 |
-| (1, 2) | Makassar dan Gowa | 2 |
-| (0, 2) | Maros dan Gowa | 3 |
-| (2, 3) | Gowa dan Takalar | 4 |
-| (1, 3) | Makassar dan Takalar | 5 |
+| Sisi (*u*, *v*) | Bobot *w* |
+|---|---|
+| (0, 1) | 1 |
+| (1, 2) | 2 |
+| (0, 2) | 3 |
+| (2, 3) | 4 |
+| (1, 3) | 5 |
 
 **Algoritma Kruskal.** Sisi diurutkan menurut bobot menaik. Karena seluruh bobot berbeda, urutannya tunggal: (0, 1), (1, 2), (0, 2), (2, 3), (1, 3). Pada awalnya hutan terdiri atas empat pohon, yaitu {0}, {1}, {2}, dan {3}. Setiap sisi diperiksa menurut urutan itu, dan dihentikan setelah tiga sisi diterima (Tabel 3.2).
 
-**Tabel 3.2** Jejak algoritma Kruskal pada graf empat kota
+**Tabel 3.2** Jejak algoritma Kruskal pada graf empat simpul
 
 | Langkah | Sisi diperiksa | *w* | Kedua ujung sudah satu pohon? | Keputusan | Pohon sesudahnya | Total bobot |
 |---|---|---|---|---|---|---|
 | 1 | (0, 1) | 1 | Tidak | Terima | {0, 1}, {2}, {3} | 1 |
 | 2 | (1, 2) | 2 | Tidak | Terima | {0, 1, 2}, {3} | 3 |
-| 3 | (0, 2) | 3 | Ya, lewat Makassar | Tolak | {0, 1, 2}, {3} | 3 |
+| 3 | (0, 2) | 3 | Ya, lewat simpul 1 | Tolak | {0, 1, 2}, {3} | 3 |
 | 4 | (2, 3) | 4 | Tidak | Terima | {0, 1, 2, 3} | 7 |
 
-Pada langkah 3, Maros dan Gowa sudah terhubung lewat Makassar, sehingga sisi (0, 2) menutup siklus 0, 1, 2. Bobot sisi itu, yaitu 3, lebih besar daripada kedua sisi lain pada siklus (1 dan 2), sesuai dengan *cycle property* (Teorema 2.2). Setelah langkah 4 terkumpul tiga sisi, yaitu *n* − 1, sehingga pemeriksaan berhenti dan sisi (1, 3) dengan bobot 5 tidak pernah diperiksa. Hasilnya adalah {(0, 1), (1, 2), (2, 3)} dengan total bobot 1 + 2 + 4 = 7.
+Pada langkah 3, simpul 0 dan simpul 2 sudah terhubung lewat simpul 1, sehingga sisi (0, 2) menutup siklus 0, 1, 2. Bobot sisi itu, yaitu 3, lebih besar daripada kedua sisi lain pada siklus (1 dan 2), sesuai dengan *cycle property* (Teorema 2.2). Setelah langkah 4 terkumpul tiga sisi, yaitu *n* − 1, sehingga pemeriksaan berhenti dan sisi (1, 3) dengan bobot 5 tidak pernah diperiksa. Hasilnya adalah {(0, 1), (1, 2), (2, 3)} dengan total bobot 1 + 2 + 4 = 7.
 
-**Algoritma Prim.** Pohon dimulai dari simpul 0 (Maros), sehingga himpunan simpul pohon *S* = {0}. Semua sisi yang meninggalkan simpul 0 dimasukkan ke antrean, yaitu (1, 0, 1) dan (3, 0, 2). Pada setiap langkah, tripel terkecil dikeluarkan dari antrean. Jika kedua ujungnya sudah berada di *S*, tripel itu dibuang karena sudah usang. Jika tidak, sisi diterima, ujung barunya masuk ke *S*, dan sisi dari ujung baru itu ke simpul di luar *S* dimasukkan ke antrean (Tabel 3.3).
+**Algoritma Prim.** Pohon dimulai dari simpul 0, sehingga himpunan simpul pohon *S* = {0}. Semua sisi yang meninggalkan simpul 0 dimasukkan ke antrean, yaitu (1, 0, 1) dan (3, 0, 2). Pada setiap langkah, tripel terkecil dikeluarkan dari antrean. Jika kedua ujungnya sudah berada di *S*, tripel itu dibuang karena sudah usang. Jika tidak, sisi diterima, ujung barunya masuk ke *S*, dan sisi dari ujung baru itu ke simpul di luar *S* dimasukkan ke antrean (Tabel 3.3).
 
-**Tabel 3.3** Jejak algoritma Prim pada graf empat kota, simpul awal 0
+**Tabel 3.3** Jejak algoritma Prim pada graf empat simpul, simpul awal 0
 
 | Langkah | Isi antrean sebelum pengambilan (*w*, *u*, *v*) | Tripel diambil | Keputusan | *S* sesudahnya | Total bobot |
 |---|---|---|---|---|---|
@@ -64,15 +64,15 @@ Pada langkah 3, tripel (3, 0, 2) sudah usang karena simpul 2 masuk lewat sisi (1
 
 Graf kedua memiliki *n* = 4 simpul dan *m* = 5 sisi. Empat sisi membentuk siklus 0, 1, 2, 3 dan semuanya berbobot 2, sedangkan diagonal (1, 3) berbobot 5 (Tabel 3.4).
 
-**Tabel 3.4** Graf contoh dengan sisi berbobot sama (bobot dalam juta rupiah)
+**Tabel 3.4** Graf contoh dengan sisi berbobot sama
 
-| Sisi (*u*, *v*) | Kota | Bobot *w* |
-|---|---|---|
-| (0, 1) | Maros dan Makassar | 2 |
-| (1, 2) | Makassar dan Gowa | 2 |
-| (2, 3) | Gowa dan Takalar | 2 |
-| (0, 3) | Maros dan Takalar | 2 |
-| (1, 3) | Makassar dan Takalar | 5 |
+| Sisi (*u*, *v*) | Bobot *w* |
+|---|---|
+| (0, 1) | 2 |
+| (1, 2) | 2 |
+| (2, 3) | 2 |
+| (0, 3) | 2 |
+| (1, 3) | 5 |
 
 Setiap *spanning tree* memiliki tiga sisi dan bobot sisi terkecil adalah 2, sehingga total bobot minimal 6. Membuang salah satu dari empat sisi pada siklus menghasilkan *spanning tree* berbobot 6, sehingga graf ini memiliki empat MST dengan total bobot yang sama. Seperti dibahas pada 2.2.3, himpunan sisi yang dikeluarkan algoritma pada graf semacam ini bergantung pada cara menangani sisi berbobot sama. Laporan ini memakai aturan pemutus seri pada butir 7 subbab 1.4, yaitu membandingkan bobot, lalu simpul ujung bernomor terkecil, lalu simpul ujung bernomor terbesar. Dengan aturan ini urutan seluruh sisi pada Tabel 3.4 menjadi tunggal: (2, 0, 1), (2, 0, 3), (2, 1, 2), (2, 2, 3), (5, 1, 3).
 
