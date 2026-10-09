@@ -8,21 +8,21 @@
 
 Studi kasus memodelkan perencanaan jaringan kabel data yang menghubungkan lima gedung di Fakultas Teknik Universitas Hasanuddin, kampus Gowa, yaitu Arsitektur, Elektro, Geologi, Industri, dan Sipil. Seluruh gedung harus saling terhubung, langsung atau lewat gedung lain, dan fakultas ingin total biaya bersih pemasangan sekecil mungkin. Setiap gedung menjadi satu simpul (*n* = 5), setiap jalur kabel kandidat menjadi satu sisi (*m* = 6), dan biaya bersih pemasangan jalur dalam juta rupiah menjadi bobot sisi. Persoalannya adalah memilih himpunan jalur yang menghubungkan kelima gedung dengan total biaya bersih terkecil, yaitu MST pada graf tak berarah berbobot.
 
-Dari sepuluh pasangan gedung, hanya enam yang diperlakukan sebagai jalur kandidat, sedangkan empat pasangan lainnya diasumsikan tidak layak dibangun karena terhalang bangunan atau jalan. Pihak pusat dalam skenario ini mendukung sebagian jalur, sehingga biaya bersih tiap jalur memiliki tiga kemungkinan makna:
+Dari sepuluh pasangan gedung, hanya enam yang diperlakukan sebagai jalur kandidat, sedangkan empat pasangan lainnya diasumsikan tidak layak dibangun karena terhalang bangunan atau jalan. Pihak universitas dalam skenario ini mendukung sebagian jalur, sehingga biaya bersih tiap jalur memiliki tiga kemungkinan makna:
 
-- **Biaya bersih positif:** pusat tidak menanggung jalur itu, sehingga fakultas memakai dana sendiri sebesar nilai tersebut.
-- **Biaya bersih nol (gratis):** seluruh biaya ditanggung pusat, tetapi fakultas tidak menerima insentif.
-- **Biaya bersih negatif:** seluruh biaya ditanggung pusat dan fakultas juga menerima insentif dari pusat sebesar nilai mutlaknya.
+- **Biaya bersih positif:** universitas tidak menanggung jalur itu, sehingga fakultas memakai dana sendiri sebesar nilai tersebut.
+- **Biaya bersih nol (gratis):** seluruh biaya ditanggung universitas, tetapi fakultas tidak menerima insentif.
+- **Biaya bersih negatif:** seluruh biaya ditanggung universitas dan fakultas juga menerima insentif dari universitas sebesar nilai mutlaknya.
 
-Bobot nol dan negatif sah karena bobot sisi dalam laporan ini adalah bilangan real (butir 1 subbab 1.4), dan algoritma hanya memakai urutan bobot, bukan tanda bobot (Teorema 2.1 dan 2.2). Seluruh biaya pada studi kasus ini adalah nilai ilustrasi karangan, bukan data keuangan fakultas atau pusat yang sesungguhnya. Nilai tersebut dipakai untuk memperlihatkan bahwa ketiga algoritma bekerja pada persoalan yang bermakna, bukan untuk menyatakan rancangan jaringan yang optimal bagi kampus yang sesungguhnya.
+Bobot nol dan negatif sah karena bobot sisi dalam laporan ini adalah bilangan real (butir 1 subbab 1.4), dan algoritma hanya memakai urutan bobot, bukan tanda bobot (Teorema 2.1 dan 2.2). Seluruh biaya pada studi kasus ini adalah nilai ilustrasi karangan, bukan data keuangan fakultas atau universitas yang sesungguhnya. Nilai tersebut dipakai untuk memperlihatkan bahwa ketiga algoritma bekerja pada persoalan yang bermakna, bukan untuk menyatakan rancangan jaringan yang optimal bagi kampus yang sesungguhnya.
 
 **Tabel 4.1** Jalur kabel kandidat dan biaya bersihnya (nilai ilustrasi)
 
 | Gedung A | Gedung B | Biaya bersih (juta rupiah) | Keterangan |
 |---|---|---|---|
-| Arsitektur | Sipil | −5 | Ditanggung pusat dan fakultas menerima insentif Rp5 juta |
-| Sipil | Elektro | −2 | Ditanggung pusat dan fakultas menerima insentif Rp2 juta |
-| Elektro | Geologi | 0 | Gratis, ditanggung pusat tanpa insentif |
+| Arsitektur | Sipil | −5 | Ditanggung universitas dan fakultas menerima insentif Rp5 juta |
+| Sipil | Elektro | −2 | Ditanggung universitas dan fakultas menerima insentif Rp2 juta |
+| Elektro | Geologi | 0 | Gratis, ditanggung universitas tanpa insentif |
 | Sipil | Industri | 15 | Fakultas memakai dana sendiri Rp15 juta |
 | Arsitektur | Elektro | 18 | Fakultas memakai dana sendiri Rp18 juta |
 | Industri | Geologi | 25 | Fakultas memakai dana sendiri Rp25 juta |
