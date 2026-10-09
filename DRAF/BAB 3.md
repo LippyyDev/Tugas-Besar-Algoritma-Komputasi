@@ -110,7 +110,7 @@ Dengan aturan pemutus seri yang sama, kedua algoritma memilih himpunan sisi yang
 
 ---
 
-*Pseudocode* disusun menurut kode program yang ditulis sendiri, sehingga setiap baris dapat ditelusuri ke satu baris atau satu blok pada kode (Tabel 3.7). Graf *G* = (*V*, *E*) memiliki *n* simpul bernomor 0 sampai *n* − 1 dan *m* sisi, dan setiap sisi ditulis sebagai (*u*, *v*, *w*) dengan *w* bobotnya. Kruskal dan Borůvka menerima graf sebagai daftar sisi, sedangkan Prim menerima daftar ketetanggaan *Adj*, yaitu *Adj*[*x*] berisi pasangan (*t*, *w*) untuk setiap sisi yang menghubungkan *x* dengan tetangga *t* (butir 4 subbab 1.4).
+*Pseudocode* disusun menurut kode program yang ditulis sendiri, sehingga setiap baris dapat ditelusuri ke satu baris atau satu blok pada kode. Graf *G* = (*V*, *E*) memiliki *n* simpul bernomor 0 sampai *n* − 1 dan *m* sisi, dan setiap sisi ditulis sebagai (*u*, *v*, *w*) dengan *w* bobotnya. Kruskal dan Borůvka menerima graf sebagai daftar sisi, sedangkan Prim menerima daftar ketetanggaan *Adj*, yaitu *Adj*[*x*] berisi pasangan (*t*, *w*) untuk setiap sisi yang menghubungkan *x* dengan tetangga *t* (butir 4 subbab 1.4).
 
 Ketiga algoritma memakai kunci pembanding sisi yang sama, yaitu aturan pemutus seri pada butir 7 subbab 1.4 dan 2.2.3. Untuk sisi *e* = (*u*, *v*, *w*), kunci ini adalah tripel
 
@@ -244,22 +244,6 @@ Satu sisi dapat dipilih oleh dua komponen sekaligus, yaitu komponen pada kedua u
 
 ---
 
-### 3.2.5 Kesesuaian dengan Kode Program
-
----
-
-**Tabel 3.7** Pemetaan *pseudocode* ke kode program (repositori `CODING`)
-
-| *Pseudocode* | Berkas | Fungsi atau kelas |
-|---|---|---|
-| 3.1 *Disjoint set* | `Kruskal/kruskal.py` | `HimpunanTerpisah` (`__init__`, `cari_akar`, `gabung`) |
-| 3.2 Kruskal | `Kruskal/kruskal.py` | `kruskal` |
-| 3.3 Prim | `Prim/prim.py` | `buat_daftar_tetangga`, `prim` |
-| 3.4 Borůvka | `Borůvka/boruvka.py` | `kunci_sisi`, `boruvka` (memakai `HimpunanTerpisah` dari `kruskal.py`) |
-| κ pada persamaan (6) | `kruskal.py`, `boruvka.py`, `prim.py` | kunci `sorted` pada Kruskal, `kunci_sisi` pada Borůvka, isi antrean pada Prim |
-
----
-
 ## 3.3 Bukti Kebenaran
 
 ---
@@ -366,7 +350,7 @@ Pada graf 3.1.2, peringkat sisi adalah (0, 1) = 1, (0, 3) = 2, (1, 2) = 3, (2, 3
 
 ---
 
-Batas atas waktu dan ruang ketiga algoritma diturunkan dari *pseudocode* pada 3.2, dengan notasi *O* saja (2.3). Batas tersebut berlaku untuk urutan bobot sisi apa pun pada kepadatan yang bersangkutan. Penurunan dilakukan baris demi baris agar setiap suku dapat ditelusuri ke satu blok pada *pseudocode* dan kode program (Tabel 3.7).
+Batas atas waktu dan ruang ketiga algoritma diturunkan dari *pseudocode* pada 3.2, dengan notasi *O* saja (2.3). Batas tersebut berlaku untuk urutan bobot sisi apa pun pada kepadatan yang bersangkutan. Penurunan dilakukan baris demi baris agar setiap suku dapat ditelusuri ke satu blok pada *pseudocode*.
 
 ---
 
@@ -477,9 +461,9 @@ Batas ini lebih besar satu faktor log *n* daripada *O*(*m* log *n*) yang disebut
 
 ---
 
-Hasil 3.4.3 sampai 3.4.6 dirangkum pada Tabel 3.8.
+Hasil 3.4.3 sampai 3.4.6 dirangkum pada Tabel 3.7.
 
-**Tabel 3.8** Ringkasan batas atas kompleksitas (graf terhubung, *n* ≥ 2)
+**Tabel 3.7** Ringkasan batas atas kompleksitas (graf terhubung, *n* ≥ 2)
 
 | Algoritma | Waktu | Ruang tambahan | Dasar |
 |---|---|---|---|
@@ -487,9 +471,9 @@ Hasil 3.4.3 sampai 3.4.6 dirangkum pada Tabel 3.8.
 | Prim (tumpukan biner, antrean berisi sisi) | *O*(*m* log *n*) | *O*(*n* + *m*) | Teorema 3.6 dan 3.8 |
 | Borůvka (seperti yang ditulis) | *O*(*m* log² *n*) | *O*(*n*) | Teorema 3.7 dan 3.8 |
 
-Kasus analisis didefinisikan menurut kepadatan graf pada Tabel 2.2, sehingga batas pada Tabel 3.8 dihitung dengan mensubstitusikan nilai *m* ke dalamnya, dan hasilnya disajikan pada Tabel 3.9. Pada kasus rata-rata, *m* = Θ(*n* log *n*) sehingga log *m* = Θ(log *n*), dan substitusi memberi *m* log *n* = *O*(*n* log² *n*). Substitusi ini adalah batas atas kepadatan menengah yang dipilih sebagai wakil (2.3), bukan nilai harapan waktu berjalan.
+Kasus analisis didefinisikan menurut kepadatan graf pada Tabel 2.2, sehingga batas pada Tabel 3.7 dihitung dengan mensubstitusikan nilai *m* ke dalamnya, dan hasilnya disajikan pada Tabel 3.8. Pada kasus rata-rata, *m* = Θ(*n* log *n*) sehingga log *m* = Θ(log *n*), dan substitusi memberi *m* log *n* = *O*(*n* log² *n*). Substitusi ini adalah batas atas kepadatan menengah yang dipilih sebagai wakil (2.3), bukan nilai harapan waktu berjalan.
 
-**Tabel 3.9** Substitusi nilai *m* menurut Tabel 2.2
+**Tabel 3.8** Substitusi nilai *m* menurut Tabel 2.2
 
 | Kasus | Nilai *m* | Kruskal | Prim | Borůvka | Ruang Kruskal dan Prim | Ruang Borůvka |
 |---|---|---|---|---|---|---|
@@ -509,7 +493,7 @@ Kruskal dan Prim memiliki batas atas yang sama pada ketiga kasus. Notasi *O* tid
 
 ---
 
-**Tabel 3.10** Perbandingan Kruskal, Prim, dan Borůvka menurut implementasi dalam laporan ini
+**Tabel 3.9** Perbandingan Kruskal, Prim, dan Borůvka menurut implementasi dalam laporan ini
 
 | Aspek | Kruskal | Prim | Borůvka |
 |---|---|---|---|
@@ -518,17 +502,17 @@ Kruskal dan Prim memiliki batas atas yang sama pada ketiga kasus. Notasi *O* tid
 | Struktur data | *Disjoint set* dan pengurutan seluruh sisi | Antrean prioritas berisi sisi (`heapq`) | *Disjoint set* dan kamus pilihan per komponen |
 | Representasi graf | Daftar sisi | Daftar ketetanggaan | Daftar sisi |
 | Pekerjaan per sisi | Satu GABUNG pada sisi yang diperiksa | Satu MASUKKAN, dan satu KELUARKAN-TERKECIL bila sisi sampai terambil | Dua CARI-AKAR per sisi pada setiap putaran |
-| Waktu (Tabel 3.8) | *O*(*m* log *n*) | *O*(*m* log *n*) | *O*(*m* log² *n*) |
+| Waktu (Tabel 3.7) | *O*(*m* log *n*) | *O*(*m* log *n*) | *O*(*m* log² *n*) |
 | Ruang tambahan | *O*(*n* + *m*) | *O*(*n* + *m*) | *O*(*n*) |
 | Bukti kebenaran | Formal (Teorema 3.1) | Formal (Teorema 3.2) | Tidak formal (butir 2 subbab 1.4) |
 
-Dua fakta tentang jumlah pekerjaan per sisi melengkapi Tabel 3.10 dan menunjukkan mengapa notasi *O* tidak memisahkan Kruskal dari Prim.
+Dua fakta tentang jumlah pekerjaan per sisi melengkapi Tabel 3.9 dan menunjukkan mengapa notasi *O* tidak memisahkan Kruskal dari Prim.
 
 **Prim memasukkan tepat *m* entri ke antrean.** Lemma 3.1 menunjukkan bahwa setiap sisi dimasukkan paling banyak satu kali. Pada graf terhubung, seluruh simpul akhirnya masuk pohon, dan ujung sebuah sisi yang masuk lebih dulu memasukkan sisi itu ke antrean. Jadi setiap sisi dimasukkan tepat satu kali, dan jumlah MASUKKAN selalu *m*, sedangkan jumlah KELUARKAN-TERKECIL berada di antara *n* − 1 dan *m*. Selisihnya dengan *n* − 1 adalah jumlah entri usang yang dibuang pada baris 7.
 
 **Kruskal memeriksa sisi sampai sisi terberat MST.** Sisi diterima menurut urutan κ dan perulangan berhenti pada penerimaan sisi ke-(*n* − 1), yaitu sisi MST dengan κ terbesar. Jumlah sisi yang diperiksa pada perulangan sama dengan urutan sisi itu dalam daftar terurut, sehingga berada di antara *n* − 1 dan *m*. Pengurutan pada baris 1 tetap mencakup seluruh *m* sisi.
 
-Akibat kedua fakta ini, pada graf yang mana pun, Kruskal dan Prim sama-sama memproses sisi dalam jumlah yang berorde *m*, dan batas atasnya sama (Tabel 3.8). Selisih waktu di antara keduanya hanya dapat berasal dari faktor konstanta, yaitu biaya satu GABUNG dibandingkan biaya satu MASUKKAN dan KELUARKAN-TERKECIL, serta biaya pembuatan daftar ketetanggaan pada Prim. Faktor konstanta tidak dapat ditentukan dari analisis asimtotik dan diukur pada Bab 4.
+Akibat kedua fakta ini, pada graf yang mana pun, Kruskal dan Prim sama-sama memproses sisi dalam jumlah yang berorde *m*, dan batas atasnya sama (Tabel 3.7). Selisih waktu di antara keduanya hanya dapat berasal dari faktor konstanta, yaitu biaya satu GABUNG dibandingkan biaya satu MASUKKAN dan KELUARKAN-TERKECIL, serta biaya pembuatan daftar ketetanggaan pada Prim. Faktor konstanta tidak dapat ditentukan dari analisis asimtotik dan diukur pada Bab 4.
 
 ---
 
@@ -558,15 +542,15 @@ Laporan ini membatasi alternatif pada yang sudah dibahas pada subbab sebelumnya.
 
 ---
 
-Pengukuran pada Bab 4 hanya mencakup graf jarang, padat, dan jarang berbobot kembar (butir 5 subbab 1.4), dan hanya waktu eksekusi (butir 6), sehingga ruang hanya dianalisis secara teoretis. Karena *O* adalah batas atas (2.3), prediksi pada Tabel 3.11 dirumuskan sebagai hal yang dapat gagal, dan cara membacanya ditetapkan sebelum data diambil. Hasilnya diperiksa dengan membagi waktu terukur *T*(*n*) oleh suku batas, misalnya *T*(*n*)/(*m* log *n*). Nilai yang hampir konstan terhadap *n* berarti batas itu ketat untuk kode ini, nilai yang menurun berarti batas itu longgar, dan nilai yang naik berarti batas itu salah atau ada pengaruh lain yang belum dihitung.
+Pengukuran pada Bab 4 hanya mencakup graf jarang, padat, dan jarang berbobot kembar (butir 5 subbab 1.4), dan hanya waktu eksekusi (butir 6), sehingga ruang hanya dianalisis secara teoretis. Karena *O* adalah batas atas (2.3), prediksi pada Tabel 3.10 dirumuskan sebagai hal yang dapat gagal, dan cara membacanya ditetapkan sebelum data diambil. Hasilnya diperiksa dengan membagi waktu terukur *T*(*n*) oleh suku batas, misalnya *T*(*n*)/(*m* log *n*). Nilai yang hampir konstan terhadap *n* berarti batas itu ketat untuk kode ini, nilai yang menurun berarti batas itu longgar, dan nilai yang naik berarti batas itu salah atau ada pengaruh lain yang belum dihitung.
 
-**Tabel 3.11** Prediksi teoretis dan cara pengujiannya pada Bab 4
+**Tabel 3.10** Prediksi teoretis dan cara pengujiannya pada Bab 4
 
 | No | Pertanyaan | Dasar | Prediksi | Pemeriksaan |
 |---|---|---|---|---|
 | 1 | Pertumbuhan Kruskal dan Prim | Teorema 3.5 dan 3.6 | *T* tidak tumbuh lebih cepat daripada *m* log *n*, yaitu *n* log *n* pada graf jarang dan *n*² log *n* pada graf padat | *T*/(*m* log *n*) terhadap *n* |
 | 2 | Pertumbuhan Borůvka | Teorema 3.7 | *T* tidak tumbuh lebih cepat daripada *m* log² *n*, dan dapat berada di antara *m* log *n* dan *m* log² *n* | *T*/(*m* log *n*) dan *T*/(*m* log² *n*) |
-| 3 | Mana yang lebih cepat, Kruskal atau Prim | Tabel 3.8 tidak membedakan | Tidak ada prediksi dari analisis asimtotik. Osipov *et al.* (2009) melaporkan Kruskal baik hingga sekitar 8*n* sisi pada C++, dan hasil itu belum tentu berlaku pada Python | Bandingkan keduanya pada graf jarang dan padat. Dua kepadatan tidak cukup untuk menetapkan titik silang |
+| 3 | Mana yang lebih cepat, Kruskal atau Prim | Tabel 3.7 tidak membedakan | Tidak ada prediksi dari analisis asimtotik. Osipov *et al.* (2009) melaporkan Kruskal baik hingga sekitar 8*n* sisi pada C++, dan hasil itu belum tentu berlaku pada Python | Bandingkan keduanya pada graf jarang dan padat. Dua kepadatan tidak cukup untuk menetapkan titik silang |
 | 4 | Biaya daftar ketetanggaan | *Pseudocode* 3.3 | Prim dengan pembuatan *Adj* lebih lambat daripada tanpa pembuatan *Adj* sebesar suku *O*(*n* + *m*) | Ukur Prim tanpa dan dengan pembuatan *Adj* (3.2.3) |
 | 5 | Pengaruh bobot kembar | κ mengurutkan seluruh sisi secara total | Batas waktu tidak berubah. Total bobot ketiga algoritma sama | Bandingkan waktu pada graf jarang berbobot kembar, total bobot pada setiap ulangan, dan himpunan sisi pada graf kecil berbobot kembar |
 | 6 | Kesamaan keluaran | Teorema 3.3 (Kruskal dan Prim), tanpa bukti untuk Borůvka | Total bobot ketiga algoritma sama pada graf eksperimen, dan himpunan sisi sama pada graf kecil. Kruskal sama dengan Prim menurut Teorema 3.3, dan Borůvka diharapkan sama | Bandingkan total bobot pada setiap ulangan graf eksperimen dan himpunan sisi pada kasus uji kecil. Himpunan sisi pada graf eksperimen tidak dibandingkan. Kesamaan pada data bukan bukti untuk Borůvka |
