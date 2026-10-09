@@ -22,11 +22,11 @@ CODING/
 │   └── visualisasi-boruvka.html
 └── Eksperimen/
     ├── Tugas_MST_Lokal.ipynb   # uji kasus kecil, studi kasus, graf acak, eksperimen, grafik, CSV
-    ├── PENJELASAN_NOTEBOOK.md  # penjelasan rinci tiap sel, hitungan tangan, keputusan desain, draf laporan AI
+    ├── PENJELASAN_NOTEBOOK.md  # penjelasan rinci tiap sel, perhitungan manual, keputusan desain, draf laporan AI
     └── data/
         └── studi_kasus_gedung_unhas.csv   # data tetap studi kasus (5 gedung); ganti angka ILUSTRASI dengan hasil ukur
 ```
-Folder `hasil/` (CSV), `grafik/` (gambar), dan `data/`, serta berkas `lingkungan_dan_log.txt`, **dibuat otomatis** saat notebook dijalankan: di samping notebook (lokal) atau di folder Google Drive (Colab).
+Folder `hasil/` (CSV), `grafik/` (gambar), dan `data/`, serta berkas `lingkungan_dan_log.txt`, **dibuat otomatis** saat notebook dijalankan: di samping notebook (lokal) atau di folder Google Drive (Colab). Folder itu tidak disimpan di repositori; grafik yang dipakai laporan ada di `../DRAF/gambar/`.
 
 ## Cara menjalankan
 
@@ -85,7 +85,7 @@ Klik dua kali berkas `.html` di folder algoritma masing-masing. Dibuka di browse
 [LOLOS] Kasus 3: bobot kembar (total dan himpunan sisi) | total = 6 | Kruskal, Prim, Borůvka sama
 [LOLOS] Kasus 4: graf tak terhubung (harus ValueError) | ketiganya melempar ValueError
 ```
-Penjelasan rinci tiap sel, hitungan tangan kasus uji, dan keputusan desain: `Eksperimen/PENJELASAN_NOTEBOOK.md`.
+Penjelasan rinci tiap sel, perhitungan manual kasus uji, dan keputusan desain: `Eksperimen/PENJELASAN_NOTEBOOK.md`.
 
 ## Hasil eksperimen yang dihasilkan notebook
 | Berkas | Isi |
@@ -98,6 +98,6 @@ Penjelasan rinci tiap sel, hitungan tangan kasus uji, dan keputusan desain: `Eks
 
 ## Pengingat sebelum dikumpulkan
 - Pakai hasil waktu dari eksperimen yang kamu jalankan sendiri di laporan (Bab 4), bukan angka dari orang lain. Catat mesinnya (Colab atau komputer sendiri) sesuai `lingkungan_dan_log.txt`.
-- Hitung ulang sendiri jawaban uji kasus kecil di Sel 7 notebook (draf hitungan ada di `Eksperimen/PENJELASAN_NOTEBOOK.md`, bagian 6.7).
+- Hitung ulang sendiri jawaban uji kasus kecil di Sel 7 notebook (draf perhitungan ada di `Eksperimen/PENJELASAN_NOTEBOOK.md`, bagian 6.7).
 - Isi laporan penggunaan AI (draf di `Eksperimen/PENJELASAN_NOTEBOOK.md`, bagian 6.17) dengan kata-katamu sendiri. Kode di folder ini disusun dengan bantuan AI, jadi pelajari dan tulis ulang versimu sendiri sebelum diklaim sebagai karya sendiri.
 - Buat repositori GitHub atau GitLab publik untuk tautan di lampiran laporan.
