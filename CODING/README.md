@@ -42,7 +42,7 @@ python prim.py
 cd ..\Borůvka
 python boruvka.py
 ```
-Hanya butuh Python 3.9 atau lebih baru (tanpa pustaka tambahan). Keluaran contohnya berupa kabel yang terpilih beserta total biayanya.
+Hanya butuh Python 3.9 atau lebih baru (tanpa pustaka tambahan). Keluaran contohnya berupa sisi MST yang terpilih beserta total bobotnya.
 Catatan: `boruvka.py` memakai `HimpunanTerpisah` dari `Kruskal/kruskal.py`, jadi folder `Kruskal` harus tetap berada di samping folder `Borůvka`.
 
 ### 2. Notebook eksperimen
@@ -87,8 +87,8 @@ Klik dua kali berkas `.html` di folder algoritma masing-masing. Dibuka di browse
 
 ## Contoh keluaran (uji kasus kecil, Sel 7.1 sampai 7.5)
 ```
-[LOLOS] Kasus 1: 4 kota biasa (satu jalur ditolak) | total = 7 | Kruskal, Prim, Borůvka sama
-[LOLOS] Kasus 2: 5 kota, bobot 0 dan negatif | total = 5 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 1: 4 simpul biasa (satu sisi ditolak) | total = 7 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 2: 5 simpul, bobot 0 dan negatif | total = 5 | Kruskal, Prim, Borůvka sama
 [LOLOS] Kasus 3: bobot kembar (total dan himpunan sisi) | total = 6 | Kruskal, Prim, Borůvka sama
 [LOLOS] Kasus 4: graf tak terhubung (harus ValueError) | ketiganya melempar ValueError
 ```
