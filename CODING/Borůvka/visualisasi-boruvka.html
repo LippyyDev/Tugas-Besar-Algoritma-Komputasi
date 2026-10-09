@@ -327,7 +327,7 @@ body.focus .compwrap{flex:1;min-height:0}
   <section class="kpis">
     <div class="kpi"><div class="l">Langkah</div><div class="v" id="kStep">0</div></div>
     <div class="kpi"><div class="l">Sisi MST</div><div class="v" id="kCnt">0</div></div>
-    <div class="kpi"><div class="l">Total biaya (juta Rp)</div><div class="v" id="kTot">0</div></div>
+    <div class="kpi"><div class="l">Total bobot</div><div class="v" id="kTot">0</div></div>
     <div class="kpi"><div class="l">Komponen</div><div class="v" id="kK">0</div></div>
   </section>
 
@@ -349,9 +349,9 @@ body.focus .compwrap{flex:1;min-height:0}
         <div class="legend">
           <span><i class="sw" style="border-color:var(--warn)"></i>sedang diperiksa</span>
           <span><i class="sw" style="border-color:var(--ok)"></i>diterima (masuk MST)</span>
-          <span><i class="sw" style="border-color:var(--accent)"></i>dipilih termurah oleh suatu komponen</span>
+          <span><i class="sw" style="border-color:var(--accent)"></i>dipilih berbobot terkecil oleh suatu komponen</span>
           <span><i class="sw" style="border-color:var(--border);border-top-style:dashed"></i>di dalam satu komponen (diabaikan)</span>
-          <span>angka pada garis = biaya (juta Rp)</span>
+          <span>angka pada garis = bobot</span>
         </div>
       </section>
 
@@ -359,7 +359,7 @@ body.focus .compwrap{flex:1;min-height:0}
         <div class="ph"><span class="t">Komponen (himpunan terpisah)</span><span class="m" id="cmeta">belum dibuat</span></div>
         <div class="qempty" id="cempty">Himpunan belum dibuat. Baru dibuat oleh baris <code>himpunan = HimpunanTerpisah(...)</code>.</div>
         <div class="compwrap" id="cbody" style="display:none"></div>
-        <div class="hint">Komponen adalah kelompok kota yang sudah tersambung. Di awal, tiap kota adalah komponennya sendiri. Setiap warna di Graf menunjukkan satu komponen, dan ketua adalah wakil kelompok yang dicari oleh <code>cari_akar</code> (isinya ada di <code>kruskal.py</code>).</div>
+        <div class="hint">Komponen adalah kelompok simpul yang sudah tersambung. Di awal, tiap simpul adalah komponennya sendiri. Setiap warna di Graf menunjukkan satu komponen, dan ketua adalah wakil kelompok yang dicari oleh <code>cari_akar</code> (isinya ada di <code>kruskal.py</code>).</div>
       </section>
     </div>
 
@@ -381,7 +381,7 @@ body.focus .compwrap{flex:1;min-height:0}
         <div class="vars" id="vars"></div>
       </section>
       <section class="panel" id="pPick">
-        <div class="ph"><span class="t">Pilihan termurah tiap komponen</span><span class="m" id="pmeta">kosong</span></div>
+        <div class="ph"><span class="t">Pilihan berbobot terkecil tiap komponen</span><span class="m" id="pmeta">kosong</span></div>
         <div class="tw"><table class="adtab" id="ptable"></table></div>
       </section>
     </div>
@@ -390,7 +390,7 @@ body.focus .compwrap{flex:1;min-height:0}
 
 <script>
 // ============ ISI boruvka.py (disisipkan apa adanya dari file) ============
-const PY = "\"\"\"Algoritma Bor\u016fvka untuk MST (pembanding), memakai HimpunanTerpisah dari kruskal.py.\n\nGraf: daftar sisi, satu sisi ditulis (simpul_a, simpul_b, bobot).\nTiap putaran, setiap komponen memilih sisi termurah yang keluar darinya,\nlalu semua pilihan digabung. Jumlah komponen menyusut sedikitnya separuh per putaran.\n\"\"\"\n\nimport os\nimport sys\n\n# Folder Kruskal ada di samping folder ini; tambahkan ke jalur impor agar kruskal.py ditemukan.\nsys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), \"..\", \"Kruskal\"))\nfrom kruskal import HimpunanTerpisah\n\n\ndef kunci_sisi(sisi):\n    \"\"\"Kunci pembanding sisi: bobot, lalu simpul terkecil, lalu simpul terbesar (sama seperti Kruskal).\"\"\"\n    return (sisi[2], min(sisi[0], sisi[1]), max(sisi[0], sisi[1]))\n\n\ndef boruvka(jumlah_simpul, daftar_sisi):\n    \"\"\"Mengembalikan (sisi_mst, total_bobot). ValueError jika graf tidak terhubung.\"\"\"\n    himpunan = HimpunanTerpisah(jumlah_simpul)\n    sisi_mst = []\n    total_bobot = 0\n    jumlah_komponen = jumlah_simpul  # awalnya tiap simpul adalah satu komponen\n\n    while jumlah_komponen > 1:\n        termurah = {}  # akar komponen -> sisi termurah yang keluar dari komponen itu\n        for simpul_a, simpul_b, bobot in daftar_sisi:\n            akar_a = himpunan.cari_akar(simpul_a)\n            akar_b = himpunan.cari_akar(simpul_b)\n            if akar_a == akar_b:  # sisi di dalam satu komponen, abaikan\n                continue\n            sisi = (simpul_a, simpul_b, bobot)\n            for akar in (akar_a, akar_b):  # sisi ini calon pilihan kedua komponen\n                if akar not in termurah or kunci_sisi(sisi) < kunci_sisi(termurah[akar]):\n                    termurah[akar] = sisi\n\n        if not termurah:  # tidak ada sisi keluar: graf terpisah\n            raise ValueError(\"Graf tidak terhubung\")\n\n        for simpul_a, simpul_b, bobot in termurah.values():  # gabungkan semua pilihan\n            if himpunan.gabung(simpul_a, simpul_b):  # False jika sisi itu sudah dipasang\n                sisi_mst.append((simpul_a, simpul_b, bobot))\n                total_bobot += bobot\n                jumlah_komponen -= 1\n\n    return sisi_mst, total_bobot\n\n\nif __name__ == \"__main__\":\n    # Contoh 4 simpul. Sisi = (simpul_a, simpul_b, bobot). Butuh 2 putaran.\n    nama_kota = [\"Maros\", \"Makassar\", \"Gowa\", \"Takalar\"]\n    MAROS, MAKASSAR, GOWA, TAKALAR = 0, 1, 2, 3  # nomor simpul tiap kota\n\n    # Hasil yang benar: total 6.\n    contoh = [\n        (GOWA, TAKALAR, 2),\n        (MAROS, GOWA, 4),\n        (MAKASSAR, TAKALAR, 5),\n        (MAROS, MAKASSAR, 1),\n        (MAKASSAR, GOWA, 3),\n    ]\n    sisi_mst, total_bobot = boruvka(4, contoh)\n    for simpul_a, simpul_b, bobot in sisi_mst:\n        print(f\"{nama_kota[simpul_a]} ke {nama_kota[simpul_b]}, biaya {bobot} juta\")\n    print(\"Total biaya:\", total_bobot, \"juta\")\n";
+const PY = "\"\"\"Algoritma Bor\u016fvka untuk MST (pembanding), memakai HimpunanTerpisah dari kruskal.py.\n\nGraf: daftar sisi, satu sisi ditulis (simpul_a, simpul_b, bobot).\nTiap putaran, setiap komponen memilih sisi termurah yang keluar darinya,\nlalu semua pilihan digabung. Jumlah komponen menyusut sedikitnya separuh per putaran.\n\"\"\"\n\nimport os\nimport sys\n\n# Folder Kruskal ada di samping folder ini; tambahkan ke jalur impor agar kruskal.py ditemukan.\nsys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), \"..\", \"Kruskal\"))\nfrom kruskal import HimpunanTerpisah\n\n\ndef kunci_sisi(sisi):\n    \"\"\"Kunci pembanding sisi: bobot, lalu simpul terkecil, lalu simpul terbesar (sama seperti Kruskal).\"\"\"\n    return (sisi[2], min(sisi[0], sisi[1]), max(sisi[0], sisi[1]))\n\n\ndef boruvka(jumlah_simpul, daftar_sisi):\n    \"\"\"Mengembalikan (sisi_mst, total_bobot). ValueError jika graf tidak terhubung.\"\"\"\n    himpunan = HimpunanTerpisah(jumlah_simpul)\n    sisi_mst = []\n    total_bobot = 0\n    jumlah_komponen = jumlah_simpul  # awalnya tiap simpul adalah satu komponen\n\n    while jumlah_komponen > 1:\n        termurah = {}  # akar komponen -> sisi termurah yang keluar dari komponen itu\n        for simpul_a, simpul_b, bobot in daftar_sisi:\n            akar_a = himpunan.cari_akar(simpul_a)\n            akar_b = himpunan.cari_akar(simpul_b)\n            if akar_a == akar_b:  # sisi di dalam satu komponen, abaikan\n                continue\n            sisi = (simpul_a, simpul_b, bobot)\n            for akar in (akar_a, akar_b):  # sisi ini calon pilihan kedua komponen\n                if akar not in termurah or kunci_sisi(sisi) < kunci_sisi(termurah[akar]):\n                    termurah[akar] = sisi\n\n        if not termurah:  # tidak ada sisi keluar: graf terpisah\n            raise ValueError(\"Graf tidak terhubung\")\n\n        for simpul_a, simpul_b, bobot in termurah.values():  # gabungkan semua pilihan\n            if himpunan.gabung(simpul_a, simpul_b):  # False jika sisi itu sudah dipasang\n                sisi_mst.append((simpul_a, simpul_b, bobot))\n                total_bobot += bobot\n                jumlah_komponen -= 1\n\n    return sisi_mst, total_bobot\n\n\nif __name__ == \"__main__\":\n    # Contoh 4 simpul. Sisi = (simpul_a, simpul_b, bobot). Butuh 2 putaran.\n    # Hasil yang benar: total bobot 6.\n    contoh = [\n        (2, 3, 2),\n        (0, 2, 4),\n        (1, 3, 5),\n        (0, 1, 1),\n        (1, 2, 3),\n    ]\n    sisi_mst, total_bobot = boruvka(4, contoh)\n    for simpul_a, simpul_b, bobot in sisi_mst:\n        print(f\"Simpul {simpul_a} ke simpul {simpul_b}, bobot {bobot}\")\n    print(\"Total bobot:\", total_bobot)\n";
 const LINES = PY.split("\n"); if(LINES[LINES.length-1]==="") LINES.pop();
 
 // ---------- Cari nomor baris penting di kode (otomatis mengikuti file) ----------
@@ -411,10 +411,9 @@ const L={
   forMerge:findLine("for simpul_a, simpul_b, bobot in termurah.values():"), ifGabung:findLine("if himpunan.gabung(simpul_a, simpul_b):"),
   appendMst:findLine("sisi_mst.append("), totalAdd:findLine("total_bobot += bobot"), kompDec:findLine("jumlah_komponen -= 1"),
   retB:findLine("return sisi_mst, total_bobot"),
-  main:findLine("if __name__"), cmtContoh:findLine("# Contoh"), cmtSisi:findLine("# Hasil yang benar"),
-  nama:findLine("nama_kota = ["), konst:findRegex(/^[A-Z][A-Z, ]*=\s*\d/), contoh:findLine("contoh = ["),
+  main:findLine("if __name__"), cmtContoh:findLine("# Contoh"), cmtSisi:findLine("# Hasil yang benar"), contoh:findLine("contoh = ["),
   callB:findLine("sisi_mst, total_bobot = boruvka("),
-  printLoop:findLine("for simpul_a, simpul_b, bobot in sisi_mst:"), printTotal:findLine('print("Total biaya:"')
+  printLoop:findLine("for simpul_a, simpul_b, bobot in sisi_mst:"), printTotal:findLine('print("Total bobot:"')
 };
 L.contL=L.ifSama+1; L.raiseL=L.ifNot+1; L.printEach=L.printLoop+1;
 L.tuples=[]; for(let i=L.contoh+1;i<LINES.length&&!LINES[i].trim().startsWith("]");i++) if(LINES[i].trim().startsWith("(")) L.tuples.push(i);
@@ -423,7 +422,7 @@ L.tuples=[]; for(let i=L.contoh+1;i<LINES.length&&!LINES[i].trim().startsWith("]
 const TG={graf:"GRAF",komp:"KOMPONEN",pilih:"PILIHAN",vars:"VARIABEL"};
 const MAP={};
 const mapL=(ln,t)=>{MAP[ln]=t;};
-mapL(L.main,["vars"]); mapL(L.nama,["graf","vars"]); mapL(L.konst,["graf","vars"]);
+mapL(L.main,["vars"]); 
 L.tuples.forEach(t=>mapL(t,["graf","vars"]));
 mapL(L.callB,["graf"]); mapL(L.defB,["vars","graf"]);
 mapL(L.initHimp,["komp","vars"]); mapL(L.initMst,["vars"]); mapL(L.initTotal,["vars"]); mapL(L.initKomp,["komp","vars"]);
@@ -439,8 +438,8 @@ mapL(L.retB,["vars"]);
 
 // ---------- Ambil data contoh dari blok __main__ pada file ----------
 const N=+PY.match(/boruvka\((\d+),\s*contoh\)/)[1];
-const NAMA=[...PY.match(/nama_kota\s*=\s*\[([^\]]*)\]/)[1].matchAll(/"([^"]+)"/g)].map(m=>m[1]);
-const idDariNama=nm=>{const k=NAMA.findIndex(x=>x.toUpperCase()===nm); if(k<0) throw new Error("Nama tidak dikenal: "+nm); return k;};
+const NAMA=[...Array(N).keys()].map(String); // simpul diberi label nomornya
+const idDariNama=nm=>+nm;
 const blokContoh=PY.match(/contoh\s*=\s*\[([\s\S]*?)\n\s*\]/)[1];
 const EDGES=[...blokContoh.matchAll(/\((\w+),\s*(\w+),\s*(\d+)\)/g)].map(m=>[idDariNama(m[1]),idDariNama(m[2]),+m[3]]);
 const POS = N===4 ? [[110,190],[300,70],[300,310],[490,190]]
@@ -471,7 +470,7 @@ const kunciSisi=s=>[s[2],Math.min(s[0],s[1]),Math.max(s[0],s[1])];   // sama sep
 
 // ---------- Susun langkah dengan menjalankan algoritma ----------
 function buildSteps(){
-  const n=N, nm=i=>NAMA[i], range=[...Array(n).keys()];
+  const n=N, nm=i=>"simpul "+NAMA[i], range=[...Array(n).keys()];
   const ds=new DS(n);
   const termurah=new Map();                 // akar -> {s:[a,b,w], k:nomor sisi}
   const mstK=new Set();                     // nomor sisi yang sudah masuk MST
@@ -482,17 +481,15 @@ function buildSteps(){
             v:{a:null,b:null,w:null,akA:null,akB:null,sisi:null,akar:null}};
   const ke=NAMA.map(x=>x.toUpperCase()).join(", ");
   const T=t=>`(${t.join(", ")})`, fmtL=a=>"["+a.map(T).join(", ")+"]";
-  const fmtN=e=>`(${NAMA[e[0]].toUpperCase()}, ${NAMA[e[1]].toUpperCase()}, ${e[2]})`;
+  const fmtN=e=>`(${e[0]}, ${e[1]}, ${e[2]})`;
   const fmtDict=()=>"{"+[...termurah].map(([r,o])=>`${r}: ${T(o.s)}`).join(", ")+"}";
   const withName=i=>`${i} <span class="vnm">(${nm(i)})</span>`;
-  const FB={title:"di dalam boruvka()",params:[`jumlah_simpul = ${n}`,`daftar_sisi = ${EDGES.length} jalur`]};
+  const FB={title:"di dalam boruvka()",params:[`jumlah_simpul = ${n}`,`daftar_sisi = ${EDGES.length} sisi`]};
   const rootsNow=()=>range.map(i=>{let x=i; while(ds.parent[x]!==x) x=ds.parent[x]; return x;});
   const calcEst=()=>EDGES.map((e,k)=>mstK.has(k)?"acc":[...termurah.values()].some(o=>o.k===k)?"pick":intK.has(k)?"int":"idle");
 
   const mkVars=()=>{
     const main=[];
-    if(st.nama) main.push({n:"nama_kota",v:`[${NAMA.map(x=>`"${x}"`).join(", ")}]`});
-    if(st.konst) main.push({n:ke,v:range.join(", ")});
     if(st.lc>0) main.push({n:"contoh",v:`[${EDGES.slice(0,st.lc).map(fmtN).join(", ")}]`});
     if(st.ret) main.push({n:"sisi_mst",v:fmtL(mst)},{n:"total_bobot",v:`${total}`});
     const groups=[{key:"m",label:"blok utama",rows:main}];
@@ -507,46 +504,43 @@ function buildSteps(){
       if(V.akar!==null) r.push({n:"akar",v:withName(V.akar)});
       groups.push({key:"f",label:"di dalam boruvka()",rows:r});
     }
-    return {legend:st.konst,groups};
+    return {legend:false,groups};
   };
   const steps=[];
   const snap=o=>steps.push(Object.assign({est:calcEst(),roots:rootsNow(),parent:[...ds.parent],rank:[...ds.rank],
     pick:[...termurah].map(([akar,x])=>({akar,s:[...x.s],status:phase==="merge"?(mergeSt.get(akar)||"menunggu"):"calon"})),
     pickHi:[],mst:mst.length,total,komp,compOn:st.init,cur:-1,lines:[],type:"INFO",title:"",verdict:null,
-    nodes:N,nums:true,ecount:EDGES.length,ringNodes:[],callAnim:false,fnCall:null,fnFrame:st.frame,flash:false,
+    nodes:N,nums:false,ecount:EDGES.length,ringNodes:[],callAnim:false,fnCall:null,fnFrame:st.frame,flash:false,
     vars:mkVars(),msg:""},o));
   const jalur=(u,v)=>`${nm(u)} ke ${nm(v)}`;
   const jalurS=s=>jalur(s[0],s[1]);
 
   // ----- bagian 1: menyiapkan data di blok utama -----
   const B={nodes:0,nums:false,ecount:0};
-  snap(Object.assign({},B,{title:"Mulai",type:"MULAI",lines:[L.main],msg:`Bayangkan kamu pemasang kabel internet yang harus menyambung ${n} kota dengan biaya semurah mungkin. Kali ini dengan cara Borůvka: semua kota bergerak serentak, dan tiap kelompok kota memilih jalur termurah yang keluar dari kelompoknya. Kita mulai dari nol: program baru dijalankan dan baru masuk ke blok utama. Belum ada kota, belum ada jalur, belum ada variabel. Tekan Selanjutnya untuk menyiapkan datanya baris demi baris.`}));
-  st.nama=true;
-  snap(Object.assign({},B,{title:"Daftar kota",type:"DATA",nodes:n,lines:[L.cmtContoh,L.nama],msg:`Baris <code>nama_kota = [...]</code> menyimpan daftar ${n} kota yang akan disambung: ${NAMA.join(", ")}. Variabelnya muncul di panel Variabel, dan kota-kota itu muncul di Graf, tetapi belum ada jalur di antara mereka. (Istilah teknisnya, kota disebut simpul.)`}));
-  st.konst=true;
-  snap(Object.assign({},B,{title:"Nomor kota",type:"DATA",nodes:n,nums:true,lines:[L.konst],msg:`Baris <code>${ke} = ${range.join(", ")}</code> memberi setiap kota sebuah nomor, seperti nomor induk. Algoritma bekerja dengan nomor ini di balik layar, sedangkan nama hanya agar kita mudah membaca. Nomornya tampil di pojok kartu kota.`}));
+  snap(Object.assign({},B,{title:"Mulai",type:"MULAI",lines:[L.main],msg:`Tujuannya mencari pohon rentang minimum (MST) pada graf dengan ${n} simpul: semua simpul terhubung dengan total bobot sisi sekecil mungkin. Kali ini dengan cara Borůvka: semua simpul bergerak serentak, dan tiap kelompok simpul memilih sisi berbobot terkecil yang keluar dari kelompoknya. Kita mulai dari nol: program baru dijalankan dan baru masuk ke blok utama. Belum ada simpul, belum ada sisi, belum ada variabel. Tekan Selanjutnya untuk menyiapkan datanya baris demi baris.`}));
+  snap(Object.assign({},B,{title:"Simpul",type:"DATA",nodes:n,nums:false,lines:[L.cmtContoh],msg:`Komentar di blok utama menyatakan contoh ini punya ${n} simpul bernomor 0 sampai ${n-1}. Simpul-simpul itu muncul di Graf, tetapi belum ada sisi di antara mereka. Nomor simpul dipakai langsung oleh algoritma, jadi tidak perlu nama.`}));
   EDGES.forEach((e,k)=>{
     const cnt=k+1; st.lc=cnt;
-    snap(Object.assign({},B,{title:`jalur ${cnt}`,type:"DATA",nodes:n,nums:true,ecount:cnt,lines:[L.cmtSisi,L.tuples[k]],
-      msg:(k===0?"Sekarang jalur ditambahkan satu per satu ke daftar <code>contoh</code>. ":"")+`Jalur ke-${cnt}: <code>(${NAMA[e[0]].toUpperCase()}, ${NAMA[e[1]].toUpperCase()}, ${e[2]})</code> artinya jalur kabel yang menyambung ${NAMA[e[0]]} dan ${NAMA[e[1]]} dengan biaya ${e[2]} juta. Garisnya muncul di Graf dan isi <code>contoh</code> bertambah.`+(k===0?" (Istilah teknisnya, jalur disebut sisi dan biaya disebut bobot.)":"")+(k===EDGES.length-1?` Semua ${EDGES.length} jalur sudah masuk, urutannya acak.`:"")}));
+    snap(Object.assign({},B,{title:`sisi ${cnt}`,type:"DATA",nodes:n,nums:false,ecount:cnt,lines:[L.cmtSisi,L.tuples[k]],
+      msg:(k===0?"Sekarang sisi ditambahkan satu per satu ke daftar <code>contoh</code>. ":"")+`Sisi ke-${cnt}: <code>(${e[0]}, ${e[1]}, ${e[2]})</code> menghubungkan simpul ${e[0]} dan simpul ${e[1]} dengan bobot ${e[2]}. Garisnya muncul di Graf dan isi <code>contoh</code> bertambah.`+(k===EDGES.length-1?` Semua ${EDGES.length} sisi sudah masuk, urutannya acak.`:"")}));
   });
 
   // ----- bagian 2: memanggil boruvka -----
   snap({title:"Panggil boruvka",type:"PANGGIL",callAnim:true,lines:[L.callB],
-    fnCall:{name:"boruvka()",params:"jumlah_simpul, daftar_sisi",got:[`jumlah_simpul = ${n}`,`daftar_sisi = ${EDGES.length} jalur`]},
-    msg:`Baris <code>boruvka(${n}, contoh)</code> dipanggil: seluruh graf (${n} kota dan ${EDGES.length} jalur) diserahkan ke fungsi <code>boruvka</code>. Hasilnya akan ditampung di <code>sisi_mst</code> (kabel terpilih) dan <code>total_bobot</code> (total biaya). Lihat animasinya di Graf: grafnya mengecil menjadi satu paket, lalu masuk ke kotak <code>boruvka()</code>.`});
+    fnCall:{name:"boruvka()",params:"jumlah_simpul, daftar_sisi",got:[`jumlah_simpul = ${n}`,`daftar_sisi = ${EDGES.length} sisi`]},
+    msg:`Baris <code>boruvka(${n}, contoh)</code> dipanggil: seluruh graf (${n} simpul dan ${EDGES.length} sisi) diserahkan ke fungsi <code>boruvka</code>. Hasilnya akan ditampung di <code>sisi_mst</code> (sisi terpilih) dan <code>total_bobot</code> (total bobot). Lihat animasinya di Graf: grafnya mengecil menjadi satu paket, lalu masuk ke kotak <code>boruvka()</code>.`});
   st.fn=true; st.frame=FB;
   snap({title:"Masuk boruvka",type:"PANGGIL",lines:[L.defB],
-    msg:`Python masuk ke dalam fungsi <code>boruvka</code>. Graf membesar lagi dan kini berada di dalam bingkai <code>boruvka()</code>. Dua kiriman diterima sebagai variabel baru: <code>jumlah_simpul</code> = ${n} dan <code>daftar_sisi</code> = daftar ${EDGES.length} jalur (urutannya acak, dan memang tidak perlu diurutkan).`});
+    msg:`Python masuk ke dalam fungsi <code>boruvka</code>. Graf membesar lagi dan kini berada di dalam bingkai <code>boruvka()</code>. Dua kiriman diterima sebagai variabel baru: <code>jumlah_simpul</code> = ${n} dan <code>daftar_sisi</code> = daftar ${EDGES.length} sisi (urutannya acak, dan memang tidak perlu diurutkan).`});
   st.init=true;
   snap({title:"Siapkan catatan",type:"SIAPKAN",lines:[L.initHimp,L.initMst,L.initTotal,L.initKomp],
-    msg:`Langkah 1: siapkan empat hal. <code>himpunan</code> mencatat kelompok kota (komponen): awalnya tiap kota berdiri sendiri, jadi ada ${n} komponen (lihat panel Komponen). <code>sisi_mst</code> adalah daftar kabel terpilih, masih kosong. <code>total_bobot</code> adalah total biaya, masih 0. <code>jumlah_komponen</code> = ${n}, penghitung yang akan turun sampai 1.`});
+    msg:`Langkah 1: siapkan empat hal. <code>himpunan</code> mencatat kelompok simpul (komponen): awalnya tiap simpul berdiri sendiri, jadi ada ${n} komponen (lihat panel Komponen). <code>sisi_mst</code> adalah daftar sisi terpilih, masih kosong. <code>total_bobot</code> adalah total bobot, masih 0. <code>jumlah_komponen</code> = ${n}, penghitung yang akan turun sampai 1.`});
 
   // ----- bagian 3: putaran Borůvka -----
   while(komp>1){
     st.round++; termurah.clear(); intK.clear(); mergeSt.clear(); phase="scan";
     snap({title:`putaran ${st.round}`,type:"PUTARAN",lines:[L.whileL,L.initTermurah],
-      msg:`Putaran ke-${st.round} dimulai: masih ada ${komp} komponen (lebih dari 1). Catatan <code>termurah</code> dikosongkan. Dalam satu putaran, kita memeriksa semua jalur, dan tiap komponen mencatat jalur termurah yang keluar dari kelompoknya, seperti tiap desa mencatat tawaran kabel termurah ke luar desa.`});
+      msg:`Putaran ke-${st.round} dimulai: masih ada ${komp} komponen (lebih dari 1). Catatan <code>termurah</code> dikosongkan. Dalam satu putaran, kita memeriksa semua sisi, dan tiap komponen mencatat sisi berbobot terkecil yang keluar dari kelompoknya.`});
     EDGES.forEach((e,k)=>{
       const [a,b,w]=e;
       const akA=ds.find(a), akB=ds.find(b);
@@ -554,7 +548,7 @@ function buildSteps(){
       if(akA===akB){
         intK.add(k);
         snap({title:`abaikan ${jalur(a,b)}`,type:"ABAIKAN",cur:k,lines:[L.forScan,L.akarA,L.akarB,L.ifSama,L.contL],
-          msg:`Jalur ${jalur(a,b)} (biaya ${w}): kota ${nm(a)} dan ${nm(b)} sama-sama berada di komponen dengan ketua ${nm(akA)}. Jalur ini ada di dalam satu kelompok, tidak menyambung ke luar, jadi diabaikan (<code>continue</code>).`});
+          msg:`Sisi ${jalur(a,b)} (bobot ${w}): ${nm(a)} dan ${nm(b)} sama-sama berada di komponen dengan ketua ${nm(akA)}. Sisi ini ada di dalam satu kelompok, tidak menyambung ke luar, jadi diabaikan (<code>continue</code>).`});
         return;
       }
       const sisi=[a,b,w]; st.v.sisi=sisi;
@@ -562,18 +556,18 @@ function buildSteps(){
       for(const akar of [akA,akB]){
         st.v.akar=akar;
         const cur=termurah.get(akar);
-        if(!cur){ termurah.set(akar,{s:sisi,k}); notes.push(`komponen ${nm(akar)} belum punya pilihan, jadi jalur ini menjadi pilihannya`); upd=true; hi.push(akar); }
-        else if(cmpT(kunciSisi(sisi),kunciSisi(cur.s))<0){ termurah.set(akar,{s:sisi,k}); notes.push(`komponen ${nm(akar)} sudah punya pilihan ${jalurS(cur.s)} (biaya ${cur.s[2]}), tetapi jalur ini lebih murah sehingga menggantikannya`); upd=true; hi.push(akar); }
-        else notes.push(`komponen ${nm(akar)} sudah punya pilihan ${jalurS(cur.s)} (biaya ${cur.s[2]}) yang lebih murah atau sama, jadi tidak berubah`);
+        if(!cur){ termurah.set(akar,{s:sisi,k}); notes.push(`komponen ${nm(akar)} belum punya pilihan, jadi sisi ini menjadi pilihannya`); upd=true; hi.push(akar); }
+        else if(cmpT(kunciSisi(sisi),kunciSisi(cur.s))<0){ termurah.set(akar,{s:sisi,k}); notes.push(`komponen ${nm(akar)} sudah punya pilihan ${jalurS(cur.s)} (bobot ${cur.s[2]}), tetapi sisi ini lebih kecil bobotnya sehingga menggantikannya`); upd=true; hi.push(akar); }
+        else notes.push(`komponen ${nm(akar)} sudah punya pilihan ${jalurS(cur.s)} (bobot ${cur.s[2]}) yang lebih kecil bobotnya atau sama, jadi tidak berubah`);
       }
       const ln=[L.forScan,L.akarA,L.akarB,L.ifSama,L.sisiAssign,L.forAkar,L.ifTermurah]; if(upd) ln.push(L.assignTermurah);
       snap({title:`periksa ${jalur(a,b)}`,type:"PILIH",cur:k,lines:ln,pickHi:hi,
-        msg:`Jalur ${jalur(a,b)} (biaya ${w}) menyambung dua komponen berbeda: ketua ${nm(akA)} dan ketua ${nm(akB)}. Jalur ini calon pilihan keduanya. Hasilnya: ${notes.join("; ")}. (Perbandingannya memakai <code>kunci_sisi</code>: bobot dulu, lalu simpul terkecil, lalu simpul terbesar.)`});
+        msg:`Sisi ${jalur(a,b)} (bobot ${w}) menyambung dua komponen berbeda: ketua ${nm(akA)} dan ketua ${nm(akB)}. Sisi ini calon pilihan keduanya. Hasilnya: ${notes.join("; ")}. (Perbandingannya memakai <code>kunci_sisi</code>: bobot dulu, lalu simpul terkecil, lalu simpul terbesar.)`});
     });
     snap({title:"periksa pilihan",type:"PERIKSA",lines:[L.ifNot],
       msg:termurah.size
-        ? `Pemeriksaan: apakah <code>termurah</code> kosong? Tidak, ada ${termurah.size} komponen yang sudah memilih jalur. Kalau kosong, berarti tidak ada jalur ke luar sama sekali (graf terpisah) dan program berhenti dengan galat. Sekarang semua pilihan dipasang.`
-        : `Tidak ada komponen yang punya jalur keluar, jadi graf terpisah dan <code>ValueError</code> dilempar.`});
+        ? `Pemeriksaan: apakah <code>termurah</code> kosong? Tidak, ada ${termurah.size} komponen yang sudah memilih sisi. Kalau kosong, berarti tidak ada sisi ke luar sama sekali (graf terpisah) dan program berhenti dengan galat. Sekarang semua pilihan diterima.`
+        : `Tidak ada komponen yang punya sisi keluar, jadi graf terpisah dan <code>ValueError</code> dilempar.`});
     if(!termurah.size) break;
     phase="merge"; [...termurah.keys()].forEach(r=>mergeSt.set(r,"menunggu"));
     for(const [akar,o] of [...termurah]){
@@ -582,25 +576,25 @@ function buildSteps(){
       const ok=ds.union(a,b);
       if(ok){
         mst.push([a,b,w]); total+=w; komp--; mstK.add(o.k); mergeSt.set(akar,"diterima");
-        snap({title:`pasang ${jalur(a,b)}`,type:"PASANG",cur:o.k,verdict:"acc",ringNodes:[a,b],pickHi:[akar],lines:[L.forMerge,L.ifGabung,L.appendMst,L.totalAdd,L.kompDec],
-          msg:`Pilihan komponen ${nm(akar)}: jalur ${jalur(a,b)} (biaya ${w}). Kedua ujungnya masih di komponen berbeda, jadi jalur DIPASANG: masuk <code>sisi_mst</code>, total biaya menjadi ${total} juta, dan <code>jumlah_komponen</code> turun menjadi ${komp}.`});
+        snap({title:`terima ${jalur(a,b)}`,type:"PASANG",cur:o.k,verdict:"acc",ringNodes:[a,b],pickHi:[akar],lines:[L.forMerge,L.ifGabung,L.appendMst,L.totalAdd,L.kompDec],
+          msg:`Pilihan komponen ${nm(akar)}: sisi ${jalur(a,b)} (bobot ${w}). Kedua ujungnya masih di komponen berbeda, jadi sisi DITERIMA: masuk <code>sisi_mst</code>, total bobot menjadi ${total}, dan <code>jumlah_komponen</code> turun menjadi ${komp}.`});
       }else{
         mergeSt.set(akar,"dilewati");
         snap({title:`lewati ${jalur(a,b)}`,type:"LEWATI",cur:o.k,pickHi:[akar],lines:[L.forMerge,L.ifGabung],
-          msg:`Pilihan komponen ${nm(akar)}: jalur ${jalur(a,b)} (biaya ${w}). Jalur yang sama ternyata sudah dipasang lewat pilihan komponen lain, sehingga <code>gabung</code> mengembalikan False dan jalur ini dilewati. Tanpa pengecekan ini, jalur yang sama akan dihitung dua kali.`});
+          msg:`Pilihan komponen ${nm(akar)}: sisi ${jalur(a,b)} (bobot ${w}). Sisi yang sama ternyata sudah diterima lewat pilihan komponen lain, sehingga <code>gabung</code> mengembalikan False dan sisi ini dilewati. Tanpa pengecekan ini, sisi yang sama akan dihitung dua kali.`});
       }
     }
   }
   snap({title:"Perulangan berhenti",type:"SIAPKAN",lines:[L.whileL],
-    msg:`Tersisa ${komp} komponen, jadi syarat <code>while</code> tidak terpenuhi lagi dan perulangan berhenti. Semua ${n} kota kini berada dalam satu jaringan, dengan ${mst.length} kabel terpasang setelah ${st.round} putaran.`});
+    msg:`Tersisa ${komp} komponen, jadi syarat <code>while</code> tidak terpenuhi lagi dan perulangan berhenti. Semua ${n} simpul kini berada dalam satu jaringan, dengan ${mst.length} sisi terpilih setelah ${st.round} putaran.`});
 
   // ----- bagian 4: hasil dan cetak -----
   st.fn=false; st.ret=true; st.frame=null;
   snap({title:"boruvka selesai",type:"HASIL",lines:[L.retB],
-    msg:`Fungsi mengembalikan hasilnya (<code>return</code>). Variabel di dalam fungsi hilang, dan hasilnya kini ditampung di blok utama sebagai <code>sisi_mst</code> dan <code>total_bobot</code>. Kabel yang dipasang: ${mst.map(e=>`${jalur(e[0],e[1])} (${e[2]} juta)`).join(", ")}. Total biaya ${total} juta.`});
-  const hasil=mst.map(e=>`${jalur(e[0],e[1])}, biaya ${e[2]} juta`);
+    msg:`Fungsi mengembalikan hasilnya (<code>return</code>). Variabel di dalam fungsi hilang, dan hasilnya kini ditampung di blok utama sebagai <code>sisi_mst</code> dan <code>total_bobot</code>. Sisi yang diterima: ${mst.map(e=>`${jalur(e[0],e[1])} (${e[2]})`).join(", ")}. Total bobot ${total}.`});
+  const hasil=mst.map(e=>`Simpul ${e[0]} ke simpul ${e[1]}, bobot ${e[2]}`);
   snap({title:"Cetak hasil",type:"CETAK",flash:true,lines:[L.printLoop,L.printEach,L.printTotal],
-    msg:`Hasil dicetak: satu baris untuk tiap kabel terpilih (garis hijau di Graf), lalu totalnya. Keluaran programnya:<span class="mono" style="display:block;margin-top:6px">${[...hasil,`Total biaya: ${total} juta`].join("<br>")}</span>`});
+    msg:`Hasil dicetak: satu baris untuk tiap sisi terpilih (garis hijau di Graf), lalu totalnya. Keluaran programnya:<span class="mono" style="display:block;margin-top:6px">${[...hasil,`Total bobot: ${total}`].join("<br>")}</span>`});
   return {steps};
 }
 
@@ -643,7 +637,7 @@ const nodeEls=POS.map((p,i)=>{
   mk("text",{x:p[0]-PW/2+4,y:p[1]-PH/2+5.5},nb).textContent=i;
   return {g,c,ring};
 });
-const emptyG=mk("text",{class:"empty",x:300,y:195},svg); emptyG.textContent="Kanvas kosong: belum ada kota dan jalur";
+const emptyG=mk("text",{class:"empty",x:300,y:195},svg); emptyG.textContent="Kanvas kosong: belum ada simpul dan sisi";
 
 // ----- animasi saat fungsi dipanggil -----
 const fx=mk("g",{id:"fx"},svg);
@@ -719,13 +713,13 @@ function renderComp(s){
   }).join("");
 }
 
-// ---------- panel pilihan termurah (isi variabel termurah) ----------
+// ---------- panel pilihan berbobot terkecil (isi variabel berbobot terkecil) ----------
 function renderPick(s){
   const lab={calon:"calon",menunggu:"menunggu",diterima:"diterima",dilewati:"dilewati"};
   const cls={calon:"",menunggu:"",diterima:"acc",dilewati:"skip"};
   $("pmeta").textContent=s.pick.length?`${s.pick.length} komponen`:"kosong";
-  $("ptable").innerHTML="<tr><th>Komponen (ketua)</th><th>Jalur pilihan</th><th>Biaya</th><th>Status</th></tr>"+
-    (s.pick.length?s.pick.map(p=>`<tr class="${s.pickHi.includes(p.akar)?"adhi":""}"><td class="adk">${NAMA[p.akar]}</td><td>${NAMA[p.s[0]]} ke ${NAMA[p.s[1]]}</td><td>${p.s[2]}</td><td><span class="tag ${cls[p.status]}">${lab[p.status]}</span></td></tr>`).join(""):`<tr><td colspan="4" class="vnm" style="text-align:center">termurah = {} (kosong)</td></tr>`);
+  $("ptable").innerHTML="<tr><th>Komponen (ketua)</th><th>Sisi pilihan</th><th>Bobot</th><th>Status</th></tr>"+
+    (s.pick.length?s.pick.map(p=>`<tr class="${s.pickHi.includes(p.akar)?"adhi":""}"><td class="adk">${NAMA[p.akar]}</td><td>${NAMA[p.s[0]]} ke ${NAMA[p.s[1]]}</td><td>${p.s[2]}</td><td><span class="tag ${cls[p.status]}">${lab[p.status]}</span></td></tr>`).join(""):`<tr><td colspan="4" class="vnm" style="text-align:center">berbobot terkecil = {} (kosong)</td></tr>`);
 }
 
 // ---------- linimasa ----------
@@ -758,7 +752,7 @@ function scrollCode(s,smooth){
 function render(){
   const s=steps[idx]; token++; const my=token;
 
-  const m=$("msg"); m.innerHTML=s.msg; restart(m,"fade");
+  const m=$("msg"); m.innerHTML=s.msg.replace(/(^|[.!?]\s+)simpul /g,(x,a)=>a+"Simpul "); restart(m,"fade");
   const bd=$("badge"); bd.textContent=s.type;
   bd.className="badge "+(s.type==="PILIH"||s.type==="PUTARAN"||s.type==="PERIKSA"?"find":(s.type==="PASANG"||s.type==="HASIL"||s.type==="CETAK")?"ok":s.type==="LEWATI"?"bad":"");
   $("logMeta").textContent=s.title;
@@ -768,7 +762,7 @@ function render(){
   $("kCnt").innerHTML=`${s.mst} <small>/ ${N-1}</small>`;
   $("kTot").textContent=s.total;
   $("kK").textContent=s.compOn?s.komp:"-";
-  $("graphMeta").textContent=`${s.nodes} kota, ${s.ecount} jalur`;
+  $("graphMeta").textContent=`${s.nodes} simpul, ${s.ecount} sisi`;
   if(prev && s.mst>prev.mst){restart($("kCnt"),"bump");restart($("kTot"),"bump");}
   if(prev && s.compOn && prev.compOn && s.komp<prev.komp){restart($("kK"),"bump");}
   $("prev").disabled=idx===0; $("next").disabled=idx===steps.length-1;
@@ -783,7 +777,7 @@ function render(){
 
   const oldV=new Map();
   if(prev) prev.vars.groups.forEach(g=>g.rows.forEach(r=>oldV.set(g.key+"|"+r.n,r.v)));
-  let vh=s.vars.legend?`<div class="vleg">Nomor kota: ${NAMA.map((x,i)=>`${i} = ${x}`).join(" · ")}</div>`:"";
+  let vh=s.vars.legend?`<div class="vleg">Nomor simpul: ${NAMA.map((x,i)=>`${i} = ${x}`).join(" · ")}</div>`:"";
   s.vars.groups.forEach((g,gi)=>{
     if(gi>0&&!g.rows.length) return;
     vh+=`<div class="vsc">${g.label}</div>`;

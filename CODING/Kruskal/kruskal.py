@@ -56,19 +56,16 @@ def kruskal(jumlah_simpul, daftar_sisi):
 
 
 if __name__ == "__main__":
-    # Contoh: 4 kota disambung kabel internet. Bobot = biaya (juta rupiah).
-    nama_kota = ["Maros", "Makassar", "Gowa", "Takalar"]
-    MAROS, MAKASSAR, GOWA, TAKALAR = 0, 1, 2, 3  # nomor simpul tiap kota
-
-    # Tiap sisi = (kota_a, kota_b, biaya). Hasil yang benar: total 7.
+    # Contoh graf 4 simpul (nomor 0 sampai 3). Sisi = (simpul_a, simpul_b, bobot).
+    # Hasil yang benar: total bobot 7.
     contoh = [
-        (GOWA, TAKALAR, 4),
-        (MAROS, GOWA, 3),
-        (MAKASSAR, TAKALAR, 5),
-        (MAROS, MAKASSAR, 1),
-        (MAKASSAR, GOWA, 2),
+        (2, 3, 4),
+        (0, 2, 3),
+        (1, 3, 5),
+        (0, 1, 1),
+        (1, 2, 2),
     ]
     sisi_mst, total_bobot = kruskal(4, contoh)
     for simpul_a, simpul_b, bobot in sisi_mst:
-        print(f"{nama_kota[simpul_a]} ke {nama_kota[simpul_b]}, biaya {bobot} juta")
-    print("Total biaya:", total_bobot, "juta")
+        print(f"Simpul {simpul_a} ke simpul {simpul_b}, bobot {bobot}")
+    print("Total bobot:", total_bobot)

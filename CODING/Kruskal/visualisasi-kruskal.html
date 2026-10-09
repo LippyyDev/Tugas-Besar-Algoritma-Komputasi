@@ -311,7 +311,7 @@ tr.rowin{animation:rowin .45s ease both}
   <section class="kpis">
     <div class="kpi"><div class="l">Langkah</div><div class="v" id="kStep">0</div></div>
     <div class="kpi"><div class="l">Sisi MST</div><div class="v" id="kCnt">0</div></div>
-    <div class="kpi"><div class="l">Total biaya (juta Rp)</div><div class="v" id="kTot">0</div></div>
+    <div class="kpi"><div class="l">Total bobot</div><div class="v" id="kTot">0</div></div>
     <div class="kpi"><div class="l">Kelompok</div><div class="v" id="kSets">0</div></div>
   </section>
 
@@ -335,7 +335,7 @@ tr.rowin{animation:rowin .45s ease both}
           <span><i class="sw" style="border-color:var(--ok)"></i>diterima (masuk MST)</span>
           <span><i class="sw" style="border-color:var(--bad)"></i>ditolak (siklus)</span>
           <span><i class="sw" style="border-color:var(--border)"></i>belum dipindai</span>
-          <span>angka pada garis = biaya (juta Rp)</span>
+          <span>angka pada garis = bobot</span>
         </div>
       </section>
 
@@ -347,7 +347,7 @@ tr.rowin{animation:rowin .45s ease both}
             <rect width="600" height="260" fill="url(#dots)"/>
           </svg>
         </div>
-        <div class="hint">Setiap kelompok kota punya satu ketua (akar) di posisi paling atas. Panah menunjuk ke <em>induk</em>, yaitu atasan langsung. <b style="color:var(--warn)">A</b> dan <b style="color:var(--accent)">B</b> adalah dua kota pada jalur yang sedang diperiksa. Jalur <code>cari_akar</code> menyala bergantian dari simpul menuju akar.</div>
+        <div class="hint">Setiap kelompok simpul punya satu ketua (akar) di posisi paling atas. Panah menunjuk ke <em>induk</em>, yaitu atasan langsung. <b style="color:var(--warn)">A</b> dan <b style="color:var(--accent)">B</b> adalah dua simpul pada sisi yang sedang diperiksa. Sisi <code>cari_akar</code> menyala bergantian dari simpul menuju akar.</div>
         <div class="tw" id="dsTableWrap"><table id="dstable"></table></div>
       </section>
     </div>
@@ -370,7 +370,7 @@ tr.rowin{animation:rowin .45s ease both}
         <div class="vars" id="vars"></div>
       </section>
       <section class="panel" id="pEdges">
-        <div class="ph"><span class="t"><span id="edgeTitle">Jalur terurut</span></span><span class="m" id="edgeMeta">termurah dulu</span></div>
+        <div class="ph"><span class="t"><span id="edgeTitle">Sisi terurut</span></span><span class="m" id="edgeMeta">berbobot terkecil dulu</span></div>
         <div class="tw"><table id="edgetable"></table></div>
       </section>
     </div>
@@ -379,7 +379,7 @@ tr.rowin{animation:rowin .45s ease both}
 
 <script>
 // ============ ISI kruskal.py (disisipkan apa adanya dari file) ============
-const PY = "\"\"\"Algoritma Kruskal untuk MST, beserta Himpunan Terpisah (Disjoint Set).\n\nGraf: simpul bernomor 0..jumlah_simpul-1.\nSatu sisi ditulis (simpul_a, simpul_b, bobot).\nsorted() dipakai sebagai alat bantu pengurutan, biaya O(m log m).\n\"\"\"\n\n\nclass HimpunanTerpisah:\n    \"\"\"Disjoint Set (Union-Find) dengan union by rank dan path halving.\"\"\"\n\n    def __init__(self, jumlah_simpul):\n        self.induk = list(range(jumlah_simpul))  # awalnya induk tiap simpul adalah dirinya\n        self.peringkat = [0] * jumlah_simpul     # perkiraan tinggi pohon\n\n    def cari_akar(self, simpul):\n        \"\"\"Mencari akar (ketua) himpunan dari simpul.\"\"\"\n        while self.induk[simpul] != simpul:\n            self.induk[simpul] = self.induk[self.induk[simpul]]  # path halving\n            simpul = self.induk[simpul]\n        return simpul\n\n    def gabung(self, simpul_a, simpul_b):\n        \"\"\"Gabungkan himpunan kedua simpul. False jika sudah satu himpunan (siklus).\"\"\"\n        akar_a = self.cari_akar(simpul_a)\n        akar_b = self.cari_akar(simpul_b)\n        if akar_a == akar_b:\n            return False\n        if self.peringkat[akar_a] < self.peringkat[akar_b]:  # pohon pendek digantung ke pohon tinggi\n            akar_a, akar_b = akar_b, akar_a\n        self.induk[akar_b] = akar_a\n        if self.peringkat[akar_a] == self.peringkat[akar_b]:\n            self.peringkat[akar_a] += 1\n        return True\n\n\ndef kruskal(jumlah_simpul, daftar_sisi):\n    \"\"\"Mengembalikan (sisi_mst, total_bobot). ValueError jika graf tidak terhubung.\"\"\"\n    # Urut menaik menurut bobot; bila sama, simpul terkecil dulu, lalu simpul terbesar.\n    sisi_terurut = sorted(daftar_sisi, key=lambda sisi: (sisi[2], min(sisi[0], sisi[1]), max(sisi[0], sisi[1])))\n\n    himpunan = HimpunanTerpisah(jumlah_simpul)\n    sisi_mst = []\n    total_bobot = 0\n\n    for simpul_a, simpul_b, bobot in sisi_terurut:  # dari sisi paling ringan\n        if himpunan.gabung(simpul_a, simpul_b):  # terima jika belum terhubung (tanpa siklus)\n            sisi_mst.append((simpul_a, simpul_b, bobot))\n            total_bobot += bobot\n            if len(sisi_mst) == jumlah_simpul - 1:  # MST sudah lengkap\n                break\n\n    if len(sisi_mst) != jumlah_simpul - 1:\n        raise ValueError(\"Graf tidak terhubung\")\n    return sisi_mst, total_bobot\n\n\nif __name__ == \"__main__\":\n    # Contoh: 4 kota disambung kabel internet. Bobot = biaya (juta rupiah).\n    nama_kota = [\"Maros\", \"Makassar\", \"Gowa\", \"Takalar\"]\n    MAROS, MAKASSAR, GOWA, TAKALAR = 0, 1, 2, 3  # nomor simpul tiap kota\n\n    # Tiap sisi = (kota_a, kota_b, biaya). Hasil yang benar: total 7.\n    contoh = [\n        (GOWA, TAKALAR, 4),\n        (MAROS, GOWA, 3),\n        (MAKASSAR, TAKALAR, 5),\n        (MAROS, MAKASSAR, 1),\n        (MAKASSAR, GOWA, 2),\n    ]\n    sisi_mst, total_bobot = kruskal(4, contoh)\n    for simpul_a, simpul_b, bobot in sisi_mst:\n        print(f\"{nama_kota[simpul_a]} ke {nama_kota[simpul_b]}, biaya {bobot} juta\")\n    print(\"Total biaya:\", total_bobot, \"juta\")\n";
+const PY = "\"\"\"Algoritma Kruskal untuk MST, beserta Himpunan Terpisah (Disjoint Set).\n\nGraf: simpul bernomor 0..jumlah_simpul-1.\nSatu sisi ditulis (simpul_a, simpul_b, bobot).\nsorted() dipakai sebagai alat bantu pengurutan, biaya O(m log m).\n\"\"\"\n\n\nclass HimpunanTerpisah:\n    \"\"\"Disjoint Set (Union-Find) dengan union by rank dan path halving.\"\"\"\n\n    def __init__(self, jumlah_simpul):\n        self.induk = list(range(jumlah_simpul))  # awalnya induk tiap simpul adalah dirinya\n        self.peringkat = [0] * jumlah_simpul     # perkiraan tinggi pohon\n\n    def cari_akar(self, simpul):\n        \"\"\"Mencari akar (ketua) himpunan dari simpul.\"\"\"\n        while self.induk[simpul] != simpul:\n            self.induk[simpul] = self.induk[self.induk[simpul]]  # path halving\n            simpul = self.induk[simpul]\n        return simpul\n\n    def gabung(self, simpul_a, simpul_b):\n        \"\"\"Gabungkan himpunan kedua simpul. False jika sudah satu himpunan (siklus).\"\"\"\n        akar_a = self.cari_akar(simpul_a)\n        akar_b = self.cari_akar(simpul_b)\n        if akar_a == akar_b:\n            return False\n        if self.peringkat[akar_a] < self.peringkat[akar_b]:  # pohon pendek digantung ke pohon tinggi\n            akar_a, akar_b = akar_b, akar_a\n        self.induk[akar_b] = akar_a\n        if self.peringkat[akar_a] == self.peringkat[akar_b]:\n            self.peringkat[akar_a] += 1\n        return True\n\n\ndef kruskal(jumlah_simpul, daftar_sisi):\n    \"\"\"Mengembalikan (sisi_mst, total_bobot). ValueError jika graf tidak terhubung.\"\"\"\n    # Urut menaik menurut bobot; bila sama, simpul terkecil dulu, lalu simpul terbesar.\n    sisi_terurut = sorted(daftar_sisi, key=lambda sisi: (sisi[2], min(sisi[0], sisi[1]), max(sisi[0], sisi[1])))\n\n    himpunan = HimpunanTerpisah(jumlah_simpul)\n    sisi_mst = []\n    total_bobot = 0\n\n    for simpul_a, simpul_b, bobot in sisi_terurut:  # dari sisi paling ringan\n        if himpunan.gabung(simpul_a, simpul_b):  # terima jika belum terhubung (tanpa siklus)\n            sisi_mst.append((simpul_a, simpul_b, bobot))\n            total_bobot += bobot\n            if len(sisi_mst) == jumlah_simpul - 1:  # MST sudah lengkap\n                break\n\n    if len(sisi_mst) != jumlah_simpul - 1:\n        raise ValueError(\"Graf tidak terhubung\")\n    return sisi_mst, total_bobot\n\n\nif __name__ == \"__main__\":\n    # Contoh graf 4 simpul (nomor 0 sampai 3). Sisi = (simpul_a, simpul_b, bobot).\n    # Hasil yang benar: total bobot 7.\n    contoh = [\n        (2, 3, 4),\n        (0, 2, 3),\n        (1, 3, 5),\n        (0, 1, 1),\n        (1, 2, 2),\n    ]\n    sisi_mst, total_bobot = kruskal(4, contoh)\n    for simpul_a, simpul_b, bobot in sisi_mst:\n        print(f\"Simpul {simpul_a} ke simpul {simpul_b}, bobot {bobot}\")\n    print(\"Total bobot:\", total_bobot)\n";
 const LINES = PY.split("\n"); if(LINES[LINES.length-1]==="") LINES.pop();
 
 // ---------- Cari nomor baris penting di kode (otomatis mengikuti file) ----------
@@ -402,17 +402,17 @@ const L={
 };
 L.retFalse=L.ifSame+1; L.swap=L.ifRank+1; L.bump=L.ifEq+1;
 const findRegex=re=>{for(let i=0;i<LINES.length;i++) if(re.test(LINES[i].trim())) return i; throw new Error("Baris tidak ditemukan: "+re);};
-L.main=findLine("if __name__"); L.cmtContoh=findLine("# Contoh:"); L.cmtSisi=findLine("# Tiap sisi");
-L.nama=findLine("nama_kota = ["); L.konst=findRegex(/^[A-Z][A-Z, ]*=\s*\d/);
+L.main=findLine("if __name__"); L.cmtContoh=findLine("# Contoh"); L.cmtSisi=findLine("# Hasil yang benar");
+
 L.contoh=findLine("contoh = ["); L.callK=findLine("sisi_mst, total_bobot = kruskal("); L.defK=findLine("def kruskal(");
-L.printLoop=findLine("for simpul_a, simpul_b, bobot in sisi_mst:"); L.printEach=L.printLoop+1; L.printTotal=findLine('print("Total biaya:"');
+L.printLoop=findLine("for simpul_a, simpul_b, bobot in sisi_mst:"); L.printEach=L.printLoop+1; L.printTotal=findLine('print("Total bobot:"');
 L.tuples=[]; for(let i=L.contoh+1;i<LINES.length&&!LINES[i].trim().startsWith("]");i++) if(LINES[i].trim().startsWith("(")) L.tuples.push(i);
 
 // ---------- Peta: baris kode -> panel visualisasi yang menampilkannya ----------
-const TG={graf:"GRAF",pohon:"POHON",vars:"VARIABEL",daftar:"JALUR"};
+const TG={graf:"GRAF",pohon:"POHON",vars:"VARIABEL",daftar:"SISI"};
 const MAP={};
 const mapL=(ln,t)=>{MAP[ln]=t;};
-mapL(L.main,["vars"]); mapL(L.nama,["graf","vars"]); mapL(L.konst,["graf","vars"]);
+mapL(L.main,["vars"]); 
 L.tuples.forEach(t=>mapL(t,["graf","daftar","vars"]));
 mapL(L.callK,["graf"]); mapL(L.defK,["vars","graf"]); mapL(L.sortLine,["daftar","vars"]);
 [L.initParent,L.initRank,L.dsNew].forEach(x=>mapL(x,["pohon","vars"]));
@@ -428,8 +428,8 @@ mapL(L.ifLen,["vars"]); mapL(L.brk,["vars","graf"]); mapL(L.ret,["vars"]);
 
 // ---------- Ambil data contoh dari blok __main__ pada file ----------
 const N=+PY.match(/kruskal\((\d+),\s*contoh\)/)[1];
-const NAMA=[...PY.match(/nama_kota\s*=\s*\[([^\]]*)\]/)[1].matchAll(/"([^"]+)"/g)].map(m=>m[1]);
-const idDariNama=nm=>{const k=NAMA.findIndex(x=>x.toUpperCase()===nm); if(k<0) throw new Error("Nama tidak dikenal: "+nm); return k;};
+const NAMA=[...Array(N).keys()].map(String); // simpul diberi label nomornya
+const idDariNama=nm=>+nm;
 const blokContoh=PY.match(/contoh\s*=\s*\[([\s\S]*?)\n\s*\]/)[1];
 const EDGES=[...blokContoh.matchAll(/\((\w+),\s*(\w+),\s*(\d+)\)/g)].map(m=>[idDariNama(m[1]),idDariNama(m[2]),+m[3]]);
 const POS = N===4 ? [[110,190],[300,70],[300,310],[490,190]]
@@ -457,7 +457,7 @@ const rootOf=(parent,x)=>{ while(parent[x]!==x) x=parent[x]; return x; };
 
 // ---------- Susun langkah dengan menjalankan algoritma ----------
 function buildSteps(){
-  const n=N, nm=i=>NAMA[i], range=[...Array(n).keys()];
+  const n=N, nm=i=>"simpul "+NAMA[i], range=[...Array(n).keys()];
   const sorted=EDGES.map(e=>e.slice()).sort((a,b)=>a[2]-b[2]||Math.min(a[0],a[1])-Math.min(b[0],b[1])||Math.max(a[0],a[1])-Math.max(b[0],b[1]));
   const steps=[], ds=new DS(n), status=sorted.map(()=>"idle");
   let mst=[], total=0;
@@ -465,12 +465,10 @@ function buildSteps(){
   const st={nama:false,konst:false,lc:0,fn:false,sorted:false,ds:false,mst:false,loop:null,akar:null,ret:false};
   const ke=NAMA.map(x=>x.toUpperCase()).join(", ");
   const fmtT=t=>`(${t.join(", ")})`, fmtL=a=>"["+a.map(fmtT).join(", ")+"]";
-  const fmtN=e=>`(${NAMA[e[0]].toUpperCase()}, ${NAMA[e[1]].toUpperCase()}, ${e[2]})`;
+  const fmtN=e=>`(${e[0]}, ${e[1]}, ${e[2]})`;
   const withName=i=>`${i} <span class="vnm">(${nm(i)})</span>`;
   const mkVars=()=>{
     const main=[], fn=[];
-    if(st.nama) main.push({n:"nama_kota",v:`[${NAMA.map(x=>`"${x}"`).join(", ")}]`});
-    if(st.konst) main.push({n:ke,v:range.join(", ")});
     if(st.lc>0) main.push({n:"contoh",v:`[${EDGES.slice(0,st.lc).map(fmtN).join(", ")}]`});
     if(st.fn){
       fn.push({n:"jumlah_simpul",v:`${n}`},{n:"daftar_sisi",v:fmtL(EDGES)});
@@ -481,41 +479,38 @@ function buildSteps(){
       if(st.akar) fn.push({n:"akar_a",v:withName(st.akar[0])},{n:"akar_b",v:withName(st.akar[1])});
     }
     if(st.ret) main.push({n:"sisi_mst",v:fmtL(mst)},{n:"total_bobot",v:`${total}`});
-    return {main,fn,legend:st.konst};
+    return {main,fn,legend:false};
   };
-  const snap=o=>steps.push(Object.assign({parent:[...ds.parent],rank:[...ds.rank],status:[...status],mst:mst.length,total,cur:-1,lines:[],type:"INFO",kind:"info",verdict:null,pu:[],pv:[],tags:{},ev:null,title:"",nodes:N,nums:true,ecount:EDGES.length,treeOn:true,table:"sorted",lc:EDGES.length,vars:mkVars(),out:[],flash:false,callAnim:false,inFn:st.fn},o));
+  const snap=o=>steps.push(Object.assign({parent:[...ds.parent],rank:[...ds.rank],status:[...status],mst:mst.length,total,cur:-1,lines:[],type:"INFO",kind:"info",verdict:null,pu:[],pv:[],tags:{},ev:null,title:"",nodes:N,nums:false,ecount:EDGES.length,treeOn:true,table:"sorted",lc:EDGES.length,vars:mkVars(),out:[],flash:false,callAnim:false,inFn:st.fn},o));
   const jalur=(u,v)=>`${nm(u)} ke ${nm(v)}`;
   const pathTxt=p=>p.length===1?"ketuanya dirinya sendiri":`naik ke ${p.slice(1).map(nm).join(" lalu ke ")}, ketuanya ${nm(p[p.length-1])}`;
 
   // ----- bagian 1: menyiapkan data di blok utama -----
   const B={nodes:0,nums:false,ecount:0,treeOn:false,table:"list",lc:0};
-  snap(Object.assign({},B,{title:"Mulai",type:"MULAI",lines:[L.main],msg:`Bayangkan kamu pemasang kabel internet yang harus menyambung ${n} kota dengan biaya semurah mungkin. Kita mulai dari nol: program baru dijalankan dan baru masuk ke blok utama. Belum ada kota, belum ada jalur, belum ada variabel. Tekan Selanjutnya untuk menyiapkan datanya baris demi baris.`}));
-  st.nama=true;
-  snap(Object.assign({},B,{title:"Daftar kota",type:"DATA",nodes:n,lines:[L.cmtContoh,L.nama],msg:`Baris <code>nama_kota = [...]</code> menyimpan daftar ${n} kota yang akan disambung: ${NAMA.join(", ")}. Variabelnya muncul di panel Variabel, dan kota-kota itu muncul di Graf, tetapi belum ada jalur di antara mereka. (Istilah teknisnya, kota disebut simpul.)`}));
-  st.konst=true;
-  snap(Object.assign({},B,{title:"Nomor kota",type:"DATA",nodes:n,nums:true,lines:[L.konst],msg:`Baris <code>${ke} = ${range.join(", ")}</code> memberi setiap kota sebuah nomor, seperti nomor induk. Algoritma bekerja dengan nomor ini di balik layar, sedangkan nama hanya agar kita mudah membaca. Nomornya tampil di pojok kartu kota.`}));
+  snap(Object.assign({},B,{title:"Mulai",type:"MULAI",lines:[L.main],msg:`Tujuannya mencari pohon rentang minimum (MST) pada graf dengan ${n} simpul: semua simpul terhubung dengan total bobot sisi sekecil mungkin. Kita mulai dari nol: program baru dijalankan dan baru masuk ke blok utama. Belum ada simpul, belum ada sisi, belum ada variabel. Tekan Selanjutnya untuk menyiapkan datanya baris demi baris.`}));
+  snap(Object.assign({},B,{title:"Simpul",type:"DATA",nodes:n,nums:false,lines:[L.cmtContoh],msg:`Komentar di blok utama menyatakan contoh ini punya ${n} simpul bernomor 0 sampai ${n-1}. Simpul-simpul itu muncul di Graf, tetapi belum ada sisi di antara mereka. Nomor simpul dipakai langsung oleh algoritma, jadi tidak perlu nama.`}));
   EDGES.forEach((e,k)=>{
     const cnt=k+1; st.lc=cnt;
-    snap(Object.assign({},B,{title:`jalur ${cnt}`,type:"DATA",nodes:n,nums:true,ecount:cnt,lc:cnt,lines:[L.cmtSisi,L.tuples[k]],
-      msg:(k===0?"Sekarang jalur ditambahkan satu per satu ke daftar <code>contoh</code>. ":"")+`Jalur ke-${cnt}: <code>(${NAMA[e[0]].toUpperCase()}, ${NAMA[e[1]].toUpperCase()}, ${e[2]})</code> artinya jalur kabel yang menyambung ${NAMA[e[0]]} dan ${NAMA[e[1]]} dengan biaya ${e[2]} juta. Garisnya muncul di Graf, barisnya masuk ke tabel Daftar jalur, dan isi <code>contoh</code> bertambah.`+(k===0?" (Istilah teknisnya, jalur disebut sisi dan biaya disebut bobot.)":"")+(k===EDGES.length-1?` Semua ${EDGES.length} jalur sudah masuk. Perhatikan urutannya acak, belum dari yang termurah.`:"")}));
+    snap(Object.assign({},B,{title:`sisi ${cnt}`,type:"DATA",nodes:n,nums:false,ecount:cnt,lc:cnt,lines:[L.cmtSisi,L.tuples[k]],
+      msg:(k===0?"Sekarang sisi ditambahkan satu per satu ke daftar <code>contoh</code>. ":"")+`Sisi ke-${cnt}: <code>(${e[0]}, ${e[1]}, ${e[2]})</code> menghubungkan simpul ${e[0]} dan simpul ${e[1]} dengan bobot ${e[2]}. Garisnya muncul di Graf, barisnya masuk ke tabel Daftar sisi, dan isi <code>contoh</code> bertambah.`+(k===EDGES.length-1?` Semua ${EDGES.length} sisi sudah masuk. Perhatikan urutannya acak, belum dari yang termurah.`:"")}));
   });
 
   // ----- bagian 2: memanggil fungsi kruskal -----
-  const A={nodes:n,nums:true,ecount:EDGES.length,lc:EDGES.length};
-  snap(Object.assign({},A,{title:"Panggil kruskal",type:"PANGGIL",treeOn:false,table:"list",callAnim:true,lines:[L.callK],msg:`Baris <code>kruskal(${n}, contoh)</code> dipanggil: seluruh graf (${n} kota dan ${EDGES.length} jalur) diserahkan ke fungsi <code>kruskal</code>, seperti menyerahkan peta dan daftar harga kepada seorang ahli. Hasilnya akan ditampung di <code>sisi_mst</code> (kabel terpilih) dan <code>total_bobot</code> (total biaya). Lihat animasinya di Graf: grafnya mengecil menjadi satu paket, lalu masuk ke kotak <code>kruskal()</code> di sebelah kanan.`}));
+  const A={nodes:n,nums:false,ecount:EDGES.length,lc:EDGES.length};
+  snap(Object.assign({},A,{title:"Panggil kruskal",type:"PANGGIL",treeOn:false,table:"list",callAnim:true,lines:[L.callK],msg:`Baris <code>kruskal(${n}, contoh)</code> dipanggil: seluruh graf (${n} simpul dan ${EDGES.length} sisi) diserahkan ke fungsi <code>kruskal</code>. Hasilnya akan ditampung di <code>sisi_mst</code> (sisi terpilih) dan <code>total_bobot</code> (total bobot). Lihat animasinya di Graf: grafnya mengecil menjadi satu paket, lalu masuk ke kotak <code>kruskal()</code> di sebelah kanan.`}));
   st.fn=true;
-  snap(Object.assign({},A,{title:"Masuk kruskal",type:"PANGGIL",treeOn:false,table:"list",lines:[L.defK],msg:`Python masuk ke dalam fungsi <code>kruskal</code>. Di Graf, kotak tadi terbuka: grafnya membesar lagi dan kini berada di dalam bingkai <code>kruskal()</code>. Dua kiriman diterima sebagai variabel baru: <code>jumlah_simpul</code> = ${n} dan <code>daftar_sisi</code> = daftar ${EDGES.length} jalur (lihat bagian "di dalam kruskal()" pada panel Variabel). Isinya masih acak.`}));
+  snap(Object.assign({},A,{title:"Masuk kruskal",type:"PANGGIL",treeOn:false,table:"list",lines:[L.defK],msg:`Python masuk ke dalam fungsi <code>kruskal</code>. Di Graf, kotak tadi terbuka: grafnya membesar lagi dan kini berada di dalam bingkai <code>kruskal()</code>. Dua kiriman diterima sebagai variabel baru: <code>jumlah_simpul</code> = ${n} dan <code>daftar_sisi</code> = daftar ${EDGES.length} sisi (lihat bagian "di dalam kruskal()" pada panel Variabel). Isinya masih acak.`}));
   st.sorted=true;
-  snap(Object.assign({},A,{title:"Urutkan",type:"URUT",treeOn:false,table:"sorted",lines:[L.sortCmt,L.sortLine],msg:"Langkah 1: daftarkan semua jalur dari yang paling murah sampai paling mahal, seperti belanja dari harga terendah. Lihat tabel berganti menjadi Jalur terurut (kolom Semula menunjukkan nomor asalnya), dan variabel <code>sisi_terurut</code> terisi. Kalau ada dua jalur yang sama murah, urutannya diatur tetap supaya hasilnya selalu sama."}));
+  snap(Object.assign({},A,{title:"Urutkan",type:"URUT",treeOn:false,table:"sorted",lines:[L.sortCmt,L.sortLine],msg:"Langkah 1: daftarkan semua sisi dari yang berbobot terkecil sampai yang terbesar. Lihat tabel berganti menjadi Sisi terurut (kolom Semula menunjukkan nomor asalnya), dan variabel <code>sisi_terurut</code> terisi. Kalau ada dua sisi yang sama bobotnya, urutannya diatur tetap supaya hasilnya selalu sama."}));
   st.ds=true; st.mst=true;
-  snap({title:"Inisialisasi",type:"SIAPKAN",lines:[L.initParent,L.initRank,L.dsNew,L.mstInit,L.totalInit],msg:"Langkah 2: <code>HimpunanTerpisah</code> dibuat (lihat panel Cara kerja Himpunan Terpisah). Awalnya belum ada kabel. Setiap kota berdiri sendiri sebagai satu kelompok dan menjadi ketuanya sendiri. Setiap kelompok punya peringkat (semacam ukuran), awalnya 0. Variabel <code>himpunan</code>, <code>sisi_mst</code> (kosong), dan <code>total_bobot</code> (0) ikut muncul."});
+  snap({title:"Inisialisasi",type:"SIAPKAN",lines:[L.initParent,L.initRank,L.dsNew,L.mstInit,L.totalInit],msg:"Langkah 2: <code>HimpunanTerpisah</code> dibuat (lihat panel Cara kerja Himpunan Terpisah). Awalnya belum ada sisi. Setiap simpul berdiri sendiri sebagai satu kelompok dan menjadi ketuanya sendiri. Setiap kelompok punya peringkat (semacam ukuran), awalnya 0. Variabel <code>himpunan</code>, <code>sisi_mst</code> (kosong), dan <code>total_bobot</code> (0) ikut muncul."});
 
   // ----- bagian 3: putaran Kruskal -----
   for(let i=0;i<sorted.length;i++){
     const [u,v,w]=sorted[i];
     st.loop=[u,v,w]; st.akar=null;
     snap({title:`ambil ${jalur(u,v)}`,type:"AMBIL",kind:"cur",cur:i,lines:[L.forLoop],tags:{u,v},
-      msg:`Putaran ke-${i+1}: ambil jalur termurah berikutnya yang belum diperiksa, seperti mengambil kartu teratas dari tumpukan yang sudah terurut. Jalurnya ${jalur(u,v)} dengan biaya ${w} juta. Tiga variabel diisi: <code>simpul_a</code> = ${u} (${nm(u)}), <code>simpul_b</code> = ${v} (${nm(v)}), <code>bobot</code> = ${w}.`});
+      msg:`Putaran ke-${i+1}: ambil sisi berbobot terkecil berikutnya yang belum diperiksa, seperti mengambil kartu teratas dari tumpukan yang sudah terurut. Sisinya ${jalur(u,v)} dengan bobot ${w}. Tiga variabel diisi: <code>simpul_a</code> = ${u} (${nm(u)}), <code>simpul_b</code> = ${v} (${nm(v)}), <code>bobot</code> = ${w}.`});
     const before=[...ds.parent];
     const fu=ds.findTrace(u), fv=ds.findTrace(v);
     const halved=ds.parent.some((p,k)=>p!==before[k]);
@@ -523,7 +518,7 @@ function buildSteps(){
     st.akar=[ru,rv];
     const fl=[L.findA,L.findB,L.defFind,L.whileP]; if(halved) fl.push(L.halve); fl.push(L.stepUp,L.retX);
     snap({title:`cek ketua`,type:"CARI",kind:"cur",cur:i,lines:fl,pu:fu.path,pv:fv.path,tags:{u,v},
-      msg:`Pertanyaannya: apakah ${nm(u)} dan ${nm(v)} sudah tersambung lewat kabel yang sudah dipasang? Cara mengeceknya, tanya ketua kelompok masing-masing. ${nm(u)}: ${pathTxt(fu.path)}. ${nm(v)}: ${pathTxt(fv.path)}. Hasilnya tersimpan di <code>akar_a</code> dan <code>akar_b</code>.`+(halved?" (Jalurnya dipendekkan supaya pengecekan berikutnya lebih cepat.)":"")});
+      msg:`Pertanyaannya: apakah ${nm(u)} dan ${nm(v)} sudah tersambung lewat sisi yang sudah diterima? Cara mengeceknya, tanya ketua kelompok masing-masing. ${nm(u)}: ${pathTxt(fu.path)}. ${nm(v)}: ${pathTxt(fv.path)}. Hasilnya tersimpan di <code>akar_a</code> dan <code>akar_b</code>.`+(halved?" (Sisinya dipendekkan supaya pengecekan berikutnya lebih cepat.)":"")});
     const rkU=ds.rank[ru], rkV=ds.rank[rv];
     const ok=ds.union(u,v);
     if(ok){
@@ -536,21 +531,21 @@ function buildSteps(){
       const alasan=bump
         ? `Kedua kelompok sama besar, jadi ${nm(ra)} dipilih menjadi ketua gabungan dan peringkatnya naik menjadi ${ds.rank[ra]}.`
         : `Kelompok ${nm(ra)} lebih besar (peringkat ${Math.max(rkU,rkV)}), jadi ${nm(rb)} ikut ke bawah ${nm(ra)}.`;
-      snap({title:`pasang ${jalur(u,v)}`,type:"GABUNG",kind:"ok",verdict:"acc",cur:i,lines:dl,tags:{u,v},ev:{child:rb,parent:ra},
-        msg:`Ketuanya berbeda (${nm(ru)} dan ${nm(rv)}), artinya kedua kota belum tersambung. Kabel ${jalur(u,v)} DITERIMA: biaya ${w} juta, total sekarang ${total} juta. Dua kelompok kini digabung. ${alasan}`+(last?` Sudah ada ${n-1} kabel, cukup untuk menyambung ${n} kota, jadi proses berhenti (<code>break</code>).`:"")});
+      snap({title:`terima ${jalur(u,v)}`,type:"GABUNG",kind:"ok",verdict:"acc",cur:i,lines:dl,tags:{u,v},ev:{child:rb,parent:ra},
+        msg:`Ketuanya berbeda (${nm(ru)} dan ${nm(rv)}), artinya kedua simpul belum tersambung. Sisi ${jalur(u,v)} DITERIMA: bobot ${w}, total sekarang ${total}. Dua kelompok kini digabung. ${alasan}`+(last?` Sudah ada ${n-1} sisi, cukup untuk menyambung ${n} simpul, jadi proses berhenti (<code>break</code>).`:"")});
     }else{
       status[i]="rejected";
       snap({title:`tolak ${jalur(u,v)}`,type:"TOLAK",kind:"bad",verdict:"rej",cur:i,lines:[L.ifUnion,L.ifSame,L.retFalse],tags:{u,v},ev:{bad:ru},
-        msg:`Ketua kedua kota sama, yaitu ${nm(ru)}. Artinya ${nm(u)} dan ${nm(v)} sudah tersambung lewat jalur lain. Kalau kabel ${jalur(u,v)} dipasang juga, jaringan jadi melingkar (siklus) dan biaya terbuang. Kabel DITOLAK.`});
+        msg:`Ketua kedua simpul sama, yaitu ${nm(ru)}. Artinya ${nm(u)} dan ${nm(v)} sudah tersambung lewat sisi lain. Kalau sisi ${jalur(u,v)} diterima juga, jaringan jadi melingkar (siklus) dan bobot terbuang. Sisi DITOLAK.`});
     }
     if(mst.length===n-1) break;
   }
 
   // ----- bagian 4: hasil dan cetak -----
   st.fn=false; st.ret=true;
-  const hasil=mst.map(e=>`${jalur(e[0],e[1])}, biaya ${e[2]} juta`);
-  snap({title:"kruskal selesai",type:"HASIL",kind:"ok",lines:[L.ret],msg:`Fungsi <code>kruskal</code> selesai dan mengembalikan hasilnya (<code>return</code>). Variabel di dalam fungsi hilang, dan hasilnya kini ditampung di blok utama sebagai <code>sisi_mst</code> dan <code>total_bobot</code>. Kabel yang dipasang: ${mst.map(e=>`${jalur(e[0],e[1])} (${e[2]} juta)`).join(", ")}. Total biaya ${total} juta, dan semua ${n} kota tersambung dengan biaya paling murah.`});
-  snap({title:"Cetak hasil",type:"CETAK",kind:"ok",flash:true,lines:[L.printLoop,L.printEach,L.printTotal],out:[...hasil,`Total biaya: ${total} juta`],msg:`Hasil dicetak: satu baris untuk tiap kabel terpilih (garis hijau di Graf), lalu totalnya. Keluaran programnya:<span class="mono" style="display:block;margin-top:6px">${[...hasil,`Total biaya: ${total} juta`].join("<br>")}</span>`});
+  const hasil=mst.map(e=>`Simpul ${e[0]} ke simpul ${e[1]}, bobot ${e[2]}`);
+  snap({title:"kruskal selesai",type:"HASIL",kind:"ok",lines:[L.ret],msg:`Fungsi <code>kruskal</code> selesai dan mengembalikan hasilnya (<code>return</code>). Variabel di dalam fungsi hilang, dan hasilnya kini ditampung di blok utama sebagai <code>sisi_mst</code> dan <code>total_bobot</code>. Sisi yang diterima: ${mst.map(e=>`${jalur(e[0],e[1])} (${e[2]})`).join(", ")}. Total bobot ${total}, dan semua ${n} simpul tersambung dengan total bobot sekecil mungkin.`});
+  snap({title:"Cetak hasil",type:"CETAK",kind:"ok",flash:true,lines:[L.printLoop,L.printEach,L.printTotal],out:[...hasil,`Total bobot: ${total}`],msg:`Hasil dicetak: satu baris untuk tiap sisi terpilih (garis hijau di Graf), lalu totalnya. Keluaran programnya:<span class="mono" style="display:block;margin-top:6px">${[...hasil,`Total bobot: ${total}`].join("<br>")}</span>`});
   const listToSorted=EDGES.map(e=>sorted.findIndex(x=>x[0]===e[0]&&x[1]===e[1]&&x[2]===e[2]));
   return {steps,sorted,listToSorted};
 }
@@ -594,7 +589,7 @@ const nodeEls=POS.map((p,i)=>{
   mk("text",{x:p[0]-PW/2+4,y:p[1]-PH/2+5.5},nb).textContent=i;
   return {g,c,ring};
 });
-const emptyG=mk("text",{class:"empty",x:300,y:195},svg); emptyG.textContent="Kanvas kosong: belum ada kota dan jalur";
+const emptyG=mk("text",{class:"empty",x:300,y:195},svg); emptyG.textContent="Kanvas kosong: belum ada simpul dan sisi";
 
 // ----- animasi saat kruskal(...) dipanggil: graf mengecil jadi paket, masuk ke kotak fungsi -----
 const fx=mk("g",{id:"fx"},svg);
@@ -604,7 +599,7 @@ mk("text",{class:"mt",x:472,y:138},mach).textContent="kruskal()";
 mk("text",{class:"ms",x:472,y:158},mach).textContent="jumlah_simpul, daftar_sisi";
 mk("text",{class:"m-wait",x:472,y:216},mach).textContent="menunggu data...";
 mk("text",{class:"m-got",x:472,y:206},mach).textContent=`jumlah_simpul = ${N}`;
-mk("text",{class:"m-got",x:472,y:226},mach).textContent=`daftar_sisi = ${EDGES.length} jalur`;
+mk("text",{class:"m-got",x:472,y:226},mach).textContent=`daftar_sisi = ${EDGES.length} sisi`;
 mk("line",{class:"sendline",x1:292,y1:190,x2:366,y2:190,"marker-end":"url(#ah2)"},mach);
 mk("text",{class:"sendlbl",x:329,y:180},mach).textContent="kirim";
 const pkt=mk("g",{class:"pkt"},fx);
@@ -615,8 +610,8 @@ const frame=mk("g",{class:"frame"},fx);
 mk("rect",{x:6,y:6,width:588,height:368,rx:8},frame);
 mk("text",{class:"ft",x:20,y:28},frame).textContent="di dalam kruskal()";
 mk("text",{class:"fp",x:584,y:28},frame).textContent=`jumlah_simpul = ${N}`;
-mk("text",{class:"fp",x:584,y:46},frame).textContent=`daftar_sisi = ${EDGES.length} jalur`;
-$("graphMeta").textContent=`${N} kota, ${EDGES.length} jalur`;
+mk("text",{class:"fp",x:584,y:46},frame).textContent=`daftar_sisi = ${EDGES.length} sisi`;
+$("graphMeta").textContent=`${N} simpul, ${EDGES.length} sisi`;
 
 // ---------- pohon disjoint set ----------
 const tsvg=$("tree");
@@ -716,7 +711,7 @@ $("copy").onclick=async()=>{
 
 // ---------- tabel ----------
 $("dstable").innerHTML=
-  "<tr><th>Kota</th>"+range.map(i=>`<th>${NAMA[i]}</th>`).join("")+"</tr>"+
+  "<tr><th>Simpul</th>"+range.map(i=>`<th>${NAMA[i]}</th>`).join("")+"</tr>"+
   "<tr><th>induk</th>"+range.map(i=>`<td id="pa${i}"></td>`).join("")+"</tr>"+
   "<tr><th>peringkat</th>"+range.map(i=>`<td id="rk${i}"></td>`).join("")+"</tr>"+
   "<tr><th>akar</th>"+range.map(i=>`<td id="rt${i}"></td>`).join("")+"</tr>";
@@ -724,12 +719,12 @@ let tableMode=null;
 function ensureTable(mode){
   if(tableMode===mode) return; tableMode=mode;
   if(mode==="list"){
-    $("edgeTitle").textContent="Daftar jalur (contoh)"; $("edgeMeta").textContent="urutan di file";
-    $("edgetable").innerHTML="<tr><th>#</th><th>Jalur</th><th>Biaya</th></tr>"+
+    $("edgeTitle").textContent="Daftar sisi (contoh)"; $("edgeMeta").textContent="urutan di file";
+    $("edgetable").innerHTML="<tr><th>#</th><th>Sisi</th><th>Bobot</th></tr>"+
       EDGES.map((e,k)=>`<tr id="lr${k}" class="hidrow"><td>${k+1}</td><td>${NAMA[e[0]]} ke ${NAMA[e[1]]}</td><td>${e[2]}</td></tr>`).join("");
   }else{
-    $("edgeTitle").textContent="Jalur terurut"; $("edgeMeta").textContent="termurah dulu";
-    $("edgetable").innerHTML="<tr><th>#</th><th>Jalur</th><th>Biaya</th><th>Semula</th><th>Status</th></tr>"+
+    $("edgeTitle").textContent="Sisi terurut"; $("edgeMeta").textContent="berbobot terkecil dulu";
+    $("edgetable").innerHTML="<tr><th>#</th><th>Sisi</th><th>Bobot</th><th>Semula</th><th>Status</th></tr>"+
       sorted.map((e,i)=>`<tr id="er${i}" class="rowin" style="animation-delay:${i*110}ms"><td>${i+1}</td><td>${NAMA[e[0]]} ke ${NAMA[e[1]]}</td><td>${e[2]}</td><td>#${listToSorted.indexOf(i)+1}</td><td id="es${i}"></td></tr>`).join("");
   }
   restart($("edgetable"),"fade");
@@ -767,7 +762,7 @@ function render(){
   const colOf=i=>COLORS[rootIds.indexOf(roots[i])%COLORS.length];
 
   // pesan, lencana, KPI
-  const m=$("msg"); m.innerHTML=s.msg; restart(m,"fade");
+  const m=$("msg"); m.innerHTML=s.msg.replace(/(^|[.!?]\s+)simpul /g,(x,a)=>a+"Simpul "); restart(m,"fade");
   const bd=$("badge"); bd.textContent=s.type; bd.className="badge "+(s.type==="CARI"||s.type==="AMBIL"?"find":s.type==="GABUNG"||s.type==="HASIL"||s.type==="CETAK"?"ok":s.type==="TOLAK"?"bad":"");
   $("logMeta").textContent=s.title;
   $("chipStep").textContent=`LANGKAH ${idx+1}/${steps.length}`;
@@ -776,7 +771,7 @@ function render(){
   $("kCnt").innerHTML=`${s.mst} <small>/ ${N-1}</small>`;
   $("kTot").textContent=s.total;
   $("kSets").textContent=s.treeOn?rootIds.length:"-";
-  $("graphMeta").textContent=`${s.nodes} kota, ${s.ecount} jalur`;
+  $("graphMeta").textContent=`${s.nodes} simpul, ${s.ecount} sisi`;
   if(prev && s.mst>prev.mst){restart($("kCnt"),"bump");restart($("kTot"),"bump");}
   if(prev && s.treeOn && prev.treeOn && rootIds.length<prev.sets){restart($("kSets"),"bump");}
   s.sets=rootIds.length;
@@ -795,7 +790,7 @@ function render(){
   const oldV=new Map();
   if(prev){ prev.vars.main.forEach(r=>oldV.set("m|"+r.n,r.v)); prev.vars.fn.forEach(r=>oldV.set("f|"+r.n,r.v)); }
   const vrow=(sc,r)=>`<div class="vrow${oldV.get(sc+"|"+r.n)!==r.v?" chg":""}"><span class="vn">${r.n}</span><span class="vv">${r.v}</span></div>`;
-  let vh=s.vars.legend?`<div class="vleg">Nomor kota: ${NAMA.map((x,i)=>`${i} = ${x}`).join(" · ")}</div>`:"";
+  let vh=s.vars.legend?`<div class="vleg">Nomor simpul: ${NAMA.map((x,i)=>`${i} = ${x}`).join(" · ")}</div>`:"";
   vh+=`<div class="vsc">blok utama</div>`+(s.vars.main.length?s.vars.main.map(r=>vrow("m",r)).join(""):`<div class="vrow"><span class="vv vnm">belum ada variabel</span></div>`);
   if(s.vars.fn.length) vh+=`<div class="vsc">di dalam kruskal()</div>`+s.vars.fn.map(r=>vrow("f",r)).join("");
   $("vars").innerHTML=vh;
@@ -879,7 +874,7 @@ function render(){
     set("rt"+i,on?roots[i]:"-",on?`<span class="dot" style="background:${colOf(i)}"></span> ${NAMA[roots[i]]}`:"-");
   });
 
-  // tabel jalur
+  // tabel sisi
   ensureTable(s.table);
   if(s.table==="list"){
     EDGES.forEach((_,k)=>$("lr"+k).classList.toggle("hidrow",k>=s.lc));

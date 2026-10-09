@@ -51,18 +51,15 @@ def boruvka(jumlah_simpul, daftar_sisi):
 
 if __name__ == "__main__":
     # Contoh 4 simpul. Sisi = (simpul_a, simpul_b, bobot). Butuh 2 putaran.
-    nama_kota = ["Maros", "Makassar", "Gowa", "Takalar"]
-    MAROS, MAKASSAR, GOWA, TAKALAR = 0, 1, 2, 3  # nomor simpul tiap kota
-
-    # Hasil yang benar: total 6.
+    # Hasil yang benar: total bobot 6.
     contoh = [
-        (GOWA, TAKALAR, 2),
-        (MAROS, GOWA, 4),
-        (MAKASSAR, TAKALAR, 5),
-        (MAROS, MAKASSAR, 1),
-        (MAKASSAR, GOWA, 3),
+        (2, 3, 2),
+        (0, 2, 4),
+        (1, 3, 5),
+        (0, 1, 1),
+        (1, 2, 3),
     ]
     sisi_mst, total_bobot = boruvka(4, contoh)
     for simpul_a, simpul_b, bobot in sisi_mst:
-        print(f"{nama_kota[simpul_a]} ke {nama_kota[simpul_b]}, biaya {bobot} juta")
-    print("Total biaya:", total_bobot, "juta")
+        print(f"Simpul {simpul_a} ke simpul {simpul_b}, bobot {bobot}")
+    print("Total bobot:", total_bobot)
