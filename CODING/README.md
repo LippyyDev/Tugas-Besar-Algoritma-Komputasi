@@ -9,31 +9,39 @@ Folder ini siap ditaruh di `D:\TUGAS BESAR PAK ABDI\CODING`. Bisa dijalankan di 
 ```
 CODING/
 ├── README.md
-├── requirements.txt            # pustaka yang dipakai
+├── requirements.txt            # pustaka yang dipakai notebook
 ├── jalankan_notebook.bat       # Windows: siapkan lingkungan lalu buka notebook
-├── Kruskal/
-│   ├── kruskal.py              # HimpunanTerpisah + kruskal()
-│   └── visualisasi-kruskal.html
-├── Prim/
-│   ├── prim.py                 # buat_daftar_tetangga() + prim()
-│   └── visualisasi-prim.html
-├── Borůvka/
-│   ├── boruvka.py              # boruvka() (pembanding), memakai HimpunanTerpisah dari Kruskal
-│   └── visualisasi-boruvka.html
-└── Eksperimen/
-    ├── Tugas_MST_Lokal.ipynb   # uji kasus kecil, studi kasus, graf acak, eksperimen, grafik, CSV
-    ├── PENJELASAN_NOTEBOOK.md  # penjelasan rinci tiap sel, perhitungan manual, keputusan desain, draf laporan AI
-    └── data/
-        └── studi_kasus_gedung_unhas.csv   # data tetap studi kasus (5 gedung); ganti angka ILUSTRASI dengan hasil ukur
+├── bantu_mst.py                # alat bantu bersama untuk Uji_Kecil dan Studi_Kasus
+├── Contoh_Dasar/               # contoh dasar tiap algoritma + visualisasi
+│   ├── Kruskal/
+│   │   ├── kruskal.py          # HimpunanTerpisah + kruskal()
+│   │   └── visualisasi-kruskal.html
+│   ├── Prim/
+│   │   ├── prim.py             # buat_daftar_tetangga() + prim()
+│   │   └── visualisasi-prim.html
+│   └── Borůvka/
+│       ├── boruvka.py          # boruvka() (pembanding), memakai HimpunanTerpisah dari Kruskal
+│       └── visualisasi-boruvka.html
+├── Uji_Kecil/                  # uji kasus kecil (kode lokal, tanpa seed)
+│   ├── uji_kecil.py
+│   └── PENJELASAN_UJI_KECIL.md # hitungan tangan keempat kasus
+├── Studi_Kasus/                # studi kasus 5 gedung FT Unhas (kode lokal, tanpa seed)
+│   ├── studi_kasus.py
+│   ├── studi_kasus_gedung_unhas.csv   # data tetap; angka ILUSTRASI
+│   └── PENJELASAN_STUDI_KASUS.md
+└── Eksperimen/                 # hanya yang berat secara komputasi
+    ├── Tugas_MST_Lokal.ipynb   # graf acak ber-seed, pengukuran waktu, grafik, CSV
+    └── PENJELASAN_NOTEBOOK.md  # penjelasan rinci tiap sel, keputusan desain, draf laporan AI
 ```
-Folder `hasil/` (CSV), `grafik/` (gambar), dan `data/`, serta berkas `lingkungan_dan_log.txt`, **dibuat otomatis** saat notebook dijalankan: di samping notebook (lokal) atau di folder Google Drive (Colab). Folder itu tidak disimpan di repositori; grafik yang dipakai laporan ada di `../DRAF/gambar/`.
+Folder `hasil/` (CSV), `grafik/` (gambar), dan berkas `lingkungan_dan_log.txt` **dibuat otomatis** saat notebook dijalankan: di samping notebook (lokal) atau di folder Google Drive (Colab). Folder itu tidak disimpan di repositori; grafik yang dipakai laporan ada di `../DRAF/gambar/`.
 
 ## Cara menjalankan
 
-### 1. Menjalankan satu algoritma (contoh graf 4 simpul)
-Buka terminal di folder algoritmanya, lalu:
+Contoh dasar, uji kasus kecil, dan studi kasus berupa skrip Python biasa: butuh Python 3.9 atau lebih baru, **tanpa pustaka tambahan**. Hanya notebook eksperimen yang membutuhkan `requirements.txt`.
+
+### 1. Contoh dasar (satu algoritma, graf 4 simpul)
 ```
-cd Kruskal
+cd Contoh_Dasar\Kruskal
 python kruskal.py
 
 cd ..\Prim
@@ -42,10 +50,31 @@ python prim.py
 cd ..\Borůvka
 python boruvka.py
 ```
-Hanya butuh Python 3.9 atau lebih baru (tanpa pustaka tambahan). Keluaran contohnya berupa sisi MST yang terpilih beserta total bobotnya.
+Keluarannya berupa sisi MST yang terpilih beserta total bobotnya.
 Catatan: `boruvka.py` memakai `HimpunanTerpisah` dari `Kruskal/kruskal.py`, jadi folder `Kruskal` harus tetap berada di samping folder `Borůvka`.
 
-### 2. Notebook eksperimen
+### 2. Uji kasus kecil
+```
+cd Uji_Kecil
+python uji_kecil.py
+```
+Empat graf kecil (3 terhubung dan 1 tak terhubung) dijalankan pada ketiga algoritma. Contoh keluaran:
+```
+[LOLOS] Kasus 1: 4 simpul biasa (satu sisi ditolak) | total = 7 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 2: 5 simpul, bobot 0 dan negatif | total = 5 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 3: bobot kembar (total dan himpunan sisi) | total = 6 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 4: graf tak terhubung (harus ValueError) | ketiganya melempar ValueError
+```
+Hitungan tangan tiap kasus ada di `Uji_Kecil/PENJELASAN_UJI_KECIL.md`.
+
+### 3. Studi kasus (5 gedung FT Unhas)
+```
+cd Studi_Kasus
+python studi_kasus.py
+```
+Data tetap dari `studi_kasus_gedung_unhas.csv`, jadi **tanpa seed**. Bobot sisi adalah biaya bersih (juta rupiah): positif berarti fakultas memakai dana sendiri, 0 berarti gratis (ditanggung universitas tanpa insentif), negatif berarti ditanggung universitas dan fakultas menerima insentif. Kolom `keterangan` berisi ILUSTRASI: angkanya contoh karangan, bukan data keuangan sesungguhnya, dan Bab 4.1 menyebutnya demikian. Jika kelak diganti dengan data biaya sebenarnya, catat sumbernya dan ubah Bab 4.1. Penjelasan: `Studi_Kasus/PENJELASAN_STUDI_KASUS.md`.
+
+### 4. Notebook eksperimen (graf acak, seed 2026)
 **Cara termudah (Windows):** klik dua kali `jalankan_notebook.bat`. Berkas itu membuat lingkungan Python (`.venv`), memasang pustaka dari `requirements.txt` (sekali saja, butuh internet), lalu membuka notebook di browser. Di notebook pilih **Run > Run All Cells**.
 
 **Cara manual** (Windows, macOS, atau Linux):
@@ -60,39 +89,19 @@ Di VS Code: buka `Tugas_MST_Lokal.ipynb`, pilih kernel dari `.venv`, lalu **Run 
 
 Lama eksperimen penuh sekitar 1 sampai 3 menit. Untuk uji coba cepat, ubah `MODE_CEPAT = True` di Sel 1 notebook (hasilnya jangan dipakai di laporan).
 
-### Google Colab dan Google Drive
-Unggah `Tugas_MST_Lokal.ipynb` ke Google Drive, buka dengan Colab, lalu **Runtime > Run all** dan izinkan akses Drive di Sel 2. Semua hasil disimpan ke `My Drive/TUGAS BESAR PAK ABDI/HASIL_EKSPERIMEN` (nama folder bisa diubah di Sel 2), berisi `hasil/`, `grafik/`, `data/`, dan `lingkungan_dan_log.txt` (spesifikasi mesin dan seluruh keluaran teks). Sel 18 dijalankan paling akhir supaya semuanya tersinkron.
-Waktu yang terukur di Colab adalah waktu mesin virtual Google yang dipakai bersama, jadi spesifikasinya harus ditulis di Bab 4.1. Untuk komputer sendiri dengan Google Drive for Desktop, isi `FOLDER_DRIVE_LOKAL` di Sel 2.
+**Google Colab dan Google Drive:** unggah `Tugas_MST_Lokal.ipynb` ke Google Drive, buka dengan Colab, lalu **Runtime > Run all** dan izinkan akses Drive di Sel 2. Semua hasil disimpan ke `My Drive/TUGAS BESAR PAK ABDI/HASIL_EKSPERIMEN` (nama folder bisa diubah di Sel 2), berisi `hasil/`, `grafik/`, dan `lingkungan_dan_log.txt` (spesifikasi mesin dan seluruh keluaran teks). Sel 18 dijalankan paling akhir supaya semuanya tersinkron. Notebook tidak lagi membutuhkan folder `data/` atau berkas CSV studi kasus. Pencocokan file `.py` dengan kode notebook (Sel 10) dilewati di Colab karena folder `Contoh_Dasar` tidak ada di sana.
+Waktu yang terukur di Colab adalah waktu mesin virtual Google yang dipakai bersama, jadi spesifikasinya harus ditulis di Bab 4. Untuk komputer sendiri dengan Google Drive for Desktop, isi `FOLDER_DRIVE_LOKAL` di Sel 2.
 
-### Peta bagian notebook
-| Bagian | Sel | Isi | Seed |
-|---|---|---|---|
-| A. Uji kasus kecil | 7 (persiapan), 7.1 Kasus 1, 7.2 Kasus 2, 7.3 Kasus 3, 7.4 Kasus 4 (tak terhubung, harus `ValueError`), 7.5 rekap | Data tetap, bisa dicek tangan | Tidak |
-| B. Studi kasus | 7B | 5 gedung FT Unhas | Tidak |
-| C. Eksperimen waktu | 8 sampai 18 | Graf acak, 5 ukuran x 5 ulangan | Ya (2026) |
-
-### Studi kasus ilustratif (Sel 7B)
-Sel 7B menjalankan ketiga algoritma pada jaringan kabel antar 5 gedung Fakultas Teknik Unhas dari `Eksperimen/data/studi_kasus_gedung_unhas.csv`. Datanya tetap, jadi **tanpa seed**. Kolom `keterangan` berisi ILUSTRASI: biaya bersih (juta rupiah, ada yang 0 dan negatif) adalah angka contoh, bukan data keuangan sesungguhnya, dan Bab 4.1 menyebutnya demikian. Jika kelak diganti dengan data biaya sebenarnya, catat sumbernya dan ubah Bab 4.1 serta judul bagian ini.
-
-### 3. Halaman visualisasi
-Klik dua kali berkas `.html` di folder algoritma masing-masing. Dibuka di browser, tidak perlu internet (font memakai cadangan sistem bila offline). Tombol **Selanjutnya** menjalankan satu langkah, tombol **Fokus** (atau tombol F) menyembunyikan panel yang tidak perlu. Kode di halaman sama persis dengan file `.py`.
+### 5. Halaman visualisasi
+Klik dua kali berkas `.html` di `Contoh_Dasar/<algoritma>/`. Dibuka di browser, tidak perlu internet (font memakai cadangan sistem bila offline). Tombol **Selanjutnya** menjalankan satu langkah, tombol **Fokus** (atau tombol F) menyembunyikan panel yang tidak perlu. Kode di halaman sama persis dengan file `.py`.
 
 ## Pustaka
 | Pustaka | Dipakai untuk |
 |---|---|
-| `random`, `time`, `math`, `heapq`, `csv`, `os`, `sys`, `platform`, `statistics`, `gc` (bawaan Python) | Pembuat graf, pengukuran, antrean prioritas (alat bantu Prim) |
+| `random`, `time`, `math`, `heapq`, `csv`, `os`, `sys`, `platform`, `statistics`, `gc` (bawaan Python) | Pembuat graf, pengukuran, antrean prioritas (alat bantu Prim), pembaca CSV studi kasus |
 | `pandas`, `numpy` | Ringkasan data, rata-rata dan simpangan baku |
 | `matplotlib` | Grafik |
-| `networkx` | **Hanya verifikasi** (Sel 10), tidak dipakai di dalam algoritma |
-
-## Contoh keluaran (uji kasus kecil, Sel 7.1 sampai 7.5)
-```
-[LOLOS] Kasus 1: 4 simpul biasa (satu sisi ditolak) | total = 7 | Kruskal, Prim, Borůvka sama
-[LOLOS] Kasus 2: 5 simpul, bobot 0 dan negatif | total = 5 | Kruskal, Prim, Borůvka sama
-[LOLOS] Kasus 3: bobot kembar (total dan himpunan sisi) | total = 6 | Kruskal, Prim, Borůvka sama
-[LOLOS] Kasus 4: graf tak terhubung (harus ValueError) | ketiganya melempar ValueError
-```
-Penjelasan rinci tiap sel, perhitungan manual kasus uji, dan keputusan desain: `Eksperimen/PENJELASAN_NOTEBOOK.md`.
+| `networkx` | **Hanya verifikasi** (Sel 10 notebook), tidak dipakai di dalam algoritma |
 
 ## Hasil eksperimen yang dihasilkan notebook
 | Berkas | Isi |
@@ -105,6 +114,6 @@ Penjelasan rinci tiap sel, perhitungan manual kasus uji, dan keputusan desain: `
 
 ## Pengingat sebelum dikumpulkan
 - Pakai hasil waktu dari eksperimen yang kamu jalankan sendiri di laporan (Bab 4), bukan angka dari orang lain. Catat mesinnya (Colab atau komputer sendiri) sesuai `lingkungan_dan_log.txt`.
-- Hitung ulang sendiri jawaban uji kasus kecil di Sel 7.1 sampai 7.4 notebook (draf perhitungan ada di `Eksperimen/PENJELASAN_NOTEBOOK.md`, bagian 6.7).
+- Hitung ulang sendiri jawaban uji kasus kecil di `Uji_Kecil/uji_kecil.py` (draf perhitungan ada di `Uji_Kecil/PENJELASAN_UJI_KECIL.md`) dan total studi kasus (8 juta rupiah).
 - Isi laporan penggunaan AI (draf di `Eksperimen/PENJELASAN_NOTEBOOK.md`, bagian 6.17) dengan kata-katamu sendiri. Kode di folder ini disusun dengan bantuan AI, jadi pelajari dan tulis ulang versimu sendiri sebelum diklaim sebagai karya sendiri.
 - Buat repositori GitHub atau GitLab publik untuk tautan di lampiran laporan.

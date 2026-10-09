@@ -29,16 +29,15 @@ Di Colab, waktu yang diukur adalah waktu mesin virtual Google yang dipakai bersa
 | `matplotlib` | Grafik | Ada di `requirements.txt` |
 | `networkx` | **Hanya verifikasi** (Sel 10), tidak dipakai di dalam algoritma | Opsional, ada di `requirements.txt` |
 
-## 3. Contoh keluaran Sel 7.1 sampai 7.5 (uji kasus kecil)
+## 3. Yang tidak ada di notebook ini
 
-```
-[LOLOS] Kasus 1: 4 simpul biasa (satu sisi ditolak) | total = 7 | Kruskal, Prim, Borůvka sama
-[LOLOS] Kasus 2: 5 simpul, bobot 0 dan negatif | total = 5 | Kruskal, Prim, Borůvka sama
-[LOLOS] Kasus 3: bobot kembar (total dan himpunan sisi) | total = 6 | Kruskal, Prim, Borůvka sama
-[LOLOS] Kasus 4: graf tak terhubung (harus ValueError) | ketiganya melempar ValueError
+| Bagian | Letak | Menjalankan |
+|---|---|---|
+| Contoh dasar tiap algoritma dan visualisasinya | `../Contoh_Dasar/` | `python kruskal.py`, `python prim.py`, `python boruvka.py` |
+| Uji kasus kecil (4 kasus) | `../Uji_Kecil/` | `python uji_kecil.py` |
+| Studi kasus 5 gedung Unhas | `../Studi_Kasus/` | `python studi_kasus.py` |
 
-Semua 4 kasus uji lolos pada ketiga algoritma (3 kasus graf terhubung dan 1 kasus galat).
-```
+Notebook ini hanya berisi hal yang berat secara komputasi: graf acak ber-*seed*, pengukuran waktu, grafik, dan analisisnya.
 
 ## 4. Isi folder hasil
 
@@ -50,7 +49,6 @@ Folder dasar adalah folder Drive (Colab atau `FOLDER_DRIVE_LOKAL`) atau folder t
 | `hasil/ringkasan.csv` | Rata-rata dan simpangan baku per ukuran |
 | `hasil/rasio_terhadap_teori.csv` | Pemeriksaan kesesuaian dengan kurva teori |
 | `grafik/waktu_<skenario>.png` | Grafik waktu, titik ukur disandingkan dengan kurva teori |
-| `data/studi_kasus_gedung_unhas.csv` | Data tetap studi kasus (dibuat otomatis bila belum ada, tidak pernah ditimpa) |
 | `lingkungan_dan_log.txt` | Spesifikasi mesin, versi pustaka, dan seluruh keluaran teks notebook |
 
 ## 5. Peta syarat tugas ke sel
@@ -60,7 +58,7 @@ Folder dasar adalah folder Drive (Colab atau `FOLDER_DRIVE_LOKAL`) atau folder t
 | Kruskal dan Prim ditulis sendiri, tanpa pustaka MST sebagai inti | 4, 5 |
 | Pembanding ketiga (Borůvka) | 6 |
 | Fungsi atau kelas dengan komentar | 4 sampai 6 |
-| Minimal 3 kasus uji kecil yang bisa dicek manual | 7 |
+| Minimal 3 kasus uji kecil yang bisa dicek manual | di luar notebook: `../Uji_Kecil/uji_kecil.py` |
 | Pembuat graf acak, *seed* tetap, terhubung, jarang dan padat | 8 dan 9 |
 | Minimal 5 ukuran, minimal 5 ulangan, rata-rata dan simpangan baku, CSV | 11 sampai 13 |
 | Grafik waktu dengan kurva teori | 14 dan 15 |
@@ -78,7 +76,7 @@ Folder dasar adalah folder Drive (Colab atau `FOLDER_DRIVE_LOKAL`) atau folder t
 - Graf padat tumbuh seperti n², jadi ukurannya sengaja jauh lebih kecil daripada graf jarang. Ukuran dibuat cukup besar supaya waktu tidak terlalu singkat dan pengukuran tidak berisik.
 
 ### 6.2 Sel 2. Folder hasil dan log
-Sel ini menentukan `FOLDER_DASAR`: Colab (memasang Drive), `FOLDER_DRIVE_LOKAL` bila diisi, atau folder tempat notebook dijalankan. Di dalamnya dibuat `hasil/`, `grafik/`, dan `data/`. Data studi kasus dibuat dari isi bawaan hanya bila belum ada, jadi angka hasil ukur yang kamu edit langsung di folder ini aman. Semua keluaran `print` juga disalin ke `lingkungan_dan_log.txt` sampai Sel 18 menutupnya.
+Sel ini menentukan `FOLDER_DASAR`: Colab (memasang Drive), `FOLDER_DRIVE_LOKAL` bila diisi, atau folder tempat notebook dijalankan. Di dalamnya dibuat `hasil/` dan `grafik/`. Semua keluaran `print` juga disalin ke `lingkungan_dan_log.txt` sampai Sel 18 menutupnya.
 
 ### 6.3 Sel 3. Pustaka dan lingkungan uji
 Informasi lingkungan (Python, sistem, prosesor, jumlah CPU, jenis lingkungan) dipakai untuk bagian "lingkungan uji" di Bab 4.
@@ -104,33 +102,13 @@ Informasi lingkungan (Python, sistem, prosesor, jumlah CPU, jenis lingkungan) di
 - **Pemutus seri:** `kunci_sisi` membandingkan bobot, lalu simpul terkecil, lalu simpul terbesar (sama dengan urutan Kruskal dan isi antrean Prim), sesuai batasan Bab 1.
 - **Himpunan terpisah:** memakai `HimpunanTerpisah` dari Sel 4 (tidak disalin ulang).
 
-### 6.7 Sel 7 sampai 7.5. Uji kasus kecil (hitungan tangan)
+### 6.7 Uji kasus kecil (dipindah ke kode lokal)
 
-Bagian A notebook dipecah per kasus: Sel 7 = persiapan (fungsi uji), Sel 7.1 = Kasus 1, Sel 7.2 = Kasus 2, Sel 7.3 = Kasus 3, Sel 7.4 = Kasus 4 (graf tak terhubung), Sel 7.5 = rekap. Bagian B (Sel 7B) adalah studi kasus gedung, Bagian C (Sel 8 dan seterusnya) adalah eksperimen waktu dengan seed. Seed hanya dipakai di Bagian C.
-Syarat dosen: **minimal 3 kasus uji kecil yang bisa dicek manual.** Ada 3 kasus graf terhubung dan 1 kasus graf tak terhubung. **Setiap kasus dijalankan pada ketiga algoritma**, sehingga syaratnya terpenuhi baik jika dosen memaksudkan 3 kasus total maupun 3 kasus per algoritma. Jawaban benar ditulis dari hitungan tangan, bukan dari keluaran program.
+Uji kasus kecil **tidak lagi ada di notebook**. Kodenya ada di `../Uji_Kecil/uji_kecil.py`, dan hitungan tangan keempat kasus ada di `../Uji_Kecil/PENJELASAN_UJI_KECIL.md`. Notebook hanya menyisakan Sel 7 (fungsi bantu `jalankan_tiga_algoritma`), karena eksperimen berbasis seed membutuhkannya.
 
-> **PENTING: ini draf hitungan tangan. Hitung ulang sendiri di kertas sebelum dikumpulkan**, lalu pastikan kamu bisa menjelaskan tiap langkahnya saat tanya jawab. Simpul diberi nomor 0, 1, 2, dan seterusnya. Bagian A murni contoh graf, belum terkait data nyata.
+### 6.8 Studi kasus (dipindah ke kode lokal)
 
-**Kasus 1 (4 simpul biasa, ada satu sisi yang ditolak).** Sisi: (2, 3) bobot 4, (0, 2) bobot 3, (1, 3) bobot 5, (0, 1) bobot 1, (1, 2) bobot 2.
-Urut menaik: (0, 1) 1, (1, 2) 2, (0, 2) 3, (2, 3) 4, (1, 3) 5.
-Ambil 1 (terima). Ambil 2 (terima). Sisi (0, 2) bobot 3: simpul 0 dan simpul 2 sudah satu komponen lewat simpul 1, jadi **ditolak (siklus)**. Sisi (2, 3) bobot 4: simpul 3 baru, terima. Sudah 3 sisi = n − 1, selesai.
-**Total = 1 + 2 + 4 = 7.**
-
-**Kasus 2 (5 simpul, ada bobot 0 dan negatif).** Sisi: (0, 1) bobot 0, (1, 2) bobot -2, (0, 2) bobot 1, (2, 3) bobot 3, (0, 4) bobot 4, (1, 3) bobot 5, (4, 1) bobot 6.
-Urut menaik: (1, 2) -2, (0, 1) 0, (0, 2) 1, (2, 3) 3, (0, 4) 4, (1, 3) 5, (1, 4) 6.
-Ambil -2 (terima). Ambil 0 (terima). Sisi (0, 2) bobot 1: simpul 0 dan simpul 2 sudah satu komponen lewat simpul 1, jadi **ditolak (siklus)**. Sisi (2, 3) bobot 3: simpul 3 baru, terima. Sisi (0, 4) bobot 4: simpul 4 baru, terima. Sudah 4 sisi = n − 1, selesai, dua sisi terakhir tidak diperiksa.
-**Total = -2 + 0 + 3 + 4 = 5.** Bobot 0 dan -2 diperlakukan seperti bobot lain: algoritma hanya membandingkan urutan bobot, bukan tanda atau besarnya (sejalan dengan bobot real pada Bab 1). Prim dari simpul 0 memberi total yang sama: ambil 0 (simpul 1 masuk), ambil -2 (simpul 2 masuk), buang entri usang bobot 1, ambil 3 (simpul 3), ambil 4 (simpul 4). Borůvka selesai dalam satu putaran: simpul 0 memilih sisi bobot 0, simpul 1 dan simpul 2 memilih sisi bobot -2, simpul 3 memilih sisi bobot 3, simpul 4 memilih sisi bobot 4.
-
-**Kasus 3 (bobot kembar).** Sisi: (0, 1) bobot 2, (1, 2) bobot 2, (2, 3) bobot 2, (0, 3) bobot 2, dan diagonal (1, 3) bobot 5. Empat sisi bobot 2 membentuk lingkaran, jadi hanya tiga yang boleh diterima.
-Urutan pemeriksaan menurut aturan pemutus seri (bobot, lalu simpul terkecil, lalu simpul terbesar): (0, 1), (0, 3), (1, 2), (2, 3), lalu diagonal 5. Tiga yang pertama diterima. Jika sisi (2, 3) diperiksa, ia **ditolak** karena simpul 2 dan simpul 3 sudah satu komponen lewat simpul 1 dan simpul 0. Catatan: kode Kruskal berhenti setelah 3 sisi diterima, jadi program tidak pernah memeriksa sisi itu. Penolakan ini hanya ada di hitungan tangan, jangan diklaim sebagai keluaran program. Diagonal bobot 5 tidak diperlukan.
-**Total = 2 + 2 + 2 = 6**, dengan MST unik {(0, 1), (0, 3), (1, 2)}. Karena aturan pemutus seri sama pada ketiga algoritma, **total dan himpunan sisi** dicek.
-
-**Kasus 4 (graf tak terhubung).** Sisi: (0, 1) bobot 1 dan (2, 3) bobot 2. Simpul 0 dan simpul 1 tidak punya lintasan ke simpul 2 dan simpul 3, jadi **tidak ada MST**: ketiga algoritma harus menolak dengan `ValueError`.
-
-### 6.8 Sel 7B. Studi kasus: jaringan kabel antar gedung Fakultas Teknik Unhas
-Satu contoh penerapan pada **data tetap**, bukan graf acak, sehingga **tidak memakai seed** dan hasilnya sama setiap dijalankan. Data dibaca dari `data/studi_kasus_gedung_unhas.csv` (kolom: `gedung_a`, `gedung_b`, `biaya_juta`, `keterangan`). Bobot adalah biaya bersih dalam juta rupiah. Positif berarti fakultas memakai dana sendiri, 0 berarti gratis (ditanggung universitas tanpa insentif), dan negatif berarti ditanggung universitas dan fakultas menerima insentif sebesar nilai mutlaknya. Simpul diberi nomor tetap menurut urutan abjad nama gedung, sehingga aturan pemutus seri pada Batasan 7 tetap berlaku.
-
-> **PENTING:** selama kolom `keterangan` masih berisi **ILUSTRASI**, angkanya adalah contoh karangan, bukan hasil ukur. Ganti dengan data biaya sebenarnya, catat sumber dan tanggalnya di Bab 4, lalu hapus kata ILUSTRASI. Graf ini hanya 5 simpul, jadi dipakai untuk menunjukkan kebenaran dan penerapan, **bukan** untuk mengukur waktu.
+Studi kasus gedung Unhas **tidak lagi ada di notebook**. Kodenya ada di `../Studi_Kasus/studi_kasus.py` dengan data `studi_kasus_gedung_unhas.csv`, dan penjelasannya di `../Studi_Kasus/PENJELASAN_STUDI_KASUS.md`.
 
 ### 6.9 Sel 8. Pembuat graf acak (seed tetap, selalu terhubung)
 1. **Pohon acak.** Simpul 1 sampai n−1 masing-masing disambungkan ke satu simpul acak bernomor lebih kecil. Ini menghasilkan n−1 sisi dan graf **pasti terhubung**.
@@ -142,7 +120,7 @@ Pengacak dibuat sendiri dengan `random.Random(seed)`, bukan pengacak global, seh
 Tiga pemeriksaan sebelum graf dipakai: (1) seed yang sama menghasilkan graf yang sama, (2) graf selalu terhubung dan tidak punya sisi ganda atau loop, (3) jumlah sisi sesuai skenario jarang dan padat.
 
 ### 6.11 Sel 10. Verifikasi tambahan dengan `networkx` (opsional)
-`networkx` **hanya dipakai sebagai pembanding**, tidak di dalam algoritma, sesuai aturan dosen (pustaka boleh sebagai pembanding). Sel ini membandingkan total bobot ketiga algoritma dengan `networkx` pada 300 graf acak kecil. Ini tambahan di luar uji kasus kecil pada Sel 7.1 sampai 7.4, yang jawabannya dari hitungan tangan. Sel ini juga mencocokkan file `.py` di folder `Kruskal`, `Prim`, dan `Borůvka` dengan kode notebook pada 100 graf acak. Pencocokan `.py` dilewati bila folder itu tidak ada di samping folder dasar (normal di Colab).
+`networkx` **hanya dipakai sebagai pembanding**, tidak di dalam algoritma, sesuai aturan dosen (pustaka boleh sebagai pembanding). Sel ini membandingkan total bobot ketiga algoritma dengan `networkx` pada 300 graf acak kecil. Ini tambahan di luar uji kasus kecil pada `../Uji_Kecil/uji_kecil.py`, yang jawabannya dari hitungan tangan. Sel ini juga mencocokkan file `.py` di folder `Kruskal`, `Prim`, dan `Borůvka` dengan kode notebook pada 100 graf acak. Pencocokan `.py` dilewati bila folder itu tidak ada di samping folder dasar (normal di Colab).
 
 ### 6.12 Sel 11. Fungsi pengukuran waktu
 - Waktu diukur dengan `time.perf_counter()` dan **hanya** mengukur pemanggilan algoritma. Waktu membuat graf tidak ikut dihitung.
@@ -213,7 +191,7 @@ Memeriksa otomatis syarat jumlah dan berkas. Tanda **[OK]** berarti terpenuhi.
 | Alat AI yang dipakai | Claude (Anthropic) |
 | Tujuan | Memahami konsep Kruskal, Prim, dan Borůvka; contoh penerapan; contoh implementasi; *debugging*; pembuatan kerangka eksperimen |
 | Bagian pekerjaan yang dibantu | Draf kode Kruskal, Prim, Borůvka; kerangka notebook, pembuat graf, dan eksperimen; visualisasi HTML untuk belajar |
-| Cara verifikasi | (1) Uji kasus kecil dengan hitungan tangan (Sel 7.1 sampai 7.4); (2) perbandingan total bobot dengan `networkx` pada 300 graf acak kecil; (3) pemeriksaan total bobot ketiga algoritma sama pada setiap ulangan eksperimen |
+| Cara verifikasi | (1) Uji kasus kecil dengan hitungan tangan (`../Uji_Kecil/uji_kecil.py`); (2) perbandingan total bobot dengan `networkx` pada 300 graf acak kecil; (3) pemeriksaan total bobot ketiga algoritma sama pada setiap ulangan eksperimen |
 | Referensi | Setiap referensi di laporan sudah dicek keberadaannya ke sumber aslinya (**centang setelah kamu benar-benar memeriksa**) |
 | Bagian yang kamu tulis atau ubah sendiri | (isi sendiri) |
 

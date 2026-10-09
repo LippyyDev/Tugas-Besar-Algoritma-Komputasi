@@ -21,30 +21,28 @@ Ketiganya memakai kunci pemutus seri yang sama, yaitu (bobot, simpul terkecil, s
 
 ```text
 CODING/
-  Kruskal/  kruskal.py, visualisasi-kruskal.html
-  Prim/     prim.py, visualisasi-prim.html
-  Borůvka/  boruvka.py, visualisasi-boruvka.html
-  Eksperimen/
-    Tugas_MST_Lokal.ipynb          notebook uji kasus kecil dan eksperimen waktu
-    PENJELASAN_NOTEBOOK.md         penjelasan tiap sel
-    data/studi_kasus_gedung_unhas.csv
-  README.md                        petunjuk teknis rinci
-DRAF/        naskah laporan (BAB 1 sampai BAB 4) dan gambar/
+  Contoh_Dasar/  Kruskal/, Prim/, Borůvka/ (kode .py + visualisasi .html)
+  Uji_Kecil/     uji_kecil.py, PENJELASAN_UJI_KECIL.md
+  Studi_Kasus/   studi_kasus.py, studi_kasus_gedung_unhas.csv, PENJELASAN_STUDI_KASUS.md
+  Eksperimen/    Tugas_MST_Lokal.ipynb (graf acak ber-seed, waktu, grafik), PENJELASAN_NOTEBOOK.md
+  bantu_mst.py   alat bantu bersama Uji_Kecil dan Studi_Kasus
+  README.md      petunjuk teknis rinci
+DRAF/        naskah laporan (BAB 1 sampai BAB 5) dan gambar/
 REFERENSI/   salinan referensi dan daftar DOI
 LAPORAN/     laporan akhir (PDF)
 ```
 
 ## Menjalankan
 
-Satu algoritma (Python 3.9 atau lebih baru, tanpa pustaka tambahan):
+Contoh dasar, uji kasus kecil, dan studi kasus (Python 3.9 atau lebih baru, tanpa pustaka tambahan):
 
 ```bash
-cd CODING/Kruskal && python kruskal.py
-cd ../Prim && python prim.py
-cd ../Borůvka && python boruvka.py
+cd CODING/Contoh_Dasar/Kruskal && python kruskal.py     # juga prim.py dan boruvka.py di folder masing-masing
+cd CODING/Uji_Kecil && python uji_kecil.py
+cd CODING/Studi_Kasus && python studi_kasus.py
 ```
 
-Notebook eksperimen:
+Notebook eksperimen (graf acak ber-seed dan pengukuran waktu):
 
 ```bash
 cd CODING
@@ -55,7 +53,7 @@ cd Eksperimen
 python -m notebook Tugas_MST_Lokal.ipynb
 ```
 
-Di Windows, `CODING\jalankan_notebook.bat` melakukan langkah di atas. Petunjuk Google Colab ada di `CODING/README.md`.
+Di Windows, `CODING\jalankan_notebook.bat` melakukan langkah notebook di atas. Petunjuk Google Colab ada di `CODING/README.md`.
 
 ## Hasil eksperimen
 
