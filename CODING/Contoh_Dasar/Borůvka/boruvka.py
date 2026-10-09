@@ -50,16 +50,18 @@ def boruvka(jumlah_simpul, daftar_sisi):
 
 
 if __name__ == "__main__":
-    # Contoh 4 simpul. Sisi = (simpul_a, simpul_b, bobot). Butuh 2 putaran.
-    # Hasil yang benar: total bobot 6.
+    # Contoh 5 simpul (sama dengan kruskal.py). Butuh 1 putaran.
+    # Hasil yang benar: total bobot 18.
     contoh = [
-        (2, 3, 2),
-        (0, 2, 4),
-        (1, 3, 5),
-        (0, 1, 1),
-        (1, 2, 3),
+        (2, 3, 6),
+        (0, 2, 8),
+        (1, 3, 3),
+        (0, 1, 5),
+        (3, 4, 4),
+        (2, 4, 9),
+        (1, 2, 11),
     ]
-    sisi_mst, total_bobot = boruvka(4, contoh)
+    sisi_mst, total_bobot = boruvka(5, contoh)
     for simpul_a, simpul_b, bobot in sisi_mst:
         print(f"Simpul {simpul_a} ke simpul {simpul_b}, bobot {bobot}")
     print("Total bobot:", total_bobot)

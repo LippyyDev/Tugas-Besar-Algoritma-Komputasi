@@ -56,16 +56,19 @@ def kruskal(jumlah_simpul, daftar_sisi):
 
 
 if __name__ == "__main__":
-    # Contoh graf 4 simpul (nomor 0 sampai 3). Sisi = (simpul_a, simpul_b, bobot).
-    # Hasil yang benar: total bobot 7.
+    # Contoh graf 5 simpul (nomor 0 sampai 4). Sisi = (simpul_a, simpul_b, bobot).
+    # Hasil yang benar: total bobot 18.
+    # Simpul 0 sampai 4 sama dengan A sampai E di slide presentasi.
     contoh = [
-        (2, 3, 4),
-        (0, 2, 3),
-        (1, 3, 5),
-        (0, 1, 1),
-        (1, 2, 2),
+        (2, 3, 6),
+        (0, 2, 8),
+        (1, 3, 3),
+        (0, 1, 5),
+        (3, 4, 4),
+        (2, 4, 9),
+        (1, 2, 11),
     ]
-    sisi_mst, total_bobot = kruskal(4, contoh)
+    sisi_mst, total_bobot = kruskal(5, contoh)
     for simpul_a, simpul_b, bobot in sisi_mst:
         print(f"Simpul {simpul_a} ke simpul {simpul_b}, bobot {bobot}")
     print("Total bobot:", total_bobot)

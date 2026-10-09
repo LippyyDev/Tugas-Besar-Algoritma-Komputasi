@@ -39,7 +39,7 @@ Folder `hasil/` (CSV), `grafik/` (gambar), dan berkas `lingkungan_dan_log.txt` *
 
 Contoh dasar, uji kasus kecil, dan studi kasus berupa skrip Python biasa: butuh Python 3.9 atau lebih baru, **tanpa pustaka tambahan**. Hanya notebook eksperimen yang membutuhkan `requirements.txt`.
 
-### 1. Contoh dasar (satu algoritma, graf 4 simpul)
+### 1. Contoh dasar (satu algoritma, graf 5 simpul)
 ```
 cd Contoh_Dasar\Kruskal
 python kruskal.py

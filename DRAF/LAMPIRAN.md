@@ -17,7 +17,7 @@ Seluruh kode, data, dan hasil eksperimen laporan ini tersimpan pada repositori p
 | `CODING/Contoh_Dasar/Kruskal/kruskal.py` | `HimpunanTerpisah` dan `kruskal()` | Kode 4.1, Kode 4.2 |
 | `CODING/Contoh_Dasar/Prim/prim.py` | `buat_daftar_tetangga()` dan `prim()` | Kode 4.3 |
 | `CODING/Contoh_Dasar/Borůvka/boruvka.py` | `boruvka()`, memakai `HimpunanTerpisah` dari `kruskal.py` | Subbab 4.2 |
-| `CODING/Contoh_Dasar/*/visualisasi-*.html` | Visualisasi langkah tiap algoritma pada graf 4 simpul | Pendukung presentasi, tidak dirujuk di teks |
+| `CODING/Contoh_Dasar/*/visualisasi-*.html` | Visualisasi langkah tiap algoritma pada graf 5 simpul | Pendukung presentasi, tidak dirujuk di teks |
 | `CODING/Uji_Kecil/uji_kecil.py` | Empat kasus uji kecil | Subbab 4.3, Lampiran B |
 | `CODING/Studi_Kasus/studi_kasus.py` dan `studi_kasus_gedung_unhas.csv` | Studi kasus lima gedung | Subbab 4.1, Lampiran C |
 | `CODING/Eksperimen/Tugas_MST_Lokal.ipynb` | Pembangkit graf acak ber-*seed*, pengukuran waktu, grafik | Subbab 4.4 dan 4.5 |

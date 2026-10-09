@@ -48,17 +48,19 @@ def prim(jumlah_simpul, daftar_tetangga, simpul_awal=0):
 
 
 if __name__ == "__main__":
-    # Contoh 4 simpul (sama dengan kruskal.py). Sisi = (simpul_a, simpul_b, bobot).
-    # Hasil yang benar: total bobot 7.
+    # Contoh 5 simpul (sama dengan kruskal.py). Sisi = (simpul_a, simpul_b, bobot).
+    # Hasil yang benar: total bobot 18.
     contoh = [
-        (2, 3, 4),
-        (0, 2, 3),
-        (1, 3, 5),
-        (0, 1, 1),
-        (1, 2, 2),
+        (2, 3, 6),
+        (0, 2, 8),
+        (1, 3, 3),
+        (0, 1, 5),
+        (3, 4, 4),
+        (2, 4, 9),
+        (1, 2, 11),
     ]
-    daftar_tetangga = buat_daftar_tetangga(4, contoh)
-    sisi_mst, total_bobot = prim(4, daftar_tetangga, simpul_awal=0)
+    daftar_tetangga = buat_daftar_tetangga(5, contoh)
+    sisi_mst, total_bobot = prim(5, daftar_tetangga, simpul_awal=0)
     for simpul_a, simpul_b, bobot in sisi_mst:
         print(f"Simpul {simpul_a} ke simpul {simpul_b}, bobot {bobot}")
     print("Total bobot:", total_bobot)
