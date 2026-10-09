@@ -205,7 +205,7 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
     </div>
     <div class="blk" id="b3">
       <span class="lbl">03 · Solusi</span>
-      <p><b>Solusinya:</b> algoritma <em>greedy</em>, yaitu pilih sisi termurah di setiap langkah, asalkan sisi itu aman. Sisi aman adalah sisi yang pasti ada di suatu MST.<span class="more" id="more"> Cara memastikannya adalah <em>cut property</em>: bagi titik menjadi dua kelompok, lalu lihat semua sisi yang menghubungkan kedua kelompok. Yang termurah di antara sisi itu pasti aman.</span></p>
+      <p><b>Solusinya:</b> algoritma <em>greedy</em>, yaitu pilih sisi termurah yang aman di setiap langkah. Sisi aman adalah sisi yang pasti ada di suatu MST.<span class="more" id="more"> <em>Cut property</em>: bagi titik jadi dua kelompok, sisi termurah yang menyeberanginya pasti aman.</span></p>
     </div>
   </div>
 
@@ -420,23 +420,32 @@ const STEPS = [
     const w=CROSS.map(i=>EDGES[i][2]);
     readout('Termurah yang menyeberangi garis',PICK_TXT+' · '+EDGES[PICK][2]+'<span class="ok">AMAN</span>');
     caption('Garis putus-putus membagi titik jadi dua kelompok. Sisi yang menyeberang berbiaya <b>'+w.join(', ')+'</b>. Yang termurah, <b>'+EDGES[PICK][2]+'</b>, pasti aman.');
-    /* Fase lanjutan: garis hanya alat pembuktian. Langkah diulang sampai semua titik tersambung. */
-    later(()=>{
-      cutShow(false);
-      // urutan tumbuh: dari kelompok 1 + sisi pilihan, tambahkan sisi MST termurah yang menyambung ke pohon
-      const inT=new Set([...GROUP1,EDGES[PICK][0],EDGES[PICK][1]]), rest=[], pool=MST.filter(i=>!INNER.includes(i)&&i!==PICK);
-      while(pool.length){
-        const c=pool.filter(i=>inT.has(EDGES[i][0])!==inT.has(EDGES[i][1])).sort((x,y)=>EDGES[x][2]-EDGES[y][2])[0];
-        rest.push(c); pool.splice(pool.indexOf(c),1); inT.add(EDGES[c][0]); inT.add(EDGES[c][1]);
+  },
+  /* 5 · ulangi sampai semua titik tersambung, tiap putaran dijelaskan */
+  ()=>{
+    blocks(2,true); cutShow(false);
+    const T=new Set([...GROUP1,EDGES[PICK][0],EDGES[PICK][1]]), chosen=new Set([...INNER,PICK]);
+    const list=a=>[...a].sort().join(', ');
+    const round=()=>{
+      const cross=EDGES.map((e,i)=>i).filter(i=>T.has(EDGES[i][0])!==T.has(EDGES[i][1]));
+      EDGES.forEach((e,i)=>setE(i,chosen.has(i)?'mst':(cross.includes(i)?'cand':'dim'),0));
+      NODES.forEach((n,i)=>setN(i,T.has(n.id)?'in':'',0));
+      if(!cross.length){
+        readout('Total biaya MST',MST_COST);
+        caption('Semua titik sudah tersambung. Inilah <b>MST</b>, dengan total biaya <b>'+MST_COST+'</b>.');
+        return;
       }
-      EDGES.forEach((e,i)=>{ if(MST.includes(i)) setE(i,'mst',rest.includes(i)?rest.indexOf(i)*750:0); else setE(i,'dim',0); });
-      NODES.forEach((n,i)=>{
-        const k=rest.findIndex(r=>[EDGES[r][0],EDGES[r][1]].includes(n.id)&&!(GROUP1.includes(n.id)||EDGES[PICK].includes(n.id)));
-        setN(i,'in',k<0?0:k*750+350);
-      });
-      readout('Total biaya MST',MST_COST);
-      caption('Garis tadi hanya alat untuk memastikan satu sisi aman. Langkah yang sama diulang, sehingga <b>semua titik tersambung</b> dan jadilah MST berbiaya <b>'+MST_COST+'</b>.');
-    },4200);
+      const p=cross.reduce((x,y)=>EDGES[y][2]<EDGES[x][2]?y:x), nm=EDGES[p][0]+'–'+EDGES[p][1];
+      readout('Kelompok 1 sekarang',list(T));
+      caption('Ulangi dengan kelompok yang sudah terhubung: <b>'+list(T)+'</b>. Sisi yang menyeberang berbiaya <b>'+cross.map(i=>EDGES[i][2]).join(', ')+'</b>.');
+      later(()=>{
+        cross.forEach(i=>setE(i,i===p?'pick':'cand fade',0));
+        readout('Termurah yang menyeberang',nm+' · '+EDGES[p][2]+'<span class="ok">AMAN</span>');
+        caption('Yang termurah, <b>'+nm+' ('+EDGES[p][2]+')</b>, pasti aman. Masukkan ke kelompok 1, lalu ulangi.');
+      },1500);
+      later(()=>{ chosen.add(p); T.add(EDGES[p][0]); T.add(EDGES[p][1]); round(); },3600);
+    };
+    round();
   }
 ];
 const LAST = STEPS.length-1;
