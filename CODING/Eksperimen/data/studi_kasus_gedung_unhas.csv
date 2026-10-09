@@ -1,7 +1,7 @@
-gedung_a,gedung_b,jarak_m,keterangan
-Sipil,Industri,20,ILUSTRASI - ganti dengan hasil ukur
-Elektro,Geologi,30,ILUSTRASI - ganti dengan hasil ukur
-Arsitektur,Sipil,40,ILUSTRASI - ganti dengan hasil ukur
-Arsitektur,Elektro,50,ILUSTRASI - ganti dengan hasil ukur
-Sipil,Elektro,60,ILUSTRASI - ganti dengan hasil ukur
-Industri,Geologi,80,ILUSTRASI - ganti dengan hasil ukur
+gedung_a,gedung_b,biaya_juta,keterangan
+Sipil,Industri,15,ILUSTRASI - ganti dengan data biaya sebenarnya
+Elektro,Geologi,0,ILUSTRASI - ganti dengan data biaya sebenarnya
+Arsitektur,Sipil,-5,ILUSTRASI - ganti dengan data biaya sebenarnya
+Arsitektur,Elektro,18,ILUSTRASI - ganti dengan data biaya sebenarnya
+Sipil,Elektro,-2,ILUSTRASI - ganti dengan data biaya sebenarnya
+Industri,Geologi,25,ILUSTRASI - ganti dengan data biaya sebenarnya

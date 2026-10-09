@@ -72,7 +72,7 @@ Waktu yang terukur di Colab adalah waktu mesin virtual Google yang dipakai bersa
 | C. Eksperimen waktu | 8 sampai 18 | Graf acak, 5 ukuran x 5 ulangan | Ya (2026) |
 
 ### Studi kasus ilustratif (Sel 7B)
-Sel 7B menjalankan ketiga algoritma pada jaringan kabel antar 5 gedung Fakultas Teknik Unhas dari `Eksperimen/data/studi_kasus_gedung_unhas.csv`. Datanya tetap, jadi **tanpa seed**. Kolom `keterangan` berisi ILUSTRASI: jaraknya angka contoh, bukan hasil pengukuran, dan Bab 4.1 menyebutnya demikian. Jika kelak diganti dengan jarak hasil ukur, catat sumbernya dan ubah Bab 4.1 serta judul bagian ini.
+Sel 7B menjalankan ketiga algoritma pada jaringan kabel antar 5 gedung Fakultas Teknik Unhas dari `Eksperimen/data/studi_kasus_gedung_unhas.csv`. Datanya tetap, jadi **tanpa seed**. Kolom `keterangan` berisi ILUSTRASI: biaya bersih (juta rupiah, ada yang 0 dan negatif) adalah angka contoh, bukan data keuangan sesungguhnya, dan Bab 4.1 menyebutnya demikian. Jika kelak diganti dengan data biaya sebenarnya, catat sumbernya dan ubah Bab 4.1 serta judul bagian ini.
 
 ### 3. Halaman visualisasi
 Klik dua kali berkas `.html` di folder algoritma masing-masing. Dibuka di browser, tidak perlu internet (font memakai cadangan sistem bila offline). Tombol **Selanjutnya** menjalankan satu langkah, tombol **Fokus** (atau tombol F) menyembunyikan panel yang tidak perlu. Kode di halaman sama persis dengan file `.py`.

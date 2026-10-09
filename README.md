@@ -67,4 +67,4 @@ Di Windows, `CODING\jalankan_notebook.bat` melakukan langkah di atas. Petunjuk G
 ## Status
 
 - Naskah Bab 1 sampai 4 tersedia di `DRAF/`. Abstrak, Bab 5, dan Lampiran belum ditulis.
-- Studi kasus jaringan kabel antar lima gedung memakai jarak ilustrasi, bukan hasil pengukuran lapangan (Bab 4.1).
+- Studi kasus jaringan kabel antar lima gedung memakai biaya bersih ilustrasi (juta rupiah, memuat bobot 0 dan negatif), bukan data keuangan sesungguhnya (Bab 4.1).

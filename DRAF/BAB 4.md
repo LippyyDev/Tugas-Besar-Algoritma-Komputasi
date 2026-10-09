@@ -6,32 +6,36 @@
 
 ---
 
-Studi kasus memodelkan perencanaan jaringan kabel yang menghubungkan lima gedung di Fakultas Teknik Universitas Hasanuddin, kampus Gowa, yaitu Arsitektur, Elektro, Geologi, Industri, dan Sipil. Setiap gedung menjadi satu simpul (*n* = 5), setiap jalur kabel kandidat menjadi satu sisi (*m* = 6), dan panjang jalur dalam meter menjadi bobot sisi. Persoalannya adalah memilih himpunan jalur yang menghubungkan kelima gedung dengan total panjang terkecil, yaitu MST pada graf tak berarah berbobot.
+Studi kasus memodelkan perencanaan jaringan kabel yang menghubungkan lima gedung di Fakultas Teknik Universitas Hasanuddin, kampus Gowa, yaitu Arsitektur, Elektro, Geologi, Industri, dan Sipil. Setiap gedung menjadi satu simpul (*n* = 5), setiap jalur kabel kandidat menjadi satu sisi (*m* = 6), dan biaya bersih pemasangan jalur dalam juta rupiah menjadi bobot sisi. Persoalannya adalah memilih himpunan jalur yang menghubungkan kelima gedung dengan total biaya bersih terkecil, yaitu MST pada graf tak berarah berbobot.
 
-Panjang jalur pada studi kasus ini merupakan nilai ilustrasi, bukan hasil pengukuran lapangan. Nilai tersebut dipakai untuk memperlihatkan bahwa ketiga algoritma bekerja pada persoalan yang bermakna, bukan untuk menyatakan rancangan jaringan yang optimal bagi kampus yang sesungguhnya. Hanya enam dari sepuluh pasangan gedung yang diperlakukan sebagai jalur kandidat, sedangkan pasangan lainnya diasumsikan tidak layak dibangun.
+Biaya bersih sebuah jalur adalah biaya pemasangannya dikurangi dana yang diterima untuk jalur itu, misalnya subsidi, hibah, atau dana pendamping. Biaya bersih 0 berarti pengeluaran dan penerimaan untuk jalur itu impas, sedangkan biaya bersih negatif berarti penerimaan melebihi pengeluaran, sehingga jalur itu menghasilkan penerimaan bersih. Bobot nol dan negatif sah karena bobot sisi dalam laporan ini adalah bilangan real (butir 1 subbab 1.4), dan kedua algoritma hanya memakai urutan bobot, bukan tanda bobot (Teorema 2.1 dan 2.2).
 
-**Tabel 4.1** Jalur kabel kandidat dan panjangnya (nilai ilustrasi)
+Biaya pada studi kasus ini merupakan nilai ilustrasi, bukan data keuangan sesungguhnya. Nilai tersebut dipakai untuk memperlihatkan bahwa ketiga algoritma bekerja pada persoalan yang bermakna, bukan untuk menyatakan rancangan jaringan yang optimal bagi kampus yang sesungguhnya. Hanya enam dari sepuluh pasangan gedung yang diperlakukan sebagai jalur kandidat, sedangkan pasangan lainnya diasumsikan tidak layak dibangun.
 
-| Gedung A | Gedung B | Panjang (m) |
+**Tabel 4.1** Jalur kabel kandidat dan biaya bersihnya (nilai ilustrasi)
+
+| Gedung A | Gedung B | Biaya bersih (juta rupiah) |
 |---|---|---|
-| Sipil | Industri | 20 |
-| Elektro | Geologi | 30 |
-| Arsitektur | Sipil | 40 |
-| Arsitektur | Elektro | 50 |
-| Sipil | Elektro | 60 |
-| Industri | Geologi | 80 |
+| Arsitektur | Sipil | -5 |
+| Sipil | Elektro | -2 |
+| Elektro | Geologi | 0 |
+| Sipil | Industri | 15 |
+| Arsitektur | Elektro | 18 |
+| Industri | Geologi | 25 |
 
-Seluruh panjang pada Tabel 4.1 berbeda, sehingga MST pada graf ini tunggal dan komponen pemutus seri pada kunci κ (Persamaan (5)) tidak pernah menentukan urutan sisi. Kruskal mengurutkan sisi secara menaik lalu menerima sisi Sipil dan Industri (20), Elektro dan Geologi (30), serta Arsitektur dan Sipil (40). Sisi Arsitektur dan Elektro (50) juga diterima karena menghubungkan dua komponen yang berbeda, yaitu {Arsitektur, Sipil, Industri} dan {Elektro, Geologi}. Sisi Sipil dan Elektro (60) serta Industri dan Geologi (80) ditolak karena menutup siklus.
+Seluruh biaya pada Tabel 4.1 berbeda, sehingga MST pada graf ini tunggal dan komponen pemutus seri pada kunci κ (Persamaan (5)) tidak pernah menentukan urutan sisi. Kruskal mengurutkan sisi secara menaik lalu menerima sisi Arsitektur dan Sipil (−5), Sipil dan Elektro (−2), Elektro dan Geologi (0), serta Sipil dan Industri (15). Sisi terakhir ini menghubungkan dua komponen yang berbeda, yaitu {Arsitektur, Sipil, Elektro, Geologi} dan {Industri}. Setelah empat sisi (*n* − 1) diterima, pemeriksaan berhenti. Sisi Arsitektur dan Elektro (18) serta Industri dan Geologi (25) tidak dipakai karena masing-masing menutup siklus, sehingga tidak pernah diperiksa.
 
 **Tabel 4.2** Hasil ketiga algoritma pada studi kasus
 
-| Algoritma | Jumlah sisi | Total (m) |
+| Algoritma | Jumlah sisi | Total biaya bersih (juta rupiah) |
 |---|---|---|
-| Kruskal | 4 | 140 |
-| Prim | 4 | 140 |
-| Borůvka | 4 | 140 |
+| Kruskal | 4 | 8 |
+| Prim | 4 | 8 |
+| Borůvka | 4 | 8 |
 
-Keluaran ketiga program sama dengan perhitungan manual di atas, yaitu empat sisi, sesuai banyaknya sisi pohon rentang untuk lima simpul, dengan total 140 m. Karena MST pada graf ini tunggal, total yang sama berarti himpunan sisinya juga sama.
+Keluaran ketiga program sama dengan perhitungan manual di atas, yaitu empat sisi, sesuai banyaknya sisi pohon rentang untuk lima simpul, dengan total biaya bersih 8 juta rupiah (−5 − 2 + 0 + 15). Karena MST pada graf ini tunggal, total yang sama berarti himpunan sisinya juga sama.
+
+Ada satu batasan makna pada bobot negatif. MST tetap harus berupa pohon yang menghubungkan seluruh gedung, sehingga jalur berbiaya negatif yang membentuk siklus tidak dipilih dan penerimaannya tidak ikut dihitung. Pada data ini seluruh jalur negatif kebetulan masuk pohon, tetapi hasil ini bukan solusi untuk masalah "bangun jalur sebanyak mungkin demi penerimaan terbesar", yang merupakan masalah lain.
 
 Dengan hanya lima simpul, studi kasus ini membuktikan kebenaran keluaran dan kegunaan MST, tetapi tidak dapat dipakai menilai efisiensi. Perbandingan waktu terhadap ukuran masukan dibahas pada eksperimen sintetis di subbab berikutnya.
 
