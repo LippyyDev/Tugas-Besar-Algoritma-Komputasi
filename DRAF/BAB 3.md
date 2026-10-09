@@ -332,7 +332,7 @@ Batas atas waktu dan ruang ketiga algoritma diturunkan dari *pseudocode* pada 3.
 
 ---
 
-### 3.4.1 Asumsi dan Alat Bantu
+### 3.4.1 Asumsi, Alat Bantu, dan *Disjoint Set*
 
 ---
 
@@ -348,11 +348,7 @@ Operasi dasar, yaitu perbandingan, penugasan, dan akses larik, dihitung berbiaya
 
 Pengurutan bawaan Python bersifat adaptif, yaitu dapat lebih cepat pada masukan yang sudah hampir terurut. Karena itu laporan ini hanya mengklaim batas atas *O*, bukan Θ.
 
----
-
-### 3.4.2 *Disjoint Set*
-
----
+Struktur *disjoint set* pada *Pseudocode* 3.1 dianalisis lebih dulu karena dipakai oleh Kruskal dan Borůvka.
 
 **Teorema 3.4.** Pada struktur *disjoint set* *Pseudocode* 3.1 yang berisi *n* elemen, BUAT-HIMPUNAN berbiaya *O*(*n*), serta CARI-AKAR dan GABUNG masing-masing berbiaya *O*(log *n*) pada kasus terburuk.
 
@@ -364,11 +360,11 @@ Pengurutan bawaan Python bersifat adaptif, yaitu dapat lebih cepat pada masukan 
 
 Dari (b), peringkat setiap akar paling besar log₂ *n*. Dari (a), peringkat sepanjang lintasan menuju akar naik secara ketat, sehingga lintasan dari simpul mana pun memuat paling banyak log₂ *n* sisi. Perulangan baris 1 sampai 3 CARI-AKAR berjalan sebanyak itu paling banyak, sehingga CARI-AKAR berbiaya *O*(log *n*). GABUNG memanggil CARI-AKAR dua kali dan menambah sejumlah langkah berbiaya *O*(1), sehingga berbiaya *O*(log *n*). ∎
 
-Batas *O*(log *n*) pada Teorema 3.4 dapat dibuktikan langsung dari kode yang ditulis, dan cukup untuk Kruskal. Batas yang lebih ketat tidak diturunkan di sini. Pengaruhnya pada Borůvka dibahas pada 3.4.5.
+Batas *O*(log *n*) ini cukup untuk Kruskal, dan pengaruhnya pada Borůvka dibahas pada 3.4.4.
 
 ---
 
-### 3.4.3 Algoritma Kruskal
+### 3.4.2 Algoritma Kruskal
 
 ---
 
@@ -389,7 +385,7 @@ Penghentian dini pada baris 6 tidak menurunkan batas ini. Pengurutan pada baris 
 
 ---
 
-### 3.4.4 Algoritma Prim
+### 3.4.3 Algoritma Prim
 
 ---
 
@@ -407,7 +403,7 @@ Batas ini berlaku untuk tumpukan biner dengan antrean berisi sisi (3.2.3). Rumus
 
 ---
 
-### 3.4.5 Algoritma Borůvka
+### 3.4.4 Algoritma Borůvka
 
 ---
 
@@ -425,7 +421,7 @@ Batas ini lebih besar satu faktor log *n* daripada *O*(*m* log *n*) pada pustaka
 
 ---
 
-### 3.4.6 Kompleksitas Ruang
+### 3.4.5 Kompleksitas Ruang
 
 ---
 
@@ -435,11 +431,11 @@ Batas ini lebih besar satu faktor log *n* daripada *O*(*m* log *n*) pada pustaka
 
 ---
 
-### 3.4.7 Ringkasan dan Substitusi ke Kasus Analisis
+### 3.4.6 Ringkasan dan Substitusi ke Kasus Analisis
 
 ---
 
-Hasil 3.4.3 sampai 3.4.6 dirangkum pada Tabel 3.7.
+Hasil 3.4.2 sampai 3.4.5 dirangkum pada Tabel 3.7.
 
 **Tabel 3.7** Ringkasan batas atas kompleksitas (graf terhubung, *n* ≥ 2)
 
@@ -498,11 +494,11 @@ Akibat kedua fakta ini, pada graf yang mana pun, Kruskal dan Prim sama-sama memp
 
 ---
 
-**Kruskal.** Kelebihannya adalah masukan berupa daftar sisi langsung dapat diproses tanpa membangun struktur graf lain, dan algoritmanya sederhana karena seluruh keputusan berada pada satu urutan sisi. Keterbatasannya ada tiga. Seluruh sisi harus tersedia dan diurutkan lebih dulu, sehingga algoritma tidak dapat mulai sebelum semua sisi dikenal. Salinan terurut membuat ruang tambahannya *O*(*n* + *m*). Terakhir, penghentian dini tidak mengurangi biaya pengurutan, sebagaimana dibahas pada 3.4.3. Algoritma ini cocok bila graf sudah berupa daftar sisi, misalnya daftar jalur kabel beserta biayanya, dan bila graf cukup jarang sehingga *m* kecil.
+**Kruskal.** Kelebihannya adalah masukan berupa daftar sisi langsung dapat diproses tanpa membangun struktur graf lain, dan algoritmanya sederhana karena seluruh keputusan berada pada satu urutan sisi. Keterbatasannya ada tiga. Seluruh sisi harus tersedia dan diurutkan lebih dulu, sehingga algoritma tidak dapat mulai sebelum semua sisi dikenal. Salinan terurut membuat ruang tambahannya *O*(*n* + *m*). Terakhir, penghentian dini tidak mengurangi biaya pengurutan, sebagaimana dibahas pada 3.4.2. Algoritma ini cocok bila graf sudah berupa daftar sisi, misalnya daftar jalur kabel beserta biayanya, dan bila graf cukup jarang sehingga *m* kecil.
 
-**Prim.** Kelebihannya adalah pohon tumbuh dari satu simpul dan sisi dipilih dari batas pohon, sehingga algoritma ini alami bila graf sudah tersedia sebagai daftar ketetanggaan. Keterbatasannya berasal dari pilihan implementasi. Antrean menyimpan sisi dan memuat entri usang (3.2.3), sehingga ruangnya mencapai *O*(*m*) dan batas waktunya *O*(*m* log *n*), bukan batas rumusan berbasis simpul (3.4.4). Jika graf tersedia sebagai daftar sisi, daftar ketetanggaan harus dibangun lebih dulu dengan biaya *O*(*n* + *m*) dan ruang tambahan 2*m* entri.
+**Prim.** Kelebihannya adalah pohon tumbuh dari satu simpul dan sisi dipilih dari batas pohon, sehingga algoritma ini alami bila graf sudah tersedia sebagai daftar ketetanggaan. Keterbatasannya berasal dari pilihan implementasi. Antrean menyimpan sisi dan memuat entri usang (3.2.3), sehingga ruangnya mencapai *O*(*m*) dan batas waktunya *O*(*m* log *n*), bukan batas rumusan berbasis simpul (3.4.3). Jika graf tersedia sebagai daftar sisi, daftar ketetanggaan harus dibangun lebih dulu dengan biaya *O*(*n* + *m*) dan ruang tambahan 2*m* entri.
 
-**Borůvka.** Kelebihannya adalah strukturnya berputaran, sehingga pemilihan sisi tiap komponen pada satu putaran saling bebas dan secara konsep mudah diparalelkan (Sanders *et al.*, 2019, Bagian 11.6), yang berada di luar batasan laporan ini. Ruang tambahannya paling kecil, yaitu *O*(*n*). Keterbatasan pada implementasi ini ada dua. Pertama, kode tidak melakukan kontraksi (varian pada 2.4), sehingga setiap putaran memindai seluruh *m* sisi termasuk sisi yang kedua ujungnya sudah berada dalam satu komponen (baris 6 pada *Pseudocode* 3.4). Kedua, komponen ditentukan dengan CARI-AKAR, sehingga batas yang dapat dibuktikan adalah *O*(*m* log² *n*), satu faktor log *n* di atas batas pustaka (3.4.5). Algoritma ini dipilih sebagai pembanding karena strateginya berbeda, bukan karena diharapkan lebih cepat pada kode ini.
+**Borůvka.** Kelebihannya adalah strukturnya berputaran, sehingga pemilihan sisi tiap komponen pada satu putaran saling bebas dan secara konsep mudah diparalelkan (Sanders *et al.*, 2019, Bagian 11.6), yang berada di luar batasan laporan ini. Ruang tambahannya paling kecil, yaitu *O*(*n*). Keterbatasan pada implementasi ini ada dua. Pertama, kode tidak melakukan kontraksi (varian pada 2.4), sehingga setiap putaran memindai seluruh *m* sisi termasuk sisi yang kedua ujungnya sudah berada dalam satu komponen (baris 6 pada *Pseudocode* 3.4). Kedua, komponen ditentukan dengan CARI-AKAR, sehingga batas yang dapat dibuktikan adalah *O*(*m* log² *n*), satu faktor log *n* di atas batas pustaka (3.4.4). Algoritma ini dipilih sebagai pembanding karena strateginya berbeda, bukan karena diharapkan lebih cepat pada kode ini.
 
 **Kesesuaian untuk studi kasus.** Studi kasus pada Bab 4 adalah jaringan kabel antar lima gedung, yaitu graf dengan *n* = 5 dan *m* paling banyak 10. Pada ukuran sekecil itu perbedaan orde pertumbuhan tidak berarti, dan ketiga algoritma menghasilkan himpunan sisi yang sama karena memakai aturan pemutus seri yang sama (Teorema 3.3). Pilihan di antara ketiganya ditentukan oleh bentuk data. Daftar jalur beserta biayanya sudah berbentuk daftar sisi, sehingga Kruskal paling langsung dipakai. Ada pula keterbatasan yang berasal dari modelnya, bukan dari algoritmanya. MST meminimalkan total biaya, tetapi hasilnya berupa pohon, sehingga putusnya satu jalur memutus jaringan, dan MST tidak memperhitungkan syarat lain seperti cadangan jalur atau kondisi medan. Jika syarat itu penting, masalahnya bukan lagi MST murni.
 
@@ -512,7 +508,7 @@ Akibat kedua fakta ini, pada graf yang mana pun, Kruskal dan Prim sama-sama memp
 
 ---
 
-Laporan ini membatasi alternatif pada yang sudah dibahas pada subbab sebelumnya. Untuk Prim, rumusan berbasis simpul dengan *Fibonacci heap* memberi batas yang lebih kecil (3.4.4; Osipov *et al.*, 2009; Sanders *et al.*, 2019, Bagian 11.2), tetapi tidak dapat dibangun langsung dari `heapq`. Filter-Kruskal (Osipov *et al.*, 2009) adalah varian Kruskal yang tidak dibahas (butir 2 subbab 1.4). Untuk graf sangat besar, tersedia implementasi paralel dan terdistribusi (Fallin *et al.*, 2023; Sanders dan Schimek, 2023), yang berada di luar batasan laporan ini. Untuk graf kecil seperti studi kasus, tidak ada alasan memakai alternatif tersebut.
+Laporan ini membatasi alternatif pada yang sudah dibahas pada subbab sebelumnya. Untuk Prim, rumusan berbasis simpul dengan *Fibonacci heap* memberi batas yang lebih kecil (3.4.3; Osipov *et al.*, 2009; Sanders *et al.*, 2019, Bagian 11.2), tetapi tidak dapat dibangun langsung dari `heapq`. Filter-Kruskal (Osipov *et al.*, 2009) adalah varian Kruskal yang tidak dibahas (butir 2 subbab 1.4). Untuk graf sangat besar, tersedia implementasi paralel dan terdistribusi (Fallin *et al.*, 2023; Sanders dan Schimek, 2023), yang berada di luar batasan laporan ini. Untuk graf kecil seperti studi kasus, tidak ada alasan memakai alternatif tersebut.
 
 ---
 
