@@ -21,7 +21,7 @@ Panjang jalur pada studi kasus ini merupakan nilai ilustrasi, bukan hasil penguk
 | Sipil | Elektro | 60 |
 | Industri | Geologi | 80 |
 
-Seluruh panjang pada Tabel 4.1 berbeda, sehingga MST pada graf ini tunggal dan komponen pemutus seri pada kunci κ (Persamaan (6)) tidak pernah menentukan urutan sisi. Kruskal mengurutkan sisi secara menaik lalu menerima sisi Sipil dan Industri (20), Elektro dan Geologi (30), serta Arsitektur dan Sipil (40). Sisi Arsitektur dan Elektro (50) juga diterima karena menghubungkan dua komponen yang berbeda, yaitu {Arsitektur, Sipil, Industri} dan {Elektro, Geologi}. Sisi Sipil dan Elektro (60) serta Industri dan Geologi (80) ditolak karena menutup siklus.
+Seluruh panjang pada Tabel 4.1 berbeda, sehingga MST pada graf ini tunggal dan komponen pemutus seri pada kunci κ (Persamaan (5)) tidak pernah menentukan urutan sisi. Kruskal mengurutkan sisi secara menaik lalu menerima sisi Sipil dan Industri (20), Elektro dan Geologi (30), serta Arsitektur dan Sipil (40). Sisi Arsitektur dan Elektro (50) juga diterima karena menghubungkan dua komponen yang berbeda, yaitu {Arsitektur, Sipil, Industri} dan {Elektro, Geologi}. Sisi Sipil dan Elektro (60) serta Industri dan Geologi (80) ditolak karena menutup siklus.
 
 **Tabel 4.2** Hasil ketiga algoritma pada studi kasus
 
@@ -32,8 +32,6 @@ Seluruh panjang pada Tabel 4.1 berbeda, sehingga MST pada graf ini tunggal dan k
 | Borůvka | 4 | 140 |
 
 Keluaran ketiga program sama dengan perhitungan manual di atas, yaitu empat sisi, sesuai banyaknya sisi pohon rentang untuk lima simpul, dengan total 140 m. Karena MST pada graf ini tunggal, total yang sama berarti himpunan sisinya juga sama.
-
-Hasil ini memiliki keterbatasan yang berasal dari model, bukan dari algoritma. MST meminimalkan total panjang kabel, tetapi hasilnya berupa pohon, sehingga putusnya satu jalur memutus jaringan. MST juga tidak memperhitungkan syarat lain seperti cadangan jalur atau kondisi medan (lihat 3.5.2).
 
 Dengan hanya lima simpul, studi kasus ini membuktikan kebenaran keluaran dan kegunaan MST, tetapi tidak dapat dipakai menilai efisiensi. Perbandingan waktu terhadap ukuran masukan dibahas pada eksperimen sintetis di subbab berikutnya.
 
@@ -60,7 +58,7 @@ Seluruh pengukuran dijalankan pada satu sesi Google Colab versi gratis (*free ti
 
 Waktu diambil dengan `time.perf_counter()` hanya di sekitar pemanggilan algoritma, setelah `gc.collect()`, dan pengumpul sampah tetap aktif selama pengukuran. Ketiga algoritma dijalankan pada graf yang sama. Kruskal dan Borůvka menerima daftar sisi, sedangkan Prim menerima daftar ketetanggaan (butir 4 subbab 1.4). Karena itu waktu Prim dicatat dua kali, yaitu waktu inti tanpa pembuatan daftar ketetanggaan dan waktu yang ditambah konversi daftar sisi menjadi daftar ketetanggaan.
 
-Ketiga algoritma ditulis dalam Python dan berjalan sekuensial (butir 3 subbab 1.4). Kode tersimpan pada tiga berkas di repositori, yaitu `Kruskal/kruskal.py`, `Prim/prim.py`, dan `Borůvka/boruvka.py`. Pengurutan memakai `sorted` pada Kruskal, antrean prioritas memakai `heapq` pada Prim, dan keduanya hanya alat bantu. Struktur *disjoint set* ditulis sendiri pada kelas `HimpunanTerpisah` dengan *union by rank* dan *path halving*, dan Borůvka memakai kelas yang sama dari `kruskal.py`. Kode lengkap tersedia di repositori (lihat Lampiran). Berikut kutipan bagian intinya, dengan komentar pada kode asli dihilangkan agar ringkas.
+Ketiga algoritma ditulis dalam Python dan berjalan sekuensial (butir 3 subbab 1.4). Kode tersimpan pada tiga berkas di repositori, yaitu `Kruskal/kruskal.py`, `Prim/prim.py`, dan `Borůvka/boruvka.py`. Pengurutan memakai `sorted` pada Kruskal, antrean prioritas memakai `heapq` pada Prim, dan keduanya hanya alat bantu. Struktur *disjoint set* ditulis sendiri pada kelas `HimpunanTerpisah` dengan *union by rank* dan *path halving*, dan Borůvka memakai kelas yang sama dari `kruskal.py`. Kode lengkap tersedia di repositori (lihat Lampiran). Berikut kutipan bagian inti Kruskal dan Prim beserta struktur *disjoint set*, dengan komentar pada kode asli dihilangkan agar ringkas. Kode Borůvka (*Pseudocode* 3.4) tidak dikutip dan tersedia di repositori.
 
 **Kode 4.1** `HimpunanTerpisah` (*Pseudocode* 3.1)
 
@@ -99,7 +97,7 @@ for simpul_a, simpul_b, bobot in sisi_terurut:
             break
 ```
 
-Kunci pengurutan adalah tripel κ pada Persamaan (6), yaitu bobot, simpul terkecil, lalu simpul terbesar. Sisi diterima hanya jika `gabung` mengembalikan `True`, dan perulangan berhenti segera setelah *n* − 1 sisi terkumpul. Jika setelah perulangan jumlah sisi kurang dari *n* − 1, fungsi melempar `ValueError` karena graf tidak terhubung (bagian ini tidak ditampilkan pada kutipan).
+Kunci pengurutan adalah tripel κ pada Persamaan (5), yaitu bobot, simpul terkecil, lalu simpul terbesar. Sisi diterima hanya jika `gabung` mengembalikan `True`, dan perulangan berhenti segera setelah *n* − 1 sisi terkumpul. Jika setelah perulangan jumlah sisi kurang dari *n* − 1, fungsi melempar `ValueError` karena graf tidak terhubung (bagian ini tidak ditampilkan pada kutipan).
 
 **Kode 4.3** Prim (*Pseudocode* 3.3)
 
@@ -118,28 +116,6 @@ while antrean and len(sisi_mst) < jumlah_simpul - 1:
 ```
 
 Antrean berisi sisi dalam bentuk tripel (bobot, simpul kecil, simpul besar), sehingga urutannya memakai kunci κ yang sama dengan Kruskal. Sisi termurah diambil dari antrean. Jika kedua ujungnya sudah berada di pohon, sisi itu usang dan dilewati (3.2.3). Jika tidak, ujung yang belum masuk menjadi simpul baru, lalu semua sisi dari simpul itu ke simpul di luar pohon dimasukkan ke antrean.
-
-**Kode 4.4** Borůvka, satu putaran (*Pseudocode* 3.4)
-
-```python
-termurah = {}
-for simpul_a, simpul_b, bobot in daftar_sisi:
-    akar_a = himpunan.cari_akar(simpul_a)
-    akar_b = himpunan.cari_akar(simpul_b)
-    if akar_a == akar_b:
-        continue
-    sisi = (simpul_a, simpul_b, bobot)
-    for akar in (akar_a, akar_b):
-        if akar not in termurah or kunci_sisi(sisi) < kunci_sisi(termurah[akar]):
-            termurah[akar] = sisi
-for simpul_a, simpul_b, bobot in termurah.values():
-    if himpunan.gabung(simpul_a, simpul_b):
-        sisi_mst.append((simpul_a, simpul_b, bobot))
-        total_bobot += bobot
-        jumlah_komponen -= 1
-```
-
-Pada setiap putaran, setiap komponen memilih sisi termurah yang keluar darinya menurut `kunci_sisi`, yaitu κ yang sama. Sisi di dalam satu komponen diabaikan. Setelah semua komponen memilih, pilihan dipasang satu per satu, dan `gabung` yang mengembalikan `False` menandakan sisi itu sudah terpasang oleh komponen lain pada putaran yang sama. Putaran diulang sampai tersisa satu komponen, dan jika tidak ada sisi yang keluar dari komponen mana pun padahal komponen masih lebih dari satu, fungsi melempar `ValueError` (bagian ini dan pembuatan `himpunan` serta `jumlah_komponen` tidak ditampilkan pada kutipan).
 
 ---
 
@@ -255,14 +231,14 @@ Kurva teoretis pada gambar memakai suku *m* log₂ *m* untuk Kruskal dan *m* log
 
 Rasio pada Tabel 4.9 dihitung dari rata-rata pada Tabel 4.6 sampai 4.8, dengan suku *m* log₂ *n* untuk ketiga algoritma agar sesuai dengan cara pemeriksaan pada Tabel 3.10. Karena itu rasio Kruskal di sini dapat berbeda dari keluaran notebook, yang memakai *m* log₂ *m* untuk Kruskal. Kolom terakhir adalah rasio Borůvka terhadap suku *m* log² *n*.
 
-Data pada Tabel 4.6 sampai 4.8 menunjukkan hal berikut. Pada skenario jarang dan jarang_kembar, Kruskal memiliki rata-rata terendah pada kelima ukuran. Pada skenario padat, Prim tanpa konversi memiliki rata-rata terendah pada kelima ukuran. Borůvka memiliki rata-rata tertinggi pada semua ukuran di ketiga skenario. Pada ukuran terbesar, waktu Borůvka adalah 4,29 kali waktu Kruskal pada skenario jarang, 5,02 kali pada skenario padat, dan 3,68 kali pada skenario jarang_kembar. Pembuatan daftar ketetanggaan menambah waktu Prim sebesar 39,2% (jarang), 49,0% (padat), dan 42,2% (jarang_kembar) pada ukuran terbesar. Pada skenario padat, Prim (+konversi) lebih lambat daripada Kruskal pada *n* = 200 sampai 600 dan lebih cepat pada *n* = 800 dan 1000, yaitu 518,02 ms dibandingkan 534,56 ms pada *n* = 1000. Simpangan baku berkisar dari 1,1% sampai 57,0% dari rata-rata, dan yang tertinggi terjadi pada Borůvka skenario jarang dengan *n* = 16000.
+Data pada Tabel 4.6 sampai 4.8 menunjukkan hal berikut. Pada skenario jarang dan jarang_kembar, Kruskal memiliki rata-rata terendah pada kelima ukuran, sedangkan pada skenario padat Prim tanpa konversi yang terendah. Borůvka paling lambat pada semua ukuran, yaitu 3,68 sampai 5,02 kali waktu Kruskal pada ukuran terbesar. Pembuatan daftar ketetanggaan menambah waktu Prim sebesar 39,2% (jarang), 49,0% (padat), dan 42,2% (jarang_kembar) pada ukuran terbesar, dan simpangan baku berkisar dari 1,1% sampai 57,0% dari rata-rata, tertinggi pada Borůvka skenario jarang dengan *n* = 16000.
 
 
 ## 4.6 Pembahasan
 
 ---
 
-Dari enam prediksi pada Tabel 3.10, prediksi 1 tidak terpenuhi, prediksi 4, 5, dan 6 terpenuhi, prediksi 2 terpenuhi sebagian, dan prediksi 3 tidak memuat prediksi arah sehingga hanya dilaporkan hasilnya. Sesuai ketentuan di 3.5.4, ketidaksesuaian dilaporkan apa adanya dan tidak disesuaikan. Tabel 4.10 merangkum statusnya, dan uraian tiap prediksi menyusul.
+Sesuai ketentuan di 3.5.4, ketidaksesuaian prediksi pada Tabel 3.10 dilaporkan apa adanya dan tidak disesuaikan. Tabel 4.10 merangkum status keenam prediksi, dan uraian tiap prediksi menyusul.
 
 **Tabel 4.10** Status prediksi Tabel 3.10 terhadap data Bab 4
 
@@ -291,7 +267,7 @@ Ada tiga alasan untuk tidak membaca hasil ini sebagai bukti ketat. Pertama, rasi
 
 Tabel 3.10 tidak memuat prediksi arah untuk perbandingan ini, jadi bagian ini melaporkan hasilnya. Pada skenario jarang dan jarang_kembar, Kruskal memiliki rata-rata terendah pada kelima ukuran, dan pada skenario padat Prim tanpa konversi memiliki rata-rata terendah pada kelima ukuran. Arah ini sejalan dengan laporan Osipov *et al.* (2009) bahwa Kruskal baik pada graf yang tidak terlalu padat, tetapi kondisinya berbeda: laporan itu memakai C++, sedangkan laporan ini memakai Python dengan `heapq` dan `sorted`.
 
-Besar selisihnya perlu dibaca bersama simpangan baku. Pada skenario padat, selisih rata-rata Kruskal dan Prim (2,96; 10,72; 43,57; 106,99; dan 186,98 ms) lebih besar daripada simpangan baku kedua algoritma pada kelima ukuran, sehingga arahnya cukup konsisten. Pada skenario jarang dan jarang_kembar dengan *n* ≥ 16000, selisihnya (22,23; 50,90; dan 132,42 ms pada skenario jarang, serta 11,62; 31,13; dan 83,72 ms pada skenario jarang_kembar) lebih kecil daripada simpangan baku kedua algoritma, sehingga di ukuran itu urutan Kruskal sebelum Prim tidak dapat dipastikan dari data ini walaupun arahnya sama di semua ukuran. Pada dua ukuran terkecil selisihnya hanya 1,44 sampai 6,87 ms dan tidak konsisten melebihi simpangan baku kedua algoritma.
+Besar selisihnya perlu dibaca bersama simpangan baku. Pada skenario padat, selisih rata-rata Kruskal dan Prim lebih besar daripada simpangan baku kedua algoritma pada kelima ukuran, sehingga arahnya cukup konsisten. Pada skenario jarang dan jarang_kembar dengan *n* ≥ 16000, selisihnya lebih kecil daripada simpangan baku kedua algoritma, dan pada dua ukuran terkecil selisihnya tidak konsisten melebihi simpangan baku kedua algoritma. Karena itu urutan Kruskal sebelum Prim pada kedua skenario jarang tidak dapat dipastikan dari data ini, walaupun arahnya sama di semua ukuran.
 
 Hasil ini juga tidak menetapkan titik silang. Pada skenario padat, *n* berubah bersama kepadatan (*m*/*n* = (*n* − 1)/4, yaitu 49,75 pada *n* = 200 sampai 249,75 pada *n* = 1000), sedangkan pada skenario jarang *m*/*n* tetap 3. Titik silang berada di antara dua rentang itu, dan data tidak memuat kepadatan di antaranya, sebagaimana sudah dinyatakan di Tabel 3.10. Selain itu, keunggulan Prim pada skenario padat bergantung pada *Adj* yang sudah tersedia. Jika pembuatan *Adj* dihitung, Prim (+konversi) lebih lambat daripada Kruskal pada *n* = 200 sampai 600 dan lebih cepat hanya pada *n* = 800 dan 1000, dengan selisih 16,54 ms pada *n* = 1000 (518,02 dibandingkan 534,56 ms) yang jauh di bawah simpangan baku keduanya (85,95 dan 112,35 ms). Jadi dengan biaya konversi dihitung, data tidak menunjukkan keunggulan Prim di skenario padat. Bagi Borůvka, waktunya paling tinggi pada semua ukuran di ketiga skenario, yaitu 3,68 sampai 5,02 kali Kruskal pada ukuran terbesar. Hal ini sejalan dengan faktor log tambahan pada Teorema 3.7 dan dengan kenyataan bahwa Borůvka memindai seluruh sisi pada setiap putaran, tetapi pembagian pengaruhnya tidak diukur.
 
@@ -303,7 +279,7 @@ Prediksi 4 terpenuhi dalam arah dan tidak dalam besaran konstan. Prim (+konversi
 
 Prediksi 5 mengandung dua bagian. Bagian pertama, bahwa batas waktu tidak berubah, tidak ditolak oleh data. Rasio waktu skenario jarang_kembar terhadap skenario jarang pada *n* dan *m* yang sama berkisar dari 0,93 sampai 1,10 untuk Kruskal, 0,88 sampai 1,05 untuk Prim, dan 0,68 sampai 1,04 untuk Borůvka, dan tidak ada arah yang konsisten pada kelima ukuran. Selisih pada rentang ini sebanding dengan gangguan pengukuran sehingga tidak ditafsirkan sebagai pengaruh bobot. Hasil ini sejalan dengan rancangan, karena kunci κ mengurutkan seluruh sisi secara total dan perbandingan κ tidak lebih mahal ketika bobotnya sama.
 
-Bagian kedua, bahwa total bobot ketiga algoritma sama, terpenuhi: totalnya sama pada setiap ulangan di skenario jarang_kembar. Rumusan prediksi ini pada Tabel 3.10 dibatasi pada total bobot di graf eksperimen dan himpunan sisi di graf kecil, sesuai pemeriksaan yang dijalankan notebook. Total bobot yang sama belum menjamin himpunan sisi yang sama (Tabel 4.4), dan perbandingan himpunan sisi pada graf berbobot kembar hanya dilakukan pada Kasus 3 di 4.3, yaitu graf kecil. Kesamaan himpunan sisi pada graf besar berbobot kembar tidak diperiksa secara langsung dan tidak diklaim.
+Bagian kedua, bahwa total bobot ketiga algoritma sama, terpenuhi: totalnya sama pada setiap ulangan di skenario jarang_kembar. Rumusan prediksi ini pada Tabel 3.10 dibatasi pada total bobot di graf eksperimen dan himpunan sisi di graf kecil (Kasus 3 di 4.3), sehingga kesamaan himpunan sisi pada graf besar berbobot kembar tidak diklaim.
 
 ### 4.6.6 Kesamaan Keluaran (Prediksi 6)
 
@@ -314,13 +290,10 @@ Prediksi 6 terpenuhi pada cakupan yang dirumuskan di Tabel 3.10. Total bobot ket
 Hasil di atas berlaku dengan batas berikut.
 
 1. **Gangguan waktu besar.** Simpangan baku mencapai sekitar 57% dari rata-rata (Borůvka, skenario jarang, *n* = 16000), dan 32 dari 60 kombinasi algoritma dan ukuran memiliki simpangan baku sekurang-kurangnya 20% dari rata-rata. Selisih yang lebih kecil daripada simpangan baku tidak ditafsirkan, dan hal ini membatasi kesimpulan prediksi 2, 3, dan 5.
-2. **Sumber daya Colab tidak dijamin tetap.** Eksperimen berjalan pada Colab versi gratis, yang sumber dayanya tidak dijamin tetap, sehingga kecepatan mesin dapat berubah selama sesi. Karena kelima ulangan dijalankan pada graf yang sama, simpangan baku hanya mengukur gangguan waktu, bukan variasi antar graf (4.4).
+2. **Sumber daya Colab dan satu graf per ukuran.** Eksperimen berjalan pada Colab versi gratis, yang sumber dayanya tidak dijamin tetap, sehingga kecepatan mesin dapat berubah selama sesi. Setiap ukuran diwakili satu graf (*seed* 2026) dan kelima ulangan dijalankan pada graf yang sama, sehingga simpangan baku hanya mengukur gangguan waktu, bukan variasi antar graf (4.4).
 3. **Urutan eksekusi tetap.** Dalam setiap ulangan urutannya selalu pembuatan *Adj*, Kruskal, Prim, lalu Borůvka. Pengaruh urutan, misalnya keadaan memori atau *garbage collector* dari algoritma sebelumnya, tidak diacak dan tidak dapat dipisahkan dari perbedaan antar algoritma.
-4. **Satu graf per ukuran.** Setiap ukuran diwakili satu graf (*seed* 2026), sehingga variasi antar graf tidak terukur.
-5. **Rentang ukuran sempit.** *n* terbesar 64000 pada graf jarang dan 1000 pada graf padat, jauh di bawah 10⁶ pada contoh di slide ketentuan. Lima ukuran hanya mencakup faktor 16 sampai 25 pada *m*, sehingga eksponen empiris pada 4.6.1 bersifat lokal. Pada skenario padat, *n* dan kepadatan berubah bersamaan (4.4).
-6. **Cakupan terbatas.** Hanya dua kepadatan dan satu varian bobot kembar yang diuji, hanya dalam Python, dan hanya waktu yang diukur sehingga ruang dianalisis secara teoretis saja (butir 6 subbab 1.4).
-7. **Data studi kasus ilustrasi.** Studi kasus 4.1 memakai data ilustrasi dan model graf yang menyederhanakan (3.5.2), sehingga tidak dapat dibaca sebagai pengukuran kabel nyata.
-8. **Kode yang diukur.** Pencocokan otomatis `.py` dengan notebook dilewati di Colab (4.3), sehingga kebenaran yang diperiksa adalah kebenaran kode di dalam notebook.
+4. **Rentang ukuran sempit.** *n* terbesar 64000 pada graf jarang dan 1000 pada graf padat, jauh di bawah 10⁶ pada contoh di slide ketentuan. Lima ukuran hanya mencakup faktor 16 sampai 25 pada *m*, sehingga eksponen empiris pada 4.6.1 bersifat lokal. Pada skenario padat, *n* dan kepadatan berubah bersamaan (4.4).
+5. **Cakupan terbatas.** Hanya dua kepadatan dan satu varian bobot kembar yang diuji, hanya dalam Python, dan hanya waktu yang diukur sehingga ruang dianalisis secara teoretis saja (butir 6 subbab 1.4).
 
 Rasio waktu terhadap teori masih naik pada ukuran terbesar untuk ketiga algoritma, jadi pernyataan tentang pertumbuhan hanya berlaku pada rentang yang diukur dan tidak boleh diekstrapolasi ke ukuran yang lebih besar tanpa pengukuran tambahan.
 

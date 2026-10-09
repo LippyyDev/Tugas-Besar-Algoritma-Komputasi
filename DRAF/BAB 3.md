@@ -108,7 +108,7 @@ Pada langkah 3, tripel (2, 1, 2) dan (2, 2, 3) berbobot sama, dan aturan pemutus
 
 Ketiga algoritma memakai kunci pembanding sisi yang sama, yaitu aturan pemutus seri pada butir 7 subbab 1.4 dan 2.2.3. Untuk sisi *e* = (*u*, *v*, *w*), kunci ini adalah tripel
 
-κ(*e*) = (*w*, min(*u*, *v*), max(*u*, *v*)), (6)
+κ(*e*) = (*w*, min(*u*, *v*), max(*u*, *v*)), (5)
 
 yang dibandingkan secara leksikografis, yaitu bobot lebih dulu, lalu simpul terkecil, lalu simpul terbesar. Karena graf tidak memiliki sisi ganda, tidak ada dua sisi dengan kunci yang sama, sehingga κ mengurutkan seluruh sisi secara total.
 
@@ -242,7 +242,7 @@ Satu sisi dapat dipilih oleh dua komponen sekaligus, yaitu komponen pada kedua u
 
 ---
 
-Kebenaran Kruskal dan Prim dibuktikan dengan invarian bahwa himpunan sisi *A* yang terkumpul selalu termuat dalam suatu MST, sehingga setiap sisi yang diterima adalah *safe edge* (lihat 2.1.2). Invarian itu dijaga oleh *cut property* (Teorema 2.1), sedangkan *cycle property* (Teorema 2.2) menjelaskan penolakan sisi pada Kruskal. Karena kedua teorema itu baru disketsakan pada Bab 2, buktinya dilengkapi lebih dulu pada 3.3.1 dan 3.3.2. Seluruh pembuktian memakai graf *G* = (*V*, *E*) tak berarah, terhubung, dan berbobot real dengan *n* = |*V*| dan *m* = |*E*| (lihat 1.2), serta istilah potongan, *light edge*, dan menghormati seperti pada 2.2.1.
+Kebenaran Kruskal dan Prim dibuktikan dengan invarian bahwa himpunan sisi *A* yang terkumpul selalu termuat dalam suatu MST, sehingga setiap sisi yang diterima adalah *safe edge* (lihat 2.1.2). Invarian itu dijaga oleh *cut property* (Teorema 2.1). Karena teorema itu baru disketsakan pada Bab 2, buktinya dilengkapi lebih dulu pada 3.3.1. Seluruh pembuktian memakai graf *G* = (*V*, *E*) tak berarah, terhubung, dan berbobot real dengan *n* = |*V*| dan *m* = |*E*| (lihat 1.2), serta istilah potongan, *light edge*, dan menghormati seperti pada 2.2.1.
 
 ---
 
@@ -258,21 +258,7 @@ Karena *e* adalah *light edge* dan *f* melintasi potongan yang sama, *w*(*e*) �
 
 ---
 
-### 3.3.2 Bukti *Cycle Property*
-
----
-
-**Bukti Teorema 2.2.** Misalkan *e* = (*u*, *v*) adalah sisi terberat pada siklus *C* dan *G'* = (*V*, *E* \ {*e*}). Graf *G'* terhubung karena *C* − {*e*} adalah lintasan dari *u* ke *v*.
-
-*Langkah 1:* ada MST dari *G* yang tidak memuat *e*. Misalkan *T* adalah MST dari *G*. Jika *e* ∉ *T*, langkah ini selesai. Jika *e* ∈ *T*, menghapus *e* memecah *T* menjadi dua komponen, *T*₁ yang memuat *u* dan *T*₂ yang memuat *v*. Lintasan *C* − {*e*} menghubungkan *u* dan *v*, sehingga memuat sebuah sisi *e'* dengan satu ujung di *T*₁ dan ujung lain di *T*₂. Sisi *e'* berada pada *C* dan *e'* ≠ *e*, sehingga *w*(*e'*) ≤ *w*(*e*). Maka *T'* = (*T* − {*e*}) ∪ {*e'*} adalah *spanning tree* dengan *w*(*T'*) ≤ *w*(*T*), sehingga *T'* adalah MST dari *G* yang tidak memuat *e*.
-
-*Langkah 2:* setiap MST dari *G'* adalah MST dari *G*. Misalkan *T'* adalah MST dari *G* yang tidak memuat *e*. Karena *T'* adalah *spanning tree* dari *G'*, bobot MST dari *G'* paling besar *w*(*T'*), yaitu bobot MST dari *G*. Sebaliknya, setiap *spanning tree* dari *G'* juga *spanning tree* dari *G*, sehingga bobotnya paling kecil sama dengan bobot MST dari *G*. Dengan demikian kedua bobot minimum itu sama, dan setiap MST dari *G'* adalah *spanning tree* dari *G* dengan bobot minimum, yaitu MST dari *G*.
-
-*Langkah 3:* *circuit rule*. Jika *e* adalah satu-satunya sisi terberat pada *C*, maka *w*(*e'*) < *w*(*e*) pada langkah 1. Jika ada MST *T* yang memuat *e*, pertukaran pada langkah 1 menghasilkan *w*(*T'*) < *w*(*T*), yang bertentangan dengan keminimalan *T*. Jadi tidak ada MST dari *G* yang memuat *e*. ∎ (Sanders *et al.*, 2019, Lemma 11.2; Nešetřil *et al.*, 2001, Bagian 8)
-
----
-
-### 3.3.3 Kebenaran Algoritma Kruskal
+### 3.3.2 Kebenaran Algoritma Kruskal
 
 ---
 
@@ -290,11 +276,9 @@ Karena *e* adalah *light edge* dan *f* melintasi potongan yang sama, *w*(*e*) �
 
 *Kesimpulan.* Setelah perulangan, *A* termuat dalam suatu MST *T*\*, dan |*A*| = *n* − 1 = |*T*\*|, sehingga *A* = *T*\*. ∎
 
-Penolakan sisi sesuai dengan Teorema 2.2. Jika sisi *e* = (*u*, *v*) ditolak, *e* menutup siklus bersama lintasan dari *u* ke *v* di (*V*, *A*). Seluruh sisi lintasan itu sudah diperiksa lebih dulu sehingga bobotnya tidak lebih besar daripada *w*(*e*), dan *e* adalah salah satu sisi terberat pada siklus tersebut. Pengamatan ini tidak diperlukan untuk bukti di atas.
-
 ---
 
-### 3.3.4 Kebenaran Algoritma Prim
+### 3.3.3 Kebenaran Algoritma Prim
 
 ---
 
@@ -322,7 +306,7 @@ Bukti ini berlaku untuk sembarang simpul awal *s* dan menunjukkan mengapa elemen
 
 ---
 
-### 3.3.5 Keunikan MST dan Keluaran Kruskal dan Prim pada Aturan Pemutus Seri
+### 3.3.4 Keunikan MST dan Keluaran Kruskal dan Prim pada Aturan Pemutus Seri
 
 ---
 
@@ -357,7 +341,7 @@ Graf *G* terhubung dan memiliki *n* ≥ 2 simpul (butir 1 subbab 1.4), sehingga 
 - *n* = *O*(*m*), sehingga suku *n* selalu terserap oleh suku *m*.
 - log *m* < 2 log *n*, sehingga *O*(log *m*) = *O*(log *n*).
 
-Operasi dasar, yaitu perbandingan, penugasan, dan akses larik, dihitung berbiaya *O*(1). Perbandingan dua kunci κ pada persamaan (6) juga *O*(1) karena kunci berupa tripel. Alat bantu bawaan Python diperlakukan menurut biaya standar tumpukan biner dan pengurutan berbasis perbandingan (butir 3 subbab 1.4), yaitu:
+Operasi dasar, yaitu perbandingan, penugasan, dan akses larik, dihitung berbiaya *O*(1). Perbandingan dua kunci κ pada persamaan (5) juga *O*(1) karena kunci berupa tripel. Alat bantu bawaan Python diperlakukan menurut biaya standar tumpukan biner dan pengurutan berbasis perbandingan (butir 3 subbab 1.4), yaitu:
 
 - `sorted` atas *k* elemen berbiaya *O*(*k* log *k*) pada kasus terburuk,
 - `heapq.heappush` dan `heapq.heappop` pada antrean berisi *k* elemen masing-masing berbiaya *O*(log *k*).
@@ -437,7 +421,7 @@ Batas banyaknya putaran dibuktikan lebih dulu, lalu biaya satu putaran.
 
 *Bukti.* Baris 1 berbiaya *O*(*n*). Satu putaran terdiri atas dua bagian. Bagian pemilihan (baris 4 sampai 8) memproses *m* sisi, masing-masing dengan dua CARI-AKAR berbiaya *O*(log *n*) menurut Teorema 3.4 dan sejumlah perbandingan κ berbiaya *O*(1), sehingga berbiaya *O*(*m* log *n*). Bagian pemasangan (baris 10 sampai 13) memproses paling banyak satu sisi untuk setiap komponen, yaitu paling banyak *n* sisi, masing-masing satu GABUNG berbiaya *O*(log *n*), sehingga berbiaya *O*(*n* log *n*) = *O*(*m* log *n*). Satu putaran berbiaya *O*(*m* log *n*). Menurut Lemma 3.2 terdapat paling banyak ⌈log₂ *n*⌉ = *O*(log *n*) putaran, sehingga totalnya *O*(*m* log² *n*). ∎
 
-Batas ini lebih besar satu faktor log *n* daripada *O*(*m* log *n*) yang disebut pada 2.4. Perbedaannya berasal dari cara komponen ditentukan. Rumusan pada pustaka menganggap komponen setiap simpul tersedia dalam waktu *O*(1), sehingga satu putaran berbiaya *O*(*m*) (subbab 2.4). Kode yang ditulis menentukan komponen dengan CARI-AKAR yang berbiaya *O*(log *n*) menurut batas yang dibuktikan di sini. Jika komponen disimpan sebagai label yang diperbarui pada setiap putaran, batas pustaka *O*(*m* log *n*) dapat dicapai, tetapi itu bukan kode yang diukur pada Bab 4. Batas *O*(*m* log² *n*) adalah batas atas yang dapat dibuktikan untuk kode ini. Kode ini mungkin lebih cepat dalam praktik karena pemendekan lintasan meratakan pohon, tetapi laporan ini tidak membuktikan hal tersebut. Bab 4 membandingkan kurva pengukuran dengan *O*(*m* log *n*) dan *O*(*m* log² *n*).
+Batas ini lebih besar satu faktor log *n* daripada *O*(*m* log *n*) pada pustaka (subbab 2.4). Rumusan pustaka menganggap komponen setiap simpul tersedia dalam waktu *O*(1), sehingga satu putaran berbiaya *O*(*m*), sedangkan kode ini menentukan komponen dengan CARI-AKAR yang berbiaya *O*(log *n*) menurut Teorema 3.4. Batas pustaka dapat dicapai jika komponen disimpan sebagai label yang diperbarui pada setiap putaran, tetapi itu bukan kode yang diukur pada Bab 4. Karena itu *O*(*m* log² *n*) adalah batas atas yang dapat dibuktikan untuk kode ini, dan Bab 4 membandingkan kurva pengukuran dengan *O*(*m* log *n*) dan *O*(*m* log² *n*).
 
 ---
 
@@ -465,9 +449,9 @@ Hasil 3.4.3 sampai 3.4.6 dirangkum pada Tabel 3.7.
 | Prim (tumpukan biner, antrean berisi sisi) | *O*(*m* log *n*) | *O*(*n* + *m*) | Teorema 3.6 dan 3.8 |
 | Borůvka (seperti yang ditulis) | *O*(*m* log² *n*) | *O*(*n*) | Teorema 3.7 dan 3.8 |
 
-Kasus analisis didefinisikan menurut kepadatan graf pada Tabel 2.2, sehingga batas pada Tabel 3.7 dihitung dengan mensubstitusikan nilai *m* ke dalamnya, dan hasilnya disajikan pada Tabel 3.8. Pada kasus rata-rata, *m* = Θ(*n* log *n*) sehingga log *m* = Θ(log *n*), dan substitusi memberi *m* log *n* = *O*(*n* log² *n*). Substitusi ini adalah batas atas kepadatan menengah yang dipilih sebagai wakil (2.3), bukan nilai harapan waktu berjalan.
+Kasus analisis didefinisikan menurut kepadatan graf pada Tabel 2.1, sehingga batas pada Tabel 3.7 dihitung dengan mensubstitusikan nilai *m* ke dalamnya, dan hasilnya disajikan pada Tabel 3.8. Pada kasus rata-rata, *m* = Θ(*n* log *n*) sehingga log *m* = Θ(log *n*), dan substitusi memberi *m* log *n* = *O*(*n* log² *n*). Substitusi ini adalah batas atas kepadatan menengah yang dipilih sebagai wakil (2.3), bukan nilai harapan waktu berjalan.
 
-**Tabel 3.8** Substitusi nilai *m* menurut Tabel 2.2
+**Tabel 3.8** Substitusi nilai *m* menurut Tabel 2.1
 
 | Kasus | Nilai *m* | Kruskal | Prim | Borůvka | Ruang Kruskal dan Prim | Ruang Borůvka |
 |---|---|---|---|---|---|---|
@@ -502,9 +486,9 @@ Kruskal dan Prim memiliki batas atas yang sama pada ketiga kasus. Notasi *O* tid
 
 Dua fakta tentang jumlah pekerjaan per sisi melengkapi Tabel 3.9 dan menunjukkan mengapa notasi *O* tidak memisahkan Kruskal dari Prim.
 
-**Prim memasukkan tepat *m* entri ke antrean.** Lemma 3.1 menunjukkan bahwa setiap sisi dimasukkan paling banyak satu kali. Pada graf terhubung, seluruh simpul akhirnya masuk pohon, dan ujung sebuah sisi yang masuk lebih dulu memasukkan sisi itu ke antrean. Jadi setiap sisi dimasukkan tepat satu kali, dan jumlah MASUKKAN selalu *m*, sedangkan jumlah KELUARKAN-TERKECIL berada di antara *n* − 1 dan *m*. Selisihnya dengan *n* − 1 adalah jumlah entri usang yang dibuang pada baris 7.
+**Prim memasukkan tepat *m* entri ke antrean.** Setiap sisi dimasukkan paling banyak satu kali (Lemma 3.1), dan pada graf terhubung ujung sisi yang masuk pohon lebih dulu selalu memasukkannya, sehingga jumlah MASUKKAN tepat *m*, sedangkan jumlah KELUARKAN-TERKECIL berada di antara *n* − 1 dan *m*. Selisihnya dengan *n* − 1 adalah jumlah entri usang yang dibuang pada baris 7.
 
-**Kruskal memeriksa sisi sampai sisi terberat MST.** Sisi diterima menurut urutan κ dan perulangan berhenti pada penerimaan sisi ke-(*n* − 1), yaitu sisi MST dengan κ terbesar. Jumlah sisi yang diperiksa pada perulangan sama dengan urutan sisi itu dalam daftar terurut, sehingga berada di antara *n* − 1 dan *m*. Pengurutan pada baris 1 tetap mencakup seluruh *m* sisi.
+**Kruskal memeriksa sisi sampai sisi terberat MST.** Perulangan berhenti pada penerimaan sisi ke-(*n* − 1), yaitu sisi MST dengan κ terbesar, sehingga jumlah sisi yang diperiksa sama dengan urutan sisi itu dalam daftar terurut dan berada di antara *n* − 1 dan *m*. Pengurutan pada baris 1 tetap mencakup seluruh *m* sisi.
 
 Akibat kedua fakta ini, pada graf yang mana pun, Kruskal dan Prim sama-sama memproses sisi dalam jumlah yang berorde *m*, dan batas atasnya sama (Tabel 3.7). Selisih waktu di antara keduanya hanya dapat berasal dari faktor konstanta, yaitu biaya satu GABUNG dibandingkan biaya satu MASUKKAN dan KELUARKAN-TERKECIL, serta biaya pembuatan daftar ketetanggaan pada Prim. Faktor konstanta tidak dapat ditentukan dari analisis asimtotik dan diukur pada Bab 4.
 
@@ -518,7 +502,7 @@ Akibat kedua fakta ini, pada graf yang mana pun, Kruskal dan Prim sama-sama memp
 
 **Prim.** Kelebihannya adalah pohon tumbuh dari satu simpul dan sisi dipilih dari batas pohon, sehingga algoritma ini alami bila graf sudah tersedia sebagai daftar ketetanggaan. Keterbatasannya berasal dari pilihan implementasi. Antrean menyimpan sisi dan memuat entri usang (3.2.3), sehingga ruangnya mencapai *O*(*m*) dan batas waktunya *O*(*m* log *n*), bukan batas rumusan berbasis simpul (3.4.4). Jika graf tersedia sebagai daftar sisi, daftar ketetanggaan harus dibangun lebih dulu dengan biaya *O*(*n* + *m*) dan ruang tambahan 2*m* entri.
 
-**Borůvka.** Kelebihannya adalah strukturnya berputaran, sehingga pemilihan sisi tiap komponen pada satu putaran saling bebas dan secara konsep mudah diparalelkan (subbab 2.4, yang berada di luar batasan laporan ini). Ruang tambahannya paling kecil, yaitu *O*(*n*). Keterbatasan pada implementasi ini ada dua. Pertama, kode tidak melakukan kontraksi (varian pada 2.4), sehingga setiap putaran memindai seluruh *m* sisi termasuk sisi yang kedua ujungnya sudah berada dalam satu komponen (baris 6 pada *Pseudocode* 3.4). Kedua, komponen ditentukan dengan CARI-AKAR, sehingga batas yang dapat dibuktikan adalah *O*(*m* log² *n*), satu faktor log *n* di atas batas pustaka (3.4.5). Algoritma ini dipilih sebagai pembanding karena strateginya berbeda, bukan karena diharapkan lebih cepat pada kode ini.
+**Borůvka.** Kelebihannya adalah strukturnya berputaran, sehingga pemilihan sisi tiap komponen pada satu putaran saling bebas dan secara konsep mudah diparalelkan (Sanders *et al.*, 2019, Bagian 11.6), yang berada di luar batasan laporan ini. Ruang tambahannya paling kecil, yaitu *O*(*n*). Keterbatasan pada implementasi ini ada dua. Pertama, kode tidak melakukan kontraksi (varian pada 2.4), sehingga setiap putaran memindai seluruh *m* sisi termasuk sisi yang kedua ujungnya sudah berada dalam satu komponen (baris 6 pada *Pseudocode* 3.4). Kedua, komponen ditentukan dengan CARI-AKAR, sehingga batas yang dapat dibuktikan adalah *O*(*m* log² *n*), satu faktor log *n* di atas batas pustaka (3.4.5). Algoritma ini dipilih sebagai pembanding karena strateginya berbeda, bukan karena diharapkan lebih cepat pada kode ini.
 
 **Kesesuaian untuk studi kasus.** Studi kasus pada Bab 4 adalah jaringan kabel antar lima gedung, yaitu graf dengan *n* = 5 dan *m* paling banyak 10. Pada ukuran sekecil itu perbedaan orde pertumbuhan tidak berarti, dan ketiga algoritma menghasilkan himpunan sisi yang sama karena memakai aturan pemutus seri yang sama (Teorema 3.3). Pilihan di antara ketiganya ditentukan oleh bentuk data. Daftar jalur beserta biayanya sudah berbentuk daftar sisi, sehingga Kruskal paling langsung dipakai. Ada pula keterbatasan yang berasal dari modelnya, bukan dari algoritmanya. MST meminimalkan total biaya, tetapi hasilnya berupa pohon, sehingga putusnya satu jalur memutus jaringan, dan MST tidak memperhitungkan syarat lain seperti cadangan jalur atau kondisi medan. Jika syarat itu penting, masalahnya bukan lagi MST murni.
 
