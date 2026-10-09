@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slide 2 · Apa itu MST?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ───────── Token ───────── */
+:root{
+  --bg:#050507;
+  --panel:#0a0b0f;
+  --line:rgba(255,255,255,.13);
+  --line2:rgba(255,255,255,.07);
+  --text:#f1f2f6;
+  --body:#c4c7d4;
+  --mute:#80849a;
+  --accent:#7db4ff;
+  --accent-bright:#c4dcff;
+  --amber:#ffc266;
+  --sans:'Space Grotesk','Segoe UI',system-ui,sans-serif;
+  --mono:'JetBrains Mono','Cascadia Mono',Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var(--sans);color:var(--text)}
+body{opacity:0;animation:fadein .5s ease .05s forwards}
+body.leaving{animation:none;opacity:0;transition:opacity .25s ease}
+@keyframes fadein{to{opacity:1}}
+
+/* ───────── Panggung 1920×1080 ───────── */
+#stage{
+  position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;
+  background:
+    radial-gradient(1100px 600px at 18% -8%,rgba(110,140,220,.13),transparent 70%),
+    radial-gradient(900px 600px at 100% 100%,rgba(90,110,180,.07),transparent 70%),
+    radial-gradient(rgba(255,255,255,.055) 1px,transparent 1.2px) 0 0/32px 32px,
+    var(--bg);
+}
+
+/* ───────── Header ───────── */
+.header{position:absolute;left:96px;right:96px;top:52px;height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line2)}
+.brand{display:flex;align-items:center;gap:20px}
+.brand img{height:60px;width:auto;display:block}
+.brand b{display:block;font-size:28px;font-weight:600;letter-spacing:-.01em}
+.brand span{display:block;font-size:19px;color:var(--mute);margin-top:2px}
+.tag{font-family:var(--mono);font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.kicker{position:absolute;left:96px;top:158px;display:flex;align-items:baseline;gap:18px}
+.kicker i{font-style:normal;font-family:var(--mono);font-size:17px;letter-spacing:.16em;color:var(--mute)}
+.kicker h1{font-size:34px;font-weight:600;letter-spacing:-.015em;color:var(--accent)}
+
+/* ───────── Kolom teks ───────── */
+.copy{position:absolute;left:96px;top:236px;width:740px;display:flex;flex-direction:column;gap:26px}
+.blk{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;padding-left:26px;border-left:2px solid transparent;position:relative}
+.blk.show{opacity:1;transform:none}
+.blk .lbl{font-family:var(--mono);font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:10px;display:block;transition:color .4s}
+.blk p{font-size:30px;line-height:1.45;color:var(--body);font-weight:400;transition:font-size .5s ease,color .5s ease}
+.blk b{color:var(--text);font-weight:600}
+.blk em{font-style:italic;color:var(--text)}
+.blk.active{border-left-color:var(--accent)}
+.blk.active .lbl{color:var(--accent)}
+.blk.active p{color:#e4e6ee}
+.blk.seen{opacity:.5}
+.blk.seen p{font-size:23px}
+.blk .more{display:inline;opacity:0;transition:opacity .7s ease .15s}
+.blk .more.show{opacity:1}
+
+/* ───────── Panel grafik ───────── */
+.panel{position:absolute;left:880px;top:236px;width:944px;height:716px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.005));}
+.panel::before,.panel::after,.panel .c1,.panel .c2{content:"";position:absolute;width:16px;height:16px;border:2px solid var(--accent);opacity:.9}
+.panel::before{left:-2px;top:-2px;border-right:0;border-bottom:0}
+.panel::after{right:-2px;top:-2px;border-left:0;border-bottom:0}
+.panel .c1{left:-2px;bottom:-2px;border-right:0;border-top:0}
+.panel .c2{right:-2px;bottom:-2px;border-left:0;border-top:0}
+.phead{height:76px;border-bottom:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+.fig{font-family:var(--mono);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.fig b{color:var(--text);font-weight:500}
+.readout{text-align:right;transition:opacity .25s ease}
+.readout.swap{opacity:0}
+.readout small{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.readout strong{display:block;font-family:var(--mono);font-size:32px;font-weight:500;color:var(--text);line-height:1.1;margin-top:2px;font-variant-numeric:tabular-nums}
+.readout strong .u{font-size:17px;color:var(--mute);margin-left:6px}
+.readout strong .ok{font-size:16px;letter-spacing:.14em;color:#06121f;background:var(--accent);padding:3px 9px;border-radius:3px;margin-left:12px;vertical-align:middle}
+.readout strong .q{font-size:16px;letter-spacing:.1em;color:var(--amber);margin-left:12px}
+
+svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
+.pfoot{position:absolute;left:0;right:0;bottom:0;height:112px;border-top:1px solid var(--line2);padding:0 28px;display:flex;align-items:center}
+.pf{position:absolute;left:28px;right:28px;top:50%;transform:translateY(-50%);opacity:0;transition:opacity .45s ease;pointer-events:none}
+.pf.show{opacity:1}
+.legend{display:flex;gap:34px;align-items:center;font-size:21px;color:var(--body)}
+.legend span{display:flex;align-items:center;gap:12px}
+.legend .d{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.7)}
+.legend .l{width:30px;height:0;border-top:2px solid rgba(255,255,255,.5)}
+.legend .n{font-family:var(--mono);font-size:15px;border:1px solid var(--line);border-radius:3px;padding:2px 8px;background:#07080b}
+.cap{font-size:23px;line-height:1.45;color:var(--body)}
+.cap b{color:var(--text);font-weight:600}
+.cay{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.cay div{border:1px solid var(--line);background:#07080b;padding:7px 16px 8px;border-radius:3px}
+.cay small{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.cay strong{display:block;font-family:var(--mono);font-weight:500;font-size:24px;color:var(--amber);margin-top:2px}
+.cay-note{font-size:13px;font-family:var(--mono);letter-spacing:.1em;color:var(--mute);text-transform:uppercase;margin-bottom:8px}
+
+/* ───────── Grafik: simpul & sisi ───────── */
+.edge .base{fill:none;stroke:rgba(255,255,255,.3);stroke-width:2;stroke-dasharray:1;stroke-dashoffset:0;
+  transition:stroke-dashoffset .7s cubic-bezier(.3,.7,.2,1) var(--d,0ms),stroke .4s ease var(--d,0ms),opacity .4s ease var(--d,0ms)}
+.edge .hot{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;
+  transition:stroke-dashoffset .7s cubic-bezier(.3,.7,.2,1) var(--d,0ms),opacity .01s linear var(--d,0ms),stroke .35s ease var(--d,0ms),stroke-width .35s ease var(--d,0ms)}
+.edge .lab rect{fill:#07080b;stroke:rgba(255,255,255,.22);stroke-width:1.3;transition:stroke .4s ease var(--d,0ms),opacity .4s ease var(--d,0ms)}
+.edge .lab text{font-family:var(--mono);font-size:19px;font-weight:500;fill:var(--body);text-anchor:middle;dominant-baseline:central;transition:fill .4s ease var(--d,0ms)}
+.edge .lab{transition:opacity .4s ease var(--d,0ms)}
+.edge.hidden .base{stroke-dashoffset:1}
+.edge.hidden .lab{opacity:0}
+.edge.dim .base{stroke:rgba(255,255,255,.09)}
+.edge.dim .lab{opacity:.35}
+.edge.mst .hot,.edge.pick .hot,.edge.cand .hot{stroke-dashoffset:0;opacity:1}
+.edge.mst .lab rect{stroke:var(--accent)} .edge.mst .lab text{fill:var(--accent)}
+.edge.cand .hot{stroke:var(--amber);stroke-width:3.5}
+.edge.cand .lab rect{stroke:var(--amber)} .edge.cand .lab text{fill:var(--amber)}
+.edge.cand.fade .hot{opacity:.28}
+.edge.cand.fade .lab{opacity:.45}
+.edge.pick .hot{stroke:var(--accent-bright);stroke-width:6.5;filter:drop-shadow(0 0 7px var(--accent))}
+.edge.pick .lab rect{stroke:var(--accent-bright);fill:#0e1a2c} .edge.pick .lab text{fill:var(--accent-bright)}
+.edge.try .hot{stroke:var(--accent);stroke-width:4.5;stroke-dashoffset:0;opacity:.9;transition:none}
+.edge.try .base{transition:none}
+
+.node{transform-box:fill-box;transform-origin:center;transition:transform .55s cubic-bezier(.2,1.5,.4,1) var(--d,0ms),opacity .4s ease var(--d,0ms)}
+.node.hidden{transform:scale(0);opacity:0}
+.node .halo{fill:var(--accent);opacity:0;transition:opacity .5s ease var(--d,0ms)}
+.node .dot{fill:#0a0b10;stroke:rgba(255,255,255,.6);stroke-width:2.5;transition:fill .45s ease var(--d,0ms),stroke .45s ease var(--d,0ms)}
+.node text{font-family:var(--mono);font-size:21px;font-weight:500;fill:var(--text);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.node.in .halo{opacity:.2}
+.node.in .dot{stroke:var(--accent);fill:#0f1c31}
+
+#cut{opacity:0;transition:opacity .7s ease .15s}
+#cut.show{opacity:1}
+#cut path.line{fill:none;stroke:var(--accent-bright);stroke-width:2.5;stroke-dasharray:11 9;animation:march 1.4s linear infinite}
+#cut path.zone{fill:rgba(125,180,255,.06);stroke:none}
+#cut text{font-family:var(--mono);font-size:15px;letter-spacing:.18em;fill:var(--mute)}
+#cut text.g1{fill:var(--accent)}
+@keyframes march{to{stroke-dashoffset:-40}}
+#aman{opacity:0;transition:opacity .5s ease .5s}
+#aman.show{opacity:1}
+#aman rect{fill:var(--accent);rx:3}
+#aman text{font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:.14em;fill:#06121f;text-anchor:middle;dominant-baseline:central}
+
+/* ───────── Footer ───────── */
+.footer{position:absolute;left:96px;right:96px;bottom:44px;height:62px;display:flex;align-items:flex-end;justify-content:space-between}
+.prog{display:flex;gap:8px;width:1000px}
+.seg{position:relative}
+.seg .bar{height:3px;background:rgba(255,255,255,.14);position:relative;overflow:hidden}
+.seg .bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent);transition:width .6s ease}
+.seg span{display:block;margin-top:9px;font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#4b4e60;white-space:nowrap}
+.seg.cur span{color:var(--accent)}
+.ctrl{display:flex;align-items:center;gap:12px}
+.cnt{font-family:var(--mono);font-size:17px;letter-spacing:.12em;color:var(--mute);margin-right:10px;min-width:70px;text-align:right}
+.btn{font-family:var(--mono);font-size:17px;letter-spacing:.1em;text-transform:uppercase;color:var(--text);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:3px;height:50px;padding:0 22px;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.btn:hover:not(:disabled){background:rgba(125,180,255,.12);border-color:var(--accent);color:var(--accent-bright)}
+.btn.pri{border-color:rgba(125,180,255,.55);background:rgba(125,180,255,.1)}
+.btn:disabled{opacity:.3;cursor:default}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hint{position:absolute;right:96px;bottom:12px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:#4b4e60;text-transform:uppercase}
+
+/* ───────── Dock navigasi (pop up, muncul saat kursor di bawah) ───────── */
+.prog{width:100%}
+#dock{position:absolute;left:50%;bottom:104px;transform:translate(-50%,28px);opacity:0;pointer-events:none;z-index:10;
+  display:flex;flex-direction:column;align-items:center;gap:12px;padding:18px 22px 14px;
+  background:rgba(10,11,15,.94);border:1px solid var(--line);border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.6);
+  transition:opacity .35s ease,transform .35s ease}
+#dock.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#dock .hint{position:static}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <div class="header">
+    <div class="brand">
+      <img src="aset/logo-unhas.png" alt="Logo Universitas Hasanuddin">
+      <div><b>Universitas Hasanuddin</b><span>Magister Teknik Informatika</span></div>
+    </div>
+    <div class="tag">Tugas Besar Analisis Algoritma</div>
+  </div>
+
+  <div class="kicker"><i>02</i><h1>Apa itu MST?</h1></div>
+
+  <div class="copy">
+    <div class="blk" id="b1">
+      <span class="lbl">01 · Definisi</span>
+      <p><b>MST (<em>Minimum Spanning Tree</em>)</b> adalah cara menghubungkan semua titik dalam sebuah jaringan dengan total biaya paling kecil.</p>
+    </div>
+    <div class="blk" id="b2">
+      <span class="lbl">02 · Masalah</span>
+      <p><b>Masalahnya:</b> bagaimana membangun MST tanpa harus mencoba semua kemungkinan pohon?</p>
+    </div>
+    <div class="blk" id="b3">
+      <span class="lbl">03 · Solusi</span>
+      <p><b>Solusinya:</b> algoritma <em>greedy</em>, yaitu pilih sisi termurah di setiap langkah, asalkan sisi itu aman. Sisi aman adalah sisi yang pasti ada di suatu MST.<span class="more" id="more"> Cara memastikannya adalah <em>cut property</em>: bagi titik menjadi dua kelompok, lalu lihat semua sisi yang menghubungkan kedua kelompok. Yang termurah di antara sisi itu pasti aman.</span></p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <i class="c1"></i><i class="c2"></i>
+    <div class="phead">
+      <div class="fig"><b>Fig. 02</b> · Jaringan berbobot</div>
+      <div class="readout" id="readout"><small id="ro-l"></small><strong id="ro-v"></strong></div>
+    </div>
+    <svg id="g" viewBox="0 0 960 520" aria-label="Contoh graf berbobot tujuh titik"></svg>
+    <div class="pfoot">
+      <div class="pf" id="pf-legend"><div class="legend">
+        <span><i class="d"></i>Titik: lokasi</span>
+        <span><i class="l"></i>Sisi: kabel penghubung</span>
+        <span><i class="n">7</i>Angka: biaya pasang</span>
+      </div></div>
+      <div class="pf" id="pf-cap"><div class="cap" id="cap"></div></div>
+      <div class="pf" id="pf-cay">
+        <div class="cay-note">Jumlah pohon yang mungkin, jika semua titik saling terhubung</div>
+        <div class="cay">
+          <div><small>5 titik</small><strong>125</strong></div>
+          <div><small>10 titik</small><strong>100.000.000</strong></div>
+          <div><small>20 titik</small><strong>±2,6 × 10²³</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="prog" id="prog"></div>
+  </div>
+  <div id="dock">
+    <div class="ctrl">
+    <span class="cnt" id="cnt"></span>
+      <button class="btn" id="prev" title="Langkah sebelumnya (←)">‹ Sebelumnya</button>
+      <button class="btn" id="reset" title="Ulangi dari awal (R)">↺ Reset</button>
+      <button class="btn pri" id="next" title="Langkah berikutnya (→ / Spasi)">Berikutnya ›</button>
+    </div>
+    <div class="hint">← → navigasi · R reset · F layar penuh · I indeks</div>
+  </div>
+</div>
+
+<script>
+/* ═════════ Konfigurasi ═════════ */
+const PREV_SLIDE = 'slide1.html';
+const NEXT_SLIDE = null;            // isi 'slide3.html' setelah slide 3 dibuat
+const SLIDE_NO = 2;
+
+/* Data graf: bobot sengaja tidak ada yang kembar, sehingga MST-nya tunggal */
+const NODES = [
+  {id:'A',x:100,y:260},{id:'B',x:280,y:90},{id:'C',x:280,y:430},{id:'D',x:490,y:260},
+  {id:'E',x:690,y:90},{id:'F',x:690,y:430},{id:'G',x:870,y:260}
+];
+const EDGES = [
+  ['A','B',5],['A','C',8],['B','C',11],['B','D',3],['C','D',6],['B','E',9],
+  ['D','E',4],['D','F',7],['C','F',12],['E','G',10],['F','G',1]
+];
+const SVGNS = 'http://www.w3.org/2000/svg';
+const $ = s => document.querySelector(s);
+const idx = Object.fromEntries(NODES.map((n,i)=>[n.id,i]));
+const fmt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+const mk = (tag,attrs={},parent)=>{const e=document.createElementNS(SVGNS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;};
+
+/* ═════════ Kebenaran dihitung, bukan ditulis tangan ═════════ */
+function ufMake(n){const p=[...Array(n).keys()];const f=x=>p[x]===x?x:(p[x]=f(p[x]));return {f,u:(a,b)=>{a=f(a);b=f(b);if(a===b)return false;p[a]=b;return true;}};}
+// Kruskal untuk urutan pemilihan dan total biaya MST
+const order = EDGES.map((e,i)=>i).sort((a,b)=>EDGES[a][2]-EDGES[b][2]);
+const MST = []; { const uf=ufMake(NODES.length); for(const i of order){ if(uf.u(idx[EDGES[i][0]],idx[EDGES[i][1]])) MST.push(i); } }
+const MST_COST = MST.reduce((s,i)=>s+EDGES[i][2],0);
+const ALL_COST = EDGES.reduce((s,e)=>s+e[2],0);
+// Semua pohon rentang: pilih (V-1) sisi tanpa siklus
+const TREES = []; {
+  const V=NODES.length, m=EDGES.length;
+  for(let mask=0; mask<(1<<m); mask++){
+    let c=0; for(let b=0;b<m;b++) if(mask>>b&1) c++;
+    if(c!==V-1) continue;
+    const uf=ufMake(V); let ok=true; const list=[];
+    for(let b=0;b<m;b++) if(mask>>b&1){ if(!uf.u(idx[EDGES[b][0]],idx[EDGES[b][1]])){ok=false;break;} list.push(b); }
+    if(ok) TREES.push({list,cost:list.reduce((s,i)=>s+EDGES[i][2],0)});
+  }
+}
+// Contoh langkah greedy dan pemotongan
+const GROUP1 = ['A','B','D'];
+const eIdx = (a,b)=>EDGES.findIndex(e=>(e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a));
+const INNER = [eIdx('A','B'),eIdx('B','D')];
+const CROSS = EDGES.map((e,i)=>i).filter(i=>GROUP1.includes(EDGES[i][0])!==GROUP1.includes(EDGES[i][1]));
+const PICK  = CROSS.reduce((a,b)=>EDGES[b][2]<EDGES[a][2]?b:a);
+const PICK_TXT = EDGES[PICK][0]+'–'+EDGES[PICK][1];
+
+/* ═════════ Bangun SVG ═════════ */
+const g = $('#g');
+const gz = mk('g',{id:'cut'},g);
+mk('path',{class:'zone',d:'M620,22 C640,115 650,187 610,245 C590,285 540,305 470,306 C300,310 150,305 40,300 L0,300 L0,22 Z'},gz);
+mk('path',{class:'line',d:'M620,22 C640,115 650,187 610,245 C590,285 540,305 470,306 C300,310 150,305 40,300'},gz);
+const t1=mk('text',{x:34,y:52,class:'g1'},gz); t1.textContent='KELOMPOK 1';
+const t2=mk('text',{x:716,y:494},gz); t2.textContent='KELOMPOK 2';
+
+const EL = EDGES.map(([a,b,w],i)=>{
+  const A=NODES[idx[a]],B=NODES[idx[b]];
+  const grp = mk('g',{class:'edge hidden'},g);
+  mk('line',{class:'base',x1:A.x,y1:A.y,x2:B.x,y2:B.y,pathLength:1},grp);
+  mk('line',{class:'hot', x1:A.x,y1:A.y,x2:B.x,y2:B.y,pathLength:1},grp);
+  const mx=(A.x+B.x)/2,my=(A.y+B.y)/2;
+  const lab=mk('g',{class:'lab'},grp);
+  mk('rect',{x:mx-23,y:my-15,width:46,height:30,rx:4},lab);
+  const t=mk('text',{x:mx,y:my+1},lab); t.textContent=w;
+  return grp;
+});
+const NL = NODES.map(n=>{
+  const grp=mk('g',{class:'node hidden'},g);
+  mk('circle',{class:'halo',cx:n.x,cy:n.y,r:38},grp);
+  mk('circle',{class:'dot',cx:n.x,cy:n.y,r:25},grp);
+  const t=mk('text',{x:n.x,y:n.y+1},grp); t.textContent=n.id;
+  return grp;
+});
+// label AMAN di dekat sisi pilihan
+{ const A=NODES[idx[EDGES[PICK][0]]],B=NODES[idx[EDGES[PICK][1]]];
+  const mx=(A.x+B.x)/2,my=(A.y+B.y)/2;
+  const ga=mk('g',{id:'aman'},g);
+  mk('rect',{x:mx-87,y:my-54,width:84,height:28,rx:3},ga);
+  const t=mk('text',{x:mx-45,y:my-39},ga); t.textContent='AMAN ✓'; }
+
+/* ═════════ Helper keadaan ═════════ */
+let timers=[], ticker=null, runId=0;
+const later=(fn,ms)=>{timers.push(setTimeout(fn,ms));};
+function clearRuns(){timers.forEach(clearTimeout);timers=[];if(ticker){clearInterval(ticker);ticker=null;}runId++;}
+const setE=(i,cls,d=0)=>{EL[i].setAttribute('class','edge '+cls);EL[i].style.setProperty('--d',d+'ms');};
+const setN=(i,cls,d=0)=>{NL[i].setAttribute('class','node '+cls);NL[i].style.setProperty('--d',d+'ms');};
+const nI = id=>idx[id];
+function allEdges(cls,fn){EDGES.forEach((e,i)=>setE(i,cls,fn?fn(i):0));}
+function allNodes(cls,fn){NODES.forEach((n,i)=>setN(i,cls,fn?fn(i):0));}
+function readout(label,html){
+  const r=$('#readout'); r.classList.add('swap');
+  setTimeout(()=>{ $('#ro-l').textContent=label; $('#ro-v').innerHTML=html; r.classList.remove('swap'); },220);
+}
+function showFoot(which){['legend','cap','cay'].forEach(k=>$('#pf-'+k).classList.toggle('show',k===which));}
+function caption(html){ $('#cap').innerHTML=html; showFoot('cap'); }
+function blocks(active,more){
+  ['b1','b2','b3'].forEach((id,i)=>{
+    const el=$('#'+id);
+    el.classList.toggle('show',i<=active);
+    el.classList.toggle('active',i===active);
+    el.classList.toggle('seen',i<active);
+  });
+  $('#more').classList.toggle('show',!!more);
+}
+function cutShow(on){ $('#cut').classList.toggle('show',on); $('#aman').classList.toggle('show',on); }
+
+/* ═════════ Langkah ═════════ */
+const STEPS = [
+  /* 0 · jaringan muncul */
+  ()=>{
+    blocks(0); cutShow(false);
+    allEdges('',i=>350+i*85); allNodes('',i=>i*110);
+    readout('Biaya bila semua sisi dipasang',fmt(ALL_COST));
+    showFoot('legend');
+  },
+  /* 1 · MST terbentuk */
+  ()=>{
+    blocks(0); cutShow(false);
+    const t0=300, gap=650;
+    EDGES.forEach((e,i)=>{ if(!MST.includes(i)) setE(i,'dim',t0+400); });
+    MST.forEach((i,k)=>setE(i,'mst',t0+k*gap));
+    const seen=new Set();
+    allNodes('',()=>0);
+    MST.forEach((i,k)=>{ [EDGES[i][0],EDGES[i][1]].forEach(id=>{ if(!seen.has(id)){seen.add(id);setN(nI(id),'in',t0+k*gap+350);} }); });
+    let sum=0;
+    readout('Total biaya MST','0');
+    MST.forEach((i,k)=>{ sum+=EDGES[i][2]; const s=sum; later(()=>{ $('#ro-v').innerHTML=s; },t0+k*gap+250); });
+    later(()=>caption('Semua titik tersambung dengan <b>6 sisi</b> saja, biaya <b>'+MST_COST+'</b> dari '+ALL_COST+'. Tidak ada kabel yang berlebih.'),t0+MST.length*gap);
+    $('#pf-legend').classList.remove('show');$('#pf-cap').classList.remove('show');$('#pf-cay').classList.remove('show');
+  },
+  /* 2 · masalah: coba semua pohon */
+  ()=>{
+    blocks(1); cutShow(false);
+    allEdges('',()=>0); allNodes('',()=>0);
+    showFoot(null);
+    const N=TREES.length, per=Math.max(28,Math.min(90,3800/N)); let k=0,best=Infinity; const my=runId;
+    readout('Pohon yang dicoba','0 / '+N);
+    ticker=setInterval(()=>{
+      if(my!==runId)return;
+      if(k>=N){ clearInterval(ticker);ticker=null; allEdges('',()=>0);
+        readout('Pohon dicoba, biaya terkecil',N+'<span class="u">pohon · biaya terkecil '+best+'</span>');
+        later(()=>showFoot('cay'),400); return; }
+      const t=TREES[k]; best=Math.min(best,t.cost);
+      EDGES.forEach((e,i)=>setE(i,t.list.includes(i)?'try':'dim',0));
+      $('#ro-v').innerHTML=(k+1)+' / '+N+'<span class="u">biaya '+t.cost+' · terbaik '+best+'</span>';
+      k++;
+    },per);
+  },
+  /* 3 · solusi: langkah greedy */
+  ()=>{
+    blocks(2,false); cutShow(false);
+    const cand=EDGES.map((e,i)=>i).filter(i=>!INNER.includes(i)&&(GROUP1.includes(EDGES[i][0])||GROUP1.includes(EDGES[i][1])));
+    EDGES.forEach((e,i)=>setE(i,'dim',0));
+    INNER.forEach((i,k)=>setE(i,'mst',k*500));
+    allNodes('',()=>0); GROUP1.forEach((id,k)=>setN(nI(id),'in',k*350));
+    cand.forEach((i,k)=>setE(i,'cand',1300+k*90));
+    readout('Kandidat berikutnya','6<span class="u">sisi</span>');
+    later(()=>{
+      cand.forEach(i=>setE(i,i===PICK?'pick':'cand fade',0));
+      readout('Termurah di antara kandidat',PICK_TXT+' · '+EDGES[PICK][2]+'<span class="q">AMAN?</span>');
+    },3000);
+    caption('Misalkan <b>A–B</b> dan <b>B–D</b> sudah terpilih. Dari kabel yang menambah titik baru, ambil yang <b>termurah</b>.');
+  },
+  /* 4 · cut property */
+  ()=>{
+    blocks(2,true); cutShow(true);
+    EDGES.forEach((e,i)=>setE(i,CROSS.includes(i)?(i===PICK?'pick':'cand fade'):'dim',0));
+    INNER.forEach(i=>setE(i,'mst',0));
+    allNodes('',()=>0); GROUP1.forEach(id=>setN(nI(id),'in',0));
+    const w=CROSS.map(i=>EDGES[i][2]);
+    readout('Termurah yang menyeberangi garis',PICK_TXT+' · '+EDGES[PICK][2]+'<span class="ok">AMAN</span>');
+    caption('Garis putus-putus membagi titik jadi dua kelompok. Sisi yang menyeberang berbiaya <b>'+w.join(', ')+'</b>. Yang termurah, <b>'+EDGES[PICK][2]+'</b>, pasti aman.');
+  }
+];
+const LAST = STEPS.length-1;
+let step = 0;
+
+/* ═════════ Progres bawah ═════════ */
+const GROUPS=[['Pembuka',1],['Konsep',1],['Algoritma',4],['Teori',1],['Eksperimen',3],['Penutup',1]];
+(function(){ const p=$('#prog'); GROUPS.forEach(([n,c])=>{const s=document.createElement('div');s.className='seg';s.style.flex=c;s.innerHTML='<div class="bar"><i></i></div><span>'+n+'</span>';p.appendChild(s);}); })();
+function progress(){
+  let start=0;
+  document.querySelectorAll('.seg').forEach((s,gi)=>{
+    const c=GROUPS[gi][1]; let done=0;
+    if(SLIDE_NO>start+c) done=c; else if(SLIDE_NO>start) done=(SLIDE_NO-1-start)+(step+1)/(LAST+1);
+    s.querySelector('i').style.width=(done/c*100)+'%';
+    s.classList.toggle('cur',SLIDE_NO>start&&SLIDE_NO<=start+c);
+    start+=c;
+  });
+}
+
+/* ═════════ Kontrol ═════════ */
+function render(){
+  clearRuns(); STEPS[step](); progress();
+  $('#cnt').textContent=(step+1)+' / '+(LAST+1);
+  $('#prev').disabled=false;
+  $('#prev').textContent = step===0 ? '‹ Slide 1' : '‹ Sebelumnya';
+  const nx=$('#next');
+  if(step<LAST){ nx.disabled=false; nx.textContent='Berikutnya ›'; }
+  else if(NEXT_SLIDE){ nx.disabled=false; nx.textContent='Slide 3 ›'; }
+  else { nx.disabled=true; nx.textContent='Slide 3 menyusul'; }
+}
+function leave(url){ document.body.classList.add('leaving'); setTimeout(()=>{location.href=url;},260); }
+function next(){ if(step<LAST){step++;render();} else if(NEXT_SLIDE) leave(NEXT_SLIDE); }
+function prev(){ if(step>0){step--;render();} else if(PREV_SLIDE) leave(PREV_SLIDE); }
+function reset(){
+  clearRuns(); step=0;
+  EL.forEach(e=>{e.setAttribute('class','edge hidden');e.style.setProperty('--d','0ms');});
+  NL.forEach(n=>{n.setAttribute('class','node hidden');n.style.setProperty('--d','0ms');});
+  ['b1','b2','b3'].forEach(id=>$('#'+id).classList.remove('show','active','seen'));
+  $('#more').classList.remove('show'); cutShow(false); showFoot(null);
+  void g.getBoundingClientRect();
+  setTimeout(render,120);
+}
+$('#next').onclick=next; $('#prev').onclick=prev; $('#reset').onclick=reset;
+addEventListener('keydown',e=>{
+  if(e.metaKey||e.ctrlKey||e.altKey)return;
+  const k=e.key;
+  if(k==='ArrowRight'||k===' '||k==='PageDown'||k==='Enter'){e.preventDefault();next();}
+  else if(k==='ArrowLeft'||k==='PageUp'||k==='Backspace'){e.preventDefault();prev();}
+  else if(k==='r'||k==='R'){reset();}
+  else if(k==='f'||k==='F'){ if(document.fullscreenElement)document.exitFullscreen(); else document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); }
+  else if(k==='i'||k==='I'){leave('index.html');}
+});
+
+/* ═════════ Skala panggung ═════════ */
+function fit(){
+  const s=Math.min(innerWidth/1920,innerHeight/1080), st=$('#stage');
+  st.style.transform='translate('+((innerWidth-1920*s)/2)+'px,'+((innerHeight-1080*s)/2)+'px) scale('+s+')';
+}
+addEventListener('resize',fit); fit();
+
+/* Mulai. Mode statis bila pengguna meminta gerak dikurangi tetap memakai transisi pendek. */
+const q=new URLSearchParams(location.search).get('step');
+if(q!==null){ step=Math.max(0,Math.min(LAST,+q||0)); render(); }
+else setTimeout(render,500);
+
+/* ═════════ Dock: muncul saat kursor di bawah, hilang 2 detik setelah dilepas ═════════ */
+(function(){
+  const dock=document.getElementById('dock'); let t=null, armed=false;
+  const show=()=>{dock.classList.add('show');clearTimeout(t);armed=false;};
+  const arm=()=>{ if(armed||!dock.classList.contains('show'))return; armed=true; t=setTimeout(()=>{dock.classList.remove('show');armed=false;},2000); };
+  addEventListener('mousemove',e=>{ if(e.clientY>innerHeight*0.85||dock.matches(':hover')) show(); else arm(); });
+  document.addEventListener('mouseleave',arm);
+})();
+window.__tugas={get step(){return step},TREES:TREES.length,MST,MST_COST,ALL_COST,PICK_TXT,CROSS};
+</script>
+</body>
+</html>

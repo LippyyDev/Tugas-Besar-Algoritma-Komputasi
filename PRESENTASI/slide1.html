@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slide 1 · Judul</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050507;
+  --line:rgba(255,255,255,.13);
+  --line2:rgba(255,255,255,.07);
+  --text:#f1f2f6;
+  --body:#c4c7d4;
+  --mute:#80849a;
+  --accent:#7db4ff;
+  --accent-bright:#c4dcff;
+  --sans:'Space Grotesk','Segoe UI',system-ui,sans-serif;
+  --mono:'JetBrains Mono','Cascadia Mono',Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var(--sans);color:var(--text)}
+body{opacity:0;animation:fadein .5s ease .05s forwards}
+body.leaving{animation:none;opacity:0;transition:opacity .25s ease}
+@keyframes fadein{to{opacity:1}}
+
+#stage{
+  position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;
+  background:
+    radial-gradient(1100px 600px at 18% -8%,rgba(110,140,220,.13),transparent 70%),
+    radial-gradient(rgba(255,255,255,.055) 1px,transparent 1.2px) 0 0/32px 32px,
+    var(--bg);
+}
+#net{position:absolute;inset:0;width:1920px;height:1080px}
+.veil{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,5,7,.9) 0%,rgba(5,5,7,.7) 45%,rgba(5,5,7,.12) 100%);pointer-events:none}
+
+/* ───────── Isi ───────── */
+.header{position:absolute;left:96px;right:96px;top:52px;height:76px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:22px}
+.brand img{height:78px;width:auto;display:block}
+.brand b{display:block;font-size:34px;font-weight:600;letter-spacing:-.01em}
+.brand span{display:block;font-size:23px;color:var(--mute);margin-top:3px}
+.tag{font-family:var(--mono);font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.rule{position:absolute;left:96px;top:140px;width:1728px;height:1px;background:linear-gradient(90deg,var(--accent),rgba(125,180,255,.1) 60%,transparent);transform-origin:left;transform:scaleX(0)}
+
+.main{position:absolute;left:96px;top:270px;width:1560px}
+.eyebrow{font-family:var(--mono);font-size:17px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:30px;display:flex;align-items:center;gap:16px}
+.eyebrow::before{content:"";width:44px;height:1px;background:var(--accent)}
+h1{font-size:82px;line-height:1.08;font-weight:700;letter-spacing:-.035em;color:var(--text)}
+h1 em{font-style:italic;color:var(--accent-bright)}
+h1 .w{display:inline-block;opacity:0}
+
+.chips{display:flex;align-items:center;gap:20px;margin-top:56px}
+.chip{font-size:29px;font-weight:600;padding:16px 28px;border:1px solid rgba(125,180,255,.55);border-radius:6px;background:rgba(125,180,255,.08);color:var(--text);letter-spacing:-.005em;opacity:0}
+.plus{font-family:var(--mono);font-size:26px;color:var(--mute);opacity:0}
+.sub{margin-top:44px;max-width:1160px;font-size:26px;line-height:1.5;color:var(--mute);opacity:0}
+.who{margin-top:52px;opacity:0}
+.who b{display:block;font-size:36px;font-weight:600;letter-spacing:-.01em}
+.who span{display:inline-block;margin-top:12px;margin-right:34px;font-family:var(--mono);font-size:19px;letter-spacing:.06em;color:var(--mute)}
+
+/* ───────── Animasi masuk ───────── */
+.play .rule{animation:draw 1.4s cubic-bezier(.3,.7,.2,1) .15s forwards}
+.play .eyebrow{animation:rise .8s ease .35s both}
+.play h1 .w{animation:word .9s cubic-bezier(.2,.7,.2,1) calc(.5s + var(--i)*70ms) forwards}
+.play .chip,.play .plus{animation:rise .7s ease calc(1.5s + var(--j)*110ms) forwards}
+.play .sub{animation:rise .8s ease 2.4s forwards}
+.play .who{animation:rise .8s ease 2.7s forwards}
+@keyframes draw{to{transform:scaleX(1)}}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes word{from{opacity:0;transform:translateY(26px);filter:blur(8px)}to{opacity:1;transform:none;filter:blur(0)}}
+
+/* ───────── Footer ───────── */
+.footer{position:absolute;left:96px;right:96px;bottom:44px;height:62px;display:flex;align-items:flex-end;justify-content:space-between}
+.prog{display:flex;gap:8px;width:1000px}
+.seg{position:relative}
+.seg .bar{height:3px;background:rgba(255,255,255,.14);position:relative;overflow:hidden}
+.seg .bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent);transition:width 1.2s ease}
+.seg span{display:block;margin-top:9px;font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#4b4e60;white-space:nowrap}
+.seg.cur span{color:var(--accent)}
+.ctrl{display:flex;align-items:center;gap:12px}
+.cnt{font-family:var(--mono);font-size:17px;letter-spacing:.12em;color:var(--mute);margin-right:10px;min-width:70px;text-align:right}
+.btn{font-family:var(--mono);font-size:17px;letter-spacing:.1em;text-transform:uppercase;color:var(--text);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:3px;height:50px;padding:0 22px;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.btn:hover:not(:disabled){background:rgba(125,180,255,.12);border-color:var(--accent);color:var(--accent-bright)}
+.btn.pri{border-color:rgba(125,180,255,.55);background:rgba(125,180,255,.1)}
+.btn:disabled{opacity:.3;cursor:default}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hint{position:absolute;right:96px;bottom:12px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:#4b4e60;text-transform:uppercase}
+
+/* ───────── Dock navigasi (pop up, muncul saat kursor di bawah) ───────── */
+.prog{width:100%}
+#dock{position:absolute;left:50%;bottom:104px;transform:translate(-50%,28px);opacity:0;pointer-events:none;z-index:10;
+  display:flex;flex-direction:column;align-items:center;gap:12px;padding:18px 22px 14px;
+  background:rgba(10,11,15,.94);border:1px solid var(--line);border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.6);
+  transition:opacity .35s ease,transform .35s ease}
+#dock.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#dock .hint{position:static}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="net" width="1920" height="1080"></canvas>
+  <div class="veil"></div>
+
+  <div class="header">
+    <div class="brand">
+      <img src="aset/logo-unhas.png" alt="Logo Universitas Hasanuddin">
+      <div><b>Universitas Hasanuddin</b><span>Magister Teknik Informatika</span></div>
+    </div>
+    <div class="tag">Tugas Besar Analisis Algoritma</div>
+  </div>
+  <div class="rule"></div>
+
+  <div class="main">
+    <div class="eyebrow">Tugas Besar Analisis Algoritma</div>
+    <h1 id="title">Analisis Perbandingan Algoritma Kruskal, Prim, dan Borůvka pada <em>Minimum Spanning Tree</em></h1>
+    <div class="chips">
+      <span class="chip" style="--j:0">Kruskal</span><span class="plus" style="--j:1">+</span>
+      <span class="chip" style="--j:2">Prim</span><span class="plus" style="--j:3">+</span>
+      <span class="chip" style="--j:4">Borůvka</span>
+    </div>
+    <p class="sub">Membandingkan cara kerja, kompleksitas teoretis, dan hasil eksperimen tiga algoritma yang sama-sama mencari jaringan penghubung dengan biaya terkecil.</p>
+    <div class="who">
+      <b>Muhammad Alif Qadri</b>
+      <span id="nim">NIM: [ISI NIM]</span><span id="dosen">Dosen: [ISI NAMA DOSEN]</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="prog" id="prog"></div>
+  </div>
+  <div id="dock">
+    <div class="ctrl">
+    <span class="cnt" id="cnt">1 / 1</span>
+      <button class="btn" id="prev" disabled>‹ Sebelumnya</button>
+      <button class="btn" id="reset" title="Putar ulang animasi (R)">↺ Reset</button>
+      <button class="btn pri" id="next" title="Slide berikutnya (→ / Spasi)">Berikutnya ›</button>
+    </div>
+    <div class="hint">← → navigasi · R reset · F layar penuh · I indeks</div>
+  </div>
+</div>
+
+<script>
+const NEXT_SLIDE='slide2.html';
+const SLIDE_NO=1;
+const $=s=>document.querySelector(s);
+
+/* ═════════ Judul: pecah per kata untuk animasi ═════════ */
+(function(){
+  const h=$('#title'); let i=0;
+  const walk=(node,parent)=>{
+    [...node.childNodes].forEach(ch=>{
+      if(ch.nodeType===3){
+        const frag=document.createDocumentFragment();
+        ch.textContent.split(/(\s+)/).forEach(tok=>{
+          if(!tok)return;
+          if(/^\s+$/.test(tok)){frag.appendChild(document.createTextNode(' '));return;}
+          const s=document.createElement('span');s.className='w';s.style.setProperty('--i',i++);s.textContent=tok;frag.appendChild(s);
+        });
+        ch.replaceWith(frag);
+      } else if(ch.nodeType===1) walk(ch);
+    });
+  };
+  walk(h);
+})();
+
+/* ═════════ Latar: jaringan titik yang menghitung MST langsung ═════════ */
+const cv=$('#net'), cx=cv.getContext('2d');
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const N=44, P=[];
+let seed=7; const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};
+for(let i=0;i<N;i++) P.push({x:rnd()*1920,y:rnd()*1080,vx:(rnd()-.5)*.35,vy:(rnd()-.5)*.35,r:1.8+rnd()*1.8,hub:rnd()<.16});
+function prim(){
+  const inT=new Array(N).fill(false), d=new Array(N).fill(1e9), par=new Array(N).fill(-1), out=[];
+  d[0]=0;
+  for(let k=0;k<N;k++){
+    let u=-1; for(let i=0;i<N;i++) if(!inT[i]&&(u<0||d[i]<d[u])) u=i;
+    inT[u]=true; if(par[u]>=0) out.push([par[u],u]);
+    for(let v=0;v<N;v++) if(!inT[v]){const dd=Math.hypot(P[u].x-P[v].x,P[u].y-P[v].y); if(dd<d[v]){d[v]=dd;par[v]=u;}}
+  }
+  return out;
+}
+let tt=0;
+function frame(){
+  cx.clearRect(0,0,1920,1080);
+  if(!still) for(const p of P){ p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>1920)p.vx*=-1; if(p.y<0||p.y>1080)p.vy*=-1; }
+  // sisi dekat (latar tipis)
+  cx.lineWidth=1;
+  for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){
+    const d=Math.hypot(P[i].x-P[j].x,P[i].y-P[j].y);
+    if(d<230){cx.strokeStyle='rgba(255,255,255,'+(.09*(1-d/230)).toFixed(3)+')';cx.beginPath();cx.moveTo(P[i].x,P[i].y);cx.lineTo(P[j].x,P[j].y);cx.stroke();}
+  }
+  // MST dari titik-titik yang sedang bergerak
+  const T=prim();
+  T.forEach(([a,b],k)=>{
+    const A=P[a],B=P[b],len=Math.hypot(A.x-B.x,A.y-B.y);
+    cx.strokeStyle='rgba(125,180,255,'+Math.max(.22,.7-len/650).toFixed(3)+')';cx.lineWidth=1.4;
+    cx.beginPath();cx.moveTo(A.x,A.y);cx.lineTo(B.x,B.y);cx.stroke();
+    // denyut yang berjalan di sepanjang sisi
+    const ph=((tt*.0004)+k*.137)%1;
+    cx.fillStyle='rgba(196,220,255,.85)';cx.beginPath();cx.arc(A.x+(B.x-A.x)*ph,A.y+(B.y-A.y)*ph,1.8,0,6.283);cx.fill();
+  });
+  for(const p of P){
+    cx.fillStyle=p.hub?'rgba(196,220,255,.95)':'rgba(255,255,255,.55)';
+    cx.beginPath();cx.arc(p.x,p.y,p.hub?p.r+1.4:p.r,0,6.283);cx.fill();
+    if(p.hub){cx.strokeStyle='rgba(125,180,255,.35)';cx.lineWidth=1;cx.beginPath();cx.arc(p.x,p.y,p.r+9,0,6.283);cx.stroke();}
+  }
+  tt+=16;
+  if(!still) requestAnimationFrame(frame);
+}
+frame();
+
+/* ═════════ Progres, animasi masuk, kontrol ═════════ */
+const GROUPS=[['Pembuka',1],['Konsep',1],['Algoritma',4],['Teori',1],['Eksperimen',3],['Penutup',1]];
+(function(){ const p=$('#prog'); GROUPS.forEach(([n,c])=>{const s=document.createElement('div');s.className='seg';s.style.flex=c;s.innerHTML='<div class="bar"><i></i></div><span>'+n+'</span>';p.appendChild(s);}); })();
+function progress(frac){
+  let start=0;
+  document.querySelectorAll('.seg').forEach((s,gi)=>{
+    const c=GROUPS[gi][1]; let done=0;
+    if(SLIDE_NO>start+c) done=c; else if(SLIDE_NO>start) done=(SLIDE_NO-1-start)+frac;
+    s.querySelector('i').style.width=(done/c*100)+'%';
+    s.classList.toggle('cur',SLIDE_NO>start&&SLIDE_NO<=start+c);
+    start+=c;
+  });
+}
+const st=$('#stage');
+function play(){
+  st.classList.remove('play'); progress(0);
+  void st.offsetWidth;
+  st.classList.add('play');
+  setTimeout(()=>progress(1),900);
+}
+function leave(url){ document.body.classList.add('leaving'); setTimeout(()=>{location.href=url;},260); }
+$('#next').onclick=()=>leave(NEXT_SLIDE);
+$('#reset').onclick=play;
+addEventListener('keydown',e=>{
+  if(e.metaKey||e.ctrlKey||e.altKey)return;
+  const k=e.key;
+  if(k==='ArrowRight'||k===' '||k==='PageDown'||k==='Enter'){e.preventDefault();leave(NEXT_SLIDE);}
+  else if(k==='r'||k==='R'){play();}
+  else if(k==='f'||k==='F'){ if(document.fullscreenElement)document.exitFullscreen(); else document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); }
+  else if(k==='i'||k==='I'){leave('index.html');}
+});
+function fit(){
+  const s=Math.min(innerWidth/1920,innerHeight/1080);
+  st.style.transform='translate('+((innerWidth-1920*s)/2)+'px,'+((innerHeight-1080*s)/2)+'px) scale('+s+')';
+}
+addEventListener('resize',fit); fit();
+setTimeout(play,350);
+
+/* ═════════ Dock: muncul saat kursor di bawah, hilang 2 detik setelah dilepas ═════════ */
+(function(){
+  const dock=document.getElementById('dock'); let t=null, armed=false;
+  const show=()=>{dock.classList.add('show');clearTimeout(t);armed=false;};
+  const arm=()=>{ if(armed||!dock.classList.contains('show'))return; armed=true; t=setTimeout(()=>{dock.classList.remove('show');armed=false;},2000); };
+  addEventListener('mousemove',e=>{ if(e.clientY>innerHeight*0.85||dock.matches(':hover')) show(); else arm(); });
+  document.addEventListener('mouseleave',arm);
+})();
+</script>
+</body>
+</html>
