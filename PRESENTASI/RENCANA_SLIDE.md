@@ -115,7 +115,7 @@ Hal yang perlu diverifikasi sebelum dipakai di laporan: rumus Cayley (jumlah poh
 
 Tujuan: menjadi penghubung dari ide *greedy* di slide 2 ke tiga algoritma yang dibahas. Slide ini murni pernyataan, tanpa animasi graf, tanpa rumus, dan tanpa isi tambahan.
 
-Teks di slide (empat blok, muncul satu per klik):
+Teks di slide (empat kartu, muncul satu per klik, kartu aktif menyala dan garis kemajuannya berjalan):
 
 > **Algoritma *greedy*** ada banyak jenisnya.
 > **Algoritma Kruskal**

@@ -46,11 +46,11 @@ body.leaving{animation:none;opacity:0;transition:opacity .25s ease}
 .brand b{display:block;font-size:28px;font-weight:600;letter-spacing:-.01em}
 .brand span{display:block;font-size:19px;color:var(--mute);margin-top:2px}
 .tag{font-family:var(--mono);font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
-.kicker{position:absolute;left:96px;top:339px}
+.kicker{position:absolute;left:96px;top:236px}
 .kicker h1{font-size:56px;line-height:1.1;font-weight:700;letter-spacing:-.03em;color:var(--text)}
 
 /* ───────── Kolom teks ───────── */
-.copy{position:absolute;left:96px;top:425px;width:740px;height:540px;display:flex;flex-direction:column;justify-content:flex-start}
+.copy{position:absolute;left:96px;top:322px;width:740px;height:620px;display:flex;flex-direction:column;justify-content:flex-start;gap:18px}
 .blk{opacity:0;transform:translateY(14px);max-height:0;overflow:hidden;margin-top:0;transition:opacity .6s ease,transform .6s ease,max-height .7s ease,margin-top .7s ease;position:relative}
 .blk.show{opacity:1;transform:none;max-height:460px;margin-top:26px}
 .blk.show:first-child{margin-top:0}
@@ -212,6 +212,31 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 #mini{opacity:0}
 .gl{stroke:rgba(125,180,255,.13);stroke-width:1.5;stroke-dasharray:3 7}
 #famlab{font-family:var(--mono);font-size:14px;letter-spacing:.18em;fill:var(--mute);text-anchor:middle;transition:opacity .5s ease}
+
+/* ───────── Kartu slide 3 ───────── */
+.copy .blk{position:relative;max-height:0;margin-top:0;background:linear-gradient(90deg,rgba(125,180,255,.06),rgba(255,255,255,.01) 70%);border:1px solid var(--line);border-radius:4px;padding:0 30px 0 34px;overflow:hidden;transition:opacity .6s ease,transform .6s ease,max-height .7s ease,padding .7s ease,border-color .4s ease,box-shadow .5s ease}
+.copy .blk.show{max-height:200px;padding:24px 30px 22px 34px;margin-top:0}
+.copy .blk::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:rgba(255,255,255,.12);transition:background .4s ease}
+.copy .blk .lbl{display:flex;justify-content:space-between;margin-bottom:12px;font-size:14px}
+.copy .blk .lbl::after{content:attr(data-tag);color:var(--mute)}
+.copy .blk p{font-size:40px;line-height:1.15;font-weight:600;letter-spacing:-.01em;color:var(--body)}
+.copy .blk p b{font-weight:600}
+.copy .blk.active{border-color:rgba(125,180,255,.55);box-shadow:0 0 0 1px rgba(125,180,255,.18),0 0 40px rgba(125,180,255,.14)}
+.copy .blk.active::before{background:var(--accent)}
+.copy .blk.active p{color:var(--text)}
+.copy .blk.amb.active{border-color:rgba(255,194,102,.55);box-shadow:0 0 40px rgba(255,194,102,.12)}
+.copy .blk.amb.active::before{background:var(--amber)}
+.copy .blk.amb.active .lbl{color:var(--amber)}
+.copy .blk.amb.active .lbl::after{color:var(--amber)}
+.copy .blk.seen{opacity:.45;transform:none}
+.copy .blk.seen p{font-size:34px}
+.copy .blk .meter{height:3px;margin-top:16px;background:rgba(255,255,255,.08);overflow:hidden;border-radius:2px}
+.copy .blk .meter i{display:block;height:100%;width:0;background:var(--accent)}
+.copy .blk.amb .meter i{background:var(--amber)}
+.copy .blk.active .meter i{width:100%;transition:width 3.2s linear}
+.copy .blk.seen .meter i{width:100%}
+#scan{position:absolute;left:0;right:0;height:140px;top:-140px;background:linear-gradient(180deg,transparent,rgba(125,180,255,.07),transparent);pointer-events:none;animation:scan 6s linear infinite}
+@keyframes scan{to{transform:translateY(860px)}}
 </style>
 </head>
 <body>
@@ -228,18 +253,22 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
   <div class="kicker"><h1>Algoritma yang dibahas</h1></div>
 
   <div class="copy">
-    <div class="blk" id="b1"><span class="lbl">01 · Keluarga</span>
-      <p><b>Algoritma <em>greedy</em></b> ada banyak jenisnya.</p></div>
-    <div class="blk" id="b2"><span class="lbl">02 · Algoritma utama</span>
-      <p><b>Algoritma Kruskal</b></p></div>
-    <div class="blk" id="b3"><span class="lbl">03 · Algoritma utama</span>
-      <p><b>Algoritma Prim</b></p></div>
-    <div class="blk" id="b4"><span class="lbl">04 · Pembanding</span>
-      <p><b>Algoritma Borůvka</b></p></div>
+    <div class="blk " id="b1"><span class="lbl" data-tag="BANYAK">01 · Keluarga</span>
+      <p>Algoritma <em>greedy</em></p>
+      <div class="meter"><i></i></div></div>
+    <div class="blk " id="b2"><span class="lbl" data-tag="DIBAHAS">02 · Algoritma utama</span>
+      <p>Kruskal</p>
+      <div class="meter"><i></i></div></div>
+    <div class="blk " id="b3"><span class="lbl" data-tag="DIBAHAS">03 · Algoritma utama</span>
+      <p>Prim</p>
+      <div class="meter"><i></i></div></div>
+    <div class="blk amb" id="b4"><span class="lbl" data-tag="PEMBANDING">04 · Pembanding</span>
+      <p>Borůvka</p>
+      <div class="meter"><i></i></div></div>
   </div>
 
   <div class="panel">
-    <i class="c1"></i><i class="c2"></i>
+    <i class="c1"></i><i class="c2"></i><div id="scan"></div>
     <div class="phead">
       <div class="fig"><b>Fig. 03</b> · Peta algoritma</div>
       <div class="readout" id="readout"><small id="ro-l"></small><strong id="ro-v"></strong></div>
