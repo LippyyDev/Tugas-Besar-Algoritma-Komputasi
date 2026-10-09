@@ -199,10 +199,10 @@ svg#g{aspect-ratio:960/410}
 .ln.hd{color:var(--text);font-weight:500}
 .ln.hd .t{padding-left:0}
 .ln .k{color:var(--accent-bright)}
-.code.act .ln:not(.on):not(.hd){opacity:.38}
-.ln.on{background:rgba(125,180,255,.12);border-left-color:var(--accent);color:var(--text)}
+.code.act .ln:not(.on):not(.hd){opacity:.3}
+.ln.on{background:rgba(125,180,255,.24);border-left-color:var(--accent);color:#fff;box-shadow:inset 0 0 0 1px rgba(125,180,255,.35)}
 .ln.on .no{color:var(--accent)}
-.ln.w.on{background:rgba(255,194,102,.12);border-left-color:var(--amber)}
+.ln.w.on{background:rgba(255,194,102,.24);border-left-color:var(--amber);box-shadow:inset 0 0 0 1px rgba(255,194,102,.4)}
 .ln.w.on .no{color:var(--amber)}
 .ln.w.on .k{color:var(--amber)}
 
@@ -406,7 +406,11 @@ function cap(html){const c=$('#cap');c.innerHTML=html;c.classList.remove('sw');v
 
 /* ═════════ Langkah ═════════ */
 let runs=[];const later=(f,ms)=>runs.push(setTimeout(f,ms));const clearRuns=()=>{runs.forEach(clearTimeout);runs=[];};
-const TOTAL=2+T.length+(REST.length?1:0), LAST=TOTAL-1, DEMO=2+T.length;
+const DEMO=2+T.length;
+const SEQ=[[0,0],[1,0],[1,1],[1,2]];
+T.forEach((t,j)=>{for(let p=0;p<(t.ok?4:3);p++)SEQ.push([2+j,p]);});
+if(REST.length)for(let p=0;p<3;p++)SEQ.push([DEMO,p]);
+const TOTAL=SEQ.length, LAST=TOTAL-1;
 let step=0;
 
 /* keadaan di AWAL langkah k (semua langkah sebelumnya sudah selesai) */
@@ -428,7 +432,8 @@ function paint(k){
   hl([]);showVars();
 }
 
-function play(k){
+/* satu klik = satu fase; tidak ada animasi yang jalan sendiri */
+function phase(k,ph){
   if(k===0){
     g.classList.add('nt');EDGES.forEach((_,i)=>setE(i,'hidden'));NODES.forEach((_,i)=>setN(i,'hidden'));
     void g.getBoundingClientRect();g.classList.remove('nt');
@@ -437,42 +442,44 @@ function play(k){
     return;
   }
   if(k===1){
-    SORTED.forEach((_,p)=>{CH[p].style.setProperty('--d',(p*110)+'ms');setChip(p,'',true);});
-    hl([1]);setV({sorted:true});cap('Langkah pertama: <b>urutkan</b> semua sisi dari bobot terkecil sampai terbesar (<b>E′</b> adalah E yang sudah diurut).');
-    later(()=>{hl([2]);setV({sets:INIT,A:[],tot:0});renderGroups(INIT);nodesFor(INIT);cap('<b>himpunan</b> dibuat: tiap titik mulai sebagai kelompok sendiri, belum ada titik yang tersambung.');},1500);
-    later(()=>{hl([2]);cap('<b>A</b> (sisi MST yang terpilih) masih kosong dan <b>total</b> biaya 0. Sekarang periksa sisi dari yang termurah.');},2700);
+    if(ph===0){SORTED.forEach((_,p)=>{CH[p].style.setProperty('--d',(p*110)+'ms');setChip(p,'',true);});
+      hl([1]);setV({sorted:true});cap('Langkah pertama: <b>urutkan</b> semua sisi dari bobot terkecil sampai terbesar (<b>E′</b> adalah E yang sudah diurut).');}
+    else if(ph===1){hl([2]);setV({sets:INIT,A:[],tot:0});renderGroups(INIT);nodesFor(INIT);cap('<b>himpunan</b> dibuat: tiap titik mulai sebagai kelompok sendiri, belum ada titik yang tersambung.');}
+    else{hl([2]);cap('<b>A</b> (sisi MST yang terpilih) masih kosong dan <b>total</b> biaya 0. Sekarang periksa sisi dari yang termurah.');}
     return;
   }
   if(k<DEMO){
     const j=k-2,t=T[j],[a,b,w]=EDGES[t.e],nm=a+'–'+b;
-    hl([3]);setV({uvw:[a,b,w]});setChip(j,'try');setE(t.e,'pick');
-    cap('Ambil sisi <b>'+nm+'</b>: ujung <b>u = '+a+'</b>, ujung <b>v = '+b+'</b>, bobot <b>w = '+w+'</b>. Apakah '+a+' dan '+b+' sudah satu kelompok?');
-    later(()=>{hl([4]);renderGroups(t.before,{hi:[t.su,t.sv]});
+    if(ph===0){hl([3]);setV({uvw:[a,b,w]});setChip(j,'try');setE(t.e,'pick');
+      cap('Ambil sisi <b>'+nm+'</b>: ujung <b>u = '+a+'</b>, ujung <b>v = '+b+'</b>, bobot <b>w = '+w+'</b>. Apakah '+a+' dan '+b+' sudah satu kelompok?');}
+    else if(ph===1){hl([4]);renderGroups(t.before,{hi:[t.su,t.sv]});
       cap(t.ok?a+' ada di <b>'+fmtS(t.su)+'</b>, '+b+' di <b>'+fmtS(t.sv)+'</b>: beda kelompok, jadi <b>GABUNG('+a+', '+b+')</b> berhasil.'
-               :a+' dan '+b+' sama-sama di <b>'+fmtS(t.su)+'</b>: <b>GABUNG('+a+', '+b+')</b> gagal, sisi ini membentuk siklus.');},1400);
-    later(()=>{
+               :a+' dan '+b+' sama-sama di <b>'+fmtS(t.su)+'</b>: <b>GABUNG('+a+', '+b+')</b> gagal, sisi ini membentuk siklus.');}
+    else if(ph===2){
       if(t.ok){hl([5]);setV({A:T.slice(0,j+1).filter(x=>x.ok).map(x=>lbl(x.e)),tot:t.tot,sets:t.after});setE(t.e,'mst');setChip(j,'acc');renderGroups(t.after,{merged:setOf(t.after,a)});nodesFor(t.after);RO(t.cnt,t.tot,true);
         cap('<b>Diterima.</b> Dua kelompok digabung menjadi '+fmtS(setOf(t.after,a))+'. Total biaya sekarang <b>'+t.tot+'</b>.');}
-      else{hl([4],true);setE(t.e,'dim');setChip(j,'rej');cap('<b>Ditolak.</b> Sisi '+nm+' dilewati.');}
-    },2600);
-    if(t.ok){
-      if(t.cnt===N-1)later(()=>{hl([6]);REST.forEach(i=>setE(i,'dim'));REST.forEach(i=>setChip(SORTED.indexOf(i),'skip'));
-        cap('<b>|A| = '+t.cnt+' = n − 1</b> (n = '+N+' titik), jadi perulangan <b>dihentikan</b>. Sisa '+REST.length+' sisi tidak perlu diperiksa. Total biaya MST: <b>'+t.tot+'</b>.');},3900);
-      else later(()=>{hl([6]);cap('|A| (banyak sisi di A) = '+t.cnt+', belum sama dengan n − 1 = '+(N-1)+' (n = '+N+' titik), jadi lanjut ke sisi berikutnya.');},3800);
-    }
+      else{hl([4],true);setE(t.e,'dim');setChip(j,'rej');cap('<b>Ditolak.</b> Sisi '+nm+' dilewati.');}}
+    else{
+      if(t.cnt===N-1){hl([6,7,8]);REST.forEach(i=>setE(i,'dim'));REST.forEach(i=>setChip(SORTED.indexOf(i),'skip'));
+        cap('<b>|A| = '+t.cnt+' = n − 1</b> (n = '+N+' titik), jadi perulangan <b>dihentikan</b>. Semua titik sudah tersambung, sisa '+REST.length+' sisi tidak perlu diperiksa. Kembalikan MST dengan total biaya <b>'+t.tot+'</b>.');}
+      else{hl([6]);cap('|A| (banyak sisi di A) = '+t.cnt+', belum sama dengan n − 1 = '+(N-1)+' (n = '+N+' titik), jadi lanjut ke sisi berikutnya.');}}
     return;
   }
   /* langkah terakhir: contoh sisi yang ditolak */
   const e=REST[0],[a,b,w]=EDGES[e],p=SORTED.indexOf(e),nm=a+'–'+b,path=pathIn(a,b),last=T[T.length-1];
-  hl([3]);setV({uvw:[a,b,w]});setChip(p,'try');setE(e,'cand');
-  for(let q=0;q<path.length-1;q++)setE(eIdx(path[q],path[q+1]),'pick');
-  cap('<b>Seandainya</b> sisi <b>'+nm+'</b> (bobot '+w+') tetap diperiksa. Pada kode yang sebenarnya perulangan sudah dihentikan sebelum sampai sini.');
-  later(()=>{hl([4]);renderGroups(last.after,{hi:[setOf(last.after,a)]});
-    cap(a+' dan '+b+' sudah <b>satu kelompok</b> '+fmtS(setOf(last.after,a))+', karena sudah tersambung lewat '+path.join(', ')+'.');},1500);
-  later(()=>{hl([4],true);setChip(p,'rej');placeBadge(e);bd.classList.add('show');
-    cap('<b>GABUNG('+a+', '+b+')</b> gagal. Menambah '+nm+' membuat sambungan <b>melingkar</b> (siklus) dan hanya menambah biaya, jadi sisi ini <b>ditolak</b>.');},3000);
+  if(ph===0){hl([3]);setV({uvw:[a,b,w]});setChip(p,'try');setE(e,'cand');
+    for(let q=0;q<path.length-1;q++)setE(eIdx(path[q],path[q+1]),'pick');
+    cap('<b>Seandainya</b> sisi <b>'+nm+'</b> (bobot '+w+') tetap diperiksa. Pada kode yang sebenarnya perulangan sudah dihentikan sebelum sampai sini.');}
+  else if(ph===1){hl([4]);renderGroups(last.after,{hi:[setOf(last.after,a)]});
+    cap(a+' dan '+b+' sudah <b>satu kelompok</b> '+fmtS(setOf(last.after,a))+', karena sudah tersambung lewat '+path.join(', ')+'.');}
+  else{hl([4],true);setChip(p,'rej');placeBadge(e);bd.classList.add('show');
+    cap('<b>GABUNG('+a+', '+b+')</b> gagal. Menambah '+nm+' membuat sambungan <b>melingkar</b> (siklus) dan hanya menambah biaya, jadi sisi ini <b>ditolak</b>.');}
 }
-const STEPS=Array.from({length:TOTAL},(_,k)=>()=>{clearRuns();paint(k);play(k);});
+let cur=[-1,-1];
+const STEPS=Array.from({length:TOTAL},(_,s)=>()=>{clearRuns();const [k,ph]=SEQ[s];
+  if(cur[0]===k&&cur[1]===ph-1&&ph>0){phase(k,ph);}
+  else{paint(k);if(k===0||k===1||true){for(let i=0;i<=ph;i++)phase(k,i);}}
+  cur=[k,ph];});
 
 /* ═════════ Progres, navigasi ═════════ */
 const GROUPS=[['Pembuka',1],['Konsep',1],['Algoritma',5],['Teori',1],['Eksperimen',3],['Penutup',1]];
