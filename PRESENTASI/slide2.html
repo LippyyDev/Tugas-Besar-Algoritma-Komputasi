@@ -314,9 +314,9 @@ const t1=mk('text',{x:34,y:52,class:'g1'},gz); t1.textContent='KELOMPOK 1';
 const t2=mk('text',{x:716,y:494},gz); t2.textContent='KELOMPOK 2';
 
 const gz2 = mk('g',{id:'cut2'},g);
-mk('ellipse',{class:'zone',cx:340,cy:420,rx:104,ry:68},gz2);
-mk('ellipse',{class:'line',cx:340,cy:420,rx:104,ry:68},gz2);
-{ const a=mk('text',{x:452,y:478,class:'g1'},gz2); a.textContent='KELOMPOK 1'; const b=mk('text',{x:34,y:52},gz2); b.textContent='KELOMPOK 2'; }
+mk('ellipse',{class:'zone',cx:140,cy:260,rx:84,ry:68},gz2);
+mk('ellipse',{class:'line',cx:140,cy:260,rx:84,ry:68},gz2);
+{ const a=mk('text',{x:60,y:356,class:'g1'},gz2); a.textContent='KELOMPOK 1'; const b=mk('text',{x:34,y:52},gz2); b.textContent='KELOMPOK 2'; }
 
 const EL = EDGES.map(([a,b,w],i)=>{
   const A=NODES[idx[a]],B=NODES[idx[b]];
@@ -366,7 +366,7 @@ function blocks(active,more){
   $('#more').classList.toggle('show',!!more);
 }
 let scen=1;
-const SC={1:{g:['A','B','D'],dx:0,dy:-48},2:{g:['C'],dx:-60,dy:-40}};
+const SC={1:{g:['A','B','D'],dx:0,dy:-48},2:{g:['A'],dx:-90,dy:-24}};
 function cutShow(on){ $('#cut').classList.toggle('show',on&&scen===1); $('#cut2').classList.toggle('show',on&&scen===2); $('#aman').classList.toggle('show',on); }
 
 /* ═════════ Langkah ═════════ */
