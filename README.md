@@ -1,139 +1,71 @@
-# Tugas Besar Algoritma Komputasi
+# Tugas Besar Algoritma Komputasi: Minimum Spanning Tree
 
-> **Implementasi, Visualisasi Interaktif, dan Analisis Komparatif Algoritma Minimum Spanning Tree (MST): Kruskal, Prim, dan Borůvka**
+Implementasi dan analisis algoritma Kruskal dan Prim untuk *Minimum Spanning Tree* (MST), dengan Borůvka sebagai pembanding.
 
-[![Python 3.9+](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Jupyter Notebook](https://img.shields.io/badge/Jupyter-Notebook-F37626?style=for-the-badge&logo=jupyter&logoColor=white)](https://jupyter.org/)
-[![HTML5 Visualizer](https://img.shields.io/badge/Visualization-HTML5%20Canvas-E34F26?style=for-the-badge&logo=html5&logoColor=white)](#visualisasi-interaktif)
+- Nama: Muhammad Alif Qadri
+- NIM: D082261018
+- Program studi: Magister Teknik Informatika
+- Mata kuliah: Algoritma Komputasi
 
----
+## Algoritma
 
-## 👤 Informasi Mahasiswa
+| Algoritma | Ringkasan implementasi |
+|---|---|
+| Kruskal | Sisi diurutkan, lalu diterima jika tidak membentuk siklus. Memakai *disjoint set* dengan *union by rank* dan *path halving*. |
+| Prim | Daftar ketetanggaan dan antrean prioritas `heapq` yang menyimpan sisi (versi *lazy*, tanpa *decrease-key*). |
+| Borůvka (pembanding) | Setiap putaran, setiap komponen memilih sisi keluar termurah, lalu komponen digabung. Sekuensial. |
 
-- **Nama:** Muhammad Alif Qadri
-- **NIM:** D082261018
-- **Program Studi:** Magister Teknik Informatika
-- **Mata Kuliah:** Algoritma Komputasi
+Ketiganya memakai kunci pemutus seri yang sama, yaitu (bobot, simpul terkecil, simpul terbesar). Kode inti ditulis sendiri. `networkx` hanya dipakai sebagai pembanding verifikasi.
 
----
-
-## 📌 Deskripsi Proyek
-
-Repositori ini memuat pengerjaan Tugas Besar mata kuliah Algoritma Komputasi yang berfokus pada penyelesaian masalah **Minimum Spanning Tree (MST)**. Tiga algoritma klasik diimplementasikan dan dibandingkan secara teoritis maupun empiris:
-
-1. **Algoritma Kruskal**: mengurutkan sisi lalu menerima sisi yang tidak membentuk siklus, memakai *Disjoint-Set Union* (Himpunan Terpisah) dengan *union by rank* dan *path halving*.
-2. **Algoritma Prim**: memakai daftar ketetanggaan dan antrean prioritas `heapq` yang menyimpan sisi (versi *lazy*, tanpa *decrease-key*).
-3. **Algoritma Borůvka** (pembanding): pada setiap putaran, setiap komponen memilih sisi keluar termurah, lalu komponen digabung. Diimplementasikan secara sekuensial.
-
-Ketiga algoritma memakai kunci pemutus seri yang sama, yaitu (bobot, simpul terkecil, simpul terbesar), sehingga pada bobot kembar keluarannya konsisten.
-
-Proyek ini mencakup kode sumber Python murni, visualisasi interaktif berbasis HTML/JavaScript yang dapat dijalankan langsung di peramban, notebook Jupyter untuk pengukuran waktu dan pembuatan grafik, serta naskah laporan (Bab 1 sampai 4) dan salinan referensi.
-
-> **Status:** naskah Bab 1 sampai 4 sudah ada di `DRAF/`. Abstrak, Bab 5, dan Lampiran belum ditulis. Studi kasus jaringan kabel antar gedung memakai jarak ilustrasi, bukan hasil pengukuran lapangan (lihat Bab 4.1).
-
----
-
-## 📁 Struktur Repositori
+## Struktur
 
 ```text
-├── CODING/
-│   ├── README.md                      # Dokumentasi teknis folder CODING
-│   ├── requirements.txt               # Daftar pustaka Python yang dibutuhkan
-│   ├── jalankan_notebook.bat          # Script otomatisasi lingkungan & notebook (Windows)
-│   ├── Kruskal/
-│   │   ├── kruskal.py                 # Implementasi Algoritma Kruskal & Disjoint Set
-│   │   └── visualisasi-kruskal.html   # Visualisasi interaktif langkah-demi-langkah Kruskal
-│   ├── Prim/
-│   │   ├── prim.py                    # Implementasi Algoritma Prim
-│   │   └── visualisasi-prim.html      # Visualisasi interaktif langkah-demi-langkah Prim
-│   ├── Borůvka/
-│   │   ├── boruvka.py                 # Implementasi Algoritma Borůvka
-│   │   └── visualisasi-boruvka.html   # Visualisasi interaktif langkah-demi-langkah Borůvka
-│   └── Eksperimen/
-│       ├── Tugas_MST_Lokal.ipynb      # Notebook eksperimen, benchmark waktu, CSV, & grafik
-│       ├── PENJELASAN_NOTEBOOK.md     # Penjelasan tiap sel notebook
-│       └── data/studi_kasus_gedung_unhas.csv   # Data studi kasus (jarak ilustrasi)
-├── DRAF/
-│   ├── BAB 1.md ... BAB 4.md          # Naskah laporan
-│   └── gambar/                        # Gambar 4.1 sampai 4.3 (grafik waktu vs kurva teori)
-├── REFERENSI/                         # Salinan referensi dan daftar DOI (README.md)
-├── LAPORAN/
-│   └── .gitkeep                       # Direktori untuk laporan akhir (PDF)
-└── README.md
+CODING/
+  Kruskal/  kruskal.py, visualisasi-kruskal.html
+  Prim/     prim.py, visualisasi-prim.html
+  Borůvka/  boruvka.py, visualisasi-boruvka.html
+  Eksperimen/
+    Tugas_MST_Lokal.ipynb          notebook uji kasus kecil dan eksperimen waktu
+    PENJELASAN_NOTEBOOK.md         penjelasan tiap sel
+    data/studi_kasus_gedung_unhas.csv
+  README.md                        petunjuk teknis rinci
+DRAF/        naskah laporan (BAB 1 sampai BAB 4) dan gambar/
+REFERENSI/   salinan referensi dan daftar DOI
+LAPORAN/     laporan akhir (PDF)
 ```
 
----
+## Menjalankan
 
-## 🚀 Panduan Menjalankan
-
-### 1. Eksekusi Script Algoritma Satuan (Python CLI)
-
-Setiap algoritma dapat dijalankan langsung secara mandiri tanpa dependensi eksternal (cukup Python 3.9+ bawaan):
+Satu algoritma (Python 3.9 atau lebih baru, tanpa pustaka tambahan):
 
 ```bash
-# Algoritma Kruskal
-cd CODING/Kruskal
-python kruskal.py
-
-# Algoritma Prim
-cd ../Prim
-python prim.py
-
-# Algoritma Borůvka
-cd ../Borůvka
-python boruvka.py
+cd CODING/Kruskal && python kruskal.py
+cd ../Prim && python prim.py
+cd ../Borůvka && python boruvka.py
 ```
 
-### 2. Menjalankan Notebook Eksperimen & Benchmark
+Notebook eksperimen:
 
-#### Metode Cepat (Windows)
-Cukup jalankan berkas batch otomatis:
-```cmd
-CODING\jalankan_notebook.bat
-```
-Script akan otomatis membuat *virtual environment* (`.venv`), memasang dependensi dari `requirements.txt`, dan membuka notebook di browser.
-
-#### Metode Manual (Windows / macOS / Linux)
 ```bash
 cd CODING
 python -m venv .venv
-
-# Aktivasi virtual environment:
-# Windows:
-.venv\Scripts\activate
-# macOS/Linux:
-# source .venv/bin/activate
-
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 cd Eksperimen
 python -m notebook Tugas_MST_Lokal.ipynb
 ```
 
-> **Tips:** Buka notebook dan pilih **Run > Run All Cells**. Hasil eksekusi berupa tabel CSV di `Eksperimen/hasil/` dan grafik di `Eksperimen/grafik/` dibuat otomatis saat notebook dijalankan, dan folder itu tidak disimpan di repositori ini. Grafik yang dipakai laporan ada di `DRAF/gambar/`.
->
-> Eksperimen pada laporan dijalankan di Google Colab versi gratis dengan *seed* 2026. Waktu yang terukur bergantung pada mesin, jadi hasil di komputer lain akan berbeda.
+Di Windows, `CODING\jalankan_notebook.bat` melakukan langkah di atas. Petunjuk Google Colab ada di `CODING/README.md`.
 
----
+## Hasil eksperimen
 
-## 🎨 Visualisasi Interaktif
+- Skenario: graf jarang (*m* = 3*n*), graf padat (*m* = *n*(*n* − 1)/4), dan graf jarang berbobot kembar. Masing-masing lima ukuran.
+- Setiap ukuran diukur lima kali pada satu graf dengan *seed* 2026. Hasil dilaporkan sebagai rata-rata dan simpangan baku.
+- Dijalankan di Google Colab versi gratis, sehingga waktu bergantung pada mesin dan hasil di komputer lain akan berbeda.
+- Grafik waktu terhadap kurva teori ada di `DRAF/gambar/`. Berkas `hasil/` dan `grafik/` dibuat otomatis saat notebook dijalankan dan tidak disimpan di repositori ini.
 
-Tersedia aplikasi web visualisasi interaktif untuk masing-masing algoritma di dalam foldernya:
-- `CODING/Kruskal/visualisasi-kruskal.html`
-- `CODING/Prim/visualisasi-prim.html`
-- `CODING/Borůvka/visualisasi-boruvka.html`
+## Status
 
-**Fitur Visualisasi:**
-- Animasi langkah demi langkah (Step-by-step trace).
-- Indikasi sisi yang dievaluasi, diterima (MST), atau ditolak (membentuk siklus).
-- Tampilan kode yang sinkron dengan proses eksekusi graf.
-- Berjalan sepenuhnya secara lokal di browser modern tanpa perlu server atau koneksi internet.
-
----
-
-## 📊 Hasil Eksperimen
-
-Hasil eksekusi notebook menghasilkan berkas berikut (dibuat saat notebook dijalankan, tidak ada di repositori):
-- `Eksperimen/hasil/eksperimen_mentah.csv`: Catatan waktu setiap iterasi pengujian graf acak.
-- `Eksperimen/hasil/ringkasan.csv`: Rata-rata dan standar deviasi waktu eksekusi.
-- `Eksperimen/hasil/rasio_terhadap_teori.csv`: Analisis perbandingan empiris terhadap kompleksitas teoritis.
-- `Eksperimen/grafik/`: Visualisasi grafik kurva waktu komputasi.
+- Naskah Bab 1 sampai 4 tersedia di `DRAF/`. Abstrak, Bab 5, dan Lampiran belum ditulis.
+- Studi kasus jaringan kabel antar lima gedung memakai jarak ilustrasi, bukan hasil pengukuran lapangan (Bab 4.1).
+- Pemakaian alat bantu AI akan dilaporkan pada Lampiran laporan.
