@@ -33,7 +33,7 @@ Di Colab, waktu yang diukur adalah waktu mesin virtual Google yang dipakai bersa
 
 ```
 [LOLOS] Kasus 1: 4 kota biasa (satu jalur ditolak) | total = 7 | Kruskal, Prim, Borůvka sama
-[LOLOS] Kasus 2: segitiga 3 kota | total = 3 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 2: 5 kota, bobot 0 dan negatif | total = 5 | Kruskal, Prim, Borůvka sama
 [LOLOS] Kasus 3: bobot kembar (total dan himpunan sisi) | total = 6 | Kruskal, Prim, Borůvka sama
 [LOLOS] Kasus 4: graf tak terhubung (harus ValueError) | ketiganya melempar ValueError
 
@@ -109,16 +109,17 @@ Informasi lingkungan (Python, sistem, prosesor, jumlah CPU, jenis lingkungan) di
 Bagian A notebook dipecah per kasus: Sel 7 = persiapan (data kota dan fungsi uji), Sel 7.1 = Kasus 1, Sel 7.2 = Kasus 2, Sel 7.3 = Kasus 3, Sel 7.4 = Kasus 4 (graf tak terhubung), Sel 7.5 = rekap. Bagian B (Sel 7B) adalah studi kasus gedung, Bagian C (Sel 8 dan seterusnya) adalah eksperimen waktu dengan seed. Seed hanya dipakai di Bagian C.
 Syarat dosen: **minimal 3 kasus uji kecil yang bisa dicek manual.** Ada 3 kasus graf terhubung dan 1 kasus graf tak terhubung. **Setiap kasus dijalankan pada ketiga algoritma**, sehingga syaratnya terpenuhi baik jika dosen memaksudkan 3 kasus total maupun 3 kasus per algoritma. Jawaban benar ditulis dari hitungan tangan, bukan dari keluaran program.
 
-> **PENTING: ini draf hitungan tangan. Hitung ulang sendiri di kertas sebelum dikumpulkan**, lalu pastikan kamu bisa menjelaskan tiap langkahnya saat tanya jawab. Nomor kota: Maros = 0, Makassar = 1, Gowa = 2, Takalar = 3.
+> **PENTING: ini draf hitungan tangan. Hitung ulang sendiri di kertas sebelum dikumpulkan**, lalu pastikan kamu bisa menjelaskan tiap langkahnya saat tanya jawab. Nomor kota: Maros = 0, Makassar = 1, Gowa = 2, Takalar = 3, Pangkep = 4.
 
 **Kasus 1 (4 kota biasa, ada satu jalur yang ditolak).** Jalur: Gowa ke Takalar 4, Maros ke Gowa 3, Makassar ke Takalar 5, Maros ke Makassar 1, Makassar ke Gowa 2.
 Urut termurah: Maros ke Makassar 1, Makassar ke Gowa 2, Maros ke Gowa 3, Gowa ke Takalar 4, Makassar ke Takalar 5.
 Ambil 1 (terima). Ambil 2 (terima). Maros ke Gowa 3: Maros dan Gowa sudah tersambung lewat Makassar, jadi **ditolak (siklus)**. Gowa ke Takalar 4: Takalar baru, terima. Sudah 3 kabel = n − 1, selesai.
 **Total = 1 + 2 + 4 = 7.**
 
-**Kasus 2 (segitiga, 3 kota).** Jalur: Maros ke Makassar 2, Makassar ke Gowa 3, Maros ke Gowa 1.
-Urut: Maros ke Gowa 1, Maros ke Makassar 2, Makassar ke Gowa 3. Terima 1, terima 2, lalu Makassar ke Gowa 3 **ditolak** karena keduanya sudah tersambung lewat Maros.
-**Total = 1 + 2 = 3**, dengan 2 kabel.
+**Kasus 2 (5 kota, ada bobot 0 dan negatif).** Jalur: Maros ke Makassar 0, Makassar ke Gowa -2, Maros ke Gowa 1, Gowa ke Takalar 3, Maros ke Pangkep 4, Makassar ke Takalar 5, Pangkep ke Makassar 6.
+Urut termurah: Makassar ke Gowa -2, Maros ke Makassar 0, Maros ke Gowa 1, Gowa ke Takalar 3, Maros ke Pangkep 4, Makassar ke Takalar 5, Pangkep ke Makassar 6.
+Ambil -2 (terima). Ambil 0 (terima). Maros ke Gowa 1: Maros dan Gowa sudah tersambung lewat Makassar, jadi **ditolak (siklus)**. Gowa ke Takalar 3: Takalar baru, terima. Maros ke Pangkep 4: Pangkep baru, terima. Sudah 4 kabel = n − 1, selesai, dua jalur terakhir tidak diperiksa.
+**Total = -2 + 0 + 3 + 4 = 5.** Bobot 0 dan -2 diperlakukan seperti bobot lain: algoritma hanya membandingkan urutan bobot, bukan tanda atau besarnya (sejalan dengan bobot real pada Bab 1). Prim dari Maros memberi total yang sama: ambil 0 (Makassar masuk), ambil -2 (Gowa masuk), buang tawaran basi 1, ambil 3 (Takalar), ambil 4 (Pangkep). Borůvka selesai dalam satu putaran: Maros memilih 0, Makassar dan Gowa memilih -2, Takalar memilih 3, Pangkep memilih 4.
 
 **Kasus 3 (bobot kembar).** Jalur: Maros ke Makassar 2, Makassar ke Gowa 2, Gowa ke Takalar 2, Takalar ke Maros 2, dan diagonal Makassar ke Takalar 5. Empat jalur biaya 2 membentuk lingkaran, jadi hanya tiga yang boleh dipasang.
 Urutan pemeriksaan menurut aturan pemutus seri (bobot, lalu simpul terkecil, lalu simpul terbesar): Maros ke Makassar (0, 1), Maros ke Takalar (0, 3), Makassar ke Gowa (1, 2), Gowa ke Takalar (2, 3), lalu diagonal 5. Tiga yang pertama diterima. Jika Gowa ke Takalar diperiksa, ia **ditolak** karena Gowa dan Takalar sudah tersambung lewat Makassar dan Maros. Catatan: kode Kruskal berhenti setelah 3 sisi diterima, jadi program tidak pernah memeriksa sisi itu. Penolakan ini hanya ada di hitungan tangan, jangan diklaim sebagai keluaran program. Diagonal biaya 5 tidak diperlukan.

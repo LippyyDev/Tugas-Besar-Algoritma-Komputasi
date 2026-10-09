@@ -88,7 +88,7 @@ Klik dua kali berkas `.html` di folder algoritma masing-masing. Dibuka di browse
 ## Contoh keluaran (uji kasus kecil, Sel 7.1 sampai 7.5)
 ```
 [LOLOS] Kasus 1: 4 kota biasa (satu jalur ditolak) | total = 7 | Kruskal, Prim, Borůvka sama
-[LOLOS] Kasus 2: segitiga 3 kota | total = 3 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 2: 5 kota, bobot 0 dan negatif | total = 5 | Kruskal, Prim, Borůvka sama
 [LOLOS] Kasus 3: bobot kembar (total dan himpunan sisi) | total = 6 | Kruskal, Prim, Borůvka sama
 [LOLOS] Kasus 4: graf tak terhubung (harus ValueError) | ketiganya melempar ValueError
 ```
