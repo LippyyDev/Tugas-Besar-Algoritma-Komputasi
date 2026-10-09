@@ -68,7 +68,7 @@ a.card:hover{border-color:var(--accent);transform:translateY(-3px)}
   <a class="start" href="slide1.html" id="start">Mulai presentasi ›</a>
 </div>
 
-<div class="meta"><span>Slide jadi: <b id="done">0</b> / 11</span><span>Durasi rencana: <b id="dur">0</b> menit</span></div>
+<div class="meta"><span>Slide jadi: <b id="done">0</b> / 12</span><span>Durasi rencana: <b id="dur">0</b> menit</span></div>
 <div class="grid" id="grid"></div>
 <div class="foot">Di dalam slide: ← → navigasi · R reset · F layar penuh · I kembali ke indeks</div>
 
@@ -77,15 +77,16 @@ a.card:hover{border-color:var(--accent);transform:translateY(-3px)}
 const SLIDES=[
   {t:'Judul',m:0.5,f:'slide1.html',ready:true},
   {t:'Masalah MST dan ide dasar greedy (cut property)',m:2,f:'slide2.html',ready:true},
-  {t:'Kruskal',m:1.5,f:'slide3.html',ready:false},
-  {t:'Prim',m:1.5,f:'slide4.html',ready:false},
-  {t:'Borůvka',m:1.5,f:'slide5.html',ready:false},
-  {t:'Contoh manual tiga algoritma',m:1.5,f:'slide6.html',ready:false},
-  {t:'Kompleksitas teoretis',m:1.5,f:'slide7.html',ready:false},
-  {t:'Implementasi (struktur data, potongan kode inti, verifikasi)',m:1,f:'slide8.html',ready:false},
-  {t:'Metode eksperimen',m:1,f:'slide9.html',ready:false},
-  {t:'Hasil dan analisis',m:1.5,f:'slide10.html',ready:false},
-  {t:'Kesimpulan',m:0.5,f:'slide11.html',ready:false}
+  {t:'Algoritma yang dibahas',m:0.5,f:'slide3.html',ready:false},
+  {t:'Kruskal',m:1.5,f:'slide4.html',ready:false},
+  {t:'Prim',m:1.5,f:'slide5.html',ready:false},
+  {t:'Borůvka',m:1.5,f:'slide6.html',ready:false},
+  {t:'Contoh manual tiga algoritma',m:1.5,f:'slide7.html',ready:false},
+  {t:'Kompleksitas teoretis',m:1.5,f:'slide8.html',ready:false},
+  {t:'Implementasi (struktur data, potongan kode inti, verifikasi)',m:1,f:'slide9.html',ready:false},
+  {t:'Metode eksperimen',m:1,f:'slide10.html',ready:false},
+  {t:'Hasil dan analisis',m:1.5,f:'slide11.html',ready:false},
+  {t:'Kesimpulan',m:0.5,f:'slide12.html',ready:false}
 ];
 const grid=document.getElementById('grid');
 const fm=m=>String(m).replace('.',',')+' mnt';

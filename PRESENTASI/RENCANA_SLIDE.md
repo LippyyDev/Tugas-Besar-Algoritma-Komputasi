@@ -1,9 +1,9 @@
 # Rencana Presentasi Tugas Besar Analisis Algoritma
 
 Analisis Perbandingan Algoritma Kruskal, Prim, dan Borůvka pada *Minimum Spanning Tree* (MST).
-Penyaji: Muhammad Alif Qadri. Durasi rencana: 14 menit (batas tugas 10 sampai 15 menit).
+Penyaji: Muhammad Alif Qadri. Durasi rencana: 14,5 menit (batas tugas 10 sampai 15 menit).
 
-Status: slide 1 dan 2 sudah jadi. Slide 3 sampai 11 masih rencana.
+Status: slide 1 dan 2 sudah jadi. Slide 3 sampai 12 masih rencana.
 
 ## 1. Struktur dan Alokasi Waktu
 
@@ -11,17 +11,20 @@ Status: slide 1 dan 2 sudah jadi. Slide 3 sampai 11 masih rencana.
 |----|-------|-------|--------|
 | 1 | Judul | 0,5 mnt | Jadi |
 | 2 | Masalah MST dan ide dasar *greedy* (*cut property*) | 2 mnt | Jadi |
-| 3 | Kruskal | 1,5 mnt | Rencana |
-| 4 | Prim | 1,5 mnt | Rencana |
-| 5 | Borůvka | 1,5 mnt | Rencana |
-| 6 | Contoh manual tiga algoritma | 1,5 mnt | Rencana |
-| 7 | Kompleksitas teoretis | 1,5 mnt | Rencana |
-| 8 | Implementasi (struktur data, potongan kode inti, verifikasi) | 1 mnt | Rencana |
-| 9 | Metode eksperimen | 1 mnt | Rencana |
-| 10 | Hasil dan analisis | 1,5 mnt | Rencana |
-| 11 | Kesimpulan | 0,5 mnt | Rencana |
+| 3 | Algoritma yang dibahas | 0,5 mnt | Rencana |
+| 4 | Kruskal | 1,5 mnt | Rencana |
+| 5 | Prim | 1,5 mnt | Rencana |
+| 6 | Borůvka | 1,5 mnt | Rencana |
+| 7 | Contoh manual tiga algoritma | 1,5 mnt | Rencana |
+| 8 | Kompleksitas teoretis | 1,5 mnt | Rencana |
+| 9 | Implementasi (struktur data, potongan kode inti, verifikasi) | 1 mnt | Rencana |
+| 10 | Metode eksperimen | 1 mnt | Rencana |
+| 11 | Hasil dan analisis | 1,5 mnt | Rencana |
+| 12 | Kesimpulan | 0,5 mnt | Rencana |
 
-Pengelompokan pada bar progres di bawah slide: Pembuka (1), Konsep (2), Algoritma (3 sampai 6), Teori (7), Eksperimen (8 sampai 10), Penutup (11).
+Slide 3 menambah 0,5 menit sehingga total menjadi 14,5 menit, masih di dalam batas 10 sampai 15 menit. Bila perlu dipangkas, ambil dari slide 7 atau 8.
+
+Pengelompokan pada bar progres di bawah slide: Pembuka (1), Konsep (2), Algoritma (3 sampai 7), Teori (8), Eksperimen (9 sampai 11), Penutup (12).
 
 ## 2. Gaya dan Cara Pakai
 
@@ -100,6 +103,7 @@ Catatan penyaji (sekitar 2 menit):
 4. Solusi: "Algoritma *greedy* memilih yang termurah di tiap langkah, asal aman."
 5. *Cut property*: "Aman berarti pasti ada di suatu MST. Buktinya: bagi titik jadi dua kelompok. Dua kelompok itu harus tersambung, jadi minimal satu kabel harus menyeberang. Memilih yang termurah di antara penyeberang tidak pernah merugikan."
 6. Putaran: "Ulangi sampai semua titik tersambung."
+7. Jembatan ke slide 3: "Pendekatan *greedy* ini tidak hanya satu. Ada banyak algoritma *greedy*, jadi mari kita lihat mana yang akan kita bahas."
 
 Analogi sederhana untuk *cut property*: dua desa di seberang sungai yang harus disambung jembatan. Minimal satu jembatan harus dibangun, dan memilih lokasi jembatan termurah tidak pernah rugi.
 
@@ -107,27 +111,42 @@ Pembagian dua kelompok bebas, asalkan kedua kelompok tidak kosong dan sisi yang 
 
 Hal yang perlu diverifikasi sebelum dipakai di laporan: rumus Cayley (jumlah pohon pada jaringan lengkap: 125 untuk 5 titik, 100.000.000 untuk 10 titik, sekitar 2,6 × 10²³ untuk 20 titik) dan *cut property* adalah teori dasar. Sitasi buku teks standar belum diverifikasi, dan judul serta edisinya harus dicek sebelum dicantumkan.
 
-## 5. Slide 3 sampai 11 (Rencana)
+## 5. Slide 3: Algoritma yang Dibahas
 
-Belum dikerjakan. Alokasi waktu mengikuti tabel di bagian 1. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
+Tujuan: menjadi penghubung dari ide *greedy* di slide 2 ke tiga algoritma yang dibahas. Slide ini murni pernyataan, tanpa animasi graf, tanpa rumus, dan tanpa isi tambahan.
+
+Teks di slide (usulan, bisa diubah):
+
+> Algoritma *greedy* ada banyak jenisnya. Presentasi ini membahas dua di antaranya, **Kruskal** dan **Prim**, dengan **Borůvka** sebagai pembanding.
+
+Tampilan: judul pendek "Algoritma yang dibahas", lalu tiga label: Kruskal dan Prim sebagai algoritma utama, Borůvka sebagai pembanding (dibedakan lewat gaya label). Hanya satu langkah, sehingga satu klik maju langsung ke slide 4.
+
+Aliran dari slide 2: langkah terakhir slide 2 menutup dengan "semua titik tersambung, MST berbiaya 18" dan kalimat jembatan pada catatan penyaji nomor 7. Slide 3 menjawab pertanyaan yang muncul setelahnya, yaitu algoritma *greedy* yang mana yang akan dipakai. Setelah itu slide 4 langsung masuk ke Kruskal.
+
+Catatan penyaji (sekitar 30 detik): sebut bahwa *greedy* adalah keluarga algoritma yang besar, lalu sebut dua yang akan dijelaskan (Kruskal dan Prim) dan satu pembanding (Borůvka). Alasan Borůvka dibahas: pembanding tambahan dalam eksperimen, bukan ketentuan tertulis dari dosen (tafsiran penyaji).
+
+## 6. Slide 4 sampai 12 (Rencana)
+
+Belum dikerjakan (slide 3 dijelaskan di bagian 5). Alokasi waktu mengikuti tabel di bagian 1. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
 
 | Slide | Arah isi |
 |-------|----------|
-| 3 Kruskal | Ide urut sisi dari termurah dan tolak yang membentuk siklus. Animasi langkah demi langkah dengan tombol maju dan reset |
-| 4 Prim | Ide tumbuh dari satu titik dengan sisi termurah yang menyeberang. Animasi serupa dengan Kruskal |
-| 5 Borůvka | Ide tiap gugus memilih sisi termurahnya lalu digabung. Alasan ikut dibahas: algoritma pembanding ketiga, tidak ada ketentuan tertulis dari dosen |
-| 6 Contoh manual tiga algoritma | Satu graf kecil dijalankan dengan ketiga algoritma, hasil MST yang sama dibandingkan |
-| 7 Kompleksitas teoretis | Ringkasan batas waktu ketiga algoritma. Analisis formal hanya untuk Kruskal dan Prim, Borůvka dikutip singkat |
-| 8 Implementasi | Struktur data yang dipakai, potongan kode inti, dan cara verifikasi hasil |
-| 9 Metode eksperimen | Cara graf acak dibuat, ukuran, pengulangan, dan alat ukur waktu |
-| 10 Hasil dan analisis | Grafik hasil eksperimen dan penjelasan sesuai kondisi graf (jarang dan padat) |
-| 11 Kesimpulan | Ringkas, bahasa sederhana |
+| 4 Kruskal | Ide urut sisi dari termurah dan tolak yang membentuk siklus. Animasi langkah demi langkah dengan tombol maju dan reset |
+| 5 Prim | Ide tumbuh dari satu titik dengan sisi termurah yang menyeberang. Animasi serupa dengan Kruskal |
+| 6 Borůvka | Ide tiap gugus memilih sisi termurahnya lalu digabung. Alasan ikut dibahas: algoritma pembanding ketiga, tidak ada ketentuan tertulis dari dosen |
+| 7 Contoh manual tiga algoritma | Satu graf kecil dijalankan dengan ketiga algoritma, hasil MST yang sama dibandingkan |
+| 8 Kompleksitas teoretis | Ringkasan batas waktu ketiga algoritma. Analisis formal hanya untuk Kruskal dan Prim, Borůvka dikutip singkat |
+| 9 Implementasi | Struktur data yang dipakai, potongan kode inti, dan cara verifikasi hasil |
+| 10 Metode eksperimen | Cara graf acak dibuat, ukuran, pengulangan, dan alat ukur waktu |
+| 11 Hasil dan analisis | Grafik hasil eksperimen dan penjelasan sesuai kondisi graf (jarang dan padat) |
+| 12 Kesimpulan | Ringkas, bahasa sederhana |
 
 Aturan yang dijaga di seluruh slide: bahasa mudah dipahami, istilah asing ditulis miring, tanpa tanda pisah panjang, dan hanya angka yang bisa dipertanggungjawabkan dari laporan.
 
-## 6. Hal yang Masih Terbuka
+## 7. Hal yang Masih Terbuka
 
 - NIM dan nama dosen di slide 1 belum diisi.
-- Slide 3 sampai 11 belum dibuat.
+- Slide 3 sampai 12 belum dibuat.
+- Teks slide 3 masih usulan dan belum disetujui.
 - Sitasi untuk rumus Cayley dan *cut property* belum diverifikasi.
 - Pengujian slide dilakukan di Chromium. Perilaku di layar sentuh belum dicoba.
