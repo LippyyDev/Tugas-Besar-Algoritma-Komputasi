@@ -262,7 +262,7 @@ Data pada Tabel 4.6 sampai 4.8 menunjukkan hal berikut. Pada skenario jarang dan
 
 ---
 
-Dari enam prediksi pada Tabel 3.11, prediksi 1 tidak terpenuhi, prediksi 4 terpenuhi, prediksi 2, 5, dan 6 terpenuhi sebagian, dan prediksi 3 tidak memuat prediksi arah sehingga hanya dilaporkan hasilnya. Sesuai ketentuan di 3.5.4, ketidaksesuaian dilaporkan apa adanya dan tidak disesuaikan. Tabel 4.10 merangkum statusnya, dan uraian tiap prediksi menyusul.
+Dari enam prediksi pada Tabel 3.11, prediksi 1 tidak terpenuhi, prediksi 4, 5, dan 6 terpenuhi, prediksi 2 terpenuhi sebagian, dan prediksi 3 tidak memuat prediksi arah sehingga hanya dilaporkan hasilnya. Sesuai ketentuan di 3.5.4, ketidaksesuaian dilaporkan apa adanya dan tidak disesuaikan. Tabel 4.10 merangkum statusnya, dan uraian tiap prediksi menyusul.
 
 **Tabel 4.10** Status prediksi Tabel 3.11 terhadap data Bab 4
 
@@ -272,8 +272,8 @@ Dari enam prediksi pada Tabel 3.11, prediksi 1 tidak terpenuhi, prediksi 4 terpe
 | 2 | Borůvka tidak tumbuh lebih cepat daripada *m* log² *n* | Terpenuhi sebagian | Rasio terhadap *m* log² *n* tidak naik pada ukuran terbesar, tetapi lebih dari 1 di dua skenario |
 | 3 | Kruskal atau Prim lebih cepat | Hanya dilaporkan | Kruskal lebih cepat pada graf jarang, Prim tanpa konversi pada graf padat |
 | 4 | Pembuatan *Adj* menambah waktu Prim | Terpenuhi | Prim (+konversi) lebih lambat pada 15 dari 15 ukuran |
-| 5 | Bobot kembar tidak mengubah batas waktu dan hasil | Terpenuhi sebagian | Waktu tidak berbeda secara konsisten, total bobot sama, himpunan sisi tidak dibandingkan pada graf eksperimen |
-| 6 | Himpunan sisi ketiga algoritma sama | Terpenuhi sebagian | Total bobot sama pada 15 graf, himpunan sisi dibandingkan hanya pada graf kecil |
+| 5 | Bobot kembar tidak mengubah batas waktu dan total bobot | Terpenuhi | Waktu tidak berbeda secara konsisten dan total bobot sama pada setiap ulangan. Himpunan sisi diperiksa hanya pada graf kecil |
+| 6 | Keluaran ketiga algoritma sama | Terpenuhi | Total bobot sama pada 15 graf eksperimen dan himpunan sisi sama pada graf kecil, tetapi himpunan sisi graf eksperimen tidak dibandingkan |
 
 ### 4.6.1 Pertumbuhan Kruskal dan Prim (Prediksi 1)
 
@@ -303,11 +303,11 @@ Prediksi 4 terpenuhi dalam arah dan tidak dalam besaran konstan. Prim (+konversi
 
 Prediksi 5 mengandung dua bagian. Bagian pertama, bahwa batas waktu tidak berubah, tidak ditolak oleh data. Rasio waktu skenario jarang_kembar terhadap skenario jarang pada *n* dan *m* yang sama berkisar dari 0,93 sampai 1,10 untuk Kruskal, 0,88 sampai 1,05 untuk Prim, dan 0,68 sampai 1,04 untuk Borůvka, dan tidak ada arah yang konsisten pada kelima ukuran. Selisih pada rentang ini sebanding dengan gangguan pengukuran sehingga tidak ditafsirkan sebagai pengaruh bobot. Hasil ini sejalan dengan rancangan, karena kunci κ mengurutkan seluruh sisi secara total dan perbandingan κ tidak lebih mahal ketika bobotnya sama.
 
-Bagian kedua, bahwa hasil ketiga algoritma sama, hanya terpenuhi sebagian. Total bobot ketiga algoritma sama pada setiap ulangan di skenario jarang_kembar, tetapi total bobot yang sama belum menjamin himpunan sisi yang sama (Tabel 4.4). Perbandingan himpunan sisi pada graf berbobot kembar hanya dilakukan pada Kasus 3 di 4.3, yaitu graf kecil. Karena itu prediksi 5 tentang kesamaan hasil pada graf besar berbobot kembar belum diperiksa secara langsung.
+Bagian kedua, bahwa total bobot ketiga algoritma sama, terpenuhi: totalnya sama pada setiap ulangan di skenario jarang_kembar. Rumusan prediksi ini pada Tabel 3.11 dibatasi pada total bobot di graf eksperimen dan himpunan sisi di graf kecil, sesuai pemeriksaan yang dijalankan notebook. Total bobot yang sama belum menjamin himpunan sisi yang sama (Tabel 4.4), dan perbandingan himpunan sisi pada graf berbobot kembar hanya dilakukan pada Kasus 3 di 4.3, yaitu graf kecil. Kesamaan himpunan sisi pada graf besar berbobot kembar tidak diperiksa secara langsung dan tidak diklaim.
 
 ### 4.6.6 Kesamaan Keluaran (Prediksi 6)
 
-Prediksi 6 juga terpenuhi sebagian. Total bobot ketiga algoritma sama pada setiap ulangan di 15 graf eksperimen, dan program akan berhenti jika berbeda. Himpunan sisi dibandingkan pada Kasus 3 dan pada studi kasus 4.1. Pada graf eksperimen, yang dibandingkan hanya total bobot, sehingga pemeriksaan himpunan sisi pada semua graf uji seperti dirumuskan di Tabel 3.11 belum dilakukan oleh notebook. Untuk Kruskal dan Prim, kesamaan himpunan sisi dijamin oleh Teorema 3.3. Untuk Borůvka tidak ada bukti formal (butir 2 subbab 1.4), sehingga kesamaan total bobot dan himpunan sisi pada graf kecil adalah bukti empiris dan bukan pengganti bukti.
+Prediksi 6 terpenuhi pada cakupan yang dirumuskan di Tabel 3.11. Total bobot ketiga algoritma sama pada setiap ulangan di 15 graf eksperimen, dan program berhenti jika berbeda. Himpunan sisi dibandingkan pada kasus uji kecil dan pada studi kasus 4.1. Pada graf eksperimen yang dibandingkan hanya total bobot, sehingga kesamaan himpunan sisi pada graf besar tidak diperiksa dan tidak diklaim. Untuk Kruskal dan Prim, kesamaan himpunan sisi dijamin oleh Teorema 3.3. Untuk Borůvka tidak ada bukti formal (butir 2 subbab 1.4), sehingga kesamaan total bobot dan himpunan sisi pada graf kecil adalah bukti empiris dan bukan pengganti bukti.
 
 ### 4.6.7 Ancaman terhadap Validitas
 
