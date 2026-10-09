@@ -64,5 +64,5 @@ Di Windows, `CODING\jalankan_notebook.bat` melakukan langkah notebook di atas. P
 
 ## Status
 
-- Naskah Bab 1 sampai 4 tersedia di `DRAF/`. Abstrak, Bab 5, dan Lampiran belum ditulis.
+- Naskah Abstrak, Bab 1 sampai 5, dan Lampiran tersedia di `DRAF/`.
 - Studi kasus jaringan kabel antar lima gedung memakai biaya bersih ilustrasi (juta rupiah, memuat bobot 0 dan negatif), bukan data keuangan sesungguhnya (Bab 4.1).
