@@ -133,24 +133,12 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 .node.in .halo{opacity:.2}
 .node.in .dot{stroke:var(--accent);fill:#0f1c31}
 
-#cut{opacity:0;transition:opacity .7s ease .15s}
-#cut.show{opacity:1}
-#cut path.line{fill:none;stroke:var(--accent-bright);stroke-width:2.5;stroke-dasharray:11 9;animation:march 1.4s linear infinite}
-#cut path.zone{fill:rgba(125,180,255,.06);stroke:none}
-#cut text{font-family:var(--mono);font-size:15px;letter-spacing:.18em;fill:var(--mute)}
-#cut text.g1{fill:var(--accent)}
+#cutd{opacity:0;transition:opacity .5s ease}
+#cutd.show{opacity:1}
+#cutd .line{fill:none;stroke:var(--accent-bright);stroke-width:2.5;stroke-dasharray:11 9;animation:march 1.4s linear infinite}
+#cutd .zone{fill:rgba(125,180,255,.07);stroke:none}
+#cutd text{font-family:var(--mono);font-size:15px;letter-spacing:.18em;fill:var(--accent)}
 @keyframes march{to{stroke-dashoffset:-40}}
-#cut2{opacity:0;transition:opacity .7s ease .15s}
-#cut2.show{opacity:1}
-#cut2 .line{fill:none;stroke:var(--accent-bright);stroke-width:2.5;stroke-dasharray:11 9;animation:march 1.4s linear infinite}
-#cut2 .zone{fill:rgba(125,180,255,.08);stroke:none}
-#cut2 text{font-family:var(--mono);font-size:15px;letter-spacing:.18em;fill:var(--mute)}
-#cut2 text.g1{fill:var(--accent)}
-.scn{position:absolute;left:28px;top:546px;display:flex;gap:8px;opacity:0;pointer-events:none;transition:opacity .35s ease;z-index:3}
-.scn.show{opacity:1;pointer-events:auto}
-.scn button{font-family:var(--mono);font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--body);background:#07080b;border:1px solid var(--line);border-radius:3px;height:34px;padding:0 14px;cursor:pointer;transition:all .2s}
-.scn button:hover{border-color:var(--accent);color:var(--accent-bright)}
-.scn button.on{background:rgba(125,180,255,.16);border-color:var(--accent);color:var(--accent-bright)}
 #aman{opacity:0;transition:opacity .5s ease .5s}
 #aman.show{opacity:1}
 #aman rect{fill:var(--accent);rx:3}
@@ -228,7 +216,6 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
       <div class="readout" id="readout"><small id="ro-l"></small><strong id="ro-v"></strong></div>
     </div>
     <svg id="g" viewBox="0 0 960 520" aria-label="Contoh graf berbobot tujuh titik"></svg>
-    <div class="scn" id="scn"><button id="sc1" class="on">Skenario cut 1</button><button id="sc2">Skenario cut 2</button></div>
     <div class="pfoot">
       <div class="pf" id="pf-legend"><div class="legend">
         <span><i class="d"></i>Titik: lokasi</span>
@@ -308,16 +295,22 @@ const PICK_TXT = EDGES[PICK][0]+'–'+EDGES[PICK][1];
 
 /* ═════════ Bangun SVG ═════════ */
 const g = $('#g');
-const gz = mk('g',{id:'cut'},g);
-mk('path',{class:'zone',d:'M650,22 C655,120 660,200 640,270 C620,310 560,305 480,304 C360,303 220,302 40,300 L0,300 L0,22 Z'},gz);
-mk('path',{class:'line',d:'M650,22 C655,120 660,200 640,270 C620,310 560,305 480,304 C360,303 220,302 40,300'},gz);
-const t1=mk('text',{x:34,y:52,class:'g1'},gz); t1.textContent='KELOMPOK 1';
-const t2=mk('text',{x:716,y:494},gz); t2.textContent='KELOMPOK 2';
-
-const gz2 = mk('g',{id:'cut2'},g);
-mk('ellipse',{class:'zone',cx:140,cy:260,rx:84,ry:68},gz2);
-mk('ellipse',{class:'line',cx:140,cy:260,rx:84,ry:68},gz2);
-{ const a=mk('text',{x:60,y:356,class:'g1'},gz2); a.textContent='KELOMPOK 1'; const b=mk('text',{x:34,y:52},gz2); b.textContent='KELOMPOK 2'; }
+const gd = mk('g',{id:'cutd'},g);
+const cdZone=mk('path',{class:'zone',d:''},gd), cdLine=mk('path',{class:'line',d:''},gd), cdLab=mk('text',{x:0,y:0},gd);
+cdLab.textContent='KELOMPOK 1';
+// batas kelompok = selubung cembung titik-titik kelompok yang dibulatkan
+function hullPath(ids,pad){
+  const pts=[]; ids.forEach(id=>{const n=NODES[idx[id]]; for(let a=0;a<360;a+=12)pts.push([n.x+pad*Math.cos(a*Math.PI/180),n.y+pad*Math.sin(a*Math.PI/180)]);});
+  pts.sort((p,q)=>p[0]-q[0]||p[1]-q[1]);
+  const cr=(o,a,b)=>(a[0]-o[0])*(b[1]-o[1])-(a[1]-o[1])*(b[0]-o[0]);
+  const lo=[],up=[];
+  for(const p of pts){while(lo.length>=2&&cr(lo[lo.length-2],lo[lo.length-1],p)<=0)lo.pop();lo.push(p);}
+  for(const p of [...pts].reverse()){while(up.length>=2&&cr(up[up.length-2],up[up.length-1],p)<=0)up.pop();up.push(p);}
+  const h=lo.slice(0,-1).concat(up.slice(0,-1));
+  return {d:'M'+h.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join('L')+'Z',minX:Math.min(...h.map(p=>p[0])),minY:Math.min(...h.map(p=>p[1]))};
+}
+function drawCut(ids){ const h=hullPath(ids,58); cdZone.setAttribute('d',h.d); cdLine.setAttribute('d',h.d);
+  cdLab.setAttribute('x',Math.max(24,h.minX+4)); cdLab.setAttribute('y',Math.max(34,h.minY-12)); }
 
 const EL = EDGES.map(([a,b,w],i)=>{
   const A=NODES[idx[a]],B=NODES[idx[b]];
@@ -366,9 +359,7 @@ function blocks(active,more){
   });
   $('#more').classList.toggle('show',!!more);
 }
-let scen=1;
-const SC={1:{g:['A','B','D'],dx:0,dy:-48},2:{g:['A'],dx:-90,dy:-24}};
-function cutShow(on){ $('#cut').classList.toggle('show',on&&scen===1); $('#cut2').classList.toggle('show',on&&scen===2); $('#aman').classList.toggle('show',on); }
+function cutShow(on){ $('#cutd').classList.toggle('show',on); $('#aman').classList.toggle('show',on); }
 
 /* ═════════ Langkah ═════════ */
 const STEPS = [
@@ -426,36 +417,25 @@ const STEPS = [
       readout('Termurah di antara kandidat',PICK_TXT+' · '+EDGES[PICK][2]+'<span class="q">AMAN?</span>');
     },3000);
     caption('Misalkan <b>A–B</b> dan <b>B–D</b> sudah terpilih. Dari kabel yang menambah titik baru, ambil yang <b>termurah</b>.');
-  },
-  /* 4 · cut property (dua skenario pembagian) */
-  ()=>{
-    const G=SC[scen].g;
-    const cross=EDGES.map((e,i)=>i).filter(i=>G.includes(EDGES[i][0])!==G.includes(EDGES[i][1]));
-    const p=cross.reduce((x,y)=>EDGES[y][2]<EDGES[x][2]?y:x), nm=EDGES[p][0]+'\u2013'+EDGES[p][1];
-    const inner=EDGES.map((e,i)=>i).filter(i=>G.includes(EDGES[i][0])&&G.includes(EDGES[i][1])&&scen===1);
-    blocks(2,true); placeAman(p,SC[scen].dx,SC[scen].dy); cutShow(true);
-    EDGES.forEach((e,i)=>setE(i,cross.includes(i)?(i===p?'pick':'cand fade'):(inner.includes(i)?'mst':'dim'),0));
-    allNodes('',()=>0); G.forEach(id=>setN(nI(id),'in',0));
-    readout('Termurah yang menyeberangi garis',nm+' · '+EDGES[p][2]+'<span class="ok">AMAN</span>');
-    caption('Skenario '+scen+': kelompok 1 berisi <b>'+G.join(', ')+'</b>. Sisi yang menyeberang berbiaya <b>'+cross.map(i=>EDGES[i][2]).join(', ')+'</b>. Yang termurah, <b>'+nm+' ('+EDGES[p][2]+')</b>, pasti aman.');
   }
 ];
 
-/* Langkah ulangi: satu klik satu putaran, dihitung dari data graf */
+/* Putaran cut: dari A, satu klik satu putaran, dihitung dari data graf */
 (function(){
-  const T=new Set([...GROUP1,EDGES[PICK][0],EDGES[PICK][1]]), chosen=new Set([...INNER,PICK]);
+  const T=new Set(['A']), chosen=new Set(); let k=0;
   const list=a=>[...a].sort().join(', ');
   for(;;){
     const cross=EDGES.map((e,i)=>i).filter(i=>T.has(EDGES[i][0])!==T.has(EDGES[i][1]));
     if(!cross.length)break;
     const p=cross.reduce((x,y)=>EDGES[y][2]<EDGES[x][2]?y:x), nm=EDGES[p][0]+'\u2013'+EDGES[p][1];
-    const Tn=new Set(T), Cn=new Set(chosen), ws=cross.map(i=>EDGES[i][2]).join(', ');
+    const Tn=[...T], Cn=new Set(chosen), ws=cross.map(i=>EDGES[i][2]).join(', '), no=++k;
+    const a=NODES[idx[EDGES[p][0]]], b=NODES[idx[EDGES[p][1]]], up=(b.x-a.x)*(b.y-a.y)<0;
     STEPS.push(()=>{
-      blocks(2,true); cutShow(false);
+      blocks(2,no>=1); drawCut(Tn); placeAman(p,up?-45:0,-48); cutShow(true);
       EDGES.forEach((e,i)=>setE(i,Cn.has(i)?'mst':(i===p?'pick':(cross.includes(i)?'cand fade':'dim')),0));
-      NODES.forEach((n,i)=>setN(i,Tn.has(n.id)?'in':'',0));
-      readout('Termurah yang menyeberang',nm+' · '+EDGES[p][2]+'<span class="ok">AMAN</span>');
-      caption('Ulangi dengan kelompok yang sudah terhubung: <b>'+list(Tn)+'</b>. Sisi yang menyeberang berbiaya <b>'+ws+'</b>. Yang termurah, <b>'+nm+' ('+EDGES[p][2]+')</b>, pasti aman.');
+      NODES.forEach((n,i)=>setN(i,Tn.includes(n.id)?'in':'',0));
+      readout('Termurah yang menyeberangi garis',nm+' · '+EDGES[p][2]+'<span class="ok">AMAN</span>');
+      caption('Putaran '+no+': kelompok 1 = <b>'+list(Tn)+'</b>, garis putus-putus memisahkannya dari titik lain. Sisi yang menyeberang berbiaya <b>'+ws+'</b>. Yang termurah, <b>'+nm+' ('+EDGES[p][2]+')</b>, pasti aman.');
     });
     chosen.add(p); T.add(EDGES[p][0]); T.add(EDGES[p][1]);
   }
@@ -487,9 +467,7 @@ function progress(){
 
 /* ═════════ Kontrol ═════════ */
 function render(){
-  clearRuns(); if(step!==4)scen=1; STEPS[step](); progress();
-  $('#scn').classList.toggle('show',step===4);
-  $('#sc1').classList.toggle('on',scen===1); $('#sc2').classList.toggle('on',scen===2);
+  clearRuns(); STEPS[step](); progress();
   $('#cnt').textContent=(step+1)+' / '+(LAST+1);
   $('#prev').disabled=false;
   $('#prev').textContent = step===0 ? 'Slide 1' : 'Sebelumnya';
@@ -498,8 +476,6 @@ function render(){
   else if(NEXT_SLIDE){ nx.disabled=false; nx.textContent='Slide 3'; }
   else { nx.disabled=true; nx.textContent='Slide 3 menyusul'; }
 }
-function setScen(n){ if(step!==4)return; scen=n; render(); }
-$('#sc1').onclick=()=>setScen(1); $('#sc2').onclick=()=>setScen(2);
 function leave(url){ document.body.classList.add('leaving'); setTimeout(()=>{location.href=url;},260); }
 function next(){ if(step<LAST){step++;render();} else if(NEXT_SLIDE) leave(NEXT_SLIDE); }
 function prev(){ if(step>0){step--;render();} else if(PREV_SLIDE) leave(PREV_SLIDE); }
@@ -508,7 +484,7 @@ function reset(){
   EL.forEach(e=>{e.setAttribute('class','edge hidden');e.style.setProperty('--d','0ms');});
   NL.forEach(n=>{n.setAttribute('class','node hidden');n.style.setProperty('--d','0ms');});
   ['b1','b2','b3'].forEach(id=>$('#'+id).classList.remove('show','active','seen'));
-  $('#more').classList.remove('show'); cutShow(false); scen=1; showFoot(null);
+  $('#more').classList.remove('show'); cutShow(false); showFoot(null);
   void g.getBoundingClientRect();
   setTimeout(render,120);
 }
@@ -518,7 +494,6 @@ addEventListener('keydown',e=>{
   const k=e.key;
   if(k==='ArrowRight'||k===' '||k==='PageDown'||k==='Enter'){e.preventDefault();next();}
   else if(k==='ArrowLeft'||k==='PageUp'||k==='Backspace'){e.preventDefault();prev();}
-  else if(k==='1'||k==='2'){setScen(+k);}
   else if(k==='r'||k==='R'){reset();}
   else if(k==='f'||k==='F'){ if(document.fullscreenElement)document.exitFullscreen(); else document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); }
   else if(k==='i'||k==='I'){leave('index.html');}
