@@ -51,9 +51,10 @@ body.leaving{animation:none;opacity:0;transition:opacity .25s ease}
 .kicker h1{font-size:34px;font-weight:600;letter-spacing:-.015em;color:var(--accent)}
 
 /* ───────── Kolom teks ───────── */
-.copy{position:absolute;left:96px;top:236px;width:740px;display:flex;flex-direction:column;gap:26px}
-.blk{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;padding-left:26px;border-left:2px solid transparent;position:relative}
-.blk.show{opacity:1;transform:none}
+.copy{position:absolute;left:96px;top:236px;width:740px;height:716px;display:flex;flex-direction:column;justify-content:center}
+.blk{opacity:0;transform:translateY(14px);max-height:0;overflow:hidden;margin-top:0;transition:opacity .6s ease,transform .6s ease,max-height .7s ease,margin-top .7s ease;padding-left:26px;border-left:2px solid transparent;position:relative}
+.blk.show{opacity:1;transform:none;max-height:460px;margin-top:26px}
+.blk.show:first-child{margin-top:0}
 .blk .lbl{font-family:var(--mono);font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:10px;display:block;transition:color .4s}
 .blk p{font-size:30px;line-height:1.45;color:var(--body);font-weight:400;transition:font-size .5s ease,color .5s ease}
 .blk b{color:var(--text);font-weight:600}
