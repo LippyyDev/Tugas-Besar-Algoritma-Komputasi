@@ -115,14 +115,9 @@ Hal yang perlu diverifikasi sebelum dipakai di laporan: rumus Cayley (jumlah poh
 
 Tujuan: menjadi penghubung dari ide *greedy* di slide 2 ke tiga algoritma yang dibahas. Slide ini murni pernyataan, tanpa animasi graf, tanpa rumus, dan tanpa isi tambahan.
 
-Teks di slide (empat kartu, muncul satu per klik, kartu aktif menyala dan garis kemajuannya berjalan):
+Teks di slide: judul "Algoritma yang dibahas", kalimat "Algoritma *greedy* ada banyak jenisnya dan banyak lainnya", lalu tiga kartu berdampingan: **Kruskal** (utama), **Prim** (utama), **Borůvka** (pembanding, berwarna kuning). Tiap kartu hanya memuat nama dan satu frasa pendek: urut sisi dari termurah, tumbuh dari satu titik, serentak semua titik memilih.
 
-> **Algoritma *greedy*** ada banyak jenisnya.
-> **Algoritma Kruskal**
-> **Algoritma Prim**
-> **Algoritma Borůvka** (berlabel Pembanding)
-
-Gerak grafik (4 langkah, tiap algoritma punya gerak sendiri dan berulang): (1) titik pusat "GREEDY" berdenyut, dikelilingi titik kecil yang melayang dan tersambung garis putus-putus, mewakili algoritma *greedy* lain yang tidak dibahas; (2) Kruskal: sisi diuji dari bobot terkecil, yang membentuk siklus meredup; (3) Prim: tumbuh dari titik A, satu sisi per langkah; (4) Borůvka: semua titik memilih sisi termurahnya serentak. Graf yang dipakai sama dengan slide 2. Jumlah di pojok panel menyebut algoritma yang sedang tampil.
+Gerak (4 langkah): (1) jaringan titik kecil yang melayang mewakili algoritma *greedy* lain; (2) sampai (4) satu kartu muncul per klik, ditarik oleh garis cahaya dari satu titik di jaringan itu. Setiap kartu menjalankan animasi algoritmanya sendiri secara berulang pada graf yang sama dengan slide 2: Kruskal menguji sisi dari bobot terkecil dan menolak yang membentuk siklus, Prim tumbuh dari titik A, Borůvka memilih sisi termurah tiap titik serentak.
 
 Aliran dari slide 2: langkah terakhir slide 2 menutup dengan "semua titik tersambung, MST berbiaya 18" dan kalimat jembatan pada catatan penyaji nomor 7. Slide 3 menjawab pertanyaan yang muncul setelahnya, yaitu algoritma *greedy* yang mana yang akan dipakai. Setelah itu slide 4 langsung masuk ke Kruskal.
 

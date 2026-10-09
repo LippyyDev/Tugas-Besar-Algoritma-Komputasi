@@ -177,203 +177,136 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 .edge-hint.r{right:0;background:linear-gradient(270deg,rgba(125,180,255,.14),transparent)}
 .edge-hint.on{opacity:1}
 
-/* ───────── Slide 3 ───────── */
-.copy .blk.show{margin-top:34px}
-.copy .blk p{font-size:40px;line-height:1.35}
-.blk.seen p{font-size:30px}
-.gh{fill:#0a0b10;stroke:rgba(255,255,255,.28);stroke-width:2;transition:opacity .6s ease,stroke .5s ease}
-.gh-w{animation:fl 7s ease-in-out infinite alternate;animation-delay:var(--fd,0s)}
-@keyframes fl{from{transform:translate(0,0)}to{transform:translate(var(--fx,10px),var(--fy,-12px))}}
-.gh-w{transition:opacity .7s ease}
-.fam-dim .gh-w{opacity:.28}
-.hub .ring{fill:none;stroke:var(--accent);stroke-width:2;opacity:.0;transform-box:fill-box;transform-origin:center}
-.hub.on .ring{animation:ping 2.6s ease-out infinite}
-.hub.on .ring.r2{animation-delay:1.3s}
-@keyframes ping{0%{opacity:.55;transform:scale(1)}100%{opacity:0;transform:scale(2.3)}}
-.hub .core{fill:#0c1220;stroke:var(--accent);stroke-width:2.5}
-.hub text{font-family:var(--mono);font-size:18px;letter-spacing:.16em;fill:var(--accent-bright);text-anchor:middle;dominant-baseline:central}
-.hub .sub{font-size:12px;fill:var(--mute);letter-spacing:.14em}
-.lk{fill:none;stroke:var(--accent);stroke-width:3;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;
-  transition:stroke-dashoffset .9s cubic-bezier(.3,.7,.2,1) var(--d,0ms),opacity .01s linear var(--d,0ms)}
-.lk.on{stroke-dashoffset:0;opacity:1;filter:drop-shadow(0 0 6px rgba(125,180,255,.6))}
-.lk.amb{stroke:var(--amber);stroke-dasharray:9 8;stroke-dashoffset:0;opacity:0;filter:none;transition:opacity .6s ease var(--d,0ms)}
-.lk.amb.on{opacity:1;stroke-dasharray:9 8;animation:march2 1.4s linear infinite;filter:none}
-@keyframes march2{to{stroke-dashoffset:-34}}
-.an{opacity:0;transform:scale(.6);transform-box:fill-box;transform-origin:center;transition:opacity .5s ease var(--d,0ms),transform .6s cubic-bezier(.2,1.5,.4,1) var(--d,0ms)}
-.an.on{opacity:1;transform:none}
-.an rect{fill:#0c1220;stroke:var(--accent);stroke-width:2.5}
-.an text{font-family:var(--mono);font-size:30px;font-weight:500;fill:var(--text);text-anchor:middle;dominant-baseline:central}
-.an .tg{font-size:13px;letter-spacing:.18em;fill:var(--accent)}
-.an.amb rect{stroke:var(--amber);stroke-dasharray:8 6}
-.an.amb .tg{fill:var(--amber)}
-.an.glow rect{filter:drop-shadow(0 0 12px rgba(125,180,255,.45))}
-.an.amb.glow rect{filter:drop-shadow(0 0 12px rgba(255,194,102,.35))}
-#fam,#mini{transition:opacity .6s ease}
-#mini{opacity:0}
-.gl{stroke:rgba(125,180,255,.13);stroke-width:1.5;stroke-dasharray:3 7}
-#famlab{font-family:var(--mono);font-size:14px;letter-spacing:.18em;fill:var(--mute);text-anchor:middle;transition:opacity .5s ease}
 
-/* ───────── Kartu slide 3 ───────── */
-.copy .blk{position:relative;max-height:0;margin-top:0;background:linear-gradient(90deg,rgba(125,180,255,.06),rgba(255,255,255,.01) 70%);border:1px solid var(--line);border-radius:4px;padding:0 30px 0 34px;overflow:hidden;transition:opacity .6s ease,transform .6s ease,max-height .7s ease,padding .7s ease,border-color .4s ease,box-shadow .5s ease}
-.copy .blk.show{max-height:200px;padding:24px 30px 22px 34px;margin-top:0}
-.copy .blk::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:rgba(255,255,255,.12);transition:background .4s ease}
-.copy .blk .lbl{display:flex;justify-content:space-between;margin-bottom:12px;font-size:14px}
-.copy .blk .lbl::after{content:attr(data-tag);color:var(--mute)}
-.copy .blk p{font-size:40px;line-height:1.15;font-weight:600;letter-spacing:-.01em;color:var(--body)}
-.copy .blk p b{font-weight:600}
-.copy .blk.active{border-color:rgba(125,180,255,.55);box-shadow:0 0 0 1px rgba(125,180,255,.18),0 0 40px rgba(125,180,255,.14)}
-.copy .blk.active::before{background:var(--accent)}
-.copy .blk.active p{color:var(--text)}
-.copy .blk.amb.active{border-color:rgba(255,194,102,.55);box-shadow:0 0 40px rgba(255,194,102,.12)}
-.copy .blk.amb.active::before{background:var(--amber)}
-.copy .blk.amb.active .lbl{color:var(--amber)}
-.copy .blk.amb.active .lbl::after{color:var(--amber)}
-.copy .blk.seen{opacity:.45;transform:none}
-.copy .blk.seen p{font-size:34px}
-.copy .blk .meter{height:3px;margin-top:16px;background:rgba(255,255,255,.08);overflow:hidden;border-radius:2px}
-.copy .blk .meter i{display:block;height:100%;width:0;background:var(--accent)}
-.copy .blk.amb .meter i{background:var(--amber)}
-.copy .blk.active .meter i{width:100%;transition:width 3.2s linear}
-.copy .blk.seen .meter i{width:100%}
-#scan{position:absolute;left:0;right:0;height:140px;top:-140px;background:linear-gradient(180deg,transparent,rgba(125,180,255,.07),transparent);pointer-events:none;animation:scan 6s linear infinite}
-@keyframes scan{to{transform:translateY(860px)}}
+/* ───────── Slide 3: tiga kartu ───────── */
+.kicker{top:158px}
+.fam-t{position:absolute;left:96px;top:244px;font-size:34px;color:var(--body);display:flex;gap:18px;align-items:baseline}
+.fam-t b{color:var(--text);font-weight:600}.fam-t em{font-style:italic;color:var(--text)}
+.fam-t small{font-family:var(--mono);font-size:14px;letter-spacing:.18em;color:var(--mute);text-transform:uppercase}
+#strip{position:absolute;left:96px;top:292px;width:1728px;height:130px;overflow:visible}
+.gd{fill:#0a0b10;stroke:rgba(255,255,255,.3);stroke-width:2}
+.gdw{animation:fl 7s ease-in-out infinite alternate;animation-delay:var(--fd,0s)}
+@keyframes fl{from{transform:translate(0,0)}to{transform:translate(var(--fx,10px),var(--fy,-10px))}}
+.gl{stroke:rgba(125,180,255,.12);stroke-width:1.5}
+.pin{fill:#0a0b10;stroke:rgba(255,255,255,.3);stroke-width:2.5;transition:all .5s ease}
+.pin.on{fill:var(--c);stroke:var(--c);filter:drop-shadow(0 0 10px var(--c))}
+.beam{stroke:var(--c);stroke-width:3;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;transition:stroke-dashoffset .7s ease,opacity .01s}
+.beam.on{stroke-dashoffset:0;opacity:1}
+.cards{position:absolute;left:96px;top:430px;width:1728px;height:520px;display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.card{--c:var(--accent);position:relative;border:1px solid var(--line);background:linear-gradient(180deg,rgba(125,180,255,.07),rgba(255,255,255,.01) 55%);border-radius:6px;padding:26px 30px 22px;
+  opacity:0;transform:translateY(46px) scale(.97);transition:opacity .7s ease,transform .8s cubic-bezier(.2,.9,.2,1),border-color .5s,box-shadow .5s}
+.card.amb{--c:var(--amber);background:linear-gradient(180deg,rgba(255,194,102,.08),rgba(255,255,255,.01) 55%)}
+.card.show{opacity:1;transform:none;border-color:color-mix(in srgb,var(--c) 55%,transparent);box-shadow:0 0 50px color-mix(in srgb,var(--c) 14%,transparent)}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--c);transform:scaleX(0);transform-origin:left;transition:transform 1s ease .3s}
+.card.show::before{transform:scaleX(1)}
+.ch{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--mono);font-size:15px;letter-spacing:.18em;color:var(--mute)}
+.ch .tg{color:var(--c)}
+.card h2{font-size:56px;font-weight:700;letter-spacing:-.03em;margin:8px 0 0;color:var(--text);line-height:1.1}
+.card svg{display:block;width:100%;height:auto;margin-top:6px}
+.card .cc{position:absolute;left:30px;right:30px;bottom:18px;font-size:23px;color:var(--body);border-top:1px solid var(--line2);padding-top:14px}
+.card .cc b{color:var(--c);font-weight:600}
+.me .base{fill:none;stroke:rgba(255,255,255,.26);stroke-width:3}
+.me .hot{fill:none;stroke:var(--c);stroke-width:7;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;transition:stroke-dashoffset .6s cubic-bezier(.3,.7,.2,1),opacity .01s}
+.me.mst .hot,.me.pick .hot{stroke-dashoffset:0;opacity:1}
+.me.pick .hot{filter:drop-shadow(0 0 8px var(--c))}
+.me.try .hot,.me.cand .hot{stroke:#fff;stroke-width:6;stroke-dashoffset:0;opacity:.9;transition:none}
+.me.cand .hot{stroke:var(--c);opacity:.85}
+.me.dim .base{stroke:rgba(255,255,255,.08)}
+.me.hidden{opacity:0}.me{transition:opacity .4s ease}
+.me .lab rect{fill:#07080b;stroke:rgba(255,255,255,.22);stroke-width:1.5}
+.me .lab text{font-family:var(--mono);font-size:26px;fill:var(--body);text-anchor:middle;dominant-baseline:central}
+.me.mst .lab rect,.me.pick .lab rect{stroke:var(--c)}.me.mst .lab text,.me.pick .lab text{fill:var(--c)}
+.mn{transition:opacity .4s ease}.mn.hidden{opacity:0}
+.mn .halo{fill:var(--c);opacity:0;transition:opacity .5s}.mn.in .halo{opacity:.22}
+.mn .dot{fill:#0a0b10;stroke:rgba(255,255,255,.6);stroke-width:3;transition:stroke .4s,fill .4s}
+.mn.in .dot{stroke:var(--c);fill:#0f1624}
+.mn text{font-family:var(--mono);font-size:28px;fill:var(--text);text-anchor:middle;dominant-baseline:central}
 </style>
 </head>
 <body>
 <div class="edge-hint l" id="eh-l"></div><div class="edge-hint r" id="eh-r"></div>
 <div id="stage">
   <div class="header">
-    <div class="brand">
-      <img src="aset/logo-unhas.png" alt="Logo Universitas Hasanuddin">
-      <div><b>Universitas Hasanuddin</b><span>Magister Teknik Informatika</span></div>
-    </div>
+    <div class="brand"><img src="aset/logo-unhas.png" alt="Logo Universitas Hasanuddin">
+      <div><b>Universitas Hasanuddin</b><span>Magister Teknik Informatika</span></div></div>
     <div class="tag">Tugas Besar Analisis Algoritma</div>
   </div>
-
   <div class="kicker"><h1>Algoritma yang dibahas</h1></div>
-
-  <div class="copy">
-    <div class="blk " id="b1"><span class="lbl" data-tag="BANYAK">01 · Keluarga</span>
-      <p>Algoritma <em>greedy</em></p>
-      <div class="meter"><i></i></div></div>
-    <div class="blk " id="b2"><span class="lbl" data-tag="DIBAHAS">02 · Algoritma utama</span>
-      <p>Kruskal</p>
-      <div class="meter"><i></i></div></div>
-    <div class="blk " id="b3"><span class="lbl" data-tag="DIBAHAS">03 · Algoritma utama</span>
-      <p>Prim</p>
-      <div class="meter"><i></i></div></div>
-    <div class="blk amb" id="b4"><span class="lbl" data-tag="PEMBANDING">04 · Pembanding</span>
-      <p>Borůvka</p>
-      <div class="meter"><i></i></div></div>
-  </div>
-
-  <div class="panel">
-    <i class="c1"></i><i class="c2"></i><div id="scan"></div>
-    <div class="phead">
-      <div class="fig"><b>Fig. 03</b> · Peta algoritma</div>
-      <div class="readout" id="readout"><small id="ro-l"></small><strong id="ro-v"></strong></div>
-    </div>
-    <svg id="g" viewBox="0 0 960 520" aria-label="Peta algoritma greedy: Kruskal dan Prim dibahas, Borůvka sebagai pembanding"></svg>
-    <div class="pfoot"><div class="pf show" id="pf-cap"><div class="cap" id="cap"></div></div></div>
-  </div>
-
+  <div class="fam-t"><span><b>Algoritma <em>greedy</em></b> ada banyak jenisnya</span><small>dan banyak lainnya</small></div>
+  <svg id="strip" viewBox="0 0 1728 130" aria-hidden="true"></svg>
+  <div class="cards" id="cards"></div>
   <div class="footer"><div class="prog" id="prog"></div></div>
-  <div id="dock">
-    <div class="ctrl">
+  <div id="dock"><div class="ctrl">
       <span class="cnt" id="cnt"></span>
-      <button class="btn" id="prev">Sebelumnya</button>
-      <button class="btn" id="reset">Reset</button>
-      <button class="btn pri" id="next">Berikutnya</button>
-    </div>
-    <div class="hint">← → navigasi · R reset · F layar penuh · I indeks</div>
-  </div>
+      <button class="btn" id="prev">Sebelumnya</button><button class="btn" id="reset">Reset</button><button class="btn pri" id="next">Berikutnya</button>
+    </div><div class="hint">← → navigasi · R reset · F layar penuh · I indeks</div></div>
 </div>
-
 <script>
 const $=s=>document.querySelector(s);
 const PREV_SLIDE='slide2.html', NEXT_SLIDE=null, SLIDE_NO=3;
-const NS='http://www.w3.org/2000/svg', g=$('#g');
-const el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(p||g).appendChild(e);return e;};
+const NS='http://www.w3.org/2000/svg';
+const el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;};
+let runs=[];const later=(f,ms)=>runs.push(setTimeout(f,ms));const clearRuns=()=>{runs.forEach(clearTimeout);runs=[];};
 
-/* ═════════ Gambar peta ═════════ */
-const HUB={x:480,y:260};
-const fam=el('g',{id:'fam'});
-for(let i=0;i<18;i++){
-  const a=i/18*Math.PI*2+.25, f=.55+.4*((i*7)%5)/4;
-  const x=HUB.x+Math.cos(a)*400*f, y=HUB.y+Math.sin(a)*200*f;
-  const w=el('g',{transform:'translate('+x.toFixed(1)+','+y.toFixed(1)+')'},fam);
-  const inner=el('g',{class:'gh-w'},w);
-  inner.style.setProperty('--fd',(-i*.9)+'s');
-  inner.style.setProperty('--fx',((i%3)*8-8)+'px'); inner.style.setProperty('--fy',((i%4)*6-9)+'px');
-  el('circle',{class:'gh',r:7+(i%3)*2,cx:0,cy:0},inner);
-  el('line',{class:'gl',x1:0,y1:0,x2:(HUB.x-x).toFixed(1),y2:(HUB.y-y).toFixed(1)},w);
-}
-const hub=el('g',{class:'hub on',transform:'translate('+HUB.x+','+HUB.y+')'},fam);
-el('circle',{class:'ring',r:60},hub); el('circle',{class:'ring r2',r:60},hub);
-el('circle',{class:'core',r:60},hub);
-const ht=el('text',{y:-6},hub); ht.textContent='GREEDY';
-const hs=el('text',{class:'sub',y:16},hub); hs.textContent='MST';
-const famlab=el('text',{id:'famlab',x:480,y:500},fam); famlab.textContent='DAN ALGORITMA GREEDY LAINNYA';
+/* strip keluarga: titik melayang + tiga titik terpilih */
+const strip=$('#strip'), CX=[288,864,1440], CC=['var(--accent)','var(--accent)','var(--amber)'];
+const pts=[];
+for(let i=0;i<46;i++){const x=20+i*37.5+((i*53)%17), y=22+((i*37)%70);pts.push([x,y]);}
+pts.forEach(([x,y],i)=>{ if(i&&Math.abs(pts[i-1][0]-x)<60) el('line',{class:'gl',x1:pts[i-1][0],y1:pts[i-1][1],x2:x,y2:y},strip);
+  if(i>3&&(i*7)%5===0) el('line',{class:'gl',x1:pts[i-4][0],y1:pts[i-4][1],x2:x,y2:y},strip);});
+pts.forEach(([x,y],i)=>{const w=el('g',{transform:'translate('+x+','+y+')'},strip);const n=el('g',{class:'gdw'},w);
+  n.style.setProperty('--fd',(-i*.7)+'s');n.style.setProperty('--fx',((i%3)*6-6)+'px');n.style.setProperty('--fy',((i%4)*5-8)+'px');
+  el('circle',{class:'gd',r:5+(i%3)*2},n);});
+const pins=[],beams=[];
+CX.forEach((x,i)=>{const c=CC[i];
+  const b=el('path',{class:'beam',d:'M'+x+' 60 L'+x+' 130',pathLength:1},strip);b.style.setProperty('--c',c);beams.push(b);
+  const p=el('circle',{class:'pin',cx:x,cy:60,r:13},strip);p.style.setProperty('--c',c);pins.push(p);});
 
-/* graf mini yang sama dengan slide 2 */
-const mini=el('g',{id:'mini'});
-const NODES=[['A',140,260],['B',340,100],['C',340,420],['D',580,260],['E',820,260]];
+/* kartu */
+const NODES=[['A',70,230],['B',270,80],['C',270,380],['D',490,230],['E',690,230]];
 const EDGES=[[0,1,5],[0,2,8],[1,2,11],[1,3,3],[2,3,6],[3,4,4],[2,4,9]];
-const EL=[],NL=[];
-EDGES.forEach(([a,b,w])=>{
-  const A=NODES[a],B=NODES[b],e=el('g',{class:'edge hidden'},mini);
-  const d='M'+A[1]+' '+A[2]+' L'+B[1]+' '+B[2];
-  el('path',{class:'base',d,pathLength:1},e); el('path',{class:'hot',d,pathLength:1},e);
-  const l=el('g',{class:'lab',transform:'translate('+((A[1]+B[1])/2)+','+((A[2]+B[2])/2)+')'},e);
-  el('rect',{x:-20,y:-15,width:40,height:30,rx:3},l); const t=el('text',{},l); t.textContent=w; EL.push(e);
+const DEF=[{n:'Kruskal',tag:'UTAMA',cc:'<b>Urut sisi</b> dari termurah',amb:false},
+           {n:'Prim',tag:'UTAMA',cc:'<b>Tumbuh</b> dari satu titik',amb:false},
+           {n:'Borůvka',tag:'PEMBANDING',cc:'<b>Serentak</b>, semua titik memilih',amb:true}];
+const G=[];
+DEF.forEach((d,i)=>{
+  const c=document.createElement('div');c.className='card'+(d.amb?' amb':'');
+  c.innerHTML='<div class="ch"><span>0'+(i+1)+'</span><span class="tg">'+d.tag+'</span></div><h2>'+d.n+'</h2>';
+  const svg=el('svg',{viewBox:'0 0 760 460'});c.appendChild(svg);
+  const cc=document.createElement('div');cc.className='cc';cc.innerHTML=d.cc;c.appendChild(cc);
+  $('#cards').appendChild(c);
+  const EL=[],NL=[];
+  EDGES.forEach(([a,b,w])=>{const A=NODES[a],B=NODES[b],e=el('g',{class:'me hidden'},svg),dd='M'+A[1]+' '+A[2]+' L'+B[1]+' '+B[2];
+    el('path',{class:'base',d:dd},e);el('path',{class:'hot',d:dd,pathLength:1},e);
+    const l=el('g',{class:'lab',transform:'translate('+(A[1]+B[1])/2+','+(A[2]+B[2])/2+')'},e);
+    el('rect',{x:-24,y:-19,width:48,height:38,rx:4},l);el('text',{},l).textContent=w;EL.push(e);});
+  NODES.forEach(([n,x,y])=>{const o=el('g',{transform:'translate('+x+','+y+')'},svg),nd=el('g',{class:'mn hidden'},o);
+    el('circle',{class:'halo',r:54},nd);el('circle',{class:'dot',r:34},nd);el('text',{},nd).textContent=n;NL.push(nd);});
+  const sE=(k,s)=>EL[k].setAttribute('class','me '+s), sN=(k,s)=>NL[k].setAttribute('class','mn '+s);
+  G.push({card:c,sE,sN,hide(){EL.forEach((_,k)=>sE(k,'hidden'));NL.forEach((_,k)=>sN(k,'hidden'));},
+    base(){EL.forEach((_,k)=>sE(k,''));NL.forEach((_,k)=>sN(k,''));}});
 });
-NODES.forEach(([n,x,y])=>{
-  const o=el('g',{transform:'translate('+x+','+y+')'},mini), nd=el('g',{class:'node hidden'},o);
-  el('circle',{class:'halo',r:44},nd); el('circle',{class:'dot',r:25},nd);
-  const t=el('text',{},nd); t.textContent=n; NL.push(nd);
-});
-const setE=(i,c,d)=>{EL[i].setAttribute('class','edge '+c);EL[i].style.setProperty('--d',(d||0)+'ms');};
-const setN=(i,c,d)=>{NL[i].setAttribute('class','node '+c);NL[i].style.setProperty('--d',(d||0)+'ms');};
-let runs=[]; const later=(f,ms)=>runs.push(setTimeout(f,ms)); const clearRuns=()=>{runs.forEach(clearTimeout);runs=[];};
-const showFam=on=>{fam.style.opacity=on?1:0;mini.style.opacity=on?0:1;};
-const allHide=()=>{EDGES.forEach((_,i)=>setE(i,'hidden'));NODES.forEach((_,i)=>setN(i,'hidden'));};
-const allBase=()=>{EDGES.forEach((_,i)=>setE(i,'',i*90));NODES.forEach((_,i)=>setN(i,'',i*90));};
+function loopK(){const g=G[0];g.base();let t=1200;
+  [[3,1],[5,1],[0,1],[4,1],[1,0],[6,0],[2,0]].forEach(([e,ok])=>{later(()=>g.sE(e,'try'),t);later(()=>g.sE(e,ok?'mst':'dim'),t+600);t+=800;});
+  [0,1,2,3,4].forEach(k=>later(()=>g.sN(k,'in'),1800+k*450));
+  later(()=>{g.hide();later(loopK,700);},t+2000);}
+function loopP(){const g=G[1];g.base();g.sN(0,'in');let t=1200;
+  [[0,1],[3,3],[5,4],[4,2]].forEach(([e,n])=>{later(()=>g.sE(e,'pick'),t);later(()=>{g.sE(e,'mst');g.sN(n,'in');},t+700);t+=1200;});
+  later(()=>{g.hide();later(loopP,700);},t+2000);}
+function loopB(){const g=G[2];g.base();[0,1,2,3,4].forEach(k=>g.sN(k,'in'));
+  later(()=>[3,0,4,5].forEach(e=>g.sE(e,'cand')),1400);
+  later(()=>[3,0,4,5].forEach(e=>g.sE(e,'mst')),2800);
+  later(()=>{g.hide();later(loopB,700);},6200);}
+const LOOPS=[loopK,loopP,loopB];
 
-/* tiga animasi khas, berulang */
-function loopKruskal(){            /* urut bobot, tolak yang membentuk siklus */
-  allBase(); const ord=[[3,'mst'],[5,'mst'],[0,'mst'],[4,'mst'],[1,'cand'],[6,'cand'],[2,'cand']];
-  let t=1400; ord.forEach(([i,c])=>{
-    later(()=>setE(i,'try',0),t);
-    later(()=>setE(i,c==='mst'?'mst':'dim',0),t+650);
-    t+=900;});
-  NODES.forEach((_,i)=>later(()=>setN(i,'in',0),2000+i*500));
-  later(()=>{allHide();later(loopKruskal,900);},t+2200);
+function show(n){ /* n kartu tampil */
+  G.forEach((g,i)=>{g.card.classList.toggle('show',i<n);pins[i].classList.toggle('on',i<n);beams[i].classList.toggle('on',i<n);});
 }
-function loopPrim(){               /* tumbuh dari satu titik */
-  allBase(); setN(0,'in',700);
-  const seq=[[0,1,0],[3,3,1],[5,4,3],[4,2,3]];  /* [edge, titik baru, ...] */
-  const steps=[[0,1],[3,3],[5,4],[4,2]]; let t=1500;
-  steps.forEach(([e,n])=>{ later(()=>{setE(e,'pick',0);},t); later(()=>{setE(e,'mst',0);setN(n,'in',0);},t+850); t+=1500;});
-  later(()=>{allHide();later(loopPrim,900);},t+1800);
-}
-function loopBoruvka(){            /* semua titik memilih serentak */
-  allBase(); NODES.forEach((_,i)=>setN(i,'in',i*90));
-  later(()=>{[3,0,4,5].forEach(i=>setE(i,'cand',0));},1600);
-  later(()=>{[3,0,4,5].forEach(i=>setE(i,'mst',0));},3000);
-  later(()=>{allHide();later(loopBoruvka,900);},6200);
-}
-
-/* ═════════ Langkah ═════════ */
-const caption=h=>{const c=$('#cap');c.style.opacity=0;setTimeout(()=>{c.innerHTML=h;c.style.opacity=1;},200);};
-const readout=(l,v)=>{const r=$('#readout');r.classList.add('swap');setTimeout(()=>{$('#ro-l').textContent=l;$('#ro-v').textContent=v;r.classList.remove('swap');},200);};
-function blocks(active){['b1','b2','b3','b4'].forEach((id,i)=>{const b=$('#'+id);b.classList.toggle('show',i<=active);b.classList.toggle('active',i===active);b.classList.toggle('seen',i<active);});}
-const STEPS=[
- ()=>{clearRuns();allHide();blocks(0);showFam(true);readout('Keluarga algoritma','Banyak');caption('Algoritma <b><em>greedy</em></b> sangat banyak, dan tidak semuanya dibahas di sini.');},
- ()=>{clearRuns();allHide();blocks(1);showFam(false);readout('Algoritma utama','Kruskal');caption('<b>Kruskal</b> bekerja dengan mengurutkan semua sisi.');void g.getBoundingClientRect();later(loopKruskal,500);},
- ()=>{clearRuns();allHide();blocks(2);showFam(false);readout('Algoritma utama','Prim');caption('<b>Prim</b> bekerja dengan tumbuh dari satu titik.');void g.getBoundingClientRect();later(loopPrim,500);},
- ()=>{clearRuns();allHide();blocks(3);showFam(false);readout('Pembanding','Borůvka');caption('<b>Borůvka</b>: semua titik memilih serentak. Dipakai sebagai pembanding.');void g.getBoundingClientRect();later(loopBoruvka,500);}
-];
-const LAST=STEPS.length-1; let step=0;
+const STEPS=[()=>{clearRuns();G.forEach(g=>g.hide());show(0);},
+  ()=>{clearRuns();G.forEach(g=>g.hide());show(1);later(LOOPS[0],900);},
+  ()=>{clearRuns();G.forEach(g=>g.hide());show(2);later(LOOPS[0],300);later(LOOPS[1],900);},
+  ()=>{clearRuns();G.forEach(g=>g.hide());show(3);later(LOOPS[0],300);later(LOOPS[1],500);later(LOOPS[2],900);}];
+const LAST=STEPS.length-1;let step=0;
 
 const GROUPS=[['Pembuka',1],['Konsep',1],['Algoritma',5],['Teori',1],['Eksperimen',3],['Penutup',1]];
 (function(){const p=$('#prog');GROUPS.forEach(([n,c])=>{const s=document.createElement('div');s.className='seg';s.style.flex=c;s.innerHTML='<div class="bar"><i></i></div><span>'+n+'</span>';p.appendChild(s);});})();
@@ -381,16 +314,13 @@ function progress(){let start=0;document.querySelectorAll('.seg').forEach((s,gi)
   if(SLIDE_NO>start+c)done=c;else if(SLIDE_NO>start)done=(SLIDE_NO-1-start)+(step+1)/(LAST+1);
   s.querySelector('i').style.width=(done/c*100)+'%';s.classList.toggle('cur',SLIDE_NO>start&&SLIDE_NO<=start+c);start+=c;});}
 function render(){STEPS[step]();progress();$('#cnt').textContent=(step+1)+' / '+(LAST+1);
-  $('#prev').textContent=step===0?'Slide 2':'Sebelumnya';
-  const nx=$('#next');
+  $('#prev').textContent=step===0?'Slide 2':'Sebelumnya';const nx=$('#next');
   if(step<LAST){nx.disabled=false;nx.textContent='Berikutnya';}
-  else if(NEXT_SLIDE){nx.disabled=false;nx.textContent='Slide 4';}
-  else{nx.disabled=true;nx.textContent='Slide 4 menyusul';}}
+  else if(NEXT_SLIDE){nx.disabled=false;nx.textContent='Slide 4';}else{nx.disabled=true;nx.textContent='Slide 4 menyusul';}}
 function leave(u){document.body.classList.add('leaving');setTimeout(()=>{location.href=u;},260);}
 function next(){if(step<LAST){step++;render();}else if(NEXT_SLIDE)leave(NEXT_SLIDE);}
 function prev(){if(step>0){step--;render();}else if(PREV_SLIDE)leave(PREV_SLIDE);}
-function reset(){clearRuns();allHide();step=0;['b1','b2','b3','b4'].forEach(id=>$('#'+id).classList.remove('show','active','seen'));
-  setTimeout(render,150);}
+function reset(){clearRuns();step=0;G.forEach(g=>g.hide());show(0);setTimeout(render,300);}
 $('#next').onclick=next;$('#prev').onclick=prev;$('#reset').onclick=reset;
 addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;
   if(k==='ArrowRight'||k===' '||k==='PageDown'||k==='Enter'){e.preventDefault();next();}
@@ -401,6 +331,7 @@ addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;const k=
 function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080),st=$('#stage');
   st.style.transform='translate('+((innerWidth-1920*s)/2)+'px,'+((innerHeight-1080*s)/2)+'px) scale('+s+')';}
 addEventListener('resize',fit);fit();
+G.forEach(g=>g.hide());
 const q=new URLSearchParams(location.search).get('step');
 if(q!==null){step=Math.max(0,Math.min(LAST,+q||0));render();}else setTimeout(render,500);
 
