@@ -64,6 +64,13 @@ Lama eksperimen penuh sekitar 1 sampai 3 menit. Untuk uji coba cepat, ubah `MODE
 Unggah `Tugas_MST_Lokal.ipynb` ke Google Drive, buka dengan Colab, lalu **Runtime > Run all** dan izinkan akses Drive di Sel 2. Semua hasil disimpan ke `My Drive/TUGAS BESAR PAK ABDI/HASIL_EKSPERIMEN` (nama folder bisa diubah di Sel 2), berisi `hasil/`, `grafik/`, `data/`, dan `lingkungan_dan_log.txt` (spesifikasi mesin dan seluruh keluaran teks). Sel 18 dijalankan paling akhir supaya semuanya tersinkron.
 Waktu yang terukur di Colab adalah waktu mesin virtual Google yang dipakai bersama, jadi spesifikasinya harus ditulis di Bab 4.1. Untuk komputer sendiri dengan Google Drive for Desktop, isi `FOLDER_DRIVE_LOKAL` di Sel 2.
 
+### Peta bagian notebook
+| Bagian | Sel | Isi | Seed |
+|---|---|---|---|
+| A. Uji kasus kecil | 7 (persiapan), 7.1 Kasus 1, 7.2 Kasus 2, 7.3 Kasus 3, 7.4 Kasus 4 (tak terhubung, harus `ValueError`), 7.5 rekap | Data tetap, bisa dicek tangan | Tidak |
+| B. Studi kasus | 7B | 5 gedung FT Unhas | Tidak |
+| C. Eksperimen waktu | 8 sampai 18 | Graf acak, 5 ukuran x 5 ulangan | Ya (2026) |
+
 ### Studi kasus ilustratif (Sel 7B)
 Sel 7B menjalankan ketiga algoritma pada jaringan kabel antar 5 gedung Fakultas Teknik Unhas dari `Eksperimen/data/studi_kasus_gedung_unhas.csv`. Datanya tetap, jadi **tanpa seed**. Kolom `keterangan` berisi ILUSTRASI: jaraknya angka contoh, bukan hasil pengukuran, dan Bab 4.1 menyebutnya demikian. Jika kelak diganti dengan jarak hasil ukur, catat sumbernya dan ubah Bab 4.1 serta judul bagian ini.
 
@@ -78,7 +85,7 @@ Klik dua kali berkas `.html` di folder algoritma masing-masing. Dibuka di browse
 | `matplotlib` | Grafik |
 | `networkx` | **Hanya verifikasi** (Sel 10), tidak dipakai di dalam algoritma |
 
-## Contoh keluaran (uji kasus kecil, Sel 7)
+## Contoh keluaran (uji kasus kecil, Sel 7.1 sampai 7.5)
 ```
 [LOLOS] Kasus 1: 4 kota biasa (satu jalur ditolak) | total = 7 | Kruskal, Prim, Borůvka sama
 [LOLOS] Kasus 2: segitiga 3 kota | total = 3 | Kruskal, Prim, Borůvka sama
@@ -98,6 +105,6 @@ Penjelasan rinci tiap sel, perhitungan manual kasus uji, dan keputusan desain: `
 
 ## Pengingat sebelum dikumpulkan
 - Pakai hasil waktu dari eksperimen yang kamu jalankan sendiri di laporan (Bab 4), bukan angka dari orang lain. Catat mesinnya (Colab atau komputer sendiri) sesuai `lingkungan_dan_log.txt`.
-- Hitung ulang sendiri jawaban uji kasus kecil di Sel 7 notebook (draf perhitungan ada di `Eksperimen/PENJELASAN_NOTEBOOK.md`, bagian 6.7).
+- Hitung ulang sendiri jawaban uji kasus kecil di Sel 7.1 sampai 7.4 notebook (draf perhitungan ada di `Eksperimen/PENJELASAN_NOTEBOOK.md`, bagian 6.7).
 - Isi laporan penggunaan AI (draf di `Eksperimen/PENJELASAN_NOTEBOOK.md`, bagian 6.17) dengan kata-katamu sendiri. Kode di folder ini disusun dengan bantuan AI, jadi pelajari dan tulis ulang versimu sendiri sebelum diklaim sebagai karya sendiri.
 - Buat repositori GitHub atau GitLab publik untuk tautan di lampiran laporan.

@@ -29,7 +29,7 @@ Di Colab, waktu yang diukur adalah waktu mesin virtual Google yang dipakai bersa
 | `matplotlib` | Grafik | Ada di `requirements.txt` |
 | `networkx` | **Hanya verifikasi** (Sel 10), tidak dipakai di dalam algoritma | Opsional, ada di `requirements.txt` |
 
-## 3. Contoh keluaran Sel 7 (uji kasus kecil)
+## 3. Contoh keluaran Sel 7.1 sampai 7.5 (uji kasus kecil)
 
 ```
 [LOLOS] Kasus 1: 4 kota biasa (satu jalur ditolak) | total = 7 | Kruskal, Prim, Borůvka sama
@@ -104,7 +104,9 @@ Informasi lingkungan (Python, sistem, prosesor, jumlah CPU, jenis lingkungan) di
 - **Pemutus seri:** `kunci_sisi` membandingkan bobot, lalu simpul terkecil, lalu simpul terbesar (sama dengan urutan Kruskal dan isi antrean Prim), sesuai batasan Bab 1.
 - **Himpunan terpisah:** memakai `HimpunanTerpisah` dari Sel 4 (tidak disalin ulang).
 
-### 6.7 Sel 7. Uji kasus kecil (hitungan tangan)
+### 6.7 Sel 7 sampai 7.5. Uji kasus kecil (hitungan tangan)
+
+Bagian A notebook dipecah per kasus: Sel 7 = persiapan (data kota dan fungsi uji), Sel 7.1 = Kasus 1, Sel 7.2 = Kasus 2, Sel 7.3 = Kasus 3, Sel 7.4 = Kasus 4 (graf tak terhubung), Sel 7.5 = rekap. Bagian B (Sel 7B) adalah studi kasus gedung, Bagian C (Sel 8 dan seterusnya) adalah eksperimen waktu dengan seed. Seed hanya dipakai di Bagian C.
 Syarat dosen: **minimal 3 kasus uji kecil yang bisa dicek manual.** Ada 3 kasus graf terhubung dan 1 kasus graf tak terhubung. **Setiap kasus dijalankan pada ketiga algoritma**, sehingga syaratnya terpenuhi baik jika dosen memaksudkan 3 kasus total maupun 3 kasus per algoritma. Jawaban benar ditulis dari hitungan tangan, bukan dari keluaran program.
 
 > **PENTING: ini draf hitungan tangan. Hitung ulang sendiri di kertas sebelum dikumpulkan**, lalu pastikan kamu bisa menjelaskan tiap langkahnya saat tanya jawab. Nomor kota: Maros = 0, Makassar = 1, Gowa = 2, Takalar = 3.
@@ -139,7 +141,7 @@ Pengacak dibuat sendiri dengan `random.Random(seed)`, bukan pengacak global, seh
 Tiga pemeriksaan sebelum graf dipakai: (1) seed yang sama menghasilkan graf yang sama, (2) graf selalu terhubung dan tidak punya sisi ganda atau loop, (3) jumlah sisi sesuai skenario jarang dan padat.
 
 ### 6.11 Sel 10. Verifikasi tambahan dengan `networkx` (opsional)
-`networkx` **hanya dipakai sebagai pembanding**, tidak di dalam algoritma, sesuai aturan dosen (pustaka boleh sebagai pembanding). Sel ini membandingkan total bobot ketiga algoritma dengan `networkx` pada 300 graf acak kecil. Ini tambahan di luar uji kasus kecil pada Sel 7, yang jawabannya dari hitungan tangan. Sel ini juga mencocokkan file `.py` di folder `Kruskal`, `Prim`, dan `Borůvka` dengan kode notebook pada 100 graf acak. Pencocokan `.py` dilewati bila folder itu tidak ada di samping folder dasar (normal di Colab).
+`networkx` **hanya dipakai sebagai pembanding**, tidak di dalam algoritma, sesuai aturan dosen (pustaka boleh sebagai pembanding). Sel ini membandingkan total bobot ketiga algoritma dengan `networkx` pada 300 graf acak kecil. Ini tambahan di luar uji kasus kecil pada Sel 7.1 sampai 7.4, yang jawabannya dari hitungan tangan. Sel ini juga mencocokkan file `.py` di folder `Kruskal`, `Prim`, dan `Borůvka` dengan kode notebook pada 100 graf acak. Pencocokan `.py` dilewati bila folder itu tidak ada di samping folder dasar (normal di Colab).
 
 ### 6.12 Sel 11. Fungsi pengukuran waktu
 - Waktu diukur dengan `time.perf_counter()` dan **hanya** mengukur pemanggilan algoritma. Waktu membuat graf tidak ikut dihitung.
@@ -210,7 +212,7 @@ Memeriksa otomatis syarat jumlah dan berkas. Tanda **[OK]** berarti terpenuhi.
 | Alat AI yang dipakai | Claude (Anthropic) |
 | Tujuan | Memahami konsep Kruskal, Prim, dan Borůvka; contoh penerapan; contoh implementasi; *debugging*; pembuatan kerangka eksperimen |
 | Bagian pekerjaan yang dibantu | Draf kode Kruskal, Prim, Borůvka; kerangka notebook, pembuat graf, dan eksperimen; visualisasi HTML untuk belajar |
-| Cara verifikasi | (1) Uji kasus kecil dengan hitungan tangan (Sel 7); (2) perbandingan total bobot dengan `networkx` pada 300 graf acak kecil; (3) pemeriksaan total bobot ketiga algoritma sama pada setiap ulangan eksperimen |
+| Cara verifikasi | (1) Uji kasus kecil dengan hitungan tangan (Sel 7.1 sampai 7.4); (2) perbandingan total bobot dengan `networkx` pada 300 graf acak kecil; (3) pemeriksaan total bobot ketiga algoritma sama pada setiap ulangan eksperimen |
 | Referensi | Setiap referensi di laporan sudah dicek keberadaannya ke sumber aslinya (**centang setelah kamu benar-benar memeriksa**) |
 | Bagian yang kamu tulis atau ubah sendiri | (isi sendiri) |
 
