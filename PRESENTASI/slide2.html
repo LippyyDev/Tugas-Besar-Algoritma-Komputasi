@@ -139,6 +139,17 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 #cut text{font-family:var(--mono);font-size:15px;letter-spacing:.18em;fill:var(--mute)}
 #cut text.g1{fill:var(--accent)}
 @keyframes march{to{stroke-dashoffset:-40}}
+#cut2{opacity:0;transition:opacity .7s ease .15s}
+#cut2.show{opacity:1}
+#cut2 .line{fill:none;stroke:var(--accent-bright);stroke-width:2.5;stroke-dasharray:11 9;animation:march 1.4s linear infinite}
+#cut2 .zone{fill:rgba(125,180,255,.08);stroke:none}
+#cut2 text{font-family:var(--mono);font-size:15px;letter-spacing:.18em;fill:var(--mute)}
+#cut2 text.g1{fill:var(--accent)}
+.scn{position:absolute;left:28px;top:546px;display:flex;gap:8px;opacity:0;pointer-events:none;transition:opacity .35s ease;z-index:3}
+.scn.show{opacity:1;pointer-events:auto}
+.scn button{font-family:var(--mono);font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--body);background:#07080b;border:1px solid var(--line);border-radius:3px;height:34px;padding:0 14px;cursor:pointer;transition:all .2s}
+.scn button:hover{border-color:var(--accent);color:var(--accent-bright)}
+.scn button.on{background:rgba(125,180,255,.16);border-color:var(--accent);color:var(--accent-bright)}
 #aman{opacity:0;transition:opacity .5s ease .5s}
 #aman.show{opacity:1}
 #aman rect{fill:var(--accent);rx:3}
@@ -216,6 +227,7 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
       <div class="readout" id="readout"><small id="ro-l"></small><strong id="ro-v"></strong></div>
     </div>
     <svg id="g" viewBox="0 0 960 520" aria-label="Contoh graf berbobot tujuh titik"></svg>
+    <div class="scn" id="scn"><button id="sc1" class="on">Skenario cut 1</button><button id="sc2">Skenario cut 2</button></div>
     <div class="pfoot">
       <div class="pf" id="pf-legend"><div class="legend">
         <span><i class="d"></i>Titik: lokasi</span>
@@ -301,6 +313,11 @@ mk('path',{class:'line',d:'M650,22 C655,120 660,200 640,270 C620,310 560,305 480
 const t1=mk('text',{x:34,y:52,class:'g1'},gz); t1.textContent='KELOMPOK 1';
 const t2=mk('text',{x:716,y:494},gz); t2.textContent='KELOMPOK 2';
 
+const gz2 = mk('g',{id:'cut2'},g);
+mk('ellipse',{class:'zone',cx:340,cy:420,rx:104,ry:68},gz2);
+mk('ellipse',{class:'line',cx:340,cy:420,rx:104,ry:68},gz2);
+{ const a=mk('text',{x:452,y:478,class:'g1'},gz2); a.textContent='KELOMPOK 1'; const b=mk('text',{x:34,y:52},gz2); b.textContent='KELOMPOK 2'; }
+
 const EL = EDGES.map(([a,b,w],i)=>{
   const A=NODES[idx[a]],B=NODES[idx[b]];
   const grp = mk('g',{class:'edge hidden'},g);
@@ -319,12 +336,10 @@ const NL = NODES.map(n=>{
   const t=mk('text',{x:n.x,y:n.y+1},grp); t.textContent=n.id;
   return grp;
 });
-// label AMAN di dekat sisi pilihan
-{ const A=NODES[idx[EDGES[PICK][0]]],B=NODES[idx[EDGES[PICK][1]]];
-  const mx=(A.x+B.x)/2,my=(A.y+B.y)/2;
-  const ga=mk('g',{id:'aman'},g);
-  mk('rect',{x:mx-42,y:my-62,width:84,height:28,rx:3},ga);
-  const t=mk('text',{x:mx,y:my-47},ga); t.textContent='AMAN ✓'; }
+// label AMAN di dekat sisi pilihan (posisi diatur per skenario)
+const ga=mk('g',{id:'aman'},g), amR=mk('rect',{width:84,height:28,rx:3},ga), amT=mk('text',{},ga); amT.textContent='AMAN ✓';
+function placeAman(p,dx,dy){ const A=NODES[idx[EDGES[p][0]]],B=NODES[idx[EDGES[p][1]]]; const cx=(A.x+B.x)/2+dx, cy=(A.y+B.y)/2+dy;
+  amR.setAttribute('x',cx-42); amR.setAttribute('y',cy-14); amT.setAttribute('x',cx); amT.setAttribute('y',cy+1); }
 
 /* ═════════ Helper keadaan ═════════ */
 let timers=[], ticker=null, runId=0;
@@ -350,7 +365,9 @@ function blocks(active,more){
   });
   $('#more').classList.toggle('show',!!more);
 }
-function cutShow(on){ $('#cut').classList.toggle('show',on); $('#aman').classList.toggle('show',on); }
+let scen=1;
+const SC={1:{g:['A','B','D'],dx:0,dy:-48},2:{g:['C'],dx:-60,dy:-40}};
+function cutShow(on){ $('#cut').classList.toggle('show',on&&scen===1); $('#cut2').classList.toggle('show',on&&scen===2); $('#aman').classList.toggle('show',on); }
 
 /* ═════════ Langkah ═════════ */
 const STEPS = [
@@ -409,15 +426,17 @@ const STEPS = [
     },3000);
     caption('Misalkan <b>A–B</b> dan <b>B–D</b> sudah terpilih. Dari kabel yang menambah titik baru, ambil yang <b>termurah</b>.');
   },
-  /* 4 · cut property */
+  /* 4 · cut property (dua skenario pembagian) */
   ()=>{
-    blocks(2,true); cutShow(true);
-    EDGES.forEach((e,i)=>setE(i,CROSS.includes(i)?(i===PICK?'pick':'cand fade'):'dim',0));
-    INNER.forEach(i=>setE(i,'mst',0));
-    allNodes('',()=>0); GROUP1.forEach(id=>setN(nI(id),'in',0));
-    const w=CROSS.map(i=>EDGES[i][2]);
-    readout('Termurah yang menyeberangi garis',PICK_TXT+' · '+EDGES[PICK][2]+'<span class="ok">AMAN</span>');
-    caption('Garis putus-putus membagi titik jadi dua kelompok. Sisi yang menyeberang berbiaya <b>'+w.join(', ')+'</b>. Yang termurah, <b>'+EDGES[PICK][2]+'</b>, pasti aman.');
+    const G=SC[scen].g;
+    const cross=EDGES.map((e,i)=>i).filter(i=>G.includes(EDGES[i][0])!==G.includes(EDGES[i][1]));
+    const p=cross.reduce((x,y)=>EDGES[y][2]<EDGES[x][2]?y:x), nm=EDGES[p][0]+'\u2013'+EDGES[p][1];
+    const inner=EDGES.map((e,i)=>i).filter(i=>G.includes(EDGES[i][0])&&G.includes(EDGES[i][1])&&scen===1);
+    blocks(2,true); placeAman(p,SC[scen].dx,SC[scen].dy); cutShow(true);
+    EDGES.forEach((e,i)=>setE(i,cross.includes(i)?(i===p?'pick':'cand fade'):(inner.includes(i)?'mst':'dim'),0));
+    allNodes('',()=>0); G.forEach(id=>setN(nI(id),'in',0));
+    readout('Termurah yang menyeberangi garis',nm+' · '+EDGES[p][2]+'<span class="ok">AMAN</span>');
+    caption('Skenario '+scen+': kelompok 1 berisi <b>'+G.join(', ')+'</b>. Sisi yang menyeberang berbiaya <b>'+cross.map(i=>EDGES[i][2]).join(', ')+'</b>. Yang termurah, <b>'+nm+' ('+EDGES[p][2]+')</b>, pasti aman.');
   }
 ];
 
@@ -467,7 +486,9 @@ function progress(){
 
 /* ═════════ Kontrol ═════════ */
 function render(){
-  clearRuns(); STEPS[step](); progress();
+  clearRuns(); if(step!==4)scen=1; STEPS[step](); progress();
+  $('#scn').classList.toggle('show',step===4);
+  $('#sc1').classList.toggle('on',scen===1); $('#sc2').classList.toggle('on',scen===2);
   $('#cnt').textContent=(step+1)+' / '+(LAST+1);
   $('#prev').disabled=false;
   $('#prev').textContent = step===0 ? 'Slide 1' : 'Sebelumnya';
@@ -476,6 +497,8 @@ function render(){
   else if(NEXT_SLIDE){ nx.disabled=false; nx.textContent='Slide 3'; }
   else { nx.disabled=true; nx.textContent='Slide 3 menyusul'; }
 }
+function setScen(n){ if(step!==4)return; scen=n; render(); }
+$('#sc1').onclick=()=>setScen(1); $('#sc2').onclick=()=>setScen(2);
 function leave(url){ document.body.classList.add('leaving'); setTimeout(()=>{location.href=url;},260); }
 function next(){ if(step<LAST){step++;render();} else if(NEXT_SLIDE) leave(NEXT_SLIDE); }
 function prev(){ if(step>0){step--;render();} else if(PREV_SLIDE) leave(PREV_SLIDE); }
@@ -484,7 +507,7 @@ function reset(){
   EL.forEach(e=>{e.setAttribute('class','edge hidden');e.style.setProperty('--d','0ms');});
   NL.forEach(n=>{n.setAttribute('class','node hidden');n.style.setProperty('--d','0ms');});
   ['b1','b2','b3'].forEach(id=>$('#'+id).classList.remove('show','active','seen'));
-  $('#more').classList.remove('show'); cutShow(false); showFoot(null);
+  $('#more').classList.remove('show'); cutShow(false); scen=1; showFoot(null);
   void g.getBoundingClientRect();
   setTimeout(render,120);
 }
@@ -494,6 +517,7 @@ addEventListener('keydown',e=>{
   const k=e.key;
   if(k==='ArrowRight'||k===' '||k==='PageDown'||k==='Enter'){e.preventDefault();next();}
   else if(k==='ArrowLeft'||k==='PageUp'||k==='Backspace'){e.preventDefault();prev();}
+  else if(k==='1'||k==='2'){setScen(+k);}
   else if(k==='r'||k==='R'){reset();}
   else if(k==='f'||k==='F'){ if(document.fullscreenElement)document.exitFullscreen(); else document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen(); }
   else if(k==='i'||k==='I'){leave('index.html');}
