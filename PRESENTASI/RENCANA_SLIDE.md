@@ -115,13 +115,14 @@ Hal yang perlu diverifikasi sebelum dipakai di laporan: rumus Cayley (jumlah poh
 
 Tujuan: menjadi penghubung dari ide *greedy* di slide 2 ke tiga algoritma yang dibahas. Slide ini murni pernyataan, tanpa animasi graf, tanpa rumus, dan tanpa isi tambahan.
 
-Teks di slide (tiga blok, muncul satu per klik):
+Teks di slide (empat blok, muncul satu per klik):
 
 > **Algoritma *greedy*** ada banyak jenisnya.
-> **Yang dibahas:** Kruskal dan Prim.
-> **Pembanding:** Borůvka.
+> **Algoritma Kruskal**
+> **Algoritma Prim**
+> **Algoritma Borůvka** (berlabel Pembanding)
 
-Gerak grafik (3 langkah): (1) titik pusat "GREEDY" berdenyut dikelilingi banyak titik kecil yang melayang, mewakili algoritma *greedy* lain yang tidak dibahas; (2) titik lain meredup, Kruskal dan Prim muncul sebagai kotak biru yang tersambung ke pusat; (3) Borůvka muncul sebagai kotak kuning putus-putus berlabel PEMBANDING. Jumlah di pojok panel: Keluarga banyak, 2, lalu 3.
+Gerak grafik (4 langkah, tiap algoritma punya gerak sendiri dan berulang): (1) titik pusat "GREEDY" berdenyut, dikelilingi titik kecil yang melayang dan tersambung garis putus-putus, mewakili algoritma *greedy* lain yang tidak dibahas; (2) Kruskal: sisi diuji dari bobot terkecil, yang membentuk siklus meredup; (3) Prim: tumbuh dari titik A, satu sisi per langkah; (4) Borůvka: semua titik memilih sisi termurahnya serentak. Graf yang dipakai sama dengan slide 2. Jumlah di pojok panel menyebut algoritma yang sedang tampil.
 
 Aliran dari slide 2: langkah terakhir slide 2 menutup dengan "semua titik tersambung, MST berbiaya 18" dan kalimat jembatan pada catatan penyaji nomor 7. Slide 3 menjawab pertanyaan yang muncul setelahnya, yaitu algoritma *greedy* yang mana yang akan dipakai. Setelah itu slide 4 langsung masuk ke Kruskal.
 

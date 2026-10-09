@@ -46,11 +46,11 @@ body.leaving{animation:none;opacity:0;transition:opacity .25s ease}
 .brand b{display:block;font-size:28px;font-weight:600;letter-spacing:-.01em}
 .brand span{display:block;font-size:19px;color:var(--mute);margin-top:2px}
 .tag{font-family:var(--mono);font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
-.kicker{position:absolute;left:96px;top:158px}
+.kicker{position:absolute;left:96px;top:339px}
 .kicker h1{font-size:56px;line-height:1.1;font-weight:700;letter-spacing:-.03em;color:var(--text)}
 
 /* ───────── Kolom teks ───────── */
-.copy{position:absolute;left:96px;top:236px;width:740px;height:716px;display:flex;flex-direction:column;justify-content:flex-start}
+.copy{position:absolute;left:96px;top:425px;width:740px;height:540px;display:flex;flex-direction:column;justify-content:flex-start}
 .blk{opacity:0;transform:translateY(14px);max-height:0;overflow:hidden;margin-top:0;transition:opacity .6s ease,transform .6s ease,max-height .7s ease,margin-top .7s ease;position:relative}
 .blk.show{opacity:1;transform:none;max-height:460px;margin-top:26px}
 .blk.show:first-child{margin-top:0}
@@ -208,6 +208,9 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 .an.amb .tg{fill:var(--amber)}
 .an.glow rect{filter:drop-shadow(0 0 12px rgba(125,180,255,.45))}
 .an.amb.glow rect{filter:drop-shadow(0 0 12px rgba(255,194,102,.35))}
+#fam,#mini{transition:opacity .6s ease}
+#mini{opacity:0}
+.gl{stroke:rgba(125,180,255,.13);stroke-width:1.5;stroke-dasharray:3 7}
 #famlab{font-family:var(--mono);font-size:14px;letter-spacing:.18em;fill:var(--mute);text-anchor:middle;transition:opacity .5s ease}
 </style>
 </head>
@@ -227,10 +230,12 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
   <div class="copy">
     <div class="blk" id="b1"><span class="lbl">01 · Keluarga</span>
       <p><b>Algoritma <em>greedy</em></b> ada banyak jenisnya.</p></div>
-    <div class="blk" id="b2"><span class="lbl">02 · Dibahas</span>
-      <p><b>Yang dibahas:</b> Kruskal dan Prim.</p></div>
-    <div class="blk" id="b3"><span class="lbl">03 · Pembanding</span>
-      <p><b>Pembanding:</b> Borůvka.</p></div>
+    <div class="blk" id="b2"><span class="lbl">02 · Algoritma utama</span>
+      <p><b>Algoritma Kruskal</b></p></div>
+    <div class="blk" id="b3"><span class="lbl">03 · Algoritma utama</span>
+      <p><b>Algoritma Prim</b></p></div>
+    <div class="blk" id="b4"><span class="lbl">04 · Pembanding</span>
+      <p><b>Algoritma Borůvka</b></p></div>
   </div>
 
   <div class="panel">
@@ -262,56 +267,82 @@ const NS='http://www.w3.org/2000/svg', g=$('#g');
 const el=(t,a,p)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);(p||g).appendChild(e);return e;};
 
 /* ═════════ Gambar peta ═════════ */
-const HUB={x:480,y:236};
-const gh=el('g',{id:'fam'});
-for(let i=0;i<16;i++){
-  const a=i/16*Math.PI*2+.25, f=.82+.16*Math.sin(i*2.3);
-  const x=HUB.x+Math.cos(a)*405*f, y=HUB.y+Math.sin(a)*190*f;
-  const w=el('g',{transform:'translate('+x.toFixed(1)+','+y.toFixed(1)+')'},gh);
+const HUB={x:480,y:260};
+const fam=el('g',{id:'fam'});
+for(let i=0;i<18;i++){
+  const a=i/18*Math.PI*2+.25, f=.55+.4*((i*7)%5)/4;
+  const x=HUB.x+Math.cos(a)*400*f, y=HUB.y+Math.sin(a)*200*f;
+  const w=el('g',{transform:'translate('+x.toFixed(1)+','+y.toFixed(1)+')'},fam);
   const inner=el('g',{class:'gh-w'},w);
   inner.style.setProperty('--fd',(-i*.9)+'s');
-  inner.style.setProperty('--fx',((i%3)*6-6)+'px'); inner.style.setProperty('--fy',((i%4)*5-8)+'px');
+  inner.style.setProperty('--fx',((i%3)*8-8)+'px'); inner.style.setProperty('--fy',((i%4)*6-9)+'px');
   el('circle',{class:'gh',r:7+(i%3)*2,cx:0,cy:0},inner);
+  el('line',{class:'gl',x1:0,y1:0,x2:(HUB.x-x).toFixed(1),y2:(HUB.y-y).toFixed(1)},w);
 }
-const famlab=el('text',{id:'famlab',x:480,y:488},g); famlab.textContent='DAN ALGORITMA GREEDY LAINNYA';
-const NODEP=[{id:'k',x:250,y:150,w:210,t:'Kruskal',tag:'DIBAHAS',amb:false,d:0},
-             {id:'p',x:250,y:322,w:210,t:'Prim',tag:'DIBAHAS',amb:false,d:350},
-             {id:'b',x:730,y:236,w:230,t:'Borůvka',tag:'PEMBANDING',amb:true,d:0}];
-const links={}, nodes={};
-NODEP.forEach(n=>{
-  const sx=n.x<HUB.x?n.x+n.w/2:n.x-n.w/2, hx=n.x<HUB.x?HUB.x-62:HUB.x+62;
-  const l=el('path',{class:'lk'+(n.amb?' amb':''),d:'M'+hx+' '+HUB.y+' L'+sx+' '+n.y,pathLength:1});
-  l.style.setProperty('--d',n.d+'ms'); links[n.id]=l;
-});
-const hub=el('g',{class:'hub',transform:'translate('+HUB.x+','+HUB.y+')'});
+const hub=el('g',{class:'hub on',transform:'translate('+HUB.x+','+HUB.y+')'},fam);
 el('circle',{class:'ring',r:60},hub); el('circle',{class:'ring r2',r:60},hub);
 el('circle',{class:'core',r:60},hub);
 const ht=el('text',{y:-6},hub); ht.textContent='GREEDY';
 const hs=el('text',{class:'sub',y:16},hub); hs.textContent='MST';
-NODEP.forEach(n=>{
-  const o=el('g',{transform:'translate('+n.x+','+n.y+')'});
-  const a=el('g',{class:'an'+(n.amb?' amb':'')},o);
-  el('rect',{x:-n.w/2,y:-38,width:n.w,height:76,rx:4},a);
-  const t=el('text',{y:4},a); t.textContent=n.t;
-  const tg=el('text',{class:'tg',y:-54},a); tg.textContent=n.tag;
-  a.style.setProperty('--d',(n.d+450)+'ms'); nodes[n.id]=a;
+const famlab=el('text',{id:'famlab',x:480,y:500},fam); famlab.textContent='DAN ALGORITMA GREEDY LAINNYA';
+
+/* graf mini yang sama dengan slide 2 */
+const mini=el('g',{id:'mini'});
+const NODES=[['A',140,260],['B',340,100],['C',340,420],['D',580,260],['E',820,260]];
+const EDGES=[[0,1,5],[0,2,8],[1,2,11],[1,3,3],[2,3,6],[3,4,4],[2,4,9]];
+const EL=[],NL=[];
+EDGES.forEach(([a,b,w])=>{
+  const A=NODES[a],B=NODES[b],e=el('g',{class:'edge hidden'},mini);
+  const d='M'+A[1]+' '+A[2]+' L'+B[1]+' '+B[2];
+  el('path',{class:'base',d,pathLength:1},e); el('path',{class:'hot',d,pathLength:1},e);
+  const l=el('g',{class:'lab',transform:'translate('+((A[1]+B[1])/2)+','+((A[2]+B[2])/2)+')'},e);
+  el('rect',{x:-20,y:-15,width:40,height:30,rx:3},l); const t=el('text',{},l); t.textContent=w; EL.push(e);
 });
+NODES.forEach(([n,x,y])=>{
+  const o=el('g',{transform:'translate('+x+','+y+')'},mini), nd=el('g',{class:'node hidden'},o);
+  el('circle',{class:'halo',r:44},nd); el('circle',{class:'dot',r:25},nd);
+  const t=el('text',{},nd); t.textContent=n; NL.push(nd);
+});
+const setE=(i,c,d)=>{EL[i].setAttribute('class','edge '+c);EL[i].style.setProperty('--d',(d||0)+'ms');};
+const setN=(i,c,d)=>{NL[i].setAttribute('class','node '+c);NL[i].style.setProperty('--d',(d||0)+'ms');};
+let runs=[]; const later=(f,ms)=>runs.push(setTimeout(f,ms)); const clearRuns=()=>{runs.forEach(clearTimeout);runs=[];};
+const showFam=on=>{fam.style.opacity=on?1:0;mini.style.opacity=on?0:1;};
+const allHide=()=>{EDGES.forEach((_,i)=>setE(i,'hidden'));NODES.forEach((_,i)=>setN(i,'hidden'));};
+const allBase=()=>{EDGES.forEach((_,i)=>setE(i,'',i*90));NODES.forEach((_,i)=>setN(i,'',i*90));};
+
+/* tiga animasi khas, berulang */
+function loopKruskal(){            /* urut bobot, tolak yang membentuk siklus */
+  allBase(); const ord=[[3,'mst'],[5,'mst'],[0,'mst'],[4,'mst'],[1,'cand'],[6,'cand'],[2,'cand']];
+  let t=1400; ord.forEach(([i,c])=>{
+    later(()=>setE(i,'try',0),t);
+    later(()=>setE(i,c==='mst'?'mst':'dim',0),t+650);
+    t+=900;});
+  NODES.forEach((_,i)=>later(()=>setN(i,'in',0),2000+i*500));
+  later(()=>{allHide();later(loopKruskal,900);},t+2200);
+}
+function loopPrim(){               /* tumbuh dari satu titik */
+  allBase(); setN(0,'in',700);
+  const seq=[[0,1,0],[3,3,1],[5,4,3],[4,2,3]];  /* [edge, titik baru, ...] */
+  const steps=[[0,1],[3,3],[5,4],[4,2]]; let t=1500;
+  steps.forEach(([e,n])=>{ later(()=>{setE(e,'pick',0);},t); later(()=>{setE(e,'mst',0);setN(n,'in',0);},t+850); t+=1500;});
+  later(()=>{allHide();later(loopPrim,900);},t+1800);
+}
+function loopBoruvka(){            /* semua titik memilih serentak */
+  allBase(); NODES.forEach((_,i)=>setN(i,'in',i*90));
+  later(()=>{[3,0,4,5].forEach(i=>setE(i,'cand',0));},1600);
+  later(()=>{[3,0,4,5].forEach(i=>setE(i,'mst',0));},3000);
+  later(()=>{allHide();later(loopBoruvka,900);},6200);
+}
 
 /* ═════════ Langkah ═════════ */
 const caption=h=>{const c=$('#cap');c.style.opacity=0;setTimeout(()=>{c.innerHTML=h;c.style.opacity=1;},200);};
 const readout=(l,v)=>{const r=$('#readout');r.classList.add('swap');setTimeout(()=>{$('#ro-l').textContent=l;$('#ro-v').textContent=v;r.classList.remove('swap');},200);};
-function blocks(active){['b1','b2','b3'].forEach((id,i)=>{const b=$('#'+id);b.classList.toggle('show',i<=active);b.classList.toggle('active',i===active);b.classList.toggle('seen',i<active);});}
-function view(o){
-  g.classList.toggle('fam-dim',o.dim);
-  hub.classList.toggle('on',o.hub);
-  famlab.style.opacity=o.fam?1:0;
-  ['k','p'].forEach(k=>{links[k].classList.toggle('on',o.kp);nodes[k].classList.toggle('on',o.kp);nodes[k].classList.toggle('glow',o.kp);});
-  links.b.classList.toggle('on',o.b);nodes.b.classList.toggle('on',o.b);nodes.b.classList.toggle('glow',o.b);
-}
+function blocks(active){['b1','b2','b3','b4'].forEach((id,i)=>{const b=$('#'+id);b.classList.toggle('show',i<=active);b.classList.toggle('active',i===active);b.classList.toggle('seen',i<active);});}
 const STEPS=[
- ()=>{blocks(0);view({dim:false,hub:true,fam:true,kp:false,b:false});readout('Keluarga algoritma','Banyak');caption('<b>Algoritma <em>greedy</em></b> adalah satu keluarga besar. Tidak semuanya dibahas di sini.');},
- ()=>{blocks(1);view({dim:true,hub:true,fam:false,kp:true,b:false});readout('Algoritma utama','2');caption('<b>Kruskal</b> dan <b>Prim</b> adalah dua algoritma <em>greedy</em> untuk MST yang akan dijelaskan.');},
- ()=>{blocks(2);view({dim:true,hub:true,fam:false,kp:true,b:true});readout('Algoritma dibahas','3');caption('<b>Borůvka</b> ikut dipakai sebagai <b>pembanding</b> pada eksperimen.');}
+ ()=>{clearRuns();allHide();blocks(0);showFam(true);readout('Keluarga algoritma','Banyak');caption('Algoritma <b><em>greedy</em></b> sangat banyak, dan tidak semuanya dibahas di sini.');},
+ ()=>{clearRuns();allHide();blocks(1);showFam(false);readout('Algoritma utama','Kruskal');caption('<b>Kruskal</b> bekerja dengan mengurutkan semua sisi.');void g.getBoundingClientRect();later(loopKruskal,500);},
+ ()=>{clearRuns();allHide();blocks(2);showFam(false);readout('Algoritma utama','Prim');caption('<b>Prim</b> bekerja dengan tumbuh dari satu titik.');void g.getBoundingClientRect();later(loopPrim,500);},
+ ()=>{clearRuns();allHide();blocks(3);showFam(false);readout('Pembanding','Borůvka');caption('<b>Borůvka</b>: semua titik memilih serentak. Dipakai sebagai pembanding.');void g.getBoundingClientRect();later(loopBoruvka,500);}
 ];
 const LAST=STEPS.length-1; let step=0;
 
@@ -329,8 +360,8 @@ function render(){STEPS[step]();progress();$('#cnt').textContent=(step+1)+' / '+
 function leave(u){document.body.classList.add('leaving');setTimeout(()=>{location.href=u;},260);}
 function next(){if(step<LAST){step++;render();}else if(NEXT_SLIDE)leave(NEXT_SLIDE);}
 function prev(){if(step>0){step--;render();}else if(PREV_SLIDE)leave(PREV_SLIDE);}
-function reset(){step=0;['b1','b2','b3'].forEach(id=>$('#'+id).classList.remove('show','active','seen'));
-  view({dim:false,hub:true,fam:true,kp:false,b:false});setTimeout(render,150);}
+function reset(){clearRuns();allHide();step=0;['b1','b2','b3','b4'].forEach(id=>$('#'+id).classList.remove('show','active','seen'));
+  setTimeout(render,150);}
 $('#next').onclick=next;$('#prev').onclick=prev;$('#reset').onclick=reset;
 addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;
   if(k==='ArrowRight'||k===' '||k==='PageDown'||k==='Enter'){e.preventDefault();next();}
