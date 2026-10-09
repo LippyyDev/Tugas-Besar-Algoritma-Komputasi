@@ -74,11 +74,9 @@ Graf kedua memiliki *n* = 4 simpul dan *m* = 5 sisi. Empat sisi membentuk siklus
 | (0, 3) | Maros dan Takalar | 2 |
 | (1, 3) | Makassar dan Takalar | 5 |
 
-Setiap *spanning tree* memiliki tiga sisi dan bobot terkecil sebuah sisi adalah 2, sehingga total bobot tidak mungkin kurang dari 6. Tiga dari empat sisi pada sebuah siklus menghubungkan keempat simpul tanpa membentuk siklus, sehingga setiap pilihan satu sisi yang disisihkan menghasilkan sebuah *spanning tree* berbobot 6. Dengan demikian graf ini memiliki empat MST dengan total bobot yang sama, yaitu 6. Seperti dibahas pada 2.2.3, keluaran algoritma pada graf semacam ini bergantung pada cara menangani sisi berbobot sama. Jika pengurutan stabil hanya memakai bobot, urutan sisi berbobot sama mengikuti urutan masukan, sehingga masukan (0, 1), (1, 2), (2, 3), (0, 3), (1, 3) membuat Kruskal memilih {(0, 1), (1, 2), (2, 3)}, sedangkan urutan masukan lain dapat menghasilkan pohon lain.
+Setiap *spanning tree* memiliki tiga sisi dan bobot sisi terkecil adalah 2, sehingga total bobot minimal 6. Membuang salah satu dari empat sisi pada siklus menghasilkan *spanning tree* berbobot 6, sehingga graf ini memiliki empat MST dengan total bobot yang sama. Seperti dibahas pada 2.2.3, himpunan sisi yang dikeluarkan algoritma pada graf semacam ini bergantung pada cara menangani sisi berbobot sama. Laporan ini memakai aturan pemutus seri pada butir 7 subbab 1.4, yaitu membandingkan bobot, lalu simpul ujung bernomor terkecil, lalu simpul ujung bernomor terbesar. Dengan aturan ini urutan seluruh sisi pada Tabel 3.4 menjadi tunggal: (2, 0, 1), (2, 0, 3), (2, 1, 2), (2, 2, 3), (5, 1, 3).
 
-Laporan ini memakai aturan pemutus seri pada butir 7 subbab 1.4, yaitu membandingkan bobot, lalu simpul ujung bernomor terkecil, lalu simpul ujung bernomor terbesar. Dengan aturan ini urutan seluruh sisi pada Tabel 3.4 menjadi tunggal: (2, 0, 1), (2, 0, 3), (2, 1, 2), (2, 2, 3), (5, 1, 3).
-
-**Algoritma Kruskal.** Sisi diperiksa menurut urutan di atas (Tabel 3.5).
+**Algoritma Kruskal.** Sisi diperiksa menurut urutan di atas (Tabel 3.5). Setelah tiga sisi diterima pemeriksaan berhenti, dan sisi (2, 3) tidak diperiksa. Hasilnya {(0, 1), (0, 3), (1, 2)} dengan total bobot 6.
 
 **Tabel 3.5** Jejak algoritma Kruskal pada graf dengan sisi berbobot sama
 
@@ -87,8 +85,6 @@ Laporan ini memakai aturan pemutus seri pada butir 7 subbab 1.4, yaitu membandin
 | 1 | (0, 1) | 2 | Tidak | Terima | 2 |
 | 2 | (0, 3) | 2 | Tidak | Terima | 4 |
 | 3 | (1, 2) | 2 | Tidak | Terima | 6 |
-
-Setelah langkah 3 terkumpul tiga sisi, sehingga pemeriksaan berhenti. Sisi (2, 3) tidak diperiksa lagi. Seandainya diperiksa, sisi itu ditolak karena simpul 2 dan 3 sudah terhubung lewat simpul 1 dan 0. Hasilnya adalah {(0, 1), (0, 3), (1, 2)} dengan total bobot 6.
 
 **Algoritma Prim.** Pohon dimulai dari simpul 0 (Tabel 3.6).
 
@@ -100,9 +96,7 @@ Setelah langkah 3 terkumpul tiga sisi, sehingga pemeriksaan berhenti. Sisi (2, 3
 | 2 | (2, 0, 3), (2, 1, 2), (5, 1, 3) | (2, 0, 3) | Terima, simpul 3 masuk | {0, 1, 3} | 4 |
 | 3 | (2, 1, 2), (2, 2, 3), (5, 1, 3) | (2, 1, 2) | Terima, simpul 2 masuk | {0, 1, 2, 3} | 6 |
 
-Pada langkah 3 terdapat dua tripel berbobot 2, yaitu (2, 1, 2) dan (2, 2, 3). Tripel (2, 1, 2) diambil lebih dulu karena simpul terkecilnya, yaitu 1, lebih kecil daripada 2. Seandainya tripel (2, 2, 3) yang diambil lebih dulu, simpul 2 masuk lewat sisi (2, 3) dan Prim menghasilkan MST lain, yaitu {(0, 1), (0, 3), (2, 3)}, dengan total bobot yang sama. Aturan pemutus seri menutup kemungkinan itu. Hasilnya adalah {(0, 1), (0, 3), (1, 2)} dengan total bobot 6, sama dengan hasil Kruskal.
-
-Dengan aturan pemutus seri yang sama, kedua algoritma memilih himpunan sisi yang sama dari empat MST yang mungkin. Tanpa aturan itu, kedua algoritma tetap menghasilkan total bobot 6, tetapi himpunan sisinya dapat berbeda. Itulah alasan seluruh perbandingan keluaran antar algoritma pada laporan ini memakai aturan pemutus seri yang sama.
+Pada langkah 3, tripel (2, 1, 2) dan (2, 2, 3) berbobot sama, dan aturan pemutus seri memilih (2, 1, 2). Tanpa aturan itu, Prim dapat memilih (2, 2, 3) dan menghasilkan MST lain dengan total bobot yang sama. Hasilnya {(0, 1), (0, 3), (1, 2)} dengan total bobot 6, sama dengan Kruskal. Tanpa aturan pemutus seri, kedua algoritma tetap menghasilkan total bobot 6 tetapi himpunan sisinya dapat berbeda, sehingga seluruh perbandingan keluaran pada laporan ini memakai aturan yang sama.
 
 ---
 
