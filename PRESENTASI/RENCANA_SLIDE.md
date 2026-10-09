@@ -3,7 +3,7 @@
 Analisis Perbandingan Algoritma Kruskal, Prim, dan Borůvka pada *Minimum Spanning Tree* (MST).
 Penyaji: Muhammad Alif Qadri. Durasi rencana: 14,5 menit (batas tugas 10 sampai 15 menit).
 
-Status: slide 1 sampai 3 sudah jadi. Slide 4 sampai 12 masih rencana.
+Status: slide 1 sampai 4 sudah jadi. Slide 5 sampai 12 masih rencana.
 
 ## 1. Struktur dan Alokasi Waktu
 
@@ -12,7 +12,7 @@ Status: slide 1 sampai 3 sudah jadi. Slide 4 sampai 12 masih rencana.
 | 1 | Judul | 0,5 mnt | Jadi |
 | 2 | Masalah MST dan ide dasar *greedy* (*cut property*) | 2 mnt | Jadi |
 | 3 | Algoritma yang dibahas | 0,5 mnt | Jadi |
-| 4 | Kruskal | 1,5 mnt | Rencana |
+| 4 | Kruskal | 1,5 mnt | Jadi |
 | 5 | Prim | 1,5 mnt | Rencana |
 | 6 | Borůvka | 1,5 mnt | Rencana |
 | 7 | Contoh manual tiga algoritma | 1,5 mnt | Rencana |
@@ -44,7 +44,7 @@ Maju di langkah terakhir sebuah slide pindah ke slide berikutnya. Mundur di lang
 Isi folder `PRESENTASI`:
 
 - `index.html`: daftar slide dengan pratinjau dan total durasi.
-- `slide1.html`, `slide2.html`: slide yang sudah jadi.
+- `slide1.html` sampai `slide4.html`: slide yang sudah jadi.
 - `aset/logo-unhas.png`: logo.
 
 Menambah slide baru: buat `slideN.html`, ubah `ready:true` pada `index.html`, dan isi `NEXT_SLIDE` pada slide sebelumnya.
@@ -123,13 +123,37 @@ Aliran dari slide 2: langkah terakhir slide 2 menutup dengan "semua titik tersam
 
 Catatan penyaji (sekitar 30 detik): sebut bahwa *greedy* adalah keluarga algoritma yang besar, lalu sebut dua yang akan dijelaskan (Kruskal dan Prim) dan satu pembanding (Borůvka). Alasan Borůvka dibahas: pembanding tambahan dalam eksperimen, bukan ketentuan tertulis dari dosen (tafsiran penyaji).
 
-## 6. Slide 4 sampai 12 (Rencana)
+## 5b. Slide 4: Algoritma Kruskal
 
-Belum dikerjakan (slide 3 dijelaskan di bagian 5). Alokasi waktu mengikuti tabel di bagian 1. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
+Tujuan: penonton paham cara Kruskal memilih sisi dan mengapa sisi yang membentuk siklus ditolak, sambil melihat pseudocode yang menyala sinkron dengan gambar. Pola A: pseudocode di kiri, graf di kanan.
+
+Isi layar: pseudocode 10 baris (setara `kruskal.py`), graf standar 5 titik, deret sisi terurut (B–D 3, D–E 4, A–B 5, C–D 6, A–C 8, C–E 9, B–C 11), baris kelompok (setara himpunan terpisah pada contoh dasar), pembacaan Sisi MST dan Total biaya. Semua angka dihitung kode dari data graf, bukan ditulis tangan.
+
+| Langkah | Tampilan | Pesan untuk penonton |
+|---------|----------|----------------------|
+| 1 | Graf muncul. Ide Kruskal | Urut sisi dari termurah, ambil asal tidak membentuk siklus |
+| 2 | Sisi terurut muncul, tiap titik jadi kelompok sendiri, MST kosong (baris 1 sampai 3) | Persiapan sebelum perulangan |
+| 3 sampai 6 | Satu sisi per klik: B–D 3, D–E 4, A–B 5, C–D 6. Tiap klik: periksa (baris 4), cek kelompok (baris 5), terima dan gabung (baris 6 dan 7). Setelah C–D, baris 8 menyala: sisi MST sudah 4 dari 4, berhenti, total 18 | Sisi diterima bila kedua ujungnya beda kelompok |
+| 7 | Contoh sisi A–C 8 diperiksa seandainya proses tidak berhenti: A dan C sudah satu kelompok, ditolak, label SIKLUS (baris 9) | Mengapa sisi ditolak |
+
+Catatan jujur untuk penyaji: pada graf contoh ini sisi yang membentuk siklus tidak pernah sampai diperiksa, karena kode berhenti begitu MST berisi 4 sisi (sesuai `kruskal.py`). Langkah 7 sengaja diberi kata "seandainya" supaya tidak terkesan sisi itu benar-benar diperiksa oleh kode.
+
+Catatan penyaji (sekitar 1,5 menit):
+
+1. "Kruskal bekerja dengan daftar sisi yang diurutkan dari termurah."
+2. "Tiap titik mulai sebagai kelompok sendiri."
+3. "Ambil sisi termurah. Kalau kedua ujungnya beda kelompok, ambil dan gabungkan kelompoknya."
+4. "Kalau sudah satu kelompok, sisi itu hanya membuat lingkaran, jadi dibuang."
+5. "Berhenti saat sisi terpilih sudah n dikurangi 1. Di sini 4 sisi, total biaya 18."
+
+Kompleksitas tidak dicantumkan di slide ini, karena dibahas di slide 8 setelah diverifikasi.
+
+## 6. Slide 5 sampai 12 (Rencana)
+
+Belum dikerjakan (slide 3 dan 4 dijelaskan di bagian 5 dan 5b). Alokasi waktu mengikuti tabel di bagian 1. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
 
 | Slide | Arah isi |
 |-------|----------|
-| 4 Kruskal | Ide urut sisi dari termurah dan tolak yang membentuk siklus. Animasi langkah demi langkah dengan tombol maju dan reset |
 | 5 Prim | Ide tumbuh dari satu titik dengan sisi termurah yang menyeberang. Animasi serupa dengan Kruskal |
 | 6 Borůvka | Ide tiap gugus memilih sisi termurahnya lalu digabung. Alasan ikut dibahas: algoritma pembanding ketiga, tidak ada ketentuan tertulis dari dosen |
 | 7 Contoh manual tiga algoritma | Satu graf kecil dijalankan dengan ketiga algoritma, hasil MST yang sama dibandingkan |
@@ -144,6 +168,6 @@ Aturan yang dijaga di seluruh slide: bahasa mudah dipahami, istilah asing dituli
 ## 7. Hal yang Masih Terbuka
 
 - NIM dan nama dosen di slide 1 belum diisi.
-- Slide 4 sampai 12 belum dibuat.
+- Slide 5 sampai 12 belum dibuat.
 - Sitasi untuk rumus Cayley dan *cut property* belum diverifikasi.
 - Pengujian slide dilakukan di Chromium. Perilaku di layar sentuh belum dicoba.
