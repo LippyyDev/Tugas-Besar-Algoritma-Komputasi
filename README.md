@@ -68,4 +68,3 @@ Di Windows, `CODING\jalankan_notebook.bat` melakukan langkah di atas. Petunjuk G
 
 - Naskah Bab 1 sampai 4 tersedia di `DRAF/`. Abstrak, Bab 5, dan Lampiran belum ditulis.
 - Studi kasus jaringan kabel antar lima gedung memakai jarak ilustrasi, bukan hasil pengukuran lapangan (Bab 4.1).
-- Pemakaian alat bantu AI akan dilaporkan pada Lampiran laporan.
