@@ -30,7 +30,7 @@ Folder `hasil/` (CSV), `grafik/` (gambar), dan `data/`, serta berkas `lingkungan
 
 ## Cara menjalankan
 
-### 1. Menjalankan satu algoritma (contoh 4 kota)
+### 1. Menjalankan satu algoritma (contoh graf 4 simpul)
 Buka terminal di folder algoritmanya, lalu:
 ```
 cd Kruskal
