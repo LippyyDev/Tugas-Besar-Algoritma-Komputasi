@@ -127,14 +127,14 @@ Catatan penyaji (sekitar 30 detik): sebut bahwa *greedy* adalah keluarga algorit
 
 Tujuan: penonton paham cara Kruskal memilih sisi dan mengapa sisi yang membentuk siklus ditolak, sambil melihat pseudocode yang menyala sinkron dengan gambar. Pola A: pseudocode di kiri, graf di kanan.
 
-Isi layar: pseudocode 10 baris (setara `kruskal.py`), graf standar 5 titik, deret sisi terurut (B–D 3, D–E 4, A–B 5, C–D 6, A–C 8, C–E 9, B–C 11), baris kelompok (setara himpunan terpisah pada contoh dasar), pembacaan Sisi MST dan Total biaya. Semua angka dihitung kode dari data graf, bukan ditulis tangan.
+Isi layar: pseudocode 8 baris yang sama dengan Pseudocode 3.2 di Bab 3 (urutannya mengikuti fungsi `kruskal()` di `kruskal.py`), graf standar 5 titik, deret sisi terurut (B–D 3, D–E 4, A–B 5, C–D 6, A–C 8, C–E 9, B–C 11), baris kelompok (setara himpunan terpisah pada contoh dasar), pembacaan Sisi MST dan Total biaya. Semua angka dihitung kode dari data graf, bukan ditulis tangan.
 
 | Langkah | Tampilan | Pesan untuk penonton |
 |---------|----------|----------------------|
 | 1 | Graf muncul. Ide Kruskal | Urut sisi dari termurah, ambil asal tidak membentuk siklus |
-| 2 | Sisi terurut muncul, tiap titik jadi kelompok sendiri, MST kosong (baris 1 sampai 3) | Persiapan sebelum perulangan |
-| 3 sampai 6 | Satu sisi per klik: B–D 3, D–E 4, A–B 5, C–D 6. Tiap klik: periksa (baris 4), cek kelompok (baris 5), terima dan gabung (baris 6 dan 7). Setelah C–D, baris 8 menyala: sisi MST sudah 4 dari 4, berhenti, total 18 | Sisi diterima bila kedua ujungnya beda kelompok |
-| 7 | Contoh sisi A–C 8 diperiksa seandainya proses tidak berhenti: A dan C sudah satu kelompok, ditolak, label SIKLUS (baris 9) | Mengapa sisi ditolak |
+| 2 | Sisi terurut muncul, tiap titik jadi kelompok sendiri, himpunan A kosong (baris 1 dan 2) | Persiapan sebelum perulangan |
+| 3 sampai 6 | Satu sisi per klik: B–D 3, D–E 4, A–B 5, C–D 6. Tiap klik: ambil sisi (baris 3), GABUNG berhasil (baris 4), masuk A (baris 5), cek |A| = n − 1 (baris 6). Setelah C–D, baris 6 menghentikan perulangan: 4 dari 4 sisi, total 18 | Sisi diterima bila kedua ujungnya beda kelompok |
+| 7 | Contoh sisi A–C 8 diperiksa seandainya proses tidak berhenti: A dan C sudah satu kelompok, GABUNG gagal pada baris 4, ditolak, label SIKLUS | Mengapa sisi ditolak |
 
 Catatan jujur untuk penyaji: pada graf contoh ini sisi yang membentuk siklus tidak pernah sampai diperiksa, karena kode berhenti begitu MST berisi 4 sisi (sesuai `kruskal.py`). Langkah 7 sengaja diberi kata "seandainya" supaya tidak terkesan sisi itu benar-benar diperiksa oleh kode.
 

@@ -191,12 +191,14 @@ svg#g{aspect-ratio:960/410}
 
 /* pseudocode */
 .pseudo{left:96px;top:322px;width:740px;height:560px}
-.code{padding:12px 0}
-.ln{display:flex;align-items:center;height:46px;border-left:3px solid transparent;font-family:var(--mono);font-size:24px;color:#aeb2c4;white-space:nowrap;transition:background .35s ease,border-color .35s ease,opacity .35s ease,color .35s ease}
-.ln .no{flex:none;width:58px;text-align:right;padding-right:20px;font-size:16px;color:#4b4e60;transition:color .35s ease}
-.ln .t{padding-left:calc(var(--i)*30px)}
+.code{padding:10px 0}
+.ln{display:flex;align-items:center;height:50px;border-left:3px solid transparent;font-family:var(--mono);font-size:20px;color:#aeb2c4;white-space:nowrap;transition:background .35s ease,border-color .35s ease,opacity .35s ease,color .35s ease}
+.ln .no{flex:none;width:46px;text-align:right;padding-right:16px;font-size:15px;color:#4b4e60;transition:color .35s ease}
+.ln .t{padding-left:calc(var(--i)*28px)}
+.ln.hd{color:var(--text);font-weight:500}
+.ln.hd .t{padding-left:0}
 .ln .k{color:var(--accent-bright)}
-.code.act .ln:not(.on){opacity:.38}
+.code.act .ln:not(.on):not(.hd){opacity:.38}
 .ln.on{background:rgba(125,180,255,.12);border-left-color:var(--accent);color:var(--text)}
 .ln.on .no{color:var(--accent)}
 .ln.w.on{background:rgba(255,194,102,.12);border-left-color:var(--amber)}
@@ -253,7 +255,7 @@ svg#g{aspect-ratio:960/410}
     <i class="c1"></i><i class="c2"></i>
     <div class="phead">
       <div class="fig"><b>Pseudocode</b> · Kruskal</div>
-      <div class="fig" style="text-transform:none;letter-spacing:.06em">n = jumlah simpul</div>
+      <div class="fig" style="text-transform:none;letter-spacing:.02em;font-size:14px">κ = bobot, simpul kecil, simpul besar</div>
     </div>
     <div class="code" id="code"></div>
   </div>
@@ -324,21 +326,20 @@ function pathIn(a,b){ /* jalur a ke b pada sisi yang sudah diterima */
 
 /* ═════════ Pseudocode ═════════ */
 const CODE=[
- [0,'<span class="k">urutkan</span> semua sisi dari bobot terkecil'],
- [0,'tiap simpul menjadi satu kelompok'],
- [0,'MST ← kosong'],
- [0,'<span class="k">untuk tiap</span> sisi (a, b) berurutan:'],
- [1,'<span class="k">jika</span> a dan b beda kelompok:'],
- [2,'<span class="k">masukkan</span> sisi ke MST'],
- [2,'<span class="k">gabungkan</span> kedua kelompok'],
- [2,'<span class="k">jika</span> sisi MST sudah n − 1: <span class="k">berhenti</span>'],
- [1,'<span class="k">jika tidak</span>: lewati sisi (siklus)'],
- [0,'<span class="k">kembalikan</span> MST']
+ [0,'<span class="k">E′</span> ← E <span class="k">diurutkan</span> menaik menurut κ'],
+ [0,'himpunan ← BUAT-HIMPUNAN(n) ; A ← ∅ ; total ← 0'],
+ [0,'<span class="k">untuk setiap</span> (u, v, w) pada E′ menurut urutannya <span class="k">lakukan</span>'],
+ [1,'<span class="k">jika</span> GABUNG(u, v) <span class="k">maka</span>'],
+ [2,'A ← A ∪ {(u, v, w)} ; total ← total + w'],
+ [2,'<span class="k">jika</span> |A| = n − 1 <span class="k">maka hentikan</span> perulangan'],
+ [0,'<span class="k">jika</span> |A| ≠ n − 1 <span class="k">maka galat</span> "Graf tidak terhubung"'],
+ [0,'<span class="k">kembalikan</span> (A, total)']
 ];
 const codeEl=$('#code');
-const LN=CODE.map(([ind,html],i)=>{const d=document.createElement('div');d.className='ln'+(i===8?' w':'');
+const hd=document.createElement('div');hd.className='ln hd';hd.innerHTML='<span class="no"></span><span class="t">KRUSKAL(n, E)</span>';codeEl.appendChild(hd);
+const LN=CODE.map(([ind,html],i)=>{const d=document.createElement('div');d.className='ln';
   d.innerHTML='<span class="no">'+(i+1)+'</span><span class="t" style="--i:'+ind+'">'+html+'</span>';codeEl.appendChild(d);return d;});
-function hl(lines){LN.forEach((d,i)=>d.classList.toggle('on',lines.includes(i+1)));codeEl.classList.toggle('act',lines.length>0);}
+function hl(lines,warn){LN.forEach((d,i)=>{d.classList.toggle('on',lines.includes(i+1));d.classList.toggle('w',!!warn&&lines.includes(i+1));});codeEl.classList.toggle('act',lines.length>0);}
 
 /* ═════════ Graf ═════════ */
 const g=$('#g');
@@ -409,34 +410,37 @@ function play(k){
     SORTED.forEach((_,p)=>{CH[p].style.setProperty('--d',(p*110)+'ms');setChip(p,'',true);});
     hl([1]);cap('Langkah pertama: <b>urutkan</b> semua sisi dari bobot terkecil sampai terbesar.');
     later(()=>{hl([2]);renderGroups(INIT);nodesFor(INIT);cap('Tiap titik mulai sebagai <b>kelompok sendiri</b>: belum ada titik yang tersambung.');},1500);
-    later(()=>{hl([3]);cap('Daftar sisi MST masih kosong. Sekarang periksa sisi dari yang termurah.');},2700);
+    later(()=>{hl([2]);cap('Himpunan sisi MST (<b>A</b>) masih kosong dan total biaya 0. Sekarang periksa sisi dari yang termurah.');},2700);
     return;
   }
   if(k<DEMO){
     const j=k-2,t=T[j],[a,b,w]=EDGES[t.e],nm=a+'–'+b;
-    hl([4]);setChip(j,'try');setE(t.e,'pick');
+    hl([3]);setChip(j,'try');setE(t.e,'pick');
     cap('Periksa sisi <b>'+nm+'</b> (bobot '+w+'). Apakah '+a+' dan '+b+' sudah satu kelompok?');
-    later(()=>{hl([5]);renderGroups(t.before,{hi:[t.su,t.sv]});
-      cap(t.ok?a+' ada di <b>'+fmtS(t.su)+'</b>, '+b+' di <b>'+fmtS(t.sv)+'</b>: beda kelompok, jadi sisi ini aman diambil.'
-               :a+' dan '+b+' sama-sama di <b>'+fmtS(t.su)+'</b>: satu kelompok, sisi ini membentuk siklus.');},1400);
+    later(()=>{hl([4]);renderGroups(t.before,{hi:[t.su,t.sv]});
+      cap(t.ok?a+' ada di <b>'+fmtS(t.su)+'</b>, '+b+' di <b>'+fmtS(t.sv)+'</b>: beda kelompok, jadi <b>GABUNG('+a+', '+b+')</b> berhasil.'
+               :a+' dan '+b+' sama-sama di <b>'+fmtS(t.su)+'</b>: <b>GABUNG('+a+', '+b+')</b> gagal, sisi ini membentuk siklus.');},1400);
     later(()=>{
-      if(t.ok){hl([6,7]);setE(t.e,'mst');setChip(j,'acc');renderGroups(t.after,{merged:setOf(t.after,a)});nodesFor(t.after);RO(t.cnt,t.tot,true);
+      if(t.ok){hl([5]);setE(t.e,'mst');setChip(j,'acc');renderGroups(t.after,{merged:setOf(t.after,a)});nodesFor(t.after);RO(t.cnt,t.tot,true);
         cap('<b>Diterima.</b> Dua kelompok digabung menjadi '+fmtS(setOf(t.after,a))+'. Total biaya sekarang <b>'+t.tot+'</b>.');}
-      else{hl([9]);setE(t.e,'dim');setChip(j,'rej');cap('<b>Ditolak.</b> Sisi '+nm+' dilewati.');}
+      else{hl([4],true);setE(t.e,'dim');setChip(j,'rej');cap('<b>Ditolak.</b> Sisi '+nm+' dilewati.');}
     },2600);
-    if(t.cnt===N-1)later(()=>{hl([8]);REST.forEach(i=>setE(i,'dim'));REST.forEach(i=>setChip(SORTED.indexOf(i),'skip'));
-      cap('Sisi MST sudah <b>'+t.cnt+' dari '+(N-1)+'</b>, jadi proses <b>berhenti</b>. Sisa '+REST.length+' sisi tidak perlu diperiksa. Total biaya MST: <b>'+t.tot+'</b>.');},3900);
+    if(t.ok){
+      if(t.cnt===N-1)later(()=>{hl([6]);REST.forEach(i=>setE(i,'dim'));REST.forEach(i=>setChip(SORTED.indexOf(i),'skip'));
+        cap('<b>|A| = '+t.cnt+' = n − 1</b>, jadi perulangan <b>dihentikan</b>. Sisa '+REST.length+' sisi tidak perlu diperiksa. Total biaya MST: <b>'+t.tot+'</b>.');},3900);
+      else later(()=>{hl([6]);cap('|A| = '+t.cnt+', belum sama dengan n − 1 = '+(N-1)+', jadi lanjut ke sisi berikutnya.');},3800);
+    }
     return;
   }
   /* langkah terakhir: contoh sisi yang ditolak */
   const e=REST[0],[a,b,w]=EDGES[e],p=SORTED.indexOf(e),nm=a+'–'+b,path=pathIn(a,b),last=T[T.length-1];
-  hl([4]);setChip(p,'try');setE(e,'cand');
+  hl([3]);setChip(p,'try');setE(e,'cand');
   for(let q=0;q<path.length-1;q++)setE(eIdx(path[q],path[q+1]),'pick');
-  cap('<b>Seandainya</b> sisi <b>'+nm+'</b> (bobot '+w+') tetap diperiksa. Pada kode yang sebenarnya proses sudah berhenti sebelum sampai sini.');
-  later(()=>{hl([5]);renderGroups(last.after,{hi:[setOf(last.after,a)]});
+  cap('<b>Seandainya</b> sisi <b>'+nm+'</b> (bobot '+w+') tetap diperiksa. Pada kode yang sebenarnya perulangan sudah dihentikan sebelum sampai sini.');
+  later(()=>{hl([4]);renderGroups(last.after,{hi:[setOf(last.after,a)]});
     cap(a+' dan '+b+' sudah <b>satu kelompok</b> '+fmtS(setOf(last.after,a))+', karena sudah tersambung lewat '+path.join(', ')+'.');},1500);
-  later(()=>{hl([9]);setChip(p,'rej');placeBadge(e);bd.classList.add('show');
-    cap('Menambah '+nm+' membuat sambungan <b>melingkar</b> (siklus) dan hanya menambah biaya, jadi sisi ini <b>ditolak</b>.');},3000);
+  later(()=>{hl([4],true);setChip(p,'rej');placeBadge(e);bd.classList.add('show');
+    cap('<b>GABUNG('+a+', '+b+')</b> gagal. Menambah '+nm+' membuat sambungan <b>melingkar</b> (siklus) dan hanya menambah biaya, jadi sisi ini <b>ditolak</b>.');},3000);
 }
 const STEPS=Array.from({length:TOTAL},(_,k)=>()=>{clearRuns();paint(k);play(k);});
 
