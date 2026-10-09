@@ -3,7 +3,7 @@
 Analisis Perbandingan Algoritma Kruskal, Prim, dan Borůvka pada *Minimum Spanning Tree* (MST).
 Penyaji: Muhammad Alif Qadri. Durasi rencana: 14,5 menit (batas tugas 10 sampai 15 menit).
 
-Status: slide 1 dan 2 sudah jadi. Slide 3 sampai 12 masih rencana.
+Status: slide 1 sampai 3 sudah jadi. Slide 4 sampai 12 masih rencana.
 
 ## 1. Struktur dan Alokasi Waktu
 
@@ -11,7 +11,7 @@ Status: slide 1 dan 2 sudah jadi. Slide 3 sampai 12 masih rencana.
 |----|-------|-------|--------|
 | 1 | Judul | 0,5 mnt | Jadi |
 | 2 | Masalah MST dan ide dasar *greedy* (*cut property*) | 2 mnt | Jadi |
-| 3 | Algoritma yang dibahas | 0,5 mnt | Rencana |
+| 3 | Algoritma yang dibahas | 0,5 mnt | Jadi |
 | 4 | Kruskal | 1,5 mnt | Rencana |
 | 5 | Prim | 1,5 mnt | Rencana |
 | 6 | Borůvka | 1,5 mnt | Rencana |
@@ -115,11 +115,13 @@ Hal yang perlu diverifikasi sebelum dipakai di laporan: rumus Cayley (jumlah poh
 
 Tujuan: menjadi penghubung dari ide *greedy* di slide 2 ke tiga algoritma yang dibahas. Slide ini murni pernyataan, tanpa animasi graf, tanpa rumus, dan tanpa isi tambahan.
 
-Teks di slide (usulan, bisa diubah):
+Teks di slide (tiga blok, muncul satu per klik):
 
-> Algoritma *greedy* ada banyak jenisnya. Presentasi ini membahas dua di antaranya, **Kruskal** dan **Prim**, dengan **Borůvka** sebagai pembanding.
+> **Algoritma *greedy*** ada banyak jenisnya.
+> **Yang dibahas:** Kruskal dan Prim.
+> **Pembanding:** Borůvka.
 
-Tampilan: judul pendek "Algoritma yang dibahas", lalu tiga label: Kruskal dan Prim sebagai algoritma utama, Borůvka sebagai pembanding (dibedakan lewat gaya label). Hanya satu langkah, sehingga satu klik maju langsung ke slide 4.
+Gerak grafik (3 langkah): (1) titik pusat "GREEDY" berdenyut dikelilingi banyak titik kecil yang melayang, mewakili algoritma *greedy* lain yang tidak dibahas; (2) titik lain meredup, Kruskal dan Prim muncul sebagai kotak biru yang tersambung ke pusat; (3) Borůvka muncul sebagai kotak kuning putus-putus berlabel PEMBANDING. Jumlah di pojok panel: Keluarga banyak, 2, lalu 3.
 
 Aliran dari slide 2: langkah terakhir slide 2 menutup dengan "semua titik tersambung, MST berbiaya 18" dan kalimat jembatan pada catatan penyaji nomor 7. Slide 3 menjawab pertanyaan yang muncul setelahnya, yaitu algoritma *greedy* yang mana yang akan dipakai. Setelah itu slide 4 langsung masuk ke Kruskal.
 
@@ -146,7 +148,6 @@ Aturan yang dijaga di seluruh slide: bahasa mudah dipahami, istilah asing dituli
 ## 7. Hal yang Masih Terbuka
 
 - NIM dan nama dosen di slide 1 belum diisi.
-- Slide 3 sampai 12 belum dibuat.
-- Teks slide 3 masih usulan dan belum disetujui.
+- Slide 4 sampai 12 belum dibuat.
 - Sitasi untuk rumus Cayley dan *cut property* belum diverifikasi.
 - Pengujian slide dilakukan di Chromium. Perilaku di layar sentuh belum dicoba.

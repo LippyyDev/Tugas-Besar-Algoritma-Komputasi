@@ -50,7 +50,7 @@ body.leaving{animation:none;opacity:0;transition:opacity .25s ease}
 .kicker h1{font-size:56px;line-height:1.1;font-weight:700;letter-spacing:-.03em;color:var(--text)}
 
 /* ───────── Kolom teks ───────── */
-.copy{position:absolute;left:96px;top:236px;width:740px;height:716px;display:flex;flex-direction:column;justify-content:center}
+.copy{position:absolute;left:96px;top:236px;width:740px;height:716px;display:flex;flex-direction:column;justify-content:flex-start}
 .blk{opacity:0;transform:translateY(14px);max-height:0;overflow:hidden;margin-top:0;transition:opacity .6s ease,transform .6s ease,max-height .7s ease,margin-top .7s ease;position:relative}
 .blk.show{opacity:1;transform:none;max-height:460px;margin-top:26px}
 .blk.show:first-child{margin-top:0}
@@ -249,7 +249,7 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 <script>
 /* ═════════ Konfigurasi ═════════ */
 const PREV_SLIDE = 'slide1.html';
-const NEXT_SLIDE = null;            // isi 'slide3.html' setelah slide 3 dibuat
+const NEXT_SLIDE = 'slide3.html';
 const SLIDE_NO = 2;
 
 /* Data graf: bobot sengaja tidak ada yang kembar, sehingga MST-nya tunggal */
@@ -450,7 +450,7 @@ const LAST = STEPS.length-1;
 let step = 0;
 
 /* ═════════ Progres bawah ═════════ */
-const GROUPS=[['Pembuka',1],['Konsep',1],['Algoritma',4],['Teori',1],['Eksperimen',3],['Penutup',1]];
+const GROUPS=[['Pembuka',1],['Konsep',1],['Algoritma',5],['Teori',1],['Eksperimen',3],['Penutup',1]];
 (function(){ const p=$('#prog'); GROUPS.forEach(([n,c])=>{const s=document.createElement('div');s.className='seg';s.style.flex=c;s.innerHTML='<div class="bar"><i></i></div><span>'+n+'</span>';p.appendChild(s);}); })();
 function progress(){
   let start=0;
