@@ -127,7 +127,7 @@ Catatan penyaji (sekitar 30 detik): sebut bahwa *greedy* adalah keluarga algorit
 
 Tujuan: penonton paham cara Kruskal memilih sisi dan mengapa sisi yang membentuk siklus ditolak, sambil melihat pseudocode yang menyala sinkron dengan gambar. Pola A: pseudocode di kiri, graf di kanan.
 
-Isi layar: pseudocode 8 baris yang sama dengan Pseudocode 3.2 di Bab 3 (urutannya mengikuti fungsi `kruskal()` di `kruskal.py`), graf standar 5 titik, deret sisi terurut (B–D 3, D–E 4, A–B 5, C–D 6, A–C 8, C–E 9, B–C 11), baris kelompok (setara himpunan terpisah pada contoh dasar), pembacaan Sisi MST dan Total biaya. Semua angka dihitung kode dari data graf, bukan ditulis tangan.
+Isi layar: pseudocode 8 baris yang sama dengan Pseudocode 3.2 di Bab 3 (urutannya mengikuti fungsi `kruskal()` di `kruskal.py`), graf standar 5 titik, deret sisi terurut (B–D 3, D–E 4, A–B 5, C–D 6, A–C 8, C–E 9, B–C 11), baris kelompok (setara himpunan terpisah pada contoh dasar), pembacaan Sisi MST dan Total biaya, serta panel **Arti simbol** di bawah pseudocode. Panel itu menjelaskan tiap simbol (E, E′, κ, himpunan, A, total, u v w, n) dalam bahasa biasa beserta nilainya saat ini, dan barisnya menyala sesuai baris pseudocode yang sedang berjalan. Semua angka dihitung kode dari data graf, bukan ditulis tangan.
 
 | Langkah | Tampilan | Pesan untuk penonton |
 |---------|----------|----------------------|

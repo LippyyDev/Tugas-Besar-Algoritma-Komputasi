@@ -190,9 +190,10 @@ svg#g{aspect-ratio:960/410}
 .nt *{transition:none!important}
 
 /* pseudocode */
-.pseudo{left:96px;top:322px;width:740px;height:560px}
-.code{padding:10px 0}
-.ln{display:flex;align-items:center;height:50px;border-left:3px solid transparent;font-family:var(--mono);font-size:20px;color:#aeb2c4;white-space:nowrap;transition:background .35s ease,border-color .35s ease,opacity .35s ease,color .35s ease}
+.pseudo{left:96px;top:322px;width:740px;height:408px}
+.pseudo .phead{height:56px}
+.code{padding:8px 0}
+.ln{display:flex;align-items:center;height:37px;border-left:3px solid transparent;font-family:var(--mono);font-size:20px;color:#aeb2c4;white-space:nowrap;transition:background .35s ease,border-color .35s ease,opacity .35s ease,color .35s ease}
 .ln .no{flex:none;width:46px;text-align:right;padding-right:16px;font-size:15px;color:#4b4e60;transition:color .35s ease}
 .ln .t{padding-left:calc(var(--i)*28px)}
 .ln.hd{color:var(--text);font-weight:500}
@@ -205,14 +206,24 @@ svg#g{aspect-ratio:960/410}
 .ln.w.on .no{color:var(--amber)}
 .ln.w.on .k{color:var(--amber)}
 
-/* legenda kiri bawah */
-.lg2{position:absolute;left:96px;top:906px;display:flex;gap:30px;font-size:20px;color:var(--body)}
-.lg2 span{display:flex;align-items:center;gap:12px}
-.lg2 i{display:block;width:30px;height:0}
+/* legenda warna (di panel kanan) */
+.lgd{position:absolute;right:28px;top:499px;display:flex;gap:22px;font-size:15px;color:var(--body)}
+.lgd span{display:flex;align-items:center;gap:8px}
+.lgd i{display:block;width:22px;height:0}
+.panel.big{height:756px}
 
+/* panel arti simbol */
+.vars{position:absolute;left:96px;top:744px;width:740px;height:248px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.005))}
+.vars .vh{height:31px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--line2);font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.vr{display:grid;grid-template-columns:104px 318px 1fr;align-items:center;height:30px;padding:0 24px 0 21px;border-left:3px solid transparent;font-size:17px;color:var(--body);transition:background .35s ease,border-color .35s ease}
+.vr .sy{font-family:var(--mono);color:var(--accent-bright);font-weight:500}
+.vr .vl{font-family:var(--mono);color:var(--text);white-space:nowrap}
+.vr .vl.no{color:#4b4e60}
+.vr.on{background:rgba(125,180,255,.12);border-left-color:var(--accent)}
+.vr.on .sy{color:#fff}
 /* sisi terurut */
-.lab-s{position:absolute;left:28px;top:484px;font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
-.chips{position:absolute;left:28px;right:28px;top:506px;display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.lab-s{position:absolute;left:28px;top:504px;font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.chips{position:absolute;left:28px;right:28px;top:526px;display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
 .chip{height:46px;border:1px solid var(--line);background:#07080b;border-radius:3px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:var(--mono);color:var(--mute);
   opacity:0;transform:translateY(10px);transition:opacity .5s ease var(--d,0ms),transform .5s ease var(--d,0ms),border-color .35s ease,background .35s ease,color .35s ease}
 .chip.show{opacity:1;transform:none}
@@ -227,7 +238,7 @@ svg#g{aspect-ratio:960/410}
 .chip.skip i{color:#4b4e60}
 
 /* kelompok */
-.grp{position:absolute;left:28px;right:28px;top:560px;height:34px;display:flex;align-items:center;gap:12px;opacity:0;transition:opacity .5s ease}
+.grp{position:absolute;left:28px;right:28px;top:580px;height:34px;display:flex;align-items:center;gap:12px;opacity:0;transition:opacity .5s ease}
 .grp.show{opacity:1}
 .grp small{font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-right:6px}
 .gp{font-family:var(--mono);font-size:19px;color:var(--body);border:1px solid var(--line);background:#07080b;border-radius:3px;padding:3px 12px;transition:border-color .3s,color .3s}
@@ -255,17 +266,13 @@ svg#g{aspect-ratio:960/410}
     <i class="c1"></i><i class="c2"></i>
     <div class="phead">
       <div class="fig"><b>Pseudocode</b> · Kruskal</div>
-      <div class="fig" style="text-transform:none;letter-spacing:.02em;font-size:14px">κ = bobot, simpul kecil, simpul besar</div>
+      <div class="fig" style="text-transform:none;letter-spacing:.02em;font-size:14px">arti simbol ada di bawah</div>
     </div>
     <div class="code" id="code"></div>
   </div>
-  <div class="lg2">
-    <span><i style="border-top:4px solid var(--accent-bright)"></i>diperiksa</span>
-    <span><i style="border-top:4px solid var(--accent)"></i>masuk MST</span>
-    <span><i style="border-top:4px solid var(--amber)"></i>ditolak (siklus)</span>
-  </div>
+  <div class="vars" id="vars"></div>
 
-  <div class="panel">
+  <div class="panel big">
     <i class="c1"></i><i class="c2"></i>
     <div class="phead">
       <div class="fig"><b>Fig. 04</b> · Kruskal pada graf contoh</div>
@@ -276,6 +283,7 @@ svg#g{aspect-ratio:960/410}
     </div>
     <svg id="g" viewBox="0 55 960 410" aria-label="Graf contoh lima titik"></svg>
     <div class="lab-s">Sisi terurut dari termurah</div>
+    <div class="lgd"><span><i style="border-top:4px solid var(--accent-bright)"></i>diperiksa</span><span><i style="border-top:4px solid var(--accent)"></i>masuk MST</span><span><i style="border-top:4px solid var(--amber)"></i>ditolak (siklus)</span></div>
     <div class="chips" id="chips"></div>
     <div class="grp" id="grp"></div>
     <div class="pfoot"><div class="pf show"><div class="cap" id="cap"></div></div></div>
@@ -339,7 +347,28 @@ const codeEl=$('#code');
 const hd=document.createElement('div');hd.className='ln hd';hd.innerHTML='<span class="no"></span><span class="t">KRUSKAL(n, E)</span>';codeEl.appendChild(hd);
 const LN=CODE.map(([ind,html],i)=>{const d=document.createElement('div');d.className='ln';
   d.innerHTML='<span class="no">'+(i+1)+'</span><span class="t" style="--i:'+ind+'">'+html+'</span>';codeEl.appendChild(d);return d;});
-function hl(lines,warn){LN.forEach((d,i)=>{d.classList.toggle('on',lines.includes(i+1));d.classList.toggle('w',!!warn&&lines.includes(i+1));});codeEl.classList.toggle('act',lines.length>0);}
+/* panel arti simbol: arti tiap simbol + nilainya saat ini */
+const lbl=e=>EDGES[e][0]+'–'+EDGES[e][1];
+const VR=[['Ep','E, E′','E semua sisi, E′ sudah diurut'],['k','κ','aturan urut sisi'],['him','himpunan','kelompok tiap titik'],
+  ['A','A','sisi MST terpilih, |A| = banyaknya'],['tot','total','jumlah bobot sisi di A'],['uvw','(u, v, w)','u, v = ujung sisi, w = bobotnya'],['n','n','jumlah titik']];
+const VEL={};
+(function(){const v=$('#vars');v.innerHTML='<div class="vh"><span>Arti simbol</span><span>nilai saat ini</span></div>';
+  VR.forEach(([id,sy,ar])=>{const r=document.createElement('div');r.className='vr';r.innerHTML='<span class="sy">'+sy+'</span><span>'+ar+'</span><span class="vl"></span>';v.appendChild(r);VEL[id]=r;});})();
+const V={sorted:false,sets:null,A:null,tot:null,uvw:null};
+function showVars(){
+  const put=(id,txt)=>{const c=VEL[id].querySelector('.vl');c.textContent=txt==null?'belum ada':txt;c.classList.toggle('no',txt==null);};
+  put('Ep',EDGES.length+' sisi, '+(V.sorted?'sudah urut':'belum diurut'));
+  put('k','bobot, simpul kecil, besar');
+  put('him',V.sets?V.sets.map(fmtS).join(' '):null);
+  put('A',V.A?'|A| = '+V.A.length+(V.A.length?'  '+V.A.join(' '):'  ∅'):null);
+  put('tot',V.tot==null?null:String(V.tot));
+  put('uvw',V.uvw?'u='+V.uvw[0]+' v='+V.uvw[1]+' w='+V.uvw[2]:null);
+  put('n',String(N));
+}
+const setV=o=>{Object.assign(V,o);showVars();};
+const ROWMAP={1:['Ep','k'],2:['him','A','tot'],3:['uvw','Ep'],4:['uvw','him'],5:['A','tot','uvw'],6:['A','n'],7:['A','n'],8:['A','tot']};
+function hl(lines,warn){LN.forEach((d,i)=>{d.classList.toggle('on',lines.includes(i+1));d.classList.toggle('w',!!warn&&lines.includes(i+1));});codeEl.classList.toggle('act',lines.length>0);
+  const act=new Set();lines.forEach(l=>(ROWMAP[l]||[]).forEach(x=>act.add(x)));VR.forEach(([id])=>VEL[id].classList.toggle('on',act.has(id)));}
 
 /* ═════════ Graf ═════════ */
 const g=$('#g');
@@ -395,7 +424,8 @@ function paint(k){
   nodesFor(sets);
   if(k<2)GR.classList.remove('show');else renderGroups(sets);
   RO(done>0?T[done-1].cnt:0,done>0?T[done-1].tot:0,false);
-  hl([]);
+  V.sorted=k>=2;V.sets=k<2?null:sets;V.A=k<2?null:T.slice(0,done).filter(t=>t.ok).map(t=>lbl(t.e));V.tot=k<2?null:(done>0?T[done-1].tot:0);V.uvw=null;
+  hl([]);showVars();
 }
 
 function play(k){
@@ -408,33 +438,33 @@ function play(k){
   }
   if(k===1){
     SORTED.forEach((_,p)=>{CH[p].style.setProperty('--d',(p*110)+'ms');setChip(p,'',true);});
-    hl([1]);cap('Langkah pertama: <b>urutkan</b> semua sisi dari bobot terkecil sampai terbesar.');
-    later(()=>{hl([2]);renderGroups(INIT);nodesFor(INIT);cap('Tiap titik mulai sebagai <b>kelompok sendiri</b>: belum ada titik yang tersambung.');},1500);
-    later(()=>{hl([2]);cap('Himpunan sisi MST (<b>A</b>) masih kosong dan total biaya 0. Sekarang periksa sisi dari yang termurah.');},2700);
+    hl([1]);setV({sorted:true});cap('Langkah pertama: <b>urutkan</b> semua sisi dari bobot terkecil sampai terbesar (<b>E′</b> adalah E yang sudah diurut).');
+    later(()=>{hl([2]);setV({sets:INIT,A:[],tot:0});renderGroups(INIT);nodesFor(INIT);cap('<b>himpunan</b> dibuat: tiap titik mulai sebagai kelompok sendiri, belum ada titik yang tersambung.');},1500);
+    later(()=>{hl([2]);cap('<b>A</b> (sisi MST yang terpilih) masih kosong dan <b>total</b> biaya 0. Sekarang periksa sisi dari yang termurah.');},2700);
     return;
   }
   if(k<DEMO){
     const j=k-2,t=T[j],[a,b,w]=EDGES[t.e],nm=a+'–'+b;
-    hl([3]);setChip(j,'try');setE(t.e,'pick');
-    cap('Periksa sisi <b>'+nm+'</b> (bobot '+w+'). Apakah '+a+' dan '+b+' sudah satu kelompok?');
+    hl([3]);setV({uvw:[a,b,w]});setChip(j,'try');setE(t.e,'pick');
+    cap('Ambil sisi <b>'+nm+'</b>: ujung <b>u = '+a+'</b>, ujung <b>v = '+b+'</b>, bobot <b>w = '+w+'</b>. Apakah '+a+' dan '+b+' sudah satu kelompok?');
     later(()=>{hl([4]);renderGroups(t.before,{hi:[t.su,t.sv]});
       cap(t.ok?a+' ada di <b>'+fmtS(t.su)+'</b>, '+b+' di <b>'+fmtS(t.sv)+'</b>: beda kelompok, jadi <b>GABUNG('+a+', '+b+')</b> berhasil.'
                :a+' dan '+b+' sama-sama di <b>'+fmtS(t.su)+'</b>: <b>GABUNG('+a+', '+b+')</b> gagal, sisi ini membentuk siklus.');},1400);
     later(()=>{
-      if(t.ok){hl([5]);setE(t.e,'mst');setChip(j,'acc');renderGroups(t.after,{merged:setOf(t.after,a)});nodesFor(t.after);RO(t.cnt,t.tot,true);
+      if(t.ok){hl([5]);setV({A:T.slice(0,j+1).filter(x=>x.ok).map(x=>lbl(x.e)),tot:t.tot,sets:t.after});setE(t.e,'mst');setChip(j,'acc');renderGroups(t.after,{merged:setOf(t.after,a)});nodesFor(t.after);RO(t.cnt,t.tot,true);
         cap('<b>Diterima.</b> Dua kelompok digabung menjadi '+fmtS(setOf(t.after,a))+'. Total biaya sekarang <b>'+t.tot+'</b>.');}
       else{hl([4],true);setE(t.e,'dim');setChip(j,'rej');cap('<b>Ditolak.</b> Sisi '+nm+' dilewati.');}
     },2600);
     if(t.ok){
       if(t.cnt===N-1)later(()=>{hl([6]);REST.forEach(i=>setE(i,'dim'));REST.forEach(i=>setChip(SORTED.indexOf(i),'skip'));
-        cap('<b>|A| = '+t.cnt+' = n − 1</b>, jadi perulangan <b>dihentikan</b>. Sisa '+REST.length+' sisi tidak perlu diperiksa. Total biaya MST: <b>'+t.tot+'</b>.');},3900);
-      else later(()=>{hl([6]);cap('|A| = '+t.cnt+', belum sama dengan n − 1 = '+(N-1)+', jadi lanjut ke sisi berikutnya.');},3800);
+        cap('<b>|A| = '+t.cnt+' = n − 1</b> (n = '+N+' titik), jadi perulangan <b>dihentikan</b>. Sisa '+REST.length+' sisi tidak perlu diperiksa. Total biaya MST: <b>'+t.tot+'</b>.');},3900);
+      else later(()=>{hl([6]);cap('|A| (banyak sisi di A) = '+t.cnt+', belum sama dengan n − 1 = '+(N-1)+' (n = '+N+' titik), jadi lanjut ke sisi berikutnya.');},3800);
     }
     return;
   }
   /* langkah terakhir: contoh sisi yang ditolak */
   const e=REST[0],[a,b,w]=EDGES[e],p=SORTED.indexOf(e),nm=a+'–'+b,path=pathIn(a,b),last=T[T.length-1];
-  hl([3]);setChip(p,'try');setE(e,'cand');
+  hl([3]);setV({uvw:[a,b,w]});setChip(p,'try');setE(e,'cand');
   for(let q=0;q<path.length-1;q++)setE(eIdx(path[q],path[q+1]),'pick');
   cap('<b>Seandainya</b> sisi <b>'+nm+'</b> (bobot '+w+') tetap diperiksa. Pada kode yang sebenarnya perulangan sudah dihentikan sebelum sampai sini.');
   later(()=>{hl([4]);renderGroups(last.after,{hi:[setOf(last.after,a)]});
