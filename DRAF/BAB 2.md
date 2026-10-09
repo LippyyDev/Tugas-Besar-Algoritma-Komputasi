@@ -147,9 +147,3 @@ Gagolewski *et al.* (2025) menempatkan MST sebagai representasi data pada tugas 
 Laporan ini tidak mengusulkan varian baru. Laporan ini menganalisis secara formal dan mengukur secara sekuensial algoritma klasik Kruskal, Prim, dan Borůvka, yang menjadi acuan varian-varian tersebut, pada graf jarang dan padat, lalu membandingkan hasilnya dengan kurva kompleksitas teoretis.
 
 ---
-
-# Daftar Pustaka (Tambahan Bab 2)
-
-Nomor melanjutkan Daftar Pustaka Bab 1 ([1] sampai [9]). Seluruh sitasi Bab 2 selain [10] merujuk ke daftar Bab 1.
-
-[10] MIT OpenCourseWare, "Lecture 12: Greedy algorithms and minimum spanning tree," *6.046J Design and Analysis of Algorithms*, Massachusetts Inst. Technol., Cambridge, MA, USA, Spring 2015. [Online]. Available: https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/4a7fdddff3bc419c70bb470106a1663a_MIT6_046JS15_lec12.pdf. Accessed: Oct. 8, 2026.
