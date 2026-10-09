@@ -256,12 +256,10 @@ const SLIDE_NO = 2;
 
 /* Data graf: bobot sengaja tidak ada yang kembar, sehingga MST-nya tunggal */
 const NODES = [
-  {id:'A',x:100,y:260},{id:'B',x:280,y:90},{id:'C',x:280,y:430},{id:'D',x:490,y:260},
-  {id:'E',x:690,y:90},{id:'F',x:690,y:430},{id:'G',x:870,y:260}
+  {id:'A',x:140,y:260},{id:'B',x:340,y:100},{id:'C',x:340,y:420},{id:'D',x:580,y:260},{id:'E',x:820,y:260}
 ];
 const EDGES = [
-  ['A','B',5],['A','C',8],['B','C',11],['B','D',3],['C','D',6],['B','E',9],
-  ['D','E',4],['D','F',7],['C','F',12],['E','G',10],['F','G',1]
+  ['A','B',5],['A','C',8],['B','C',11],['B','D',3],['C','D',6],['D','E',4],['C','E',9]
 ];
 const SVGNS = 'http://www.w3.org/2000/svg';
 const $ = s => document.querySelector(s);
@@ -298,8 +296,8 @@ const PICK_TXT = EDGES[PICK][0]+'–'+EDGES[PICK][1];
 /* ═════════ Bangun SVG ═════════ */
 const g = $('#g');
 const gz = mk('g',{id:'cut'},g);
-mk('path',{class:'zone',d:'M620,22 C640,115 650,187 610,245 C590,285 540,305 470,306 C300,310 150,305 40,300 L0,300 L0,22 Z'},gz);
-mk('path',{class:'line',d:'M620,22 C640,115 650,187 610,245 C590,285 540,305 470,306 C300,310 150,305 40,300'},gz);
+mk('path',{class:'zone',d:'M650,22 C655,120 660,200 640,270 C620,310 560,305 480,304 C360,303 220,302 40,300 L0,300 L0,22 Z'},gz);
+mk('path',{class:'line',d:'M650,22 C655,120 660,200 640,270 C620,310 560,305 480,304 C360,303 220,302 40,300'},gz);
 const t1=mk('text',{x:34,y:52,class:'g1'},gz); t1.textContent='KELOMPOK 1';
 const t2=mk('text',{x:716,y:494},gz); t2.textContent='KELOMPOK 2';
 
@@ -325,8 +323,8 @@ const NL = NODES.map(n=>{
 { const A=NODES[idx[EDGES[PICK][0]]],B=NODES[idx[EDGES[PICK][1]]];
   const mx=(A.x+B.x)/2,my=(A.y+B.y)/2;
   const ga=mk('g',{id:'aman'},g);
-  mk('rect',{x:mx-87,y:my-54,width:84,height:28,rx:3},ga);
-  const t=mk('text',{x:mx-45,y:my-39},ga); t.textContent='AMAN ✓'; }
+  mk('rect',{x:mx-42,y:my-62,width:84,height:28,rx:3},ga);
+  const t=mk('text',{x:mx,y:my-47},ga); t.textContent='AMAN ✓'; }
 
 /* ═════════ Helper keadaan ═════════ */
 let timers=[], ticker=null, runId=0;
@@ -375,7 +373,7 @@ const STEPS = [
     let sum=0;
     readout('Total biaya MST','0');
     MST.forEach((i,k)=>{ sum+=EDGES[i][2]; const s=sum; later(()=>{ $('#ro-v').innerHTML=s; },t0+k*gap+250); });
-    later(()=>caption('Semua titik tersambung dengan <b>6 sisi</b> saja, biaya <b>'+MST_COST+'</b> dari '+ALL_COST+'. Tidak ada kabel yang berlebih.'),t0+MST.length*gap);
+    later(()=>caption('Semua titik tersambung dengan <b>'+MST.length+' sisi</b> saja, biaya <b>'+MST_COST+'</b> dari '+ALL_COST+'. Tidak ada kabel yang berlebih.'),t0+MST.length*gap);
     $('#pf-legend').classList.remove('show');$('#pf-cap').classList.remove('show');$('#pf-cay').classList.remove('show');
   },
   /* 2 · masalah: coba semua pohon */
@@ -404,7 +402,7 @@ const STEPS = [
     INNER.forEach((i,k)=>setE(i,'mst',k*500));
     allNodes('',()=>0); GROUP1.forEach((id,k)=>setN(nI(id),'in',k*350));
     cand.forEach((i,k)=>setE(i,'cand',1300+k*90));
-    readout('Kandidat berikutnya','6<span class="u">sisi</span>');
+    readout('Kandidat berikutnya',cand.length+'<span class="u">sisi</span>');
     later(()=>{
       cand.forEach(i=>setE(i,i===PICK?'pick':'cand fade',0));
       readout('Termurah di antara kandidat',PICK_TXT+' · '+EDGES[PICK][2]+'<span class="q">AMAN?</span>');
@@ -420,34 +418,36 @@ const STEPS = [
     const w=CROSS.map(i=>EDGES[i][2]);
     readout('Termurah yang menyeberangi garis',PICK_TXT+' · '+EDGES[PICK][2]+'<span class="ok">AMAN</span>');
     caption('Garis putus-putus membagi titik jadi dua kelompok. Sisi yang menyeberang berbiaya <b>'+w.join(', ')+'</b>. Yang termurah, <b>'+EDGES[PICK][2]+'</b>, pasti aman.');
-  },
-  /* 5 · ulangi sampai semua titik tersambung, tiap putaran dijelaskan */
-  ()=>{
-    blocks(2,true); cutShow(false);
-    const T=new Set([...GROUP1,EDGES[PICK][0],EDGES[PICK][1]]), chosen=new Set([...INNER,PICK]);
-    const list=a=>[...a].sort().join(', ');
-    const round=()=>{
-      const cross=EDGES.map((e,i)=>i).filter(i=>T.has(EDGES[i][0])!==T.has(EDGES[i][1]));
-      EDGES.forEach((e,i)=>setE(i,chosen.has(i)?'mst':(cross.includes(i)?'cand':'dim'),0));
-      NODES.forEach((n,i)=>setN(i,T.has(n.id)?'in':'',0));
-      if(!cross.length){
-        readout('Total biaya MST',MST_COST);
-        caption('Semua titik sudah tersambung. Inilah <b>MST</b>, dengan total biaya <b>'+MST_COST+'</b>.');
-        return;
-      }
-      const p=cross.reduce((x,y)=>EDGES[y][2]<EDGES[x][2]?y:x), nm=EDGES[p][0]+'–'+EDGES[p][1];
-      readout('Kelompok 1 sekarang',list(T));
-      caption('Ulangi dengan kelompok yang sudah terhubung: <b>'+list(T)+'</b>. Sisi yang menyeberang berbiaya <b>'+cross.map(i=>EDGES[i][2]).join(', ')+'</b>.');
-      later(()=>{
-        cross.forEach(i=>setE(i,i===p?'pick':'cand fade',0));
-        readout('Termurah yang menyeberang',nm+' · '+EDGES[p][2]+'<span class="ok">AMAN</span>');
-        caption('Yang termurah, <b>'+nm+' ('+EDGES[p][2]+')</b>, pasti aman. Masukkan ke kelompok 1, lalu ulangi.');
-      },1500);
-      later(()=>{ chosen.add(p); T.add(EDGES[p][0]); T.add(EDGES[p][1]); round(); },3600);
-    };
-    round();
   }
 ];
+
+/* Langkah ulangi: satu klik satu putaran, dihitung dari data graf */
+(function(){
+  const T=new Set([...GROUP1,EDGES[PICK][0],EDGES[PICK][1]]), chosen=new Set([...INNER,PICK]);
+  const list=a=>[...a].sort().join(', ');
+  for(;;){
+    const cross=EDGES.map((e,i)=>i).filter(i=>T.has(EDGES[i][0])!==T.has(EDGES[i][1]));
+    if(!cross.length)break;
+    const p=cross.reduce((x,y)=>EDGES[y][2]<EDGES[x][2]?y:x), nm=EDGES[p][0]+'\u2013'+EDGES[p][1];
+    const Tn=new Set(T), Cn=new Set(chosen), ws=cross.map(i=>EDGES[i][2]).join(', ');
+    STEPS.push(()=>{
+      blocks(2,true); cutShow(false);
+      EDGES.forEach((e,i)=>setE(i,Cn.has(i)?'mst':(i===p?'pick':(cross.includes(i)?'cand fade':'dim')),0));
+      NODES.forEach((n,i)=>setN(i,Tn.has(n.id)?'in':'',0));
+      readout('Termurah yang menyeberang',nm+' · '+EDGES[p][2]+'<span class="ok">AMAN</span>');
+      caption('Ulangi dengan kelompok yang sudah terhubung: <b>'+list(Tn)+'</b>. Sisi yang menyeberang berbiaya <b>'+ws+'</b>. Yang termurah, <b>'+nm+' ('+EDGES[p][2]+')</b>, pasti aman.');
+    });
+    chosen.add(p); T.add(EDGES[p][0]); T.add(EDGES[p][1]);
+  }
+  const Cf=new Set(chosen);
+  STEPS.push(()=>{
+    blocks(2,true); cutShow(false);
+    EDGES.forEach((e,i)=>setE(i,Cf.has(i)?'mst':'dim',0));
+    NODES.forEach((n,i)=>setN(i,'in',0));
+    readout('Total biaya MST',MST_COST);
+    caption('Semua titik sudah tersambung. Inilah <b>MST</b>, dengan total biaya <b>'+MST_COST+'</b>.');
+  });
+})();
 const LAST = STEPS.length-1;
 let step = 0;
 
