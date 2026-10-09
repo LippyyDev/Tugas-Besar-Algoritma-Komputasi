@@ -6,22 +6,26 @@
 
 ---
 
-Studi kasus memodelkan perencanaan jaringan kabel yang menghubungkan lima gedung di Fakultas Teknik Universitas Hasanuddin, kampus Gowa, yaitu Arsitektur, Elektro, Geologi, Industri, dan Sipil. Setiap gedung menjadi satu simpul (*n* = 5), setiap jalur kabel kandidat menjadi satu sisi (*m* = 6), dan biaya bersih pemasangan jalur dalam juta rupiah menjadi bobot sisi. Persoalannya adalah memilih himpunan jalur yang menghubungkan kelima gedung dengan total biaya bersih terkecil, yaitu MST pada graf tak berarah berbobot.
+Studi kasus memodelkan perencanaan jaringan kabel data yang menghubungkan lima gedung di Fakultas Teknik Universitas Hasanuddin, kampus Gowa, yaitu Arsitektur, Elektro, Geologi, Industri, dan Sipil. Seluruh gedung harus saling terhubung, langsung atau lewat gedung lain, dan fakultas ingin total biaya bersih pemasangan sekecil mungkin. Setiap gedung menjadi satu simpul (*n* = 5), setiap jalur kabel kandidat menjadi satu sisi (*m* = 6), dan biaya bersih pemasangan jalur dalam juta rupiah menjadi bobot sisi. Persoalannya adalah memilih himpunan jalur yang menghubungkan kelima gedung dengan total biaya bersih terkecil, yaitu MST pada graf tak berarah berbobot.
 
-Biaya bersih sebuah jalur adalah biaya pemasangannya dikurangi dana yang diterima untuk jalur itu, misalnya subsidi, hibah, atau dana pendamping. Biaya bersih 0 berarti pengeluaran dan penerimaan untuk jalur itu impas, sedangkan biaya bersih negatif berarti penerimaan melebihi pengeluaran, sehingga jalur itu menghasilkan penerimaan bersih. Bobot nol dan negatif sah karena bobot sisi dalam laporan ini adalah bilangan real (butir 1 subbab 1.4), dan kedua algoritma hanya memakai urutan bobot, bukan tanda bobot (Teorema 2.1 dan 2.2).
+Dari sepuluh pasangan gedung, hanya enam yang diperlakukan sebagai jalur kandidat, sedangkan empat pasangan lainnya diasumsikan tidak layak dibangun karena terhalang bangunan atau jalan. Pihak pusat dalam skenario ini mendukung sebagian jalur, sehingga biaya bersih tiap jalur memiliki tiga kemungkinan makna:
 
-Biaya pada studi kasus ini merupakan nilai ilustrasi, bukan data keuangan sesungguhnya. Nilai tersebut dipakai untuk memperlihatkan bahwa ketiga algoritma bekerja pada persoalan yang bermakna, bukan untuk menyatakan rancangan jaringan yang optimal bagi kampus yang sesungguhnya. Hanya enam dari sepuluh pasangan gedung yang diperlakukan sebagai jalur kandidat, sedangkan pasangan lainnya diasumsikan tidak layak dibangun.
+- **Biaya bersih positif:** pusat tidak menanggung jalur itu, sehingga fakultas memakai dana sendiri sebesar nilai tersebut.
+- **Biaya bersih nol (gratis):** seluruh biaya ditanggung pusat, tetapi fakultas tidak menerima insentif.
+- **Biaya bersih negatif:** seluruh biaya ditanggung pusat dan fakultas juga menerima insentif dari pusat sebesar nilai mutlaknya.
+
+Bobot nol dan negatif sah karena bobot sisi dalam laporan ini adalah bilangan real (butir 1 subbab 1.4), dan algoritma hanya memakai urutan bobot, bukan tanda bobot (Teorema 2.1 dan 2.2). Seluruh biaya pada studi kasus ini adalah nilai ilustrasi karangan, bukan data keuangan fakultas atau pusat yang sesungguhnya. Nilai tersebut dipakai untuk memperlihatkan bahwa ketiga algoritma bekerja pada persoalan yang bermakna, bukan untuk menyatakan rancangan jaringan yang optimal bagi kampus yang sesungguhnya.
 
 **Tabel 4.1** Jalur kabel kandidat dan biaya bersihnya (nilai ilustrasi)
 
-| Gedung A | Gedung B | Biaya bersih (juta rupiah) |
-|---|---|---|
-| Arsitektur | Sipil | -5 |
-| Sipil | Elektro | -2 |
-| Elektro | Geologi | 0 |
-| Sipil | Industri | 15 |
-| Arsitektur | Elektro | 18 |
-| Industri | Geologi | 25 |
+| Gedung A | Gedung B | Biaya bersih (juta rupiah) | Keterangan |
+|---|---|---|---|
+| Arsitektur | Sipil | −5 | Ditanggung pusat dan fakultas menerima insentif Rp5 juta |
+| Sipil | Elektro | −2 | Ditanggung pusat dan fakultas menerima insentif Rp2 juta |
+| Elektro | Geologi | 0 | Gratis, ditanggung pusat tanpa insentif |
+| Sipil | Industri | 15 | Fakultas memakai dana sendiri Rp15 juta |
+| Arsitektur | Elektro | 18 | Fakultas memakai dana sendiri Rp18 juta |
+| Industri | Geologi | 25 | Fakultas memakai dana sendiri Rp25 juta |
 
 Seluruh biaya pada Tabel 4.1 berbeda, sehingga MST pada graf ini tunggal dan komponen pemutus seri pada kunci κ (Persamaan (5)) tidak pernah menentukan urutan sisi. Kruskal mengurutkan sisi secara menaik lalu menerima sisi Arsitektur dan Sipil (−5), Sipil dan Elektro (−2), Elektro dan Geologi (0), serta Sipil dan Industri (15). Sisi terakhir ini menghubungkan dua komponen yang berbeda, yaitu {Arsitektur, Sipil, Elektro, Geologi} dan {Industri}. Setelah empat sisi (*n* − 1) diterima, pemeriksaan berhenti. Sisi Arsitektur dan Elektro (18) serta Industri dan Geologi (25) tidak dipakai karena masing-masing menutup siklus, sehingga tidak pernah diperiksa.
 
@@ -33,9 +37,9 @@ Seluruh biaya pada Tabel 4.1 berbeda, sehingga MST pada graf ini tunggal dan kom
 | Prim | 4 | 8 |
 | Borůvka | 4 | 8 |
 
-Keluaran ketiga program sama dengan perhitungan manual di atas, yaitu empat sisi, sesuai banyaknya sisi pohon rentang untuk lima simpul, dengan total biaya bersih 8 juta rupiah (−5 − 2 + 0 + 15). Karena MST pada graf ini tunggal, total yang sama berarti himpunan sisinya juga sama.
+Keluaran ketiga program sama dengan perhitungan manual di atas, yaitu empat sisi, sesuai banyaknya sisi pohon rentang untuk lima simpul, dengan total biaya bersih 8 juta rupiah (−5 − 2 + 0 + 15). Artinya, fakultas memakai dana sendiri Rp15 juta untuk jalur Sipil dan Industri, dan menerima insentif Rp7 juta dari dua jalur lainnya. Karena MST pada graf ini tunggal, total yang sama berarti himpunan sisinya juga sama.
 
-Ada satu batasan makna pada bobot negatif. MST tetap harus berupa pohon yang menghubungkan seluruh gedung, sehingga jalur berbiaya negatif yang membentuk siklus tidak dipilih dan penerimaannya tidak ikut dihitung. Pada data ini seluruh jalur negatif kebetulan masuk pohon, tetapi hasil ini bukan solusi untuk masalah "bangun jalur sebanyak mungkin demi penerimaan terbesar", yang merupakan masalah lain.
+Ada satu batasan makna pada bobot negatif. MST tetap harus berupa pohon yang menghubungkan seluruh gedung, sehingga jalur berbiaya negatif yang membentuk siklus tidak dipilih dan insentifnya tidak ikut dihitung. Pada data ini seluruh jalur berinsentif kebetulan masuk pohon, tetapi hasil ini bukan solusi untuk masalah "bangun jalur sebanyak mungkin demi insentif terbesar", yang merupakan masalah lain.
 
 Dengan hanya lima simpul, studi kasus ini membuktikan kebenaran keluaran dan kegunaan MST, tetapi tidak dapat dipakai menilai efisiensi. Perbandingan waktu terhadap ukuran masukan dibahas pada eksperimen sintetis di subbab berikutnya.
 
