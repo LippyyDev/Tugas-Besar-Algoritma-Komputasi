@@ -32,8 +32,8 @@ Di Colab, waktu yang diukur adalah waktu mesin virtual Google yang dipakai bersa
 ## 3. Contoh keluaran Sel 7.1 sampai 7.5 (uji kasus kecil)
 
 ```
-[LOLOS] Kasus 1: 4 kota biasa (satu jalur ditolak) | total = 7 | Kruskal, Prim, Borůvka sama
-[LOLOS] Kasus 2: 5 kota, bobot 0 dan negatif | total = 5 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 1: 4 simpul biasa (satu sisi ditolak) | total = 7 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 2: 5 simpul, bobot 0 dan negatif | total = 5 | Kruskal, Prim, Borůvka sama
 [LOLOS] Kasus 3: bobot kembar (total dan himpunan sisi) | total = 6 | Kruskal, Prim, Borůvka sama
 [LOLOS] Kasus 4: graf tak terhubung (harus ValueError) | ketiganya melempar ValueError
 
@@ -84,14 +84,14 @@ Sel ini menentukan `FOLDER_DASAR`: Colab (memasang Drive), `FOLDER_DRIVE_LOKAL` 
 Informasi lingkungan (Python, sistem, prosesor, jumlah CPU, jenis lingkungan) dipakai untuk bagian "lingkungan uji" di Bab 4.
 
 ### 6.4 Sel 4. Kruskal dan Himpunan Terpisah (*Disjoint Set*)
-**Gagasan (analogi kabel):** urutkan semua jalur dari yang termurah, lalu pasang jalur satu per satu, kecuali jalur yang membuat jaringan melingkar (siklus). `HimpunanTerpisah` menjawab satu pertanyaan: "apakah dua kota sudah tersambung?"
+**Gagasan:** urutkan semua sisi dari bobot terkecil, lalu terima sisi satu per satu, kecuali sisi yang membentuk siklus. `HimpunanTerpisah` menjawab satu pertanyaan: "apakah dua simpul sudah satu komponen?"
 
 **Alat bantu bawaan Python:** `sorted()` untuk mengurutkan sisi, biaya O(m log m). Logika memilih sisi dan mendeteksi siklus ditulis sendiri.
 
 **Sumber:** *union by rank* dan kompresi lintasan (*path compression*) dibahas pada Sanders *et al.* (2019, Bagian 11.4). Kode memakai *path halving*, varian kompresi lintasan yang dipilih penulis dan tidak ditemukan pada bagian tersebut. Kode bukan salinan dari repositori atau forum tertentu.
 
 ### 6.5 Sel 5. Prim
-**Gagasan (analogi kabel):** mulai dari satu kota, lalu tumbuhkan jaringan. Setiap kali, ambil tawaran jalur **termurah** yang keluar dari jaringan. Jika kota di ujungnya sudah tersambung, buang (akan melingkar). Jika belum, pasang dan tambahkan tawaran jalur baru dari kota itu.
+**Gagasan:** mulai dari satu simpul, lalu tumbuhkan pohon. Setiap kali, ambil sisi **berbobot terkecil** yang keluar dari pohon. Jika simpul di ujungnya sudah ada di pohon, buang (akan membentuk siklus). Jika belum, terima dan masukkan sisi baru dari simpul itu ke antrean.
 
 - **Alat bantu:** `heapq` sebagai antrean prioritas, biaya O(log m) per operasi.
 - **Varian *lazy*:** `heapq` tidak punya operasi *decrease-key*, jadi tawaran yang usang dibiarkan di antrean lalu dibuang saat keluar. Antrean bisa berisi sampai O(m) elemen, sehingga waktunya O(m log m), yang sama dengan O(m log n).
@@ -99,33 +99,33 @@ Informasi lingkungan (Python, sistem, prosesor, jumlah CPU, jenis lingkungan) di
 - **Representasi graf:** daftar ketetanggaan (sesuai batasan Bab 1), dibuat oleh `buat_daftar_tetangga`.
 
 ### 6.6 Sel 6. Borůvka (pembanding ketiga)
-**Gagasan (analogi kabel):** semua kelompok kota bergerak **serentak**. Dalam satu putaran, tiap kelompok mencatat jalur termurah yang keluar dari kelompoknya, lalu semua pilihan dipasang sekaligus. Ulangi sampai tinggal satu kelompok. Jumlah kelompok menyusut sedikitnya separuh per putaran, sehingga putarannya paling banyak log₂ n.
+**Gagasan:** semua komponen bergerak **serentak**. Dalam satu putaran, tiap komponen mencatat sisi berbobot terkecil yang keluar darinya, lalu semua pilihan diterima sekaligus. Ulangi sampai tinggal satu komponen. Jumlah komponen menyusut sedikitnya separuh per putaran, sehingga putarannya paling banyak log₂ n.
 
 - **Pemutus seri:** `kunci_sisi` membandingkan bobot, lalu simpul terkecil, lalu simpul terbesar (sama dengan urutan Kruskal dan isi antrean Prim), sesuai batasan Bab 1.
 - **Himpunan terpisah:** memakai `HimpunanTerpisah` dari Sel 4 (tidak disalin ulang).
 
 ### 6.7 Sel 7 sampai 7.5. Uji kasus kecil (hitungan tangan)
 
-Bagian A notebook dipecah per kasus: Sel 7 = persiapan (data kota dan fungsi uji), Sel 7.1 = Kasus 1, Sel 7.2 = Kasus 2, Sel 7.3 = Kasus 3, Sel 7.4 = Kasus 4 (graf tak terhubung), Sel 7.5 = rekap. Bagian B (Sel 7B) adalah studi kasus gedung, Bagian C (Sel 8 dan seterusnya) adalah eksperimen waktu dengan seed. Seed hanya dipakai di Bagian C.
+Bagian A notebook dipecah per kasus: Sel 7 = persiapan (fungsi uji), Sel 7.1 = Kasus 1, Sel 7.2 = Kasus 2, Sel 7.3 = Kasus 3, Sel 7.4 = Kasus 4 (graf tak terhubung), Sel 7.5 = rekap. Bagian B (Sel 7B) adalah studi kasus gedung, Bagian C (Sel 8 dan seterusnya) adalah eksperimen waktu dengan seed. Seed hanya dipakai di Bagian C.
 Syarat dosen: **minimal 3 kasus uji kecil yang bisa dicek manual.** Ada 3 kasus graf terhubung dan 1 kasus graf tak terhubung. **Setiap kasus dijalankan pada ketiga algoritma**, sehingga syaratnya terpenuhi baik jika dosen memaksudkan 3 kasus total maupun 3 kasus per algoritma. Jawaban benar ditulis dari hitungan tangan, bukan dari keluaran program.
 
-> **PENTING: ini draf hitungan tangan. Hitung ulang sendiri di kertas sebelum dikumpulkan**, lalu pastikan kamu bisa menjelaskan tiap langkahnya saat tanya jawab. Nomor kota: Maros = 0, Makassar = 1, Gowa = 2, Takalar = 3, Pangkep = 4.
+> **PENTING: ini draf hitungan tangan. Hitung ulang sendiri di kertas sebelum dikumpulkan**, lalu pastikan kamu bisa menjelaskan tiap langkahnya saat tanya jawab. Simpul diberi nomor 0, 1, 2, dan seterusnya. Bagian A murni contoh graf, belum terkait data nyata.
 
-**Kasus 1 (4 kota biasa, ada satu jalur yang ditolak).** Jalur: Gowa ke Takalar 4, Maros ke Gowa 3, Makassar ke Takalar 5, Maros ke Makassar 1, Makassar ke Gowa 2.
-Urut termurah: Maros ke Makassar 1, Makassar ke Gowa 2, Maros ke Gowa 3, Gowa ke Takalar 4, Makassar ke Takalar 5.
-Ambil 1 (terima). Ambil 2 (terima). Maros ke Gowa 3: Maros dan Gowa sudah tersambung lewat Makassar, jadi **ditolak (siklus)**. Gowa ke Takalar 4: Takalar baru, terima. Sudah 3 kabel = n − 1, selesai.
+**Kasus 1 (4 simpul biasa, ada satu sisi yang ditolak).** Sisi: (2, 3) bobot 4, (0, 2) bobot 3, (1, 3) bobot 5, (0, 1) bobot 1, (1, 2) bobot 2.
+Urut menaik: (0, 1) 1, (1, 2) 2, (0, 2) 3, (2, 3) 4, (1, 3) 5.
+Ambil 1 (terima). Ambil 2 (terima). Sisi (0, 2) bobot 3: simpul 0 dan simpul 2 sudah satu komponen lewat simpul 1, jadi **ditolak (siklus)**. Sisi (2, 3) bobot 4: simpul 3 baru, terima. Sudah 3 sisi = n − 1, selesai.
 **Total = 1 + 2 + 4 = 7.**
 
-**Kasus 2 (5 kota, ada bobot 0 dan negatif).** Jalur: Maros ke Makassar 0, Makassar ke Gowa -2, Maros ke Gowa 1, Gowa ke Takalar 3, Maros ke Pangkep 4, Makassar ke Takalar 5, Pangkep ke Makassar 6.
-Urut termurah: Makassar ke Gowa -2, Maros ke Makassar 0, Maros ke Gowa 1, Gowa ke Takalar 3, Maros ke Pangkep 4, Makassar ke Takalar 5, Pangkep ke Makassar 6.
-Ambil -2 (terima). Ambil 0 (terima). Maros ke Gowa 1: Maros dan Gowa sudah tersambung lewat Makassar, jadi **ditolak (siklus)**. Gowa ke Takalar 3: Takalar baru, terima. Maros ke Pangkep 4: Pangkep baru, terima. Sudah 4 kabel = n − 1, selesai, dua jalur terakhir tidak diperiksa.
-**Total = -2 + 0 + 3 + 4 = 5.** Bobot 0 dan -2 diperlakukan seperti bobot lain: algoritma hanya membandingkan urutan bobot, bukan tanda atau besarnya (sejalan dengan bobot real pada Bab 1). Prim dari Maros memberi total yang sama: ambil 0 (Makassar masuk), ambil -2 (Gowa masuk), buang tawaran basi 1, ambil 3 (Takalar), ambil 4 (Pangkep). Borůvka selesai dalam satu putaran: Maros memilih 0, Makassar dan Gowa memilih -2, Takalar memilih 3, Pangkep memilih 4.
+**Kasus 2 (5 simpul, ada bobot 0 dan negatif).** Sisi: (0, 1) bobot 0, (1, 2) bobot -2, (0, 2) bobot 1, (2, 3) bobot 3, (0, 4) bobot 4, (1, 3) bobot 5, (4, 1) bobot 6.
+Urut menaik: (1, 2) -2, (0, 1) 0, (0, 2) 1, (2, 3) 3, (0, 4) 4, (1, 3) 5, (1, 4) 6.
+Ambil -2 (terima). Ambil 0 (terima). Sisi (0, 2) bobot 1: simpul 0 dan simpul 2 sudah satu komponen lewat simpul 1, jadi **ditolak (siklus)**. Sisi (2, 3) bobot 3: simpul 3 baru, terima. Sisi (0, 4) bobot 4: simpul 4 baru, terima. Sudah 4 sisi = n − 1, selesai, dua sisi terakhir tidak diperiksa.
+**Total = -2 + 0 + 3 + 4 = 5.** Bobot 0 dan -2 diperlakukan seperti bobot lain: algoritma hanya membandingkan urutan bobot, bukan tanda atau besarnya (sejalan dengan bobot real pada Bab 1). Prim dari simpul 0 memberi total yang sama: ambil 0 (simpul 1 masuk), ambil -2 (simpul 2 masuk), buang entri usang bobot 1, ambil 3 (simpul 3), ambil 4 (simpul 4). Borůvka selesai dalam satu putaran: simpul 0 memilih sisi bobot 0, simpul 1 dan simpul 2 memilih sisi bobot -2, simpul 3 memilih sisi bobot 3, simpul 4 memilih sisi bobot 4.
 
-**Kasus 3 (bobot kembar).** Jalur: Maros ke Makassar 2, Makassar ke Gowa 2, Gowa ke Takalar 2, Takalar ke Maros 2, dan diagonal Makassar ke Takalar 5. Empat jalur biaya 2 membentuk lingkaran, jadi hanya tiga yang boleh dipasang.
-Urutan pemeriksaan menurut aturan pemutus seri (bobot, lalu simpul terkecil, lalu simpul terbesar): Maros ke Makassar (0, 1), Maros ke Takalar (0, 3), Makassar ke Gowa (1, 2), Gowa ke Takalar (2, 3), lalu diagonal 5. Tiga yang pertama diterima. Jika Gowa ke Takalar diperiksa, ia **ditolak** karena Gowa dan Takalar sudah tersambung lewat Makassar dan Maros. Catatan: kode Kruskal berhenti setelah 3 sisi diterima, jadi program tidak pernah memeriksa sisi itu. Penolakan ini hanya ada di hitungan tangan, jangan diklaim sebagai keluaran program. Diagonal biaya 5 tidak diperlukan.
-**Total = 2 + 2 + 2 = 6**, dengan MST unik {Maros ke Makassar, Maros ke Takalar, Makassar ke Gowa}. Karena aturan pemutus seri sama pada ketiga algoritma, **total dan himpunan sisi** dicek.
+**Kasus 3 (bobot kembar).** Sisi: (0, 1) bobot 2, (1, 2) bobot 2, (2, 3) bobot 2, (0, 3) bobot 2, dan diagonal (1, 3) bobot 5. Empat sisi bobot 2 membentuk lingkaran, jadi hanya tiga yang boleh diterima.
+Urutan pemeriksaan menurut aturan pemutus seri (bobot, lalu simpul terkecil, lalu simpul terbesar): (0, 1), (0, 3), (1, 2), (2, 3), lalu diagonal 5. Tiga yang pertama diterima. Jika sisi (2, 3) diperiksa, ia **ditolak** karena simpul 2 dan simpul 3 sudah satu komponen lewat simpul 1 dan simpul 0. Catatan: kode Kruskal berhenti setelah 3 sisi diterima, jadi program tidak pernah memeriksa sisi itu. Penolakan ini hanya ada di hitungan tangan, jangan diklaim sebagai keluaran program. Diagonal bobot 5 tidak diperlukan.
+**Total = 2 + 2 + 2 = 6**, dengan MST unik {(0, 1), (0, 3), (1, 2)}. Karena aturan pemutus seri sama pada ketiga algoritma, **total dan himpunan sisi** dicek.
 
-**Kasus 4 (graf tak terhubung).** Jalur: Maros ke Makassar 1 dan Gowa ke Takalar 2. Maros dan Makassar tidak punya jalan ke Gowa dan Takalar, jadi **tidak ada MST**: ketiga algoritma harus menolak dengan `ValueError`.
+**Kasus 4 (graf tak terhubung).** Sisi: (0, 1) bobot 1 dan (2, 3) bobot 2. Simpul 0 dan simpul 1 tidak punya lintasan ke simpul 2 dan simpul 3, jadi **tidak ada MST**: ketiga algoritma harus menolak dengan `ValueError`.
 
 ### 6.8 Sel 7B. Studi kasus: jaringan kabel antar gedung Fakultas Teknik Unhas
 Satu contoh penerapan pada **data tetap**, bukan graf acak, sehingga **tidak memakai seed** dan hasilnya sama setiap dijalankan. Data dibaca dari `data/studi_kasus_gedung_unhas.csv` (kolom: `gedung_a`, `gedung_b`, `jarak_m`, `keterangan`). Simpul diberi nomor tetap menurut urutan abjad nama gedung, sehingga aturan pemutus seri pada Batasan 7 tetap berlaku.

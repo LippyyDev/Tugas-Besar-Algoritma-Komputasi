@@ -1,0 +1,17 @@
+=== Log notebook: Tugas_MST_Lokal ===
+Log ditulis ke: /home/claude/tugas-besar-algoritma-komputasi/CODING/Eksperimen/lingkungan_dan_log.txt
+Parameter: SEED = 2026 | ULANGAN = 5 | ULANG_GRAF_BARU = False | MODE_CEPAT = False
+  skenario jarang        : graf jarang, m = 3n; ukuran n = [4000, 8000, 16000, 32000, 64000]
+  skenario padat         : graf padat, m = n(n-1)/4 (separuh dari jumlah sisi maksimum); ukuran n = [200, 400, 600, 800, 1000]
+  skenario jarang_kembar : graf jarang, m = 3n, bobot 1..5 (banyak bobot kembar); ukuran n = [4000, 8000, 16000, 32000, 64000]
+Python      : 3.13.16
+Sistem      : Linux 6.18.44-fc-v80
+Lingkungan  : Komputer lokal
+Prosesor    : Intel(R) Xeon(R) Processor @ 2.10GHz | jumlah CPU: 2
+Folder hasil: /home/claude/tugas-besar-algoritma-komputasi/CODING/Eksperimen
+pandas      : 3.0.5 | numpy: 2.5.3
+[LOLOS] Kasus 1: 4 simpul biasa (satu sisi ditolak) | total = 7 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 2: 5 simpul, bobot 0 dan negatif | total = 5 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 3: bobot kembar (total dan himpunan sisi) | total = 6 | Kruskal, Prim, Borůvka sama
+[LOLOS] Kasus 4: graf tak terhubung (harus ValueError) | ketiganya melempar ValueError
+Semua 4 kasus uji lolos pada ketiga algoritma (3 kasus graf terhubung dan 1 kasus galat).

@@ -24,7 +24,7 @@ Berdasarkan uraian tersebut, laporan ini menganalisis algoritma Kruskal dan Prim
 
 ---
 
-Secara sederhana, masalah MST dapat dibayangkan sebagai mencari cara termurah untuk menghubungkan sejumlah kota dengan jalur kabel. Kota berperan sebagai simpul, jalur kabel yang mungkin dibangun sebagai sisi, dan biaya pembangunan sebagai bobot.
+Secara sederhana, masalah MST adalah mencari cara berbobot total terkecil untuk menghubungkan seluruh simpul pada suatu graf. Titik yang akan dihubungkan berperan sebagai simpul, penghubung yang mungkin dipasang di antara dua titik sebagai sisi, dan ukuran harga penghubung itu sebagai bobot.
 
 Secara formal, diberikan graf tak berarah dan terhubung *G* = (*V*, *E*), dengan *V* himpunan simpul, *E* himpunan sisi, dan *w* : *E* → ℝ fungsi yang memberi setiap sisi *e* sebuah bobot bilangan real *w*(*e*). *Spanning tree* dari *G* adalah himpunan sisi *T* ⊆ *E* yang menghubungkan seluruh simpul tanpa membentuk siklus, dan *minimum spanning tree* adalah *spanning tree* dengan total bobot terkecil (Sanders *et al.*, 2019, Bab 11; Nešetřil *et al.*, 2001). Total bobot sebuah *spanning tree* adalah
 
