@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slide 7 · Kompleksitas</title>
+<title>Slide 8 · Implementasi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -178,88 +178,109 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 .edge-hint.on{opacity:1}
 
 
-/* ───────── Slide 7: kompleksitas ───────── */
+/* ───────── Slide 8: implementasi ───────── */
 .src{position:absolute;right:96px;top:176px;font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
-.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease var(--d,0ms),transform .6s ease var(--d,0ms);pointer-events:none}
-.rv.on{opacity:1;transform:none}
-.zone{position:absolute;left:96px;right:96px;top:248px;height:640px}
+.rail{position:absolute;left:96px;right:96px;top:240px;height:84px;display:grid;grid-template-columns:1fr 1fr 1fr auto}
+.st .sg{flex:1;height:2px;margin:24px 22px 0 22px;background:rgba(255,255,255,.14);transition:background .6s ease}
+.st.done .sg{background:var(--accent)}
+.st{position:relative;display:flex;align-items:flex-start;gap:18px;z-index:1}
+.st .c{flex:none;width:50px;height:50px;border-radius:50%;border:2px solid rgba(255,255,255,.28);background:var(--bg);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:22px;font-weight:500;color:var(--mute);transition:all .5s ease}
+.st .t b{display:block;font-size:28px;font-weight:600;color:var(--mute);transition:color .5s ease;line-height:1.1;margin-top:2px}
+.st .t span{display:block;margin-top:5px;font-family:var(--mono);font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:#4b4e60;transition:color .5s ease}
+.st.done .c{border-color:var(--accent);background:rgba(125,180,255,.16);color:var(--accent-bright)}
+.st.done .t b{color:var(--body)} .st.done .t span{color:var(--mute)}
+.st.cur .c{border-color:var(--accent-bright);background:var(--accent);color:#06121f;box-shadow:0 0 0 7px rgba(125,180,255,.16),0 0 26px rgba(125,180,255,.45)}
+.st.cur .t b{color:var(--text)} .st.cur .t span{color:var(--accent)}
 
-/* zona A: cara membaca */
-.defs{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.def{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:24px 28px 26px}
-.def.o{border-color:rgba(125,180,255,.45);background:linear-gradient(180deg,rgba(125,180,255,.1),rgba(125,180,255,.02))}
-.def .sym{font-family:var(--mono);font-size:54px;font-weight:500;color:var(--accent-bright);line-height:1}
-.def p{margin-top:12px;font-size:23px;line-height:1.35;color:var(--body)}
-.def p b{color:var(--text);font-weight:600}
-.key{margin-top:22px;display:flex;align-items:center;gap:22px;border-left:4px solid var(--amber);background:rgba(255,194,102,.07);padding:18px 28px;font-size:28px;color:var(--body)}
-.key small{font-family:var(--mono);font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);flex:none}
-.key b{color:var(--text);font-weight:600}
-.key .eq{font-family:var(--mono);color:var(--amber);margin:0 8px}
-.half{margin-top:22px;border:1px solid var(--line);background:#07080b;padding:24px 30px 26px}
-.half h3{font-family:var(--mono);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:400}
-.hrow{display:flex;align-items:center;gap:10px;margin-top:20px}
-.hb{flex:1;height:78px;border:1px solid rgba(125,180,255,.45);background:rgba(125,180,255,.1);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:25px;color:var(--accent-bright);
-  opacity:0;transform:scale(.85);transition:opacity .45s ease var(--d,0ms),transform .45s ease var(--d,0ms)}
-.hb.last{background:var(--accent);color:#06121f;border-color:var(--accent)}
-.hrow.on .hb{opacity:1;transform:none}
-.ha{flex:none;font-family:var(--mono);font-size:15px;color:var(--mute);width:34px;text-align:center;opacity:0;transition:opacity .4s ease var(--d,0ms)}
-.hrow.on .ha{opacity:1}
-.hnote{display:flex;justify-content:space-between;gap:30px;margin-top:20px;font-size:23px;color:var(--body)}
-.hnote b{color:var(--text);font-weight:600}
+.stagearea{position:absolute;left:96px;right:96px;top:344px;height:548px}
+.pn{position:absolute;inset:0;opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity .5s ease,transform .5s ease}
+.pn.on{opacity:1;transform:none}
+.pn>.rv{opacity:0;transform:translateY(14px);transition:opacity .55s ease var(--d,0ms),transform .55s ease var(--d,0ms)}
+.pn.on>.rv,.pn.on .rv{opacity:1;transform:none}
+.ph{font-size:34px;font-weight:600;letter-spacing:-.015em;color:var(--text);margin-bottom:14px}
+.ph small{font-family:var(--mono);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:400;margin-left:18px}
 
-/* zona B: tiga kartu */
-.cards{position:absolute;left:0;right:0;top:0;height:640px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.card{position:relative;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:0;display:flex;flex-direction:column;transition:opacity .6s ease var(--d,0ms),transform .6s ease var(--d,0ms),border-color .4s}
-.card.late{border-style:dashed;border-color:rgba(255,255,255,.18)}
-.card.late>*{opacity:0}
-.card>*{transition:opacity .5s ease}
-.card .ch{height:78px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;border-bottom:1px solid var(--line2)}
-.card .ch b{font-size:32px;font-weight:600;letter-spacing:-.01em}
-.card .ch span{font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
-.card.k{border-top:3px solid var(--accent)} .card.p{border-top:3px solid var(--accent-bright)} .card.b{border-top:3px solid var(--amber)}
-.rows{padding:4px 30px 0}
-.crow{display:block;padding:16px 0 15px;border-bottom:1px solid var(--line2)}
-.crow:last-child{border-bottom:0}
-.crow .t{font-size:22px;line-height:1.3;color:var(--body)}
-.crow .t b{color:var(--text);font-weight:600}
-.calc{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;margin-top:10px}
-.calc i{font-style:normal;font-family:var(--mono);color:var(--mute);font-size:22px}
-.calc .nt{font-size:17px;line-height:1.3;color:var(--mute);flex-basis:100%}
-.chipc{flex:none;font-family:var(--mono);font-size:23px;font-weight:500;color:var(--accent-bright);border:1px solid rgba(125,180,255,.5);background:rgba(125,180,255,.08);padding:5px 12px;border-radius:3px;white-space:nowrap}
-.card.b .chipc{color:var(--amber);border-color:rgba(255,194,102,.55);background:rgba(255,194,102,.08)}
-.res{padding:0 30px 24px}
-.res small{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
-.res strong{display:block;font-family:var(--mono);font-size:52px;font-weight:500;color:var(--text);letter-spacing:-.02em;line-height:1.1}
-.card.b .res strong{color:var(--amber)}
-.res sup{font-size:.55em;vertical-align:.55em}
-.space{margin:auto 30px 16px;padding-top:12px;border-top:1px solid var(--line2)}
-.space .sp1{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:21px;color:var(--body)}
-.space .sp1 b{font-family:var(--mono);font-weight:500;font-size:26px;color:var(--text)}
-.space .sp2{margin-top:2px;font-size:18px;color:var(--mute)}
-.plus{position:absolute;right:30px;bottom:92px;font-family:var(--mono);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:#1c1305;background:var(--amber);padding:5px 11px;border-radius:3px}
+/* panel 1 */
+.files{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.file{border:1px solid var(--line);background:#07080b;padding:0}
+.file .fn{font-family:var(--mono);font-size:30px;font-weight:500;color:var(--accent-bright);padding:16px 26px;border-bottom:1px solid var(--line2);background:rgba(125,180,255,.06)}
+.file.p .fn{color:#fff}.file.b .fn{color:var(--amber);background:rgba(255,194,102,.06)}
+.file .fr{padding:14px 26px 4px;font-size:25px;color:var(--text);font-weight:500}
+.file .fq{padding:4px 26px 0;font-size:21px;color:var(--body);min-height:34px;display:flex;align-items:center;gap:12px}
+.file .fq small{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.file .fq code{font-family:var(--mono);font-size:21px;border:1px solid rgba(125,180,255,.5);background:rgba(125,180,255,.08);color:var(--accent-bright);padding:2px 12px;border-radius:3px}
+.file .fu{margin:10px 26px 18px;padding-top:10px;border-top:1px dashed var(--line);font-size:20px;color:var(--body)}
+.file .fu b{color:var(--text);font-weight:600}
+.file .fu.no{color:var(--mute)}
+.tool{margin-top:22px;border:1px solid rgba(125,180,255,.45);background:linear-gradient(90deg,rgba(125,180,255,.1),rgba(125,180,255,.02));padding:22px 30px;display:grid;grid-template-columns:420px 1fr;gap:34px;align-items:center;position:relative}
+.tool::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent)}
+.tool .tn{font-family:var(--mono);font-size:30px;color:var(--accent-bright);font-weight:500}
+.tool .tn small{display:block;font-family:var(--sans);font-size:22px;color:var(--body);font-weight:400;margin-top:6px}
+.tool .tr{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.tool .tr div{font-size:21px;line-height:1.35;color:var(--body)}
+.tool .tr b{display:block;font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);font-weight:500;margin-bottom:4px}
+.note1{margin-top:16px;font-size:22px;color:var(--mute)}
+.note1 b{color:var(--body);font-weight:600}
 
-/* zona C: grafik batang */
-.chart{position:absolute;left:0;right:0;top:0;height:640px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:22px 36px 0}
-.chart h3{font-family:var(--mono);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:400;display:flex;justify-content:space-between}
-.chart h3 em{font-style:normal;color:var(--accent-bright)}
-.grp3{display:grid;grid-template-columns:380px 1fr;align-items:center;height:140px;border-bottom:1px solid var(--line2)}
-.grp3:last-of-type{border-bottom:0}
-.grp3 .lb b{display:block;font-size:30px;font-weight:600}
-.grp3 .lb span{display:block;margin-top:6px;font-family:var(--mono);font-size:18px;color:var(--mute)}
-.bars{display:flex;flex-direction:column;gap:10px}
-.br{display:flex;align-items:center;gap:16px;height:44px}
-.br .bn{flex:none;width:210px;font-size:19px;color:var(--body);line-height:1.15}
-.br .bt{flex:1;position:relative;height:100%}
-.br .bf{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent);transition:width .9s cubic-bezier(.3,.7,.2,1) var(--d,0ms);border-radius:2px}
-.br.am .bf{background:var(--amber)}
-.br .bv{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:21px;color:var(--text);white-space:nowrap;opacity:0;transition:opacity .4s ease calc(var(--d,0ms) + .7s);left:14px}
-.chart.on .br .bv{opacity:1}
-.pills{position:absolute;left:36px;right:36px;bottom:52px;display:flex;gap:20px}
-.pill{flex:1;border:1px solid var(--line);background:#07080b;padding:12px 18px;font-size:21px;color:var(--body);line-height:1.3;opacity:0;transition:opacity .6s ease 1.2s}
-.chart.on .pill{opacity:1}
-.pill b{color:var(--text);font-weight:600}
-.pill.a{border-color:rgba(125,180,255,.5)} .pill.m{border-color:rgba(255,194,102,.55)}
-.cnote{position:absolute;left:36px;right:36px;bottom:16px;font-family:var(--mono);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+/* panel 2 */
+.term{border:1px solid var(--line);background:#06070a;margin-bottom:14px}
+.term .tb{height:40px;display:flex;align-items:center;gap:8px;padding:0 18px;border-bottom:1px solid var(--line2);background:rgba(255,255,255,.03)}
+.term .tb i{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.2)}
+.term .tb span{margin-left:12px;font-family:var(--mono);font-size:16px;letter-spacing:.1em;color:var(--mute)}
+.term .tb em{margin-left:auto;font-style:normal;font-family:var(--mono);font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.cl{display:grid;grid-template-columns:790px 1fr;align-items:center;min-height:50px;border-bottom:1px solid var(--line2)}
+.cl:last-child{border-bottom:0}
+.cl code{font-family:var(--mono);font-size:21px;color:var(--accent-bright);padding:0 26px;white-space:nowrap}
+.cl code .kw{color:var(--amber)}
+.cl .mn{font-size:22px;color:var(--body);padding:0 24px 0 28px;border-left:1px dashed var(--line);line-height:1.3}
+.cl .mn b{color:var(--text);font-weight:600}
+.same{display:flex;align-items:center;gap:20px;border-left:4px solid var(--amber);background:rgba(255,194,102,.07);padding:12px 24px;font-size:23px;color:var(--body)}
+.same small{font-family:var(--mono);font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);flex:none}
+.same b{color:var(--text);font-weight:600}
+
+/* panel 3 */
+.tl{display:grid;grid-template-columns:1fr 34px 1fr 34px 1.5fr 34px 1fr;align-items:stretch;gap:0}
+.tb4{border:1px solid var(--line);background:#07080b;padding:16px 20px 18px;display:flex;flex-direction:column;justify-content:center;min-height:176px}
+.tb4 code{font-family:var(--mono);font-size:21px;color:var(--accent-bright)}
+.tb4 p{margin-top:8px;font-size:21px;line-height:1.3;color:var(--body)}
+.tb4.out{opacity:.85;border-style:dashed}
+.tb4.go{border-color:var(--accent);background:linear-gradient(180deg,rgba(125,180,255,.16),rgba(125,180,255,.04));box-shadow:0 0 28px rgba(125,180,255,.18)}
+.tb4.go b{font-size:30px;color:var(--text);font-weight:600}
+.tb4.go p{color:#e4e6ee}
+.ar{display:flex;align-items:center;justify-content:center;font-family:var(--mono);color:var(--mute);font-size:22px}
+.brk{position:relative;margin-top:12px;height:34px}
+.brk i{position:absolute;left:calc((100% - 102px)/4.5 + 34px);right:calc((100% - 102px)/4.5 * 1 + 0px);top:0;bottom:12px}
+.brk .bar{position:absolute;left:16.2%;right:0;top:0;height:14px;border:2px solid var(--amber);border-top:0}
+.brk .bt{position:absolute;left:16.2%;right:0;top:20px;text-align:center;font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:24px}
+.box{border:1px solid var(--line);background:#07080b;padding:18px 26px 20px}
+.box h4{font-family:var(--mono);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:8px}
+.box p{font-size:23px;line-height:1.4;color:var(--body)}
+.box p b{color:var(--text);font-weight:600}
+.mach{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.mach small{font-family:var(--mono);font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-right:8px}
+.mach span.ch{font-family:var(--mono);font-size:19px;color:var(--body);border:1px solid var(--line);background:#07080b;padding:5px 14px;border-radius:3px}
+
+/* panel 4 */
+.tbl{border:1px solid var(--line);background:#07080b}
+.tr4{display:grid;grid-template-columns:600px 520px 1fr;border-bottom:1px solid var(--line2);min-height:74px;align-items:stretch}
+.tr4:last-child{border-bottom:0}
+.tr4.h{min-height:38px;background:rgba(255,255,255,.04)}
+.tr4.h div{font-family:var(--mono);font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);padding:0 26px;display:flex;align-items:center}
+.tr4 .a,.tr4 .b,.tr4 .c2{padding:7px 26px;display:flex;flex-direction:column;justify-content:center;font-size:21px;line-height:1.3;color:var(--body)}
+.tr4 .a b{font-size:23px;color:var(--text);font-weight:600;display:flex;align-items:center;gap:14px}
+.tr4 .a b i{flex:none;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#06121f;font-style:normal;font-size:16px;display:flex;align-items:center;justify-content:center;font-family:var(--mono)}
+.tr4 .a span{margin-left:40px;margin-top:3px;color:var(--mute);font-size:20px}
+.tr4 .b{color:var(--body);border-left:1px dashed var(--line)}
+.tr4 .c2{color:var(--amber);border-left:1px dashed var(--line);opacity:0;transition:opacity .6s ease var(--d,0ms)}
+.tbl.lim .c2{opacity:1}
+.tr4.h .c3{opacity:0;transition:opacity .6s ease}
+.tbl.lim .tr4.h .c3{opacity:1}
+.tr4.h .c3{border-left:1px dashed var(--line)}
+.tr4.h div+div{border-left:1px dashed var(--line)}
+.n4{margin-top:12px;font-size:20px;color:var(--mute);opacity:0;transition:opacity .6s ease .5s;border-left:4px solid var(--amber);padding:6px 0 6px 20px;background:rgba(255,194,102,.06)}
+.n4 b{color:var(--body);font-weight:600}
+.n4.on{opacity:1}
 
 /* keterangan bawah */
 .capbar{position:absolute;left:96px;right:96px;top:902px;height:90px;border-left:4px solid var(--accent);padding:6px 0 0 28px;display:flex;align-items:center}
@@ -277,72 +298,91 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
       <div><b>Universitas Hasanuddin</b><span>Magister Teknik Informatika</span></div></div>
     <div class="tag">Tugas Besar Analisis Algoritma</div>
   </div>
-  <div class="kicker"><h1>Kompleksitas Teoretis</h1></div>
-  <div class="src">Dasar: Bab 3 subbab 3.4, Tabel 3.7 dan 3.8</div>
+  <div class="kicker"><h1>Implementasi</h1></div>
+  <div class="src">Dasar: Bab 4 subbab 4.2 dan 4.3, Tabel 4.3 dan 4.4</div>
 
-  <!-- zona A -->
-  <div class="zone" id="zA">
-    <div class="defs">
-      <div class="def rv" data-in="0" data-out="1" style="--d:0ms"><div class="sym">n</div><p><b>jumlah titik</b> pada graf</p></div>
-      <div class="def rv" data-in="0" data-out="1" style="--d:100ms"><div class="sym">m</div><p><b>jumlah sisi</b> pada graf</p></div>
-      <div class="def rv" data-in="0" data-out="1" style="--d:200ms"><div class="sym">log n</div><p><b>berapa kali</b> n bisa dibelah dua sampai tinggal 1</p></div>
-      <div class="def o rv" data-in="0" data-out="1" style="--d:300ms"><div class="sym">O( )</div><p><b>batas atas</b> jumlah langkah, angka pengali dibuang</p></div>
-    </div>
-    <div class="key rv" data-in="0" data-out="1" style="--d:420ms"><small>Rumus kunci</small><span><b>banyak pekerjaan</b><span class="eq">×</span><b>biaya tiap pekerjaan</b><span class="eq">=</span>total langkah</span></div>
-    <div class="half rv" data-in="0" data-out="1" style="--d:540ms">
-      <h3>Contoh n = 1.000, dibelah dua berulang</h3>
-      <div class="hrow" id="hrow"></div>
-      <div class="hnote"><span>1.000 hanya perlu sekitar <b>10</b> kali dibelah.</span><span>1.000.000 hanya sekitar <b>20</b> kali.</span><span>Jadi log n tumbuh <b>sangat lambat</b>.</span></div>
-    </div>
+  <div class="rail" id="rail">
+    
+    <div class="st"><div class="c">1</div><div class="t"><b>Kode</b><span>apa yang ditulis</span></div><i class="sg"></i></div>
+    <div class="st"><div class="c">2</div><div class="t"><b>Inti kode</b><span>cara kerjanya</span></div><i class="sg"></i></div>
+    <div class="st"><div class="c">3</div><div class="t"><b>Pengukuran</b><span>cara hitung waktu</span></div><i class="sg"></i></div>
+    <div class="st"><div class="c">4</div><div class="t"><b>Pembuktian</b><span>cara cek benar</span></div></div>
   </div>
 
-  <!-- zona B -->
-  <div class="zone" id="zB">
-    <div class="cards">
-      <div class="card k rv" id="cK" data-in="1" data-out="4" style="--d:0ms">
-        <div class="ch"><b>Kruskal</b><span>Teorema 3.5</span></div>
-        <div class="rows">
-          <div class="crow"><div class="t"><b>Urutkan</b> semua sisi di awal</div>
-            <div class="calc"><span class="chipc">m log n</span><span class="nt">sebenarnya m log m, nilainya setara dengan m log n</span></div></div>
-          <div class="crow"><div class="t">Periksa sisi satu per satu, tiap sisi <b>1 GABUNG</b></div>
-            <div class="calc"><span class="chipc">m kali</span><i>×</i><span class="chipc">log n</span><i>=</i><span class="chipc">m log n</span></div></div>
-        </div>
-        <div class="space rv" data-in="3" data-out="4"><div class="sp1"><span>Memori ekstra di luar data</span><b>O(n + m)</b></div><div class="sp2">menyimpan salinan semua sisi yang terurut, ditambah catatan kelompok tiap titik</div></div>
-        <div class="res"><small>Waktu, batas atas</small><strong>O(m log n)</strong></div>
+  <div class="stagearea">
+    <!-- 1 -->
+    <div class="pn" id="p0">
+      <div class="ph rv" style="--d:0ms">Tiga algoritma, tiga berkas Python<small>ditulis sendiri</small></div>
+      <div class="files rv" style="--d:120ms">
+        <div class="file k"><div class="fn">kruskal.py</div><div class="fr">Urutkan sisi, terima yang aman</div>
+          <div class="fq"><small>alat bantu</small><code>sorted</code></div>
+          <div class="fu"><b>Memakai</b> catatan kelompok</div></div>
+        <div class="file p"><div class="fn">prim.py</div><div class="fr">Tumbuh dari satu titik</div>
+          <div class="fq"><small>alat bantu</small><code>heapq</code></div>
+          <div class="fu no"><b>Tidak memakai</b> catatan kelompok</div></div>
+        <div class="file b"><div class="fn">boruvka.py</div><div class="fr">Tiap kelompok memilih sisi termurah</div>
+          <div class="fq"></div>
+          <div class="fu"><b>Memakai</b> catatan kelompok dari kruskal.py</div></div>
       </div>
-      <div class="card p rv" id="cP" data-in="1" data-out="4" style="--d:180ms">
-        <div class="ch"><b>Prim</b><span>Teorema 3.6</span></div>
-        <div class="rows">
-          <div class="crow"><div class="t">Tiap sisi <b>masuk</b> antrean paling banyak sekali, lalu <b>keluar</b> paling banyak sekali</div>
-            <div class="calc"><span class="chipc">≤ m masuk</span><i>+</i><span class="chipc">≤ m keluar</span><span class="nt">jadi paling banyak 2m operasi, angka 2 dibuang di O</span></div></div>
-          <div class="crow"><div class="t">Tiap operasi antrean berbiaya</div>
-            <div class="calc"><span class="chipc">m kali</span><i>×</i><span class="chipc">log n</span><i>=</i><span class="chipc">m log n</span></div></div>
+      <div class="tool rv" style="--d:300ms">
+        <div class="tn">HimpunanTerpisah<small>catatan kelompok, juga ditulis sendiri</small></div>
+        <div class="tr">
+          <div><b>union by rank</b>Saat dua kelompok disatukan, pohon yang lebih rendah digantung ke pohon yang lebih tinggi.</div>
+          <div><b>path halving</b>Jalur menuju kepala kelompok dipendekkan setiap kali dilewati.</div>
         </div>
-        <div class="space rv" data-in="3" data-out="4"><div class="sp1"><span>Memori ekstra di luar data</span><b>O(n + m)</b></div><div class="sp2">menyimpan daftar tetangga tiap titik dan antrean yang bisa berisi banyak sisi</div></div>
-        <div class="res"><small>Waktu, batas atas</small><strong>O(m log n)</strong></div>
       </div>
-      <div class="card b rv late" id="cB" data-in="1" data-out="4" style="--d:360ms">
-        <div class="ch"><b>Borůvka</b><span>Teorema 3.7</span></div>
-        <div class="rows">
-          <div class="crow"><div class="t">Banyak <b>putaran</b>: komponen menyusut sedikitnya separuh tiap putaran</div>
-            <div class="calc"><span class="chipc">≤ log n</span><span class="nt">1.000 titik: paling banyak sekitar 10 putaran. Graf contoh: cukup 1 putaran</span></div></div>
-          <div class="crow"><div class="t">Tiap putaran: periksa semua sisi, tiap sisi <b>2 CARI-AKAR</b></div>
-            <div class="calc"><span class="chipc">m kali</span><i>×</i><span class="chipc">log n</span><i>=</i><span class="chipc">m log n</span></div></div>
-        </div>
-        <div class="space rv" data-in="3" data-out="4"><div class="sp1"><span>Memori ekstra di luar data</span><b>O(n)</b></div><div class="sp2">hanya catatan kelompok dan tabel pilihan, tanpa menyalin sisi</div></div>
-        <div class="plus rv" data-in="2" data-out="4">+1 faktor log n</div>
-        <div class="res"><small>Waktu, batas atas</small><strong>O(m log<sup>2</sup> n)</strong></div>
-      </div>
+      <div class="note1 rv" style="--d:420ms"><b>sorted</b> dan <b>heapq</b> hanya alat bantu. Aturan algoritmanya tetap kita tulis sendiri.</div>
     </div>
-  </div>
 
-  <!-- zona C -->
-  <div class="zone" id="zC">
-    <div class="chart rv" id="chart" data-in="4" style="--d:0ms">
-      <h3><span>Ilustrasi n = 1.000</span><span><em>Batang panjang = langkah lebih banyak = lebih berat</em></span></h3>
-      <div id="grps"></div>
-      <div class="pills" id="pills"></div>
-      <div class="cnote">Tabel 3.8. Skala logaritmik. Satuan langkah menurut rumus, bukan waktu dalam detik.</div>
+    <!-- 2 -->
+    <div class="pn" id="p1">
+      <div class="ph rv" style="--d:0ms">Inti kode, dibaca dengan bahasa biasa<small>kutipan disingkat dari Kode 4.2 dan 4.3</small></div>
+      <div class="term rv" style="--d:100ms">
+        <div class="tb"><i></i><i></i><i></i><span>kruskal.py</span><em>Kode 4.2</em></div>
+        <div class="cl"><code>sisi_terurut = <span class="kw">sorted</span>(daftar_sisi, key=…)</code><div class="mn"><b>Urutkan</b> semua sisi dari yang termurah</div></div>
+        <div class="cl"><code><span class="kw">if</span> himpunan.gabung(simpul_a, simpul_b):</code><div class="mn"><b>Terima</b> sisi bila tidak membentuk lingkaran</div></div>
+        <div class="cl"><code><span class="kw">if</span> len(sisi_mst) == jumlah_simpul - 1:</code><div class="mn">Sudah <b>n − 1</b> sisi? <b>Berhenti</b></div></div>
+      </div>
+      <div class="term rv" style="--d:240ms">
+        <div class="tb"><i></i><i></i><i></i><span>prim.py</span><em>Kode 4.3</em></div>
+        <div class="cl"><code>bobot, kecil, besar = heapq.heappop(antrean)</code><div class="mn"><b>Ambil</b> sisi termurah dari antrean</div></div>
+        <div class="cl"><code><span class="kw">if</span> sudah_masuk[kecil] <span class="kw">and</span> sudah_masuk[besar]:</code><div class="mn"><b>Lewati</b> bila kedua ujungnya sudah di pohon</div></div>
+        <div class="cl"><code>heapq.heappush(antrean, (bobot_baru, …))</code><div class="mn"><b>Tambahkan</b> sisi dari titik baru ke antrean</div></div>
+      </div>
+      <div class="same rv" style="--d:380ms"><small>Aturan seri</small><span>Sama di keduanya: <b>bobot</b>, lalu <b>titik kecil</b>, lalu <b>titik besar</b></span></div>
+    </div>
+
+    <!-- 3 -->
+    <div class="pn" id="p2">
+      <div class="ph rv" style="--d:0ms">Stopwatch hanya menyala saat algoritma bekerja</div>
+      <div class="tl rv" style="--d:100ms">
+        <div class="tb4 out"><code>gc.collect()</code><p>Bersihkan memori dulu</p></div>
+        <div class="ar">→</div>
+        <div class="tb4"><code>perf_counter()</code><p>Stopwatch <b style="color:var(--text)">mulai</b></p></div>
+        <div class="ar">→</div>
+        <div class="tb4 go"><b>Algoritma berjalan</b><p>Kruskal, Prim, atau Borůvka</p></div>
+        <div class="ar">→</div>
+        <div class="tb4"><code>perf_counter()</code><p>Stopwatch <b style="color:var(--text)">berhenti</b></p></div>
+      </div>
+      <div class="two rv" style="--d:240ms">
+        <div class="box"><h4>Adil untuk ketiganya</h4><p>Graf <b>yang sama</b> dipakai ketiga algoritma, dijalankan <b>satu per satu</b>. Pembersih memori otomatis tetap menyala selama pengukuran.</p></div>
+        <div class="box"><h4>Prim dicatat dua kali</h4><p>Prim butuh <b>daftar tetangga</b>, sedangkan yang lain menerima daftar sisi. Jadi ada <b>waktu inti</b> dan <b>waktu ditambah pembuatan daftar</b>.</p></div>
+      </div>
+      <div class="mach rv" style="--d:380ms"><small>Mesin uji</small><span class="ch">Google Colab gratis</span><span class="ch">AMD EPYC 7B12, 2 CPU</span><span class="ch">Python 3.13.16</span><span class="ch">pandas 2.2.3, numpy 2.1.3</span><span class="ch">seed 2026</span></div>
+    </div>
+
+    <!-- 4 -->
+    <div class="pn" id="p3">
+      <div class="ph rv" style="--d:0ms">Lima cara memastikan hasilnya benar<small>sebelum waktu dicatat</small></div>
+      <div class="tbl rv" id="tbl" style="--d:100ms">
+        <div class="tr4 h"><div>Pemeriksaan</div><div>Yang ditunjukkan</div><div class="c3">Batasnya</div></div>
+        <div class="tr4"><div class="a"><b><i>1</i>Kasus uji kecil</b><span>4 graf kecil, 1 di antaranya tak terhubung</span></div><div class="b">Ketiganya lolos. Bobot 0 dan negatif ikut diuji.</div><div class="c2" style="--d:0ms">Hanya 4 graf</div></div>
+        <div class="tr4"><div class="a"><b><i>2</i>Himpunan sisi</b><span>Bandingkan sisi yang dipilih, bukan hanya total</span></div><div class="b">Sisi yang dipilih sama pada graf kecil.</div><div class="c2" style="--d:90ms">Pada graf eksperimen, hanya total bobot yang dibandingkan</div></div>
+        <div class="tr4"><div class="a"><b><i>3</i>Pembanding networkx</b><span>300 graf acak kecil</span></div><div class="b">Total bobot sama dengan pustaka standar.</div><div class="c2" style="--d:180ms">networkx hanya pembanding, bukan bagian algoritma</div></div>
+        <div class="tr4"><div class="a"><b><i>4</i>Uji seed dan pembangkit graf</b><span>Seed sama, graf sama</span></div><div class="b">Data uji dapat diulang. Graf terhubung, tanpa sisi ganda, tanpa loop.</div><div class="c2" style="--d:270ms">Hanya pada ukuran terkecil tiap skenario</div></div>
+        <div class="tr4"><div class="a"><b><i>5</i>Tiap ulangan pengukuran</b><span>Program berhenti bila total berbeda</span></div><div class="b">Tidak ada waktu yang diukur dari hasil berbeda.</div><div class="c2" style="--d:360ms">Total sama belum menjamin sisi yang sama</div></div>
+      </div>
+      <div class="n4" id="n4"><b>Catatan:</b> yang diukur adalah kode di dalam notebook Colab. Pencocokan otomatis dengan berkas .py dilewati di Colab.</div>
     </div>
   </div>
 
@@ -355,43 +395,23 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
     </div><div class="hint">← → navigasi · R reset · F layar penuh · I indeks</div></div>
 </div>
 <script>
-const PREV_SLIDE='slide6.html', NEXT_SLIDE='slide8.html', SLIDE_NO=7;
+const PREV_SLIDE='slide7.html', NEXT_SLIDE=null, SLIDE_NO=8;
 const $=s=>document.querySelector(s);
-const N1=1000, L=Math.log2(N1);
-/* kasus menurut Tabel 3.8 (nilai m hanya ilustrasi untuk n = 1.000) */
-const CASES=[
-  {n:'Jarang',s:'terbaik',f:'m = n − 1',m:N1-1},
-  {n:'Menengah',s:'rata-rata',f:'m ≈ n log n',m:Math.round(N1*L)},
-  {n:'Padat',s:'terburuk',f:'m ≈ n(n − 1)/2',m:N1*(N1-1)/2}];
-const fmt=v=>v>=1e6?(v/1e6).toFixed(1).replace('.',',')+' juta':Math.round(v/1e3)+' ribu';
-const LO=3, HI=8; /* skala log10 dari 1.000 sampai 100 juta */
-const pos=v=>Math.max(0.04,(Math.log10(v)-LO)/(HI-LO));
-$('#hrow').innerHTML=(()=>{let v=1000,out=[],i=0;
-  while(true){out.push('<div class="hb'+(v<=1?' last':'')+'" style="--d:'+(600+i*110)+'ms">'+v.toLocaleString('id-ID')+'</div>');if(v<=1)break;out.push('<div class="ha" style="--d:'+(650+i*110)+'ms">÷2</div>');v=Math.floor(v/2);i++;}
-  return out.join('');})();
-$('#grps').innerHTML=CASES.map((c,i)=>{const k=c.m*L,b=c.m*L*L;
-  return '<div class="grp3"><div class="lb"><b>'+c.n+' ('+c.s+')</b><span>'+c.f+'</span></div><div class="bars">'
-   +'<div class="br"><div class="bn">Kruskal dan Prim<br><span style="color:var(--mute);font-size:15px;font-family:var(--mono)">m log n</span></div><div class="bt"><div class="bf" data-w="'+pos(k)+'" style="--d:'+(i*150)+'ms"></div><div class="bv" data-w="'+pos(k)+'" style="--d:'+(i*150)+'ms">≈ '+fmt(k)+'</div></div></div>'
-   +'<div class="br am"><div class="bn">Borůvka<br><span style="color:var(--mute);font-size:15px;font-family:var(--mono)">m log² n</span></div><div class="bt"><div class="bf" data-w="'+pos(b)+'" style="--d:'+(i*150+90)+'ms"></div><div class="bv" data-w="'+pos(b)+'" style="--d:'+(i*150+90)+'ms">≈ '+fmt(b)+'</div></div></div>'
-   +'</div></div>';}).join('');
-
-const RAT1=Math.round((CASES[2].m*L)/(CASES[0].m*L)), RAT2=Math.round(L);
-$('#pills').innerHTML='<div class="pill a">Pada algoritma yang sama, graf padat sekitar <b>'+RAT1+' kali</b> lebih berat daripada graf jarang.</div><div class="pill m">Pada graf yang sama, Borůvka sekitar <b>'+RAT2+' kali</b> lebih berat, karena faktor log n tambahan.</div>';
 const CAPS=[
- 'Cukup ingat <b>n</b> titik, <b>m</b> sisi, dan <b>log n</b> yang tumbuh sangat lambat. Hasil akhirnya <b>O( )</b>: batas atas jumlah langkah, bukan waktu pasti.',
- '<b>Kruskal dan Prim</b> sama-sama memproses sekitar m sisi, dan tiap sisi berbiaya sekitar log n, jadi sama-sama <b>O(m log n)</b>. Batas atas sama belum tentu sama cepat: pembedanya diukur di eksperimen.',
- '<b>Borůvka</b> punya satu faktor log n tambahan, karena kode ini mencari komponen dengan CARI-AKAR di setiap putaran. Rumusan pustaka lebih kecil (Bab 3, subbab 3.4.4), tetapi yang dapat dibuktikan untuk kode ini adalah <b>O(m log² n)</b>.',
- 'Ruang adalah <b>memori ekstra</b> di luar data masukan. <b>Kruskal dan Prim O(n + m)</b> karena menyimpan sisi, <b>Borůvka cukup O(n)</b>.',
- 'Pada graf padat pekerjaannya jauh lebih besar daripada graf jarang. Kruskal dan Prim punya <b>batas atas yang sama</b>, jadi mana yang lebih cepat dijawab oleh eksperimen.'];
+ 'Ketiga algoritma <b>ditulis sendiri</b> dalam Python, satu berkas tiap algoritma. Python hanya membantu mengurutkan (<b>sorted</b>) dan membuat antrean (<b>heapq</b>). Catatan kelompok juga ditulis sendiri.',
+ 'Intinya sederhana: <b>Kruskal</b> mengurutkan sisi lalu menerima yang tidak membentuk lingkaran. <b>Prim</b> mengambil sisi termurah dari antrean. Aturan serinya sama.',
+ 'Waktu dihitung <b>hanya di sekitar pemanggilan algoritma</b>, pada graf yang sama untuk ketiganya. Prim dicatat dua kali karena bentuk masukannya berbeda.',
+ 'Sebelum waktu dicatat, kebenaran kode diperiksa dengan <b>lima cara</b>, karena waktu dari kode yang salah tidak bermakna.',
+ 'Ini <b>bukti empiris yang menguatkan</b>, bukan bukti formal. Kebenaran Kruskal dan Prim dibuktikan di Bab 3, sedangkan kebenaran Borůvka tidak dibuktikan formal.'];
 const LAST=CAPS.length-1;
 let step=0,cur=-1;
 function cap(h){const c=$('#cap');c.innerHTML=h;c.classList.remove('sw');void c.offsetWidth;c.classList.add('sw');}
 function apply(k){
-  document.querySelectorAll('[data-in]').forEach(el=>{const i=+el.dataset.in,o=el.dataset.out===undefined?99:+el.dataset.out;el.classList.toggle('on',k>=i&&k<o);});
-  $('#hrow').classList.toggle('on',k===0);
-  $('#cB').classList.toggle('late',k<2);
-  document.querySelectorAll('.bf').forEach(el=>{el.style.width=(k>=4?(+el.dataset.w*100)+'%':'0');});
-  $('#chart').classList.toggle('on',k>=4);
+  const s=Math.min(k,3);
+  document.querySelectorAll('.pn').forEach((el,i)=>el.classList.toggle('on',i===s));
+  document.querySelectorAll('.st').forEach((el,i)=>{el.classList.toggle('done',i<s);el.classList.toggle('cur',i===s);});
+  $('#tbl').classList.toggle('lim',k>=4);
+  $('#n4').classList.toggle('on',k>=4);
   cap(CAPS[k]);
 }
 const STEPS=Array.from({length:CAPS.length},(_,k)=>()=>{apply(k);cur=k;});
@@ -403,9 +423,9 @@ function progress(){let start=0;document.querySelectorAll('.seg').forEach((s,gi)
   if(SLIDE_NO>start+c)done=c;else if(SLIDE_NO>start)done=(SLIDE_NO-1-start)+(step+1)/(LAST+1);
   s.querySelector('i').style.width=(done/c*100)+'%';s.classList.toggle('cur',SLIDE_NO>start&&SLIDE_NO<=start+c);start+=c;});}
 function render(){STEPS[step]();progress();$('#cnt').textContent=(step+1)+' / '+(LAST+1);
-  $('#prev').textContent=step===0?'Slide 6':'Sebelumnya';const nx=$('#next');
+  $('#prev').textContent=step===0?'Slide 7':'Sebelumnya';const nx=$('#next');
   if(step<LAST){nx.disabled=false;nx.textContent='Berikutnya';}
-  else if(NEXT_SLIDE){nx.disabled=false;nx.textContent='Slide 8';}else{nx.disabled=true;nx.textContent='Slide 8 menyusul';}}
+  else if(NEXT_SLIDE){nx.disabled=false;nx.textContent='Slide 9';}else{nx.disabled=true;nx.textContent='Slide 9 menyusul';}}
 function leave(u){document.body.classList.add('leaving');setTimeout(()=>{location.href=u;},260);}
 function next(){if(step<LAST){step++;render();}else if(NEXT_SLIDE)leave(NEXT_SLIDE);}
 function prev(){if(step>0){step--;render();}else if(PREV_SLIDE)leave(PREV_SLIDE);}
