@@ -3,7 +3,7 @@
 Analisis Perbandingan Algoritma Kruskal, Prim, dan Borůvka pada *Minimum Spanning Tree* (MST).
 Penyaji: Muhammad Alif Qadri. Durasi rencana: 13 menit (batas tugas 10 sampai 15 menit).
 
-Status: slide 1 sampai 10 sudah jadi. Slide 11 (Kesimpulan) masih rencana. Slide Implementasi dihapus atas permintaan pengguna.
+Status: Semua 11 slide sudah jadi. Slide Implementasi dihapus atas permintaan pengguna.
 
 ## 1. Struktur dan Alokasi Waktu
 
@@ -19,7 +19,7 @@ Status: slide 1 sampai 10 sudah jadi. Slide 11 (Kesimpulan) masih rencana. Slide
 | 8 | Studi kasus: jaringan kabel lima gedung (adegan 3D) | 1 mnt | Jadi |
 | 9 | Metode eksperimen | 1 mnt | Jadi |
 | 10 | Hasil dan analisis | 1,5 mnt | Jadi |
-| 11 | Kesimpulan | 0,5 mnt | Rencana |
+| 11 | Kesimpulan dan penutup | 0,5 mnt | Jadi |
 
 Total 13 menit, di dalam batas 10 sampai 15 menit. Bila perlu dipangkas, ambil dari slide 7 atau 4 sampai 6.
 
@@ -231,22 +231,14 @@ Satu layar, tiga klik, tiga lapis dari atas ke bawah dengan label di kiri (anima
 
 Istilah kasus terbaik, rata-rata, dan terburuk hanya dipakai di slide 7 (kompleksitas waktu teoretis). Di slide 9 dan 10 skenario hanya disebut jarang, padat, dan kembar. Semua angka dari Tabel 4.6 sampai 4.10.
 
-## 6. Slide 11 (Rencana)
+## 6. Slide 11: Kesimpulan dan Penutup
 
-Belum dikerjakan (slide 3 sampai 10 dijelaskan di bagian 5 sampai 5h). Alokasi waktu mengikuti tabel di bagian 1. Slide "Contoh manual tiga algoritma" dihapus dari rencana, sehingga nomor slide sesudahnya bergeser satu. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
-
-| Slide | Arah isi |
-|-------|----------|
-| 5 Prim | Ide tumbuh dari satu titik dengan sisi termurah yang menyeberang. Animasi serupa dengan Kruskal |
-| 6 Borůvka | Ide tiap gugus memilih sisi termurahnya lalu digabung. Alasan ikut dibahas: algoritma pembanding ketiga, tidak ada ketentuan tertulis dari dosen |
-| 11 Kesimpulan | Ringkas, bahasa sederhana |
+Isi mengikuti Bab 5 (5.1 sampai 5.3). Lima klik dengan latar jaringan titik yang bergerak: (1) ketiganya menghasilkan MST sama (graf lima gedung menyala, tiga centang, 4 kasus uji, 300 graf, 8 juta), (2) teori tidak membedakan Kruskal dan Prim (batang O(m log n) dan O(m log² n), ruang), (3) tidak ada satu yang terbaik (jarang Kruskal, padat Prim, jarang kembar Kruskal?, Borůvka paling lambat 3,34 sampai 4,72 kali), (4) batas hasil dan langkah berikutnya, (5) terima kasih dengan logo Unhas beranimasi (cincin gelombang, orbit lima titik) dan identitas penyaji. Teks kesimpulan 03 menyebut waktu Kruskal dan Prim naik lebih cepat dari rumus tanpa membantah teorema, sama dengan slide 10.
 
 Aturan yang dijaga di seluruh slide: bahasa mudah dipahami, istilah asing ditulis miring, tanpa tanda pisah panjang, dan hanya angka yang bisa dipertanggungjawabkan dari laporan.
 
 ## 7. Hal yang Masih Terbuka
 
-- NIM dan nama dosen di slide 1 belum diisi.
-- Slide 11 belum dibuat.
 - Sitasi untuk rumus Cayley dan *cut property* belum diverifikasi.
 - Pengujian slide dilakukan di Chromium. Perilaku di layar sentuh belum dicoba.
 

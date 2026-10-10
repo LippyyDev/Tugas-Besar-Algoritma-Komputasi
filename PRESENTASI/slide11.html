@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slide 10 · Hasil dan analisis</title>
+<title>Slide 11 · Kesimpulan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -178,111 +178,152 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 .edge-hint.on{opacity:1}
 
 
-/* ───────── Slide 10: hasil (satu layar, tiga lapis) ───────── */
-.src{position:absolute;right:96px;top:176px;font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
-.rowg{position:absolute;left:96px;right:96px;display:grid;grid-template-columns:236px 1fr;gap:20px}
-#b1{top:236px;height:78px}#b2{top:328px;height:404px}#b3{top:746px;height:146px}
-.lab{position:relative;border:1px solid var(--line);background:#07080b;padding:14px 20px;display:flex;flex-direction:column;justify-content:center;transition:border-color .5s ease,background .5s ease}
-.lab::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:rgba(255,255,255,.18);transition:background .5s ease}
-.lab i{font-style:normal;font-family:var(--mono);font-size:13px;letter-spacing:.18em;color:var(--mute);transition:color .5s}
-.lab b{font-size:26px;font-weight:600;line-height:1.1;color:var(--body);margin-top:4px;transition:color .5s}
-.lab small{display:block;margin-top:6px;font-size:16px;color:var(--mute);line-height:1.25}
-.lab.on{border-color:rgba(125,180,255,.55);background:linear-gradient(90deg,rgba(125,180,255,.14),rgba(125,180,255,.02))}
-.lab.on::before{background:var(--accent)} .lab.on i{color:var(--accent)} .lab.on b{color:var(--text)}
-.dots{display:flex;gap:10px;align-items:center;flex-wrap:nowrap}
-.sc{opacity:0;transform:translateY(12px);transition:opacity .5s ease var(--d,0ms),transform .5s ease var(--d,0ms)}
-.sc.in{opacity:1;transform:none}
-.chip{border:1px solid var(--line);background:#07080b;padding:8px 16px;font-size:19px;color:var(--body);white-space:nowrap}
-.chip b{color:var(--text);font-weight:600;font-family:var(--mono)}
-.legd{margin-left:auto;display:flex;gap:16px;align-items:center;font-size:17px;color:var(--body);white-space:nowrap}
-.legd span{display:flex;align-items:center;gap:7px}
-.legd i{display:inline-block;width:18px;height:14px;border-radius:2px}
-.dstrip{display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:linear-gradient(90deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:0 22px}
-.dstrip .chip{border:0;background:none;padding:0 6px 0 0;font-size:20px}
-.dstrip .sep{width:1px;height:30px;background:var(--line)}
-/* panel skenario */
-.three{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.pnl{border:1px solid var(--line);background:#07080b;position:relative;overflow:hidden;opacity:0;transform:translateY(16px);transition:opacity .6s ease var(--d,0ms),transform .6s ease var(--d,0ms),border-color .5s ease}
-.pnl.in{opacity:1;transform:none}
-.pnl h4{height:58px;padding:0 20px;display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line2);padding-top:13px}
-.pnl h4 b{font-size:27px;font-weight:600}.pnl h4 b small{font-size:16px;font-weight:400;color:var(--mute);margin-left:6px}
-.pnl h4 span{font-family:var(--mono);font-size:15px;color:var(--mute)}
-.br2{display:grid;grid-template-columns:104px 1fr 150px;align-items:center;height:66px;padding:0 14px 0 20px;position:relative;transition:background .5s ease}
-.br2 .nm{font-size:19px;color:var(--body);line-height:1.15}
-.br2 .nm small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
-.br2 .tk{position:relative;height:30px}
-.br2 .bf{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:2px;transition:width 1s cubic-bezier(.3,.7,.2,1) var(--d,0ms)}
-.br2 .bv{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:18px;color:var(--text);white-space:nowrap;opacity:0;transition:opacity .4s ease calc(var(--d,0ms) + .5s)}
-.pnl.in .bv{opacity:1}
-.bk{background:var(--accent)}.bp{background:var(--accent-bright)}.bq{background:repeating-linear-gradient(135deg,rgba(196,220,255,.6) 0 6px,rgba(196,220,255,.22) 6px 12px)}.bb{background:var(--amber)}
-.tg{justify-self:end;font-family:var(--mono);font-size:14px;letter-spacing:.06em;padding:4px 9px;border-radius:3px;white-space:nowrap;opacity:0;transform:translateX(10px);transition:opacity .5s ease var(--d,0ms),transform .5s ease var(--d,0ms)}
-.hi .tg{opacity:1;transform:none}
-.tg.win{background:var(--accent);color:#06121f;font-weight:500}
-.tg.win.q{background:rgba(125,180,255,.4);color:var(--text)}
-.tg.am{border:1px solid rgba(255,194,102,.7);color:var(--amber)}
-.tg.ad{border:1px solid rgba(196,220,255,.6);color:var(--accent-bright)}
-.hi .br2.w{background:linear-gradient(90deg,rgba(125,180,255,.16),rgba(125,180,255,.02))}
-.hi .br2.w::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;background:var(--accent-bright);box-shadow:0 0 12px var(--accent)}
-.hi .br2.w .nm{color:var(--text);font-weight:600}
-.pfoot{position:absolute;left:0;right:0;bottom:0;height:40px;border-top:1px dashed var(--line);padding:0 20px;display:flex;align-items:center;font-size:17px;color:var(--body);opacity:0;transition:opacity .6s ease .6s}
-.pfoot b{margin-right:8px}
-.hi .pfoot{opacity:1}
-.pfoot.ok b{color:var(--accent-bright)}.pfoot.nk b{color:var(--amber)}
-/* hasil */
-.four{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.rz{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.005));padding:16px 20px 0;position:relative;opacity:0;transform:translateY(22px) scale(.97);transition:opacity .6s ease var(--d,0ms),transform .6s cubic-bezier(.2,1.2,.4,1) var(--d,0ms)}
-.rz.in{opacity:1;transform:none}
-.rz::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--accent-bright)}
-.rz.w::before{background:var(--amber)}
-.rz small{font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--mute)}
-.rz strong{display:block;font-size:25px;font-weight:600;color:var(--text);margin-top:6px;line-height:1.15}
-.rz span{display:block;margin-top:6px;font-size:18px;line-height:1.3;color:var(--body)}
-/* keterangan bawah */
-.capbar{position:absolute;left:96px;right:96px;top:902px;height:90px;border-left:4px solid var(--accent);padding:6px 0 0 28px;display:flex;align-items:center}
-.capbar #cap{font-size:26px;line-height:1.4;color:var(--body)}
-.capbar #cap b{color:var(--text);font-weight:600}
-.capbar #cap.sw{animation:capin .45s ease}
-@keyframes capin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* ───────── Slide 11: kesimpulan dan penutup ───────── */
+#net{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none}
+.lft{position:absolute;left:96px;top:250px;width:720px}
+.num{font-family:var(--mono);font-size:200px;line-height:.9;font-weight:500;color:transparent;-webkit-text-stroke:2px rgba(125,180,255,.55);letter-spacing:-.04em;transition:opacity .45s ease,transform .45s ease}
+.lft h2{margin-top:10px;font-size:54px;line-height:1.1;font-weight:700;letter-spacing:-.025em;color:var(--text);transition:opacity .45s ease .05s,transform .45s ease .05s}
+.lft p{margin-top:26px;font-size:28px;line-height:1.5;color:var(--body);transition:opacity .45s ease .12s,transform .45s ease .12s}
+.lft p b{color:var(--text);font-weight:600}
+.lft.sw .num,.lft.sw h2,.lft.sw p{opacity:0;transform:translateY(16px)}
+.lft.fin .num{display:none}
+.lft.fin h2{font-size:104px;margin-top:60px;line-height:1}
+.lft.fin p{font-size:34px;color:var(--mute)}
+.rt{position:absolute;left:880px;top:176px;width:944px;height:700px}
+.vw{position:absolute;inset:0;opacity:0;transform:translateY(24px) scale(.98);pointer-events:none;transition:opacity .6s ease,transform .6s ease}
+.vw.on{opacity:1;transform:none}
+/* v0 */
+#v0 svg{width:100%;height:520px;display:block}
+.eg{stroke:rgba(170,176,200,.35);stroke-width:2;stroke-dasharray:7 8;fill:none}
+.te{stroke:#c4dcff;stroke-width:6;fill:none;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;filter:drop-shadow(0 0 8px rgba(125,180,255,.9))}
+.vw.on .te{stroke-dashoffset:0;transition:stroke-dashoffset 1s ease var(--d)}
+.nd{fill:#1b2540;stroke:rgba(190,210,255,.8);stroke-width:2}
+.vw.on .nd{animation:pop .6s ease both}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.nl{font-family:var(--sans);font-size:23px;font-weight:600;fill:var(--text)}
+.ck{display:flex;gap:18px;margin-top:10px}
+.ck div{flex:1;border:1px solid var(--line);background:#07080b;padding:14px 18px;opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.vw.on .ck div{opacity:1;transform:none;transition-delay:var(--d)}
+.ck b{display:block;font-size:26px;font-weight:600;color:var(--text)}
+.ck b i{font-style:normal;color:var(--accent-bright);margin-left:8px}
+.ck span{display:block;font-family:var(--mono);font-size:15px;letter-spacing:.1em;color:var(--mute);margin-top:4px}
+.facts{margin-top:18px;font-family:var(--mono);font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);opacity:0;transition:opacity .6s ease 2.2s}
+.vw.on .facts{opacity:1}
+.facts b{color:var(--amber);font-weight:500}
+/* v1 */
+.cx{display:grid;grid-template-columns:200px 1fr 190px;gap:24px;align-items:center;padding:24px 0;border-bottom:1px solid var(--line2);opacity:0;transform:translateX(30px);transition:opacity .6s ease,transform .6s ease}
+.vw.on .cx{opacity:1;transform:none;transition-delay:var(--d)}
+.cx b{font-size:34px;font-weight:600;color:var(--text)}
+.cx .bar{height:28px;background:rgba(255,255,255,.05);position:relative}
+.cx .bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent);transition:width 1.2s cubic-bezier(.3,.7,.2,1) calc(var(--d) + .4s)}
+.vw.on .cx .bar i{width:var(--w)}
+.cx.b .bar i{background:var(--amber)}
+.cx em{font-style:normal;font-family:var(--mono);font-size:30px;color:var(--text);text-align:right}
+.cx small{display:block;font-family:var(--mono);font-size:14px;letter-spacing:.1em;color:var(--mute);margin-top:6px;font-weight:400}
+.tnote{margin-top:26px;font-size:25px;color:var(--body);opacity:0;transition:opacity .6s ease 1.8s}
+.vw.on .tnote{opacity:1}
+.tnote b{color:var(--text);font-weight:600}
+/* v2 */
+.sr{display:grid;grid-template-columns:230px 1fr auto;gap:24px;align-items:center;padding:22px 0;border-bottom:1px solid var(--line2);opacity:0;transform:translateX(30px);transition:opacity .6s ease,transform .6s ease}
+.vw.on .sr{opacity:1;transform:none;transition-delay:var(--d)}
+.sr .sn{font-size:34px;font-weight:600;color:var(--text)}
+.sr .sn small{display:block;font-family:var(--mono);font-size:14px;letter-spacing:.1em;color:var(--mute);font-weight:400;margin-top:4px}
+.sr .why{font-size:21px;color:var(--body);line-height:1.35}
+.win{font-family:var(--mono);font-size:22px;letter-spacing:.06em;padding:8px 18px;border:1px solid var(--accent);color:#06121f;background:var(--accent);border-radius:3px;white-space:nowrap}
+.win.am{background:var(--amber);border-color:var(--amber)}
+.win.q{background:transparent;color:var(--accent-bright)}
+/* v3 */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+.two h3{font-family:var(--mono);font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.two .am h3{color:var(--amber)}
+.li{font-size:25px;line-height:1.35;color:var(--body);padding:14px 0 14px 22px;border-bottom:1px solid var(--line2);position:relative;opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.li::before{content:"";position:absolute;left:0;top:26px;width:8px;height:8px;background:var(--accent)}
+.two .am .li::before{background:var(--amber)}
+.vw.on .li{opacity:1;transform:none;transition-delay:var(--d)}
+/* v4 */
+#v4{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.lgw{position:relative;width:420px;height:420px;display:flex;align-items:center;justify-content:center}
+.lgw img{width:210px;height:210px;object-fit:contain;position:relative;z-index:2;filter:drop-shadow(0 0 28px rgba(125,180,255,.7));transform:scale(.2) rotate(-25deg);opacity:0}
+.vw.on .lgw img{animation:lgin 1.4s cubic-bezier(.2,1.2,.3,1) .2s forwards,bob 4s ease-in-out 1.6s infinite}
+@keyframes lgin{to{transform:scale(1) rotate(0);opacity:1}}
+@keyframes bob{50%{transform:translateY(-12px)}}
+.pr{position:absolute;inset:60px;border:2px solid rgba(125,180,255,.55);border-radius:50%;opacity:0}
+.vw.on .pr{animation:pulse 3s ease-out infinite}
+.vw.on .pr:nth-child(2){animation-delay:1s}.vw.on .pr:nth-child(3){animation-delay:2s}
+@keyframes pulse{0%{transform:scale(.5);opacity:.8}100%{transform:scale(1.6);opacity:0}}
+.orb{position:absolute;inset:0;animation:spinr 22s linear infinite}
+.orb.r2{inset:28px;animation-duration:30s;animation-direction:reverse}
+@keyframes spinr{to{transform:rotate(360deg)}}
+.orb svg{width:100%;height:100%}
+.who2{margin-top:6px;text-align:center;opacity:0;transform:translateY(16px);transition:opacity .7s ease 1.6s,transform .7s ease 1.6s}
+.vw.on .who2{opacity:1;transform:none}
+.who2 b{display:block;font-size:40px;font-weight:700;color:var(--text);letter-spacing:-.01em}
+.who2 span{display:block;font-size:24px;color:var(--body);margin-top:8px}
+.who2 span i{font-style:normal;font-family:var(--mono);color:var(--accent-bright)}
 </style>
 </head>
 <body>
-<div class="edge-hint l" id="eh-l"></div><div class="edge-hint r" id="eh-r"></div>
 <div id="stage">
+  <canvas id="net" width="1920" height="1080"></canvas>
   <div class="header">
     <div class="brand"><img src="aset/logo-unhas.png" alt="Logo Universitas Hasanuddin">
       <div><b>Universitas Hasanuddin</b><span>Magister Teknik Informatika</span></div></div>
     <div class="tag">Tugas Besar Analisis Algoritma</div>
   </div>
-  <div class="kicker"><h1>Hasil dan Analisis</h1></div>
-  <div class="src">Dasar: Bab 4 subbab 4.5 dan 4.6, Tabel 4.6 sampai 4.10</div>
+  <div class="kicker"><h1>Kesimpulan</h1></div>
 
-  <div class="rowg" id="b1">
-    <div class="lab on" id="l1"><i>1</i><b>Apa datanya</b></div>
-    <div class="dstrip">
-      <span class="chip sc" style="--d:0ms"><b>Waktu</b> eksekusi (ms)</span><span class="sep"></span>
-      <span class="chip sc" style="--d:120ms">rata-rata <b>5</b> ulangan</span><span class="sep"></span>
-      <span class="chip sc" style="--d:240ms"><b>3</b> skenario × <b>5</b> ukuran</span><span class="sep"></span>
-      <span class="chip sc" style="--d:360ms"><b>225</b> pengukuran</span>
-      <div class="legd sc" style="--d:480ms"><span><i class="bk"></i>Kruskal</span><span><i class="bp"></i>Prim</span><span><i class="bq"></i>Prim + daftar tetangga</span><span><i class="bb"></i>Borůvka</span></div>
+  <div class="lft" id="lft"><div class="num" id="num">01</div><h2 id="h2"></h2><p id="tx"></p></div>
+
+  <div class="rt">
+    <div class="vw" id="v0">
+      <svg viewBox="0 0 900 520">
+        <g id="eg"></g>
+      </svg>
+      <div class="ck">
+        <div style="--d:1.6s"><b>Kruskal<i>✓</i></b><span>4 JALUR · 8 JUTA</span></div>
+        <div style="--d:1.9s"><b>Prim<i>✓</i></b><span>4 JALUR · 8 JUTA</span></div>
+        <div style="--d:2.2s"><b>Borůvka<i>✓</i></b><span>4 JALUR · 8 JUTA</span></div>
+      </div>
+      <div class="facts">4 kasus uji · <b>300</b> graf acak (cocok dengan <i style="font-style:normal">networkx</i>) · studi kasus 5 gedung</div>
+    </div>
+    <div class="vw" id="v1">
+      <div class="cx" style="--d:.1s;--w:62%"><b>Kruskal<small>RUANG O(n + m)</small></b><div class="bar"><i></i></div><em>O(m log n)</em></div>
+      <div class="cx" style="--d:.35s;--w:62%"><b>Prim<small>RUANG O(n + m)</small></b><div class="bar"><i></i></div><em>O(m log n)</em></div>
+      <div class="cx b" style="--d:.6s;--w:100%"><b>Borůvka<small>RUANG O(n)</small></b><div class="bar"><i></i></div><em>O(m log² n)</em></div>
+      <p class="tnote">Batas atas teoretis. <b>Kruskal dan Prim sama</b>, jadi pembedanya hanya terlihat dari pengukuran.</p>
+    </div>
+    <div class="vw" id="v2">
+      <div class="sr" style="--d:.1s"><div class="sn">Graf jarang<small>m = 3n</small></div><div class="why">Kruskal terendah di 4 dari 5 ukuran</div><span class="win">Kruskal</span></div>
+      <div class="sr" style="--d:.35s"><div class="sn">Graf padat<small>m = n(n − 1)/4</small></div><div class="why">Prim terendah di 4 dari 5 ukuran, bila daftar tetangga sudah ada</div><span class="win">Prim</span></div>
+      <div class="sr" style="--d:.6s"><div class="sn">Jarang kembar<small>bobot 1 sampai 5</small></div><div class="why">Kruskal terendah, tetapi selisih sering di dalam simpangan baku</div><span class="win q">Kruskal?</span></div>
+      <div class="sr" style="--d:.85s"><div class="sn">Borůvka<small>semua skenario</small></div><div class="why">Paling lambat: 3,34 sampai 4,72 kali Kruskal pada ukuran terbesar</div><span class="win am">paling lambat</span></div>
+    </div>
+    <div class="vw" id="v3">
+      <div class="two">
+        <div><h3>Batas hasil</h3>
+          <div class="li" style="--d:.1s">Ukuran jauh di bawah 10⁶</div>
+          <div class="li" style="--d:.25s">Satu graf per ukuran, Colab gratis</div>
+          <div class="li" style="--d:.4s">Hanya dua kepadatan, jadi titik silang Kruskal dan Prim belum ditetapkan</div>
+          <div class="li" style="--d:.55s">Studi kasus berbiaya ilustrasi</div></div>
+        <div class="am"><h3>Langkah berikutnya</h3>
+          <div class="li" style="--d:.3s">Lebih banyak graf dan rentang ukuran</div>
+          <div class="li" style="--d:.45s">Antrean Prim dengan <em>decrease-key</em></div>
+          <div class="li" style="--d:.6s">Kontraksi graf pada Borůvka, Filter-Kruskal</div>
+          <div class="li" style="--d:.75s">Bahasa lain atau versi paralel</div>
+          <div class="li" style="--d:.9s">Data biaya lapangan</div></div>
+      </div>
+    </div>
+    <div class="vw" id="v4">
+      <div class="lgw">
+        <i class="pr"></i><i class="pr"></i><i class="pr"></i>
+        <div class="orb"><svg viewBox="0 0 420 420"><circle cx="210" cy="210" r="196" fill="none" stroke="rgba(125,180,255,.35)" stroke-width="1.5" stroke-dasharray="4 10"/>
+          <g id="orbn"></g></svg></div>
+        <div class="orb r2"><svg viewBox="0 0 364 364"><circle cx="182" cy="182" r="150" fill="none" stroke="rgba(255,194,102,.28)" stroke-width="1.5" stroke-dasharray="2 12"/></svg></div>
+        <img src="aset/logo-unhas.png" alt="Logo Universitas Hasanuddin">
+      </div>
+      <div class="who2"><b>Muhammad Alif Qadri</b><span>NIM <i>D082261018</i></span><span>Dosen: Dr. Muhammad Abdillah Rahmat, S.T., M.T.</span></div>
     </div>
   </div>
-
-  <div class="rowg" id="b2">
-    <div class="lab" id="l2"><i>2</i><b>Highlight</b><small>Ukuran terbesar tiap skenario. Batang pendek = cepat.</small></div>
-    <div class="three" id="three"></div>
-  </div>
-
-  <div class="rowg" id="b3">
-    <div class="lab" id="l3"><i>3</i><b>Bagaimana hasilnya</b></div>
-    <div class="four">
-      <div class="rz" data-i="0" style="--d:0ms"><small>HASIL 1</small><strong>Tidak ada satu pemenang</strong><span>Bergantung kepadatan graf</span></div>
-      <div class="rz" data-i="1" style="--d:150ms"><small>HASIL 2</small><strong>Borůvka paling lambat</strong><span><b id="cb" style="color:var(--amber);font-family:var(--mono);font-weight:500">3,3 sampai 4,7×</b> Kruskal</span></div>
-      <div class="rz w" data-i="2" style="--d:300ms"><small>HASIL 3 · SESUAI RUMUS?</small><strong>Kruskal dan Prim: tidak</strong><span>Naik <b style="color:var(--amber);font-family:var(--mono);font-weight:500">1,29 sampai 2,19×</b> rumus. Borůvka mendekati</span></div>
-      <div class="rz w" data-i="3" style="--d:450ms"><small>HASIL 4 · MEMBUKTIKAN TEORI?</small><strong>Belum terbukti</strong><span>Tidak terbantah juga. Teorema untuk n sangat besar, data terbatas</span></div>
-    </div>
-  </div>
-
-  <div class="capbar"><div id="cap"></div></div>
 
   <div class="footer"><div class="prog" id="prog"></div></div>
   <div id="dock"><div class="ctrl">
@@ -290,55 +331,52 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
       <button class="btn" id="prev">Sebelumnya</button><button class="btn" id="reset">Reset</button><button class="btn pri" id="next">Berikutnya</button>
     </div><div class="hint">← → navigasi · R reset · F layar penuh · I indeks</div></div>
 </div>
+<div class="edge-hint l" id="eh-l"></div><div class="edge-hint r" id="eh-r"></div>
 <script>
-const PREV_SLIDE='slide9.html', NEXT_SLIDE='slide11.html', SLIDE_NO=10;
+const PREV_SLIDE='slide10.html', NEXT_SLIDE=null, SLIDE_NO=11;
 const $=s=>document.querySelector(s);
-const CAPS=[
- 'Datanya: <b>waktu eksekusi</b> tiga algoritma pada tiga skenario graf, diambil pada ukuran terbesar.',
- 'Highlight: <b>Kruskal tercepat</b> di graf jarang, <b>Prim</b> di graf padat. <b>Borůvka</b> paling lambat. Daftar tetangga menambah waktu Prim.',
- 'Hasilnya: pemenang <b>bergantung kepadatan graf</b>, Borůvka paling lambat, Kruskal dan Prim <b>tidak sesuai rumus</b>. Teorema <b>belum terbukti dan belum terbantah</b>.'];
+const L=[
+ {n:'01',h:'Ketiganya menghasilkan MST yang sama',p:'Kruskal dan Prim terbukti benar. Borůvka lolos uji, tetapi tidak dibuktikan formal. Pada 4 kasus uji, 300 graf acak, dan studi kasus lima gedung, hasilnya sama: <b>8 juta rupiah</b>.'},
+ {n:'02',h:'Teori tidak membedakan Kruskal dan Prim',p:'Keduanya <b>O(m log n)</b>. Borůvka pada kode ini <b>O(m log² n)</b>. Karena itu pembedanya harus dilihat dari pengukuran.'},
+ {n:'03',h:'Tidak ada satu yang terbaik',p:'<b>Kruskal</b> tercepat di graf jarang, <b>Prim</b> di graf padat, <b>Borůvka</b> paling lambat. Waktu Kruskal dan Prim naik lebih cepat dari rumus, tanpa membantah teorema.'},
+ {n:'04',h:'Batas dan langkah berikutnya',p:'Hasil ini <b>hanya berlaku pada rentang yang diukur</b>. Penyebab pertumbuhan yang lebih cepat dari rumus belum diuji.'},
+ {n:'',h:'Terima kasih',p:'Silakan bertanya.'}];
+const CAPS=L.map(x=>x.h);
 const LAST=CAPS.length-1;
 let step=0,cur=-1;
-const DATA=[
- {t:'Jarang',e:'sisi sedikit',s:'n = 64.000',v:[518.64,660.55,972.07,2445.55],win:0,ok:true,ft:'Selisih jelas: lebih besar dari simpangan baku'},
- {t:'Padat',e:'sisi banyak',s:'n = 1.000',v:[494.40,308.00,462.61,1828.52],win:1,ok:true,ft:'Selisih jelas: lebih besar dari simpangan baku'},
- {t:'Kembar',e:'bobot sama',s:'n = 64.000',v:[593.21,647.42,935.13,1984.15],win:0,ok:false,ft:'Selisih belum pasti: kurang dari simpangan baku'}];
-const NM=[['Kruskal',''],['Prim','tanpa daftar'],['Prim','dengan daftar'],['Borůvka','']],CL=['bk','bp','bq','bb'];
-const fm=v=>v.toFixed(2).replace('.',',');
-const MAX=3100;
-function tags(d){const k=d.v[0],p=d.v[1];
-  return [
-   d.win===0?'<span class="tg win'+(d.ok?'':' q')+'">'+(d.ok?'tercepat':'tercepat?')+'</span>':'',
-   d.win===1?'<span class="tg win">tercepat</span>':'',
-   '<span class="tg ad">+'+((d.v[2]-p)/p*100).toFixed(1).replace('.',',')+'%</span>',
-   '<span class="tg am">'+(d.v[3]/k).toFixed(1).replace('.',',')+'× Kruskal</span>'];}
-$('#three').innerHTML=DATA.map((d,ci)=>{const tg=tags(d);
- const tgr=[d.win===0?tg[0]:'',d.win===1?tg[1]:'',tg[2],tg[3]];
- return '<div class="pnl" data-c="'+ci+'" style="--d:'+(ci*160)+'ms"><h4><b>'+d.t+'<small>('+d.e+')</small></b><span>'+d.s+'</span></h4>'
- +d.v.map((v,i)=>'<div class="br2'+(i===d.win?' w':'')+'"><div class="nm">'+NM[i][0]+(NM[i][1]?'<small>'+NM[i][1]+'</small>':'')+'</div><div class="tk"><div class="bf '+CL[i]+'" data-w="'+(v/MAX*100)+'" style="--d:'+(ci*160+i*110+250)+'ms"></div><div class="bv" data-v="'+v+'" data-in="'+(i===3?1:0)+'" data-l="'+(v/MAX*100)+'" style="--d:'+(ci*160+i*110+250)+'ms">'+fm(v)+'</div></div>'
-  +(tgr[i]?tgr[i].replace('class="tg','style="--d:'+(i*120+150)+'ms" class="tg'):'<span></span>')+'</div>').join('')
- +'<div class="pfoot '+(d.ok?'ok':'nk')+'"><b>'+(d.ok?'●':'○')+'</b>'+d.ft+'</div></div>';}).join('');
-document.querySelectorAll('#three .bv').forEach(e=>{if(e.dataset.in==='1'){e.style.left='calc('+e.dataset.l+'% - 104px)';e.style.color='#1c1305';e.style.fontWeight='500';}else e.style.left='calc('+e.dataset.l+'% + 10px)';});
-/* hitung naik */
-let raf=null;
-function countUp(){const els=[...document.querySelectorAll('#three .bv')];const t0=performance.now();
-  cancelAnimationFrame(raf);
-  const f=now=>{const p=Math.min(1,(now-t0)/1300),e=1-Math.pow(1-p,3);els.forEach(el=>{el.textContent=fm(+el.dataset.v*e);});if(p<1)raf=requestAnimationFrame(f);};
-  raf=requestAnimationFrame(f);}
-function cap(h){const c=$('#cap');c.innerHTML=h;c.classList.remove('sw');void c.offsetWidth;c.classList.add('sw');}
-let lastK=-1;
+/* graf v0 */
+(function(){
+ const N={ars:[110,120,'Arsitektur'],ele:[450,70,'Elektro'],geo:[790,230,'Geologi'],ind:[560,450,'Industri'],sip:[250,320,'Sipil']};
+ const E=[['ars','sip',1],['sip','ele',1],['ele','geo',1],['sip','ind',1],['ars','ele',0],['ind','geo',0]];
+ const ns='http://www.w3.org/2000/svg';let h='';
+ const q=(a,b)=>{const A=N[a],B=N[b],mx=(A[0]+B[0])/2,my=(A[1]+B[1])/2-34;return 'M'+A[0]+' '+A[1]+' Q'+mx+' '+my+' '+B[0]+' '+B[1];};
+ E.forEach(([a,b,t])=>{h+='<path class="eg" d="'+q(a,b)+'"/>';});
+ let i=0;E.forEach(([a,b,t])=>{if(t){h+='<path class="te" pathLength="1" style="--d:'+(.3+i*.28)+'s" d="'+q(a,b)+'"/>';i++;}});
+ Object.keys(N).forEach((k,j)=>{const p=N[k];h+='<g><circle class="nd" cx="'+p[0]+'" cy="'+p[1]+'" r="22" style="transform-origin:'+p[0]+'px '+p[1]+'px;animation-delay:'+(j*.1)+'s"/><text class="nl" x="'+p[0]+'" y="'+(p[1]-36)+'" text-anchor="middle">'+p[2]+'</text></g>';});
+ $('#eg').innerHTML=h;
+ let o='';for(let k=0;k<5;k++){const a=k/5*Math.PI*2;o+='<circle cx="'+(210+Math.cos(a)*196).toFixed(1)+'" cy="'+(210+Math.sin(a)*196).toFixed(1)+'" r="7" fill="#c4dcff"/>';}
+ $('#orbn').innerHTML=o;
+})();
+/* latar jaringan */
+(function(){
+ const cv=$('#net'),cx=cv.getContext('2d');const pts=[];
+ for(let i=0;i<46;i++)pts.push({x:Math.random()*1920,y:Math.random()*1080,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35});
+ function f(){cx.clearRect(0,0,1920,1080);
+  pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>1920)p.vx*=-1;if(p.y<0||p.y>1080)p.vy*=-1;});
+  const a=cur===4?1.7:1;
+  for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.hypot(dx,dy);
+   if(d<210){cx.strokeStyle='rgba(125,180,255,'+((1-d/210)*.16*a).toFixed(3)+')';cx.lineWidth=1.2;cx.beginPath();cx.moveTo(pts[i].x,pts[i].y);cx.lineTo(pts[j].x,pts[j].y);cx.stroke();}}
+  pts.forEach(p=>{cx.fillStyle='rgba(196,220,255,'+(.28*a).toFixed(2)+')';cx.beginPath();cx.arc(p.x,p.y,2.2,0,6.283);cx.fill();});
+  requestAnimationFrame(f);}
+ f();
+})();
 function apply(k){
-  document.querySelectorAll('.sc').forEach(e=>e.classList.add('in'));
-  document.querySelectorAll('.pnl').forEach(e=>e.classList.add('in'));
-  document.querySelectorAll('#three .bf').forEach(e=>{e.style.width=e.dataset.w+'%';});
-  document.querySelectorAll('.pnl').forEach(e=>e.classList.toggle('hi',k>=1));
-  document.querySelectorAll('.rz').forEach(e=>e.classList.toggle('in',k>=2));
-  $('#l1').classList.toggle('on',k===0);$('#l2').classList.toggle('on',k===1);$('#l3').classList.toggle('on',k===2);
-  if(k===0&&lastK!==0)countUp();else if(k!==0){cancelAnimationFrame(raf);document.querySelectorAll('#three .bv').forEach(el=>{el.textContent=fm(+el.dataset.v);});}
-  lastK=k;cap(CAPS[k]);
+ const l=$('#lft'),d=L[k];
+ l.classList.add('sw');
+ setTimeout(()=>{$('#num').textContent=d.n;$('#h2').textContent=d.h;$('#tx').innerHTML=d.p;l.classList.toggle('fin',k===4);l.classList.remove('sw');},300);
+ for(let j=0;j<5;j++){const v=$('#v'+j);if(j===k){v.classList.remove('on');void v.offsetWidth;setTimeout(()=>v.classList.add('on'),250);}else v.classList.remove('on');}
 }
-const STEPS=Array.from({length:CAPS.length},(_,k)=>()=>{apply(k);cur=k;});
-const clearRuns=()=>{};
+const STEPS=Array.from({length:CAPS.length},(_,k)=>()=>{cur=k;apply(k);});
 /* ═════════ Progres, navigasi ═════════ */
 const GROUPS=[['Pembuka',1],['Konsep',1],['Algoritma',4],['Teori',1],['Eksperimen',3],['Penutup',1]];
 (function(){const p=$('#prog');GROUPS.forEach(([n,c])=>{const s=document.createElement('div');s.className='seg';s.style.flex=c;s.innerHTML='<div class="bar"><i></i></div><span>'+n+'</span>';p.appendChild(s);});})();
@@ -346,9 +384,9 @@ function progress(){let start=0;document.querySelectorAll('.seg').forEach((s,gi)
   if(SLIDE_NO>start+c)done=c;else if(SLIDE_NO>start)done=(SLIDE_NO-1-start)+(step+1)/(LAST+1);
   s.querySelector('i').style.width=(done/c*100)+'%';s.classList.toggle('cur',SLIDE_NO>start&&SLIDE_NO<=start+c);start+=c;});}
 function render(){STEPS[step]();progress();$('#cnt').textContent=(step+1)+' / '+(LAST+1);
-  $('#prev').textContent=step===0?'Slide 9':'Sebelumnya';const nx=$('#next');
+  $('#prev').textContent=step===0?'Slide 10':'Sebelumnya';const nx=$('#next');
   if(step<LAST){nx.disabled=false;nx.textContent='Berikutnya';}
-  else if(NEXT_SLIDE){nx.disabled=false;nx.textContent='Slide 11';}else{nx.disabled=true;nx.textContent='Slide 11 menyusul';}}
+  else{nx.disabled=true;nx.textContent='Selesai';}}
 function leave(u){document.body.classList.add('leaving');setTimeout(()=>{location.href=u;},260);}
 function next(){if(step<LAST){step++;render();}else if(NEXT_SLIDE)leave(NEXT_SLIDE);}
 function prev(){if(step>0){step--;render();}else if(PREV_SLIDE)leave(PREV_SLIDE);}

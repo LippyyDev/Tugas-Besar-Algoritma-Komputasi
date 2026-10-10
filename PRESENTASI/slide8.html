@@ -197,6 +197,12 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 .cc.skip{opacity:.4;text-decoration:line-through;color:var(--mute);border-color:rgba(255,255,255,.2)}
 .xx{position:absolute;left:0;top:0;width:30px;height:30px;line-height:28px;text-align:center;font-size:20px;border:1px solid rgba(255,138,128,.6);color:#ff8a80;background:#07080b;border-radius:50%;opacity:0;transition:opacity .5s ease;will-change:transform}
 .xx.vis{opacity:1}
+.lg3x{}
+#lg3{position:absolute;left:0;top:0;width:190px;height:190px;margin:-95px 0 0 -95px;pointer-events:none;opacity:0;transition:opacity 1s ease;perspective:600px;will-change:transform}
+#lg3.on{opacity:1}
+#lg3 .spin{width:100%;height:100%;animation:spin3 5s ease-in-out infinite alternate;transform-style:preserve-3d;filter:drop-shadow(0 0 22px rgba(125,180,255,.65))}
+#lg3 img{width:100%;height:100%;object-fit:contain;display:block}
+@keyframes spin3{from{transform:rotateY(-38deg)}to{transform:rotateY(38deg)}}
 .hero{position:absolute;left:98px;top:330px;width:700px;pointer-events:none;transition:opacity .9s ease,transform .9s ease}
 .hero.off{opacity:0;transform:translateY(-18px)}
 .hero small{display:block;font-family:var(--mono);font-size:16px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;margin-bottom:18px}
@@ -262,6 +268,7 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
   </svg>
   <div id="vig"></div>
   <div id="lbls"></div>
+  <div id="lg3"><div class="spin"><img src="aset/logo-unhas.png" alt=""></div></div>
   <div class="header">
     <div class="brand"><img src="aset/logo-unhas.png" alt="Logo Universitas Hasanuddin">
       <div><b>Universitas Hasanuddin</b><span>Magister Teknik Informatika</span></div></div>
@@ -334,12 +341,12 @@ const NM2={ars:'Arsitektur',sip:'Sipil',ele:'Elektro',geo:'Geologi',ind:'Industr
 const CB=[{a:'ars',b:'sip',c:-5},{a:'sip',b:'ele',c:-2},{a:'ele',b:'geo',c:0},{a:'sip',b:'ind',c:15},{a:'ars',b:'ele',c:18},{a:'ind',b:'geo',c:25}];
 const ARTI=['insentif 5','insentif 2','gratis','bayar 15','bayar 18','bayar 25'];
 const BK=[['ars','geo'],['ars','ind'],['ele','ind'],['sip','geo']];
-const CX0=62,CZ0=-54,OX=700;
+const CX0=62,CZ0=-54;let OX=700;
 const sg=c=>c<0?'neg':(c===0?'zer':'pos');
 const fmc=c=>(c<0?'−'+(-c):String(c));
 /* ───── kamera ───── */
-const CAM=[{K:.86,p:1.2,y:-.7,oy:545},{K:1.08,p:1.0,y:-.42,oy:560},{K:1.1,p:.92,y:-.3,oy:555},{K:1.12,p:.9,y:-.2,oy:548},{K:1.1,p:.82,y:.12,oy:548}];
-let yaw=-.7,pitch=1.2,Kc=.86,OYc=545;
+const CAM=[{K:.92,p:1.12,y:-.62,oy:520,ox:1290},{K:1.08,p:1.0,y:-.42,oy:560,ox:700},{K:1.1,p:.92,y:-.3,oy:555,ox:700},{K:1.12,p:.9,y:-.2,oy:548,ox:700},{K:1.1,p:.82,y:.12,oy:548,ox:700}];
+let yaw=-.62,pitch=1.12,Kc=.92,OYc=520;OX=1290;
 function P(x,y,z){x-=CX0;z-=CZ0;const c=Math.cos(yaw),s=Math.sin(yaw);
   const X=x*c-z*s,Z=x*s+z*c,cp=Math.cos(pitch),sp=Math.sin(pitch);
   const dep=Z*cp+y*sp,k=Kc/(1-dep/3200);
@@ -347,6 +354,8 @@ function P(x,y,z){x-=CX0;z-=CZ0;const c=Math.cos(yaw),s=Math.sin(yaw);
 const toStr=pp=>pp.map(q=>{const p=P(q[0],q[1],q[2]);return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' ');
 /* ───── elemen ───── */
 const gfl=$('#gfl'),gbk=$('#gbk'),gcb=$('#gcb'),gbd=$('#gbd'),grg=$('#grg'),LB=$('#lbls');
+const sweep=mk('polyline',{fill:'none',stroke:'#7db4ff','stroke-width':3,opacity:0},gfl);
+const rg=[0,1,2].map(()=>mk('polyline',{fill:'none',stroke:'#7db4ff','stroke-width':2,opacity:0},grg));
 const floor=mk('polygon',{fill:'rgba(255,255,255,.025)',stroke:'rgba(125,180,255,.45)','stroke-width':2},gfl);
 const gridL=[];for(let i=0;i<=22;i++)gridL.push(mk('polyline',{fill:'none',stroke:'rgba(255,255,255,.07)','stroke-width':1},gfl));
 const FX0=-390,FX1=490,FZ0=-290,FZ1=250,GS=70;
@@ -380,7 +389,7 @@ let last=performance.now(),rootId=null,ctrlTot=0;const ease=t=>1-Math.pow(1-t,3)
 function frame(now){
   const dt=Math.min(60,now-last);last=now;
   const k=Math.max(0,cur),T=CAM[k],r=Math.min(1,dt*0.0017);
-  Kc+=(T.K-Kc)*r;OYc+=(T.oy-OYc)*r;pitch+=((T.p+up)-pitch)*r*1.4;
+  Kc+=(T.K-Kc)*r;OYc+=(T.oy-OYc)*r;OX+=(T.ox-OX)*Math.min(1,dt*0.0021);pitch+=((T.p+up)-pitch)*r*1.4;
   const ty=T.y+uy+(drag?0:0.07*Math.sin(now/3200));yaw+=(ty-yaw)*r*1.4;
   floorA+=(1-floorA)*Math.min(1,dt*0.0016);
   /* lantai */
@@ -389,6 +398,13 @@ function frame(now){
   let gi=0;for(let x=FX0+GS;x<FX1;x+=GS){gridL[gi].setAttribute('opacity',floorA.toFixed(2));gridL[gi++].setAttribute('points',toStr([[x,0,FZ0],[x,0,FZ1]]));}
   for(let z=FZ0+GS;z<FZ1;z+=GS){gridL[gi].setAttribute('opacity',floorA.toFixed(2));gridL[gi++].setAttribute('points',toStr([[FX0,0,z],[FX1,0,z]]));}
   for(;gi<gridL.length;gi++)gridL[gi].setAttribute('points','');
+  /* adegan pembuka: logo melayang, gelombang, sapuan pemindai */
+  const intro=(cur<=0);
+  const lgE=$('#lg3');lgE.classList.toggle('on',intro);
+  { const lp=P(CX0,70+10*Math.sin(now/900),CZ0);lgE.style.transform='translate('+lp[0].toFixed(1)+'px,'+lp[1].toFixed(1)+'px)';
+    rg.forEach((e,i)=>{const ph=((now/2600)+i/3)%1,R=40+ph*220,pr=[];for(let q=0;q<=40;q++){const a=q/40*Math.PI*2;pr.push([CX0+Math.cos(a)*R,1,CZ0+Math.sin(a)*R]);}
+      e.setAttribute('points',toStr(pr));e.setAttribute('opacity',intro?(0.55*(1-ph)).toFixed(2):0);});
+    const sx=FX0+((now/22)%(FX1-FX0));sweep.setAttribute('points',toStr([[sx,0,FZ0],[sx,0,FZ1]]));sweep.setAttribute('opacity',intro?.35:0);}
   /* pasangan terhalang */
   blk.forEach(o=>{const tv=(o.want&&now>=o.t0)?1:0;o.v+=(tv-o.v)*Math.min(1,dt*0.006);
     const pts=arc(o.a,o.b,0);o.p.setAttribute('points',toStr(pts));o.p.setAttribute('opacity',(.55*o.v).toFixed(2));
