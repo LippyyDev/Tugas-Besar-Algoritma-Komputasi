@@ -121,7 +121,7 @@ Kontrol (seragam di semua slide): panah kiri/kanan, Spasi, PageUp, PageDown, Bac
 
 ## 8. Struktur Presentasi (PPT)
 
-Total rencana 14,5 menit (batas tugas 10 sampai 15 menit). Rincian ada di `RENCANA_SLIDE.md`.
+Total rencana 13,5 menit (batas tugas 10 sampai 15 menit). Rincian ada di `RENCANA_SLIDE.md`.
 
 | No | Slide | Waktu | Pola |
 |----|-------|-------|------|
@@ -133,10 +133,9 @@ Total rencana 14,5 menit (batas tugas 10 sampai 15 menit). Rincian ada di `RENCA
 | 6 | Borůvka | 1,5 | A |
 | 7 | Contoh manual tiga algoritma | 1,5 | B |
 | 8 | Kompleksitas teoretis | 1,5 | A |
-| 9 | Implementasi | 1 | A |
-| 10 | Metode eksperimen | 1 | A |
-| 11 | Hasil dan analisis | 1,5 | A (grafik hasil) |
-| 12 | Kesimpulan | 0,5 | khusus |
+| 9 | Metode eksperimen | 1 | A |
+| 10 | Hasil dan analisis | 1,5 | A (grafik hasil) |
+| 11 | Kesimpulan | 0,5 | khusus |
 
 Pola isi tiap slide algoritma (4 sampai 6): judul, satu kalimat ide, graf contoh beranimasi dengan langkah bertahap, readout (total biaya atau jumlah sisi), keterangan satu kalimat per langkah, ditutup pernyataan kompleksitas hanya bila sudah diverifikasi.
 

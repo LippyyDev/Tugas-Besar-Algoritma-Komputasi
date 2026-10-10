@@ -1,9 +1,9 @@
 # Rencana Presentasi Tugas Besar Analisis Algoritma
 
 Analisis Perbandingan Algoritma Kruskal, Prim, dan Borůvka pada *Minimum Spanning Tree* (MST).
-Penyaji: Muhammad Alif Qadri. Durasi rencana: 13 menit (batas tugas 10 sampai 15 menit).
+Penyaji: Muhammad Alif Qadri. Durasi rencana: 12 menit (batas tugas 10 sampai 15 menit).
 
-Status: slide 1 sampai 10 sudah jadi. Slide 11 masih rencana.
+Status: slide 1 sampai 9 sudah jadi. Slide 10 masih rencana. Slide Implementasi dihapus atas permintaan pengguna.
 
 ## 1. Struktur dan Alokasi Waktu
 
@@ -16,14 +16,13 @@ Status: slide 1 sampai 10 sudah jadi. Slide 11 masih rencana.
 | 5 | Prim | 1,5 mnt | Jadi |
 | 6 | Borůvka | 1,5 mnt | Jadi |
 | 7 | Kompleksitas teoretis | 1,5 mnt | Jadi |
-| 8 | Implementasi (struktur data, potongan kode inti, verifikasi) | 1 mnt | Jadi |
-| 9 | Metode eksperimen | 1 mnt | Jadi |
-| 10 | Hasil dan analisis | 1,5 mnt | Jadi |
-| 11 | Kesimpulan | 0,5 mnt | Rencana |
+| 8 | Metode eksperimen | 1 mnt | Jadi |
+| 9 | Hasil dan analisis | 1,5 mnt | Jadi |
+| 10 | Kesimpulan | 0,5 mnt | Rencana |
 
-Total 13 menit, di dalam batas 10 sampai 15 menit. Bila perlu dipangkas, ambil dari slide 7 atau 4 sampai 6.
+Total 12 menit, di dalam batas 10 sampai 15 menit. Bila perlu dipangkas, ambil dari slide 7 atau 4 sampai 6.
 
-Pengelompokan pada bar progres di bawah slide: Pembuka (1), Konsep (2), Algoritma (3 sampai 6), Teori (7), Eksperimen (8 sampai 10), Penutup (11).
+Pengelompokan pada bar progres di bawah slide: Pembuka (1), Konsep (2), Algoritma (3 sampai 6), Teori (7), Eksperimen (8 dan 9), Penutup (10).
 
 ## 2. Gaya dan Cara Pakai
 
@@ -197,21 +196,7 @@ Catatan: rencana awal menyebut Borůvka hanya "dikutip singkat", tetapi laporan 
 
 Angka pada grafik dihitung dari rumus: m = n − 1 (jarang), m = n log₂ n (menengah), m = n(n − 1)/2 (padat), lalu m log₂ n dan m log₂² n dengan n = 1.000. Ini ilustrasi satuan langkah menurut rumus, bukan hasil pengukuran, dan diberi label di slide. Kasus "menengah" memakai konstanta 1 pada Θ(n log n) sebagai asumsi ilustrasi.
 
-## 5f. Slide 8: Implementasi
-
-Tujuan: penonton awam paham apa yang ditulis, bagaimana waktu diukur, dan bagaimana hasil dipastikan benar. Isi mengikuti Bab 4 subbab 4.2 dan 4.3 (Tabel 4.3 dan 4.4, Kode 4.1 sampai 4.3). Komposisi berbeda dari slide 4 sampai 7: rel empat tahap di atas, lalu satu panel penuh yang berganti tiap tahap (berkas, jendela kode, garis waktu stopwatch, tabel pemeriksaan). Lima klik.
-
-| Klik | Tampilan | Pesan |
-|------|----------|-------|
-| 1 | Tahap Kode: tiga berkas (kruskal.py, prim.py, boruvka.py), alat bantu sorted dan heapq, kotak HimpunanTerpisah (*union by rank*, *path halving*) | Algoritma ditulis sendiri, Python hanya alat bantu |
-| 2 | Tahap Inti kode: dua jendela kode (Kruskal Kode 4.2, Prim Kode 4.3), tiap baris diberi arti biasa, strip aturan seri | Kruskal mengurutkan lalu menerima sisi tanpa lingkaran, Prim mengambil sisi termurah dari antrean |
-| 3 | Tahap Pengukuran: garis waktu gc.collect, mulai, algoritma, berhenti. Kotak "adil" dan "Prim dicatat dua kali". Baris mesin uji (Tabel 4.3) | Waktu hanya di sekitar pemanggilan algoritma, graf sama untuk ketiganya |
-| 4 | Tahap Pembuktian: tabel lima pemeriksaan (kasus uji kecil, himpunan sisi, networkx 300 graf, uji *seed*, tiap ulangan) kolom "Yang ditunjukkan" | Kebenaran diperiksa sebelum waktu dicatat |
-| 5 | Kolom "Batasnya" muncul, ditambah catatan kode yang diukur ada di notebook Colab | Ini bukti empiris, bukan bukti formal. Borůvka tidak dibuktikan formal |
-
-Kutipan kode disingkat (tanda …) dan diberi label. Studi kasus (subbab 4.1) belum punya slide sendiri, keputusannya masih terbuka.
-
-## 5g. Slide 9: Metode Eksperimen
+## 5g. Slide 8: Metode Eksperimen
 
 Tujuan: penonton awam paham graf apa yang diuji, mengapa ukurannya begitu, dari mana grafnya, dan berapa kali diukur. Isi mengikuti Bab 4 subbab 4.4 (Tabel 4.5). Gaya tanya jawab: judul berupa pertanyaan besar (empat pertanyaan), jawabannya visual. Tujuh klik (tiga klik pertama membangun satu jalur skenario tiap klik, dengan graf mini beranimasi: sisi tergambar satu per satu, pada kembar bobot 2 yang berulang disorot).
 
@@ -225,29 +210,29 @@ Tujuan: penonton awam paham graf apa yang diuji, mengapa ukurannya begitu, dari 
 
 Angka 225 adalah hitungan dari rancangan (15 graf × 3 algoritma × 5 ulangan), diberi label di slide. Angka 1 miliar adalah hitungan n(n − 1)/4 untuk n = 64.000, hanya ilustrasi alasan.
 
-## 5h. Slide 10: Hasil dan Analisis
+## 5h. Slide 9: Hasil dan Analisis
 
 Satu layar, tiga klik, tiga lapis dari atas ke bawah dengan label di kiri (animasi: panel masuk bertahap, batang tumbuh, angka berhitung naik, pemenang disorot, kartu hasil muncul berurutan): (1) Apa datanya: waktu dalam milidetik, 225 pengukuran, tabel ukuran terbesar tiap skenario dengan sel tercepat disorot. (2) Highlight: Kruskal tercepat di jarang, Prim di padat, Borůvka 3,3 sampai 4,7 kali Kruskal, daftar tetangga menambah Prim 44 sampai 50%. (3) Bagaimana hasilnya: tidak ada satu pemenang, Borůvka paling lambat, Kruskal dan Prim tumbuh lebih cepat dari rumus (Prediksi 1 tidak terpenuhi), dan batas hasil. Kartu hasil 3 menjawab "sesuai rumus?" (Kruskal dan Prim tidak, rasio 1,29 sampai 2,19; Borůvka mendekati) dan kartu 4 menjawab "membuktikan teori?" (belum terbukti dan belum terbantah, karena teorema adalah batas atas untuk n sangat besar dan data hanya ukuran terbatas).
 
-Istilah kasus terbaik, rata-rata, dan terburuk hanya dipakai di slide 7 (kompleksitas waktu teoretis). Di slide 9 dan 10 skenario hanya disebut jarang, padat, dan kembar. Semua angka dari Tabel 4.6 sampai 4.10.
+Istilah kasus terbaik, rata-rata, dan terburuk hanya dipakai di slide 7 (kompleksitas waktu teoretis). Di slide 8 dan 9 skenario hanya disebut jarang, padat, dan kembar. Semua angka dari Tabel 4.6 sampai 4.10.
 
-## 6. Slide 11 (Rencana)
+## 6. Slide 10 (Rencana)
 
-Belum dikerjakan (slide 3 sampai 10 dijelaskan di bagian 5 sampai 5h). Alokasi waktu mengikuti tabel di bagian 1. Slide "Contoh manual tiga algoritma" dihapus dari rencana, sehingga nomor slide sesudahnya bergeser satu. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
+Belum dikerjakan (slide 3 sampai 9 dijelaskan di bagian 5 sampai 5h). Alokasi waktu mengikuti tabel di bagian 1. Slide "Contoh manual tiga algoritma" dihapus dari rencana, sehingga nomor slide sesudahnya bergeser satu. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
 
 | Slide | Arah isi |
 |-------|----------|
 | 5 Prim | Ide tumbuh dari satu titik dengan sisi termurah yang menyeberang. Animasi serupa dengan Kruskal |
 | 6 Borůvka | Ide tiap gugus memilih sisi termurahnya lalu digabung. Alasan ikut dibahas: algoritma pembanding ketiga, tidak ada ketentuan tertulis dari dosen |
-| 11 Kesimpulan | Ringkas, bahasa sederhana |
+| 10 Kesimpulan | Ringkas, bahasa sederhana |
 
 Aturan yang dijaga di seluruh slide: bahasa mudah dipahami, istilah asing ditulis miring, tanpa tanda pisah panjang, dan hanya angka yang bisa dipertanggungjawabkan dari laporan.
 
 ## 7. Hal yang Masih Terbuka
 
 - NIM dan nama dosen di slide 1 belum diisi.
-- Slide 11 belum dibuat.
-- Studi kasus (Bab 4 subbab 4.1): slide terpisah (jadi 12 slide, sekitar 14 menit) atau digabung ke slide 8. Belum diputuskan.
+- Slide 10 belum dibuat.
+- Studi kasus (Bab 4 subbab 4.1): slide terpisah (jadi 11 slide, sekitar 13 menit) atau digabung ke slide lain. Belum diputuskan. Slide Implementasi sudah dihapus.
 - Sitasi untuk rumus Cayley dan *cut property* belum diverifikasi.
 - Pengujian slide dilakukan di Chromium. Perilaku di layar sentuh belum dicoba.
 
@@ -299,19 +284,7 @@ Graf: sisi A–B 5, A–C 8, B–C 11, B–D 3, C–D 6, D–E 4, C–E 9. MST: 
 
 **Grafik.** Pada n = 1.000, graf padat jauh lebih berat daripada graf jarang untuk ketiganya. Kruskal dan Prim berbatas atas sama, sehingga mana yang lebih cepat baru terlihat di eksperimen.
 
-### Slide 8: Implementasi
-
-**Ide.** Dari kode sampai bukti, empat tahap.
-
-**Kode.** Tiga berkas Python ditulis sendiri. Alat bantu hanya sorted (Kruskal) dan heapq (Prim). Catatan kelompok HimpunanTerpisah dipakai Kruskal dan Borůvka, Prim tidak.
-
-**Inti kode.** Kruskal: urutkan sisi, terima bila tidak membentuk lingkaran, berhenti di n − 1 sisi. Prim: ambil sisi termurah dari antrean, lewati bila kedua ujung sudah di pohon, tambahkan sisi dari titik baru. Aturan seri sama: bobot, titik kecil, titik besar.
-
-**Pengukuran.** gc.collect lalu stopwatch (perf_counter) hanya di sekitar algoritma. Graf sama untuk ketiganya. Prim dicatat dua kali karena butuh daftar tetangga. Mesin: Colab gratis, AMD EPYC 7B12 2 CPU, Python 3.13.16, *seed* 2026.
-
-**Pembuktian.** Lima cara: 4 kasus uji kecil, himpunan sisi, networkx pada 300 graf, uji *seed*, total bobot tiap ulangan. Batasnya: bukti empiris saja, total sama belum menjamin sisi sama, Borůvka tidak dibuktikan formal.
-
-### Slide 9: Metode Eksperimen
+### Slide 8: Metode Eksperimen
 
 **Skenario.** Jarang (m = 3n, n 4.000 sampai 64.000), padat (m = n(n − 1)/4, n 200 sampai 1.000), jarang kembar (seperti jarang, bobot hanya 1 sampai 5). Bobot lainnya acak 1 sampai 1.000.000.
 
@@ -321,7 +294,7 @@ Graf: sisi A–B 5, A–C 8, B–C 11, B–D 3, C–D 6, D–E 4, C–E 9. MST: 
 
 **Pengukuran.** Satu graf per pasangan skenario dan ukuran, 1 putaran pemanasan, 5 ulangan pada graf yang sama, laporan rata-rata dan simpangan baku sampel. Simpangan baku hanya mengukur gangguan mesin, bukan variasi antar graf.
 
-### Slide 10: Hasil dan Analisis
+### Slide 9: Hasil dan Analisis
 
 **Siapa tercepat.** Pada ukuran terbesar: Kruskal tercepat di graf jarang, Prim tanpa daftar tetangga tercepat di graf padat. Di jarang kembar selisihnya kurang dari simpangan baku, jadi belum pasti. Borůvka paling lambat di semua.
 
