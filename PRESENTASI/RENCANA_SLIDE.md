@@ -199,17 +199,17 @@ Angka pada grafik dihitung dari rumus: m = n − 1 (jarang), m = n log₂ n (men
 
 ## 5f. Slide 8: Studi Kasus
 
-Tujuan: penonton awam melihat MST dipakai pada masalah nyata kecil, dan bahwa ketiga algoritma menghasilkan jawaban sama. Isi mengikuti Bab 4 subbab 4.1 (Tabel 4.1 dan 4.2). Gaya berbeda dari slide lain: adegan 3D layar penuh (lima gedung sebagai balok, jalur kabel sebagai lengkung di atas lantai kampus), tanpa kotak panel. Proyeksi dihitung dengan JavaScript (bukan CSS 3D) sehingga label selalu menghadap layar. Adegan bisa diputar dengan menyeret kursor, klik dua kali mengembalikan sudut. Lima klik.
+Tujuan: penonton awam mengikuti sebuah cerita dulu (kampus, gedung, biaya), baru melihat MST dipakai dan bahwa tiga metode menghasilkan jawaban sama. Isi mengikuti Bab 4 subbab 4.1 (Tabel 4.1 dan 4.2). Gaya sinematik: adegan 3D layar penuh (gedung sebagai balok di atas lantai kampus, jalur kabel sebagai lengkung), kamera berpindah tiap klik, tanpa kotak panel. Proyeksi dihitung dengan JavaScript sehingga label selalu menghadap layar. Adegan bisa diputar dengan menyeret kursor, klik dua kali mengembalikan sudut. Lima klik. Objek muncul sesuai cerita: lantai dulu, gedung baru muncul saat cerita masuk ke gedung, kabel baru muncul saat cerita masuk ke biaya.
 
 | Klik | Tampilan | Pesan |
 |------|----------|-------|
-| 1 | Lima gedung naik, enam jalur kandidat (garis putus), empat pasangan terhalang bertanda ✕ | 5 simpul, 6 sisi, tujuan MST |
-| 2 | Jalur diwarnai menurut tanda biaya (biru negatif, putih nol, kuning positif) dengan chip biaya, legenda arti bobot | Bobot nol dan negatif sah. Nilai ilustrasi karangan |
-| 3 | Kruskal menerima −5, −2, 0 berurutan (kabel menyala, total berjalan −7) | Terima yang tidak membentuk siklus |
-| 4 | Jalur 15 menyambung Industri, total 8, jalur 18 dan 25 dicoret (tidak diperiksa) | Berhenti setelah n − 1 = 4 sisi |
-| 5 | Hasil Kruskal, Prim, Borůvka sama (4 sisi, 8), rincian −5 − 2 + 0 + 15 = 8, kotak batas | Kasus kecil menguji kebenaran, bukan efisiensi |
+| 1 | Cerita: lantai kosong, pertanyaan "Bagaimana menghubungkan lima gedung dengan biaya terkecil?" | Fakultas Teknik Unhas ingin memasang jaringan kabel |
+| 2 | Lima gedung naik satu per satu (abjad), cincin gelombang di lantai, daftar gedung di kanan | 5 gedung = 5 simpul |
+| 3 | Empat pasangan terhalang (✕), lalu enam kabel tergambar satu per satu dengan chip biaya. Tabel pembobotan (Tabel 4.1) muncul bersamaan, kolom arti (insentif, gratis, bayar) | 6 sisi berbobot biaya bersih. Nilai ilustrasi karangan |
+| 4 | Pilihan metode: kartu Kruskal, Prim, Borůvka (klik atau tombol 1, 2, 3). Tiap metode berjalan di adegan dengan catatan langkah dan total berjalan | Cara tiap metode memilih jalur |
+| 5 | Hasil tiga metode sama (4 jalur, 8), rincian −5 − 2 + 0 + 15 = 8, kotak batas | Kasus kecil menguji kebenaran, bukan efisiensi |
 
-Prim dan Borůvka tidak dianimasikan terpisah di slide ini, hanya hasilnya yang disebut (Tabel 4.2). MST tunggal karena semua biaya berbeda.
+Kabel tidak lagi diwarnai menurut tanda biaya (itu sempat membingungkan). Warna tanda hanya ada pada chip biaya dan tabel. Kabel kandidat abu-abu putus, kabel yang sedang dipertimbangkan kuning, kabel yang diterima biru terang menyala. Prim dimulai dari simpul 0 (Arsitektur, urutan abjad seperti kode studi kasus). Borůvka selesai dalam satu putaran karena tiap gedung memilih jalur termurahnya dan keempat pilihan itu tepat membentuk MST (hasil penelusuran manual dari Tabel 4.1, belum dicocokkan dengan keluaran kode). MST tunggal karena semua biaya berbeda.
 
 ## 5g. Slide 9: Metode Eksperimen
 
@@ -304,7 +304,7 @@ Graf: sisi A–B 5, A–C 8, B–C 11, B–D 3, C–D 6, D–E 4, C–E 9. MST: 
 
 **Biaya bersih.** Positif bayar sendiri, nol gratis, negatif dapat insentif. Sah karena algoritma hanya memakai urutan bobot.
 
-**Kruskal.** Urutkan: −5, −2, 0, 15, 18, 25. Terima empat pertama (tidak membentuk siklus), lalu berhenti. Total −5 − 2 + 0 + 15 = 8 juta. Prim dan Borůvka sama (Tabel 4.2).
+**Kruskal.** Urutkan: −5, −2, 0, 15, 18, 25. Terima empat pertama (tidak membentuk siklus), lalu berhenti. Total −5 − 2 + 0 + 15 = 8 juta. **Prim** (mulai Arsitektur): −5, −2, 0, 15. **Borůvka**: satu putaran, tiap gedung memilih jalur termurahnya (−5, −5, −2, 0, 15). Ketiganya sama (Tabel 4.2).
 
 **Batas.** Lima gedung hanya menguji kebenaran dan kegunaan, bukan efisiensi.
 
