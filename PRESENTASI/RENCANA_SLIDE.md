@@ -3,7 +3,7 @@
 Analisis Perbandingan Algoritma Kruskal, Prim, dan Borůvka pada *Minimum Spanning Tree* (MST).
 Penyaji: Muhammad Alif Qadri. Durasi rencana: 13 menit (batas tugas 10 sampai 15 menit).
 
-Status: slide 1 sampai 9 sudah jadi. Slide 10 sampai 11 masih rencana.
+Status: slide 1 sampai 10 sudah jadi. Slide 11 masih rencana.
 
 ## 1. Struktur dan Alokasi Waktu
 
@@ -18,7 +18,7 @@ Status: slide 1 sampai 9 sudah jadi. Slide 10 sampai 11 masih rencana.
 | 7 | Kompleksitas teoretis | 1,5 mnt | Jadi |
 | 8 | Implementasi (struktur data, potongan kode inti, verifikasi) | 1 mnt | Jadi |
 | 9 | Metode eksperimen | 1 mnt | Jadi |
-| 10 | Hasil dan analisis | 1,5 mnt | Rencana |
+| 10 | Hasil dan analisis | 1,5 mnt | Jadi |
 | 11 | Kesimpulan | 0,5 mnt | Rencana |
 
 Total 13 menit, di dalam batas 10 sampai 15 menit. Bila perlu dipangkas, ambil dari slide 7 atau 4 sampai 6.
@@ -225,15 +225,28 @@ Tujuan: penonton awam paham graf apa yang diuji, mengapa ukurannya begitu, dari 
 
 Angka 225 adalah hitungan dari rancangan (15 graf × 3 algoritma × 5 ulangan), diberi label di slide. Angka 1 miliar adalah hitungan n(n − 1)/4 untuk n = 64.000, hanya ilustrasi alasan.
 
-## 6. Slide 10 sampai 11 (Rencana)
+## 5h. Slide 10: Hasil dan Analisis
 
-Belum dikerjakan (slide 3 sampai 9 dijelaskan di bagian 5 sampai 5g). Alokasi waktu mengikuti tabel di bagian 1. Slide "Contoh manual tiga algoritma" dihapus dari rencana, sehingga nomor slide sesudahnya bergeser satu. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
+Tujuan: penonton awam menangkap temuan utama tanpa membaca tabel. Isi mengikuti Bab 4 subbab 4.5 dan 4.6 (Tabel 4.6 sampai 4.10). Gaya papan skor: empat kartu angka besar di atas yang juga menjadi penanda tahap, panel data di bawahnya. Lima klik. Hasil yang tidak mendukung teori ditampilkan apa adanya.
+
+| Klik | Tampilan | Pesan |
+|------|----------|-------|
+| 1 | Kartu 1. Tiga kolom skenario, batang waktu pada ukuran terbesar (Kruskal, Prim tanpa dan dengan daftar tetangga, Borůvka) | Kruskal tercepat di jarang, Prim tanpa daftar tercepat di padat, Borůvka paling lambat |
+| 2 | Label di tiap kolom: selisih jelas (jarang, padat) atau belum pasti (jarang kembar) | Selisih dibandingkan simpangan baku. Titik silang tidak ditetapkan |
+| 3 | Kartu 2. Borůvka 4,72, 3,70, 3,34 kali Kruskal. Batang Prim ditambah pembuatan daftar tetangga (+47,2%, +50,2%, +44,4%) dengan penanda Kruskal | Borůvka lambat karena faktor log. Pada padat, Prim dengan daftar hanya sedikit di bawah Kruskal, dalam simpangan baku |
+| 4 | Kartu 3. Batang rasio terhadap rumus teori (Tabel 4.9) dengan garis 1,00 | Prediksi 1 tidak terpenuhi. Tidak membantah teorema, penyebab tidak diuji |
+| 5 | Kartu 4. Lima batas (simpangan baku 41%, 1 graf per ukuran, 1 urutan, rentang 16 sampai 25 kali, 2 kepadatan dan hanya Python) | Tidak boleh diekstrapolasi |
+
+Semua angka diambil dari tabel laporan. Rasio Borůvka terhadap Kruskal (4,72, 3,70, 3,34) dihitung dari Tabel 4.6 sampai 4.8, cocok dengan rentang 3,34 sampai 4,72 di laporan.
+
+## 6. Slide 11 (Rencana)
+
+Belum dikerjakan (slide 3 sampai 10 dijelaskan di bagian 5 sampai 5h). Alokasi waktu mengikuti tabel di bagian 1. Slide "Contoh manual tiga algoritma" dihapus dari rencana, sehingga nomor slide sesudahnya bergeser satu. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
 
 | Slide | Arah isi |
 |-------|----------|
 | 5 Prim | Ide tumbuh dari satu titik dengan sisi termurah yang menyeberang. Animasi serupa dengan Kruskal |
 | 6 Borůvka | Ide tiap gugus memilih sisi termurahnya lalu digabung. Alasan ikut dibahas: algoritma pembanding ketiga, tidak ada ketentuan tertulis dari dosen |
-| 10 Hasil dan analisis | Grafik hasil eksperimen dan penjelasan sesuai kondisi graf (jarang dan padat) |
 | 11 Kesimpulan | Ringkas, bahasa sederhana |
 
 Aturan yang dijaga di seluruh slide: bahasa mudah dipahami, istilah asing ditulis miring, tanpa tanda pisah panjang, dan hanya angka yang bisa dipertanggungjawabkan dari laporan.
@@ -241,7 +254,7 @@ Aturan yang dijaga di seluruh slide: bahasa mudah dipahami, istilah asing dituli
 ## 7. Hal yang Masih Terbuka
 
 - NIM dan nama dosen di slide 1 belum diisi.
-- Slide 10 dan 11 belum dibuat.
+- Slide 11 belum dibuat.
 - Studi kasus (Bab 4 subbab 4.1): slide terpisah (jadi 12 slide, sekitar 14 menit) atau digabung ke slide 8. Belum diputuskan.
 - Sitasi untuk rumus Cayley dan *cut property* belum diverifikasi.
 - Pengujian slide dilakukan di Chromium. Perilaku di layar sentuh belum dicoba.
@@ -315,3 +328,13 @@ Graf: sisi A–B 5, A–C 8, B–C 11, B–D 3, C–D 6, D–E 4, C–E 9. MST: 
 **Pembangkit.** Pohon acak dulu (tiap titik disambung ke titik bernomor lebih kecil, pasti terhubung), lalu sisi acak tanpa sisi ganda dan tanpa *loop*. *Seed* 2026.
 
 **Pengukuran.** Satu graf per pasangan skenario dan ukuran, 1 putaran pemanasan, 5 ulangan pada graf yang sama, laporan rata-rata dan simpangan baku sampel. Simpangan baku hanya mengukur gangguan mesin, bukan variasi antar graf.
+
+### Slide 10: Hasil dan Analisis
+
+**Siapa tercepat.** Pada ukuran terbesar: Kruskal tercepat di graf jarang, Prim tanpa daftar tetangga tercepat di graf padat. Di jarang kembar selisihnya kurang dari simpangan baku, jadi belum pasti. Borůvka paling lambat di semua.
+
+**Yang menghambat.** Borůvka 3,3 sampai 4,7 kali Kruskal. Membuat daftar tetangga menambah Prim 44 sampai 50%. Dengan daftar dihitung, keunggulan Prim di graf padat hilang (selisih dalam simpangan baku).
+
+**Dibanding teori.** Rasio waktu terhadap rumus naik 1,29 sampai 2,19 kali untuk Kruskal dan Prim, jadi prediksi 1 tidak terpenuhi. Borůvka melampaui m log² n sedikit di 2 dari 3 skenario. Tidak membantah teorema (batas atas untuk graf sangat besar). Penyebab tidak diuji.
+
+**Seberapa yakin.** Simpangan baku sampai sekitar 41%, satu graf per ukuran di Colab gratis, urutan eksekusi tetap, rentang m hanya 16 sampai 25 kali, hanya dua kepadatan dan Python. Jangan diekstrapolasi.
