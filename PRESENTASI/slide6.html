@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slide 5 · Prim</title>
+<title>Slide 6 · Borůvka</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -178,7 +178,7 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 .edge-hint.on{opacity:1}
 
 
-/* ───────── Slide 5: pseudocode + graf Prim ───────── */
+/* ───────── Slide 6: pseudocode + graf Borůvka ───────── */
 svg#g{aspect-ratio:960/410}
 .readout strong.bump{animation:bump .6s ease;transform-origin:right center}
 @keyframes bump{40%{color:var(--accent-bright);transform:scale(1.14)}}
@@ -246,9 +246,10 @@ svg#g{aspect-ratio:960/410}
 .gp.new{animation:gpop .7s ease;border-color:var(--accent);color:var(--accent)}
 @keyframes gpop{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.12);opacity:1}100%{transform:none}}
 
-.ln{height:36px}
-.code{padding:10px 0}
-.vr{grid-template-columns:128px 300px 1fr}
+.ln{height:31px;font-size:18px}
+.code{padding:8px 0}
+.chips{grid-template-columns:repeat(5,1fr)}
+.vr{grid-template-columns:110px 270px 1fr}
 .edge.q .base{stroke:rgba(255,255,255,.9);stroke-width:3.6}
 .edge.q .lab rect{stroke:rgba(255,255,255,.6)}
 .edge.q .lab text{fill:var(--text)}
@@ -269,12 +270,12 @@ svg#g{aspect-ratio:960/410}
       <div><b>Universitas Hasanuddin</b><span>Magister Teknik Informatika</span></div></div>
     <div class="tag">Tugas Besar Analisis Algoritma</div>
   </div>
-  <div class="kicker"><h1>Algoritma Prim</h1></div>
+  <div class="kicker"><h1>Algoritma Borůvka</h1></div>
 
   <div class="panel pseudo">
     <i class="c1"></i><i class="c2"></i>
     <div class="phead">
-      <div class="fig"><b>Pseudocode</b> · Prim</div>
+      <div class="fig"><b>Pseudocode</b> · Borůvka</div>
       <div class="fig" style="text-transform:none;letter-spacing:.02em;font-size:14px">arti simbol ada di bawah</div>
     </div>
     <div class="code" id="code"></div>
@@ -284,15 +285,15 @@ svg#g{aspect-ratio:960/410}
   <div class="panel big">
     <i class="c1"></i><i class="c2"></i>
     <div class="phead">
-      <div class="fig"><b>Fig. 05</b> · Prim pada graf contoh</div>
+      <div class="fig"><b>Fig. 06</b> · Borůvka pada graf contoh</div>
       <div class="ros">
         <div class="readout"><small>Sisi MST</small><strong id="ro1">0 / 4</strong></div>
         <div class="readout"><small>Total biaya</small><strong id="ro2">0</strong></div>
       </div>
     </div>
     <svg id="g" viewBox="0 55 960 410" aria-label="Graf contoh lima titik"></svg>
-    <div class="lab-s">Antrean Q, termurah di kiri</div>
-    <div class="lgd"><span><i style="border-top:4px solid var(--accent-bright)"></i>diperiksa</span><span><i style="border-top:4px solid var(--accent)"></i>masuk MST</span><span><i style="border-top:3px solid rgba(255,255,255,.9)"></i>di antrean</span><span><i style="border-top:4px solid var(--amber)"></i>dilewati</span></div>
+    <div class="lab-s">Pilihan tiap komponen: sisi termurah yang keluar</div>
+    <div class="lgd"><span><i style="border-top:4px solid var(--accent-bright)"></i>diperiksa</span><span><i style="border-top:4px solid var(--accent)"></i>masuk MST</span><span><i style="border-top:3px solid rgba(255,255,255,.9)"></i>dipilih komponen</span></div>
     <div class="chips" id="chips"></div>
     <div class="grp" id="grp"></div>
     <div class="pfoot"><div class="pf show"><div class="cap" id="cap"></div></div></div>
@@ -306,7 +307,7 @@ svg#g{aspect-ratio:960/410}
 </div>
 <script>
 /* ═════════ Konfigurasi ═════════ */
-const PREV_SLIDE='slide4.html', NEXT_SLIDE='slide6.html', SLIDE_NO=5;
+const PREV_SLIDE='slide5.html', NEXT_SLIDE=null, SLIDE_NO=6;
 const SVGNS='http://www.w3.org/2000/svg';
 const $=s=>document.querySelector(s);
 const mk=(tag,attrs={},parent)=>{const e=document.createElementNS(SVGNS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;};
@@ -316,73 +317,67 @@ const NODES=[{id:'A',x:140,y:260},{id:'B',x:340,y:100},{id:'C',x:340,y:420},{id:
 const EDGES=[['A','B',5],['A','C',8],['B','C',11],['B','D',3],['C','D',6],['D','E',4],['C','E',9]];
 const N=NODES.length, idx=Object.fromEntries(NODES.map((n,i)=>[n.id,i]));
 
-/* ═════════ Jalankan Prim sungguhan dari titik A (urutan sama dengan prim.py) ═════════ */
+/* ═════════ Jalankan Borůvka sungguhan (urutan sisi sama dengan boruvka.py) ═════════ */
 const mn=e=>Math.min(idx[e[0]],idx[e[1]]), mx=e=>Math.max(idx[e[0]],idx[e[1]]);
-const cmp=(p,q)=>{const a=EDGES[p],b=EDGES[q];return a[2]-b[2]||mn(a)-mn(b)||mx(a)-mx(b);};
-const adjOf=id=>EDGES.map((e,i)=>i).filter(i=>EDGES[i][0]===id||EDGES[i][1]===id);
-const other=(i,id)=>EDGES[i][0]===id?EDGES[i][1]:EDGES[i][0];
+const keyCmp=(p,q)=>{const a=EDGES[p],b=EDGES[q];return (a[2]-b[2])||(mn(a)-mn(b))||(mx(a)-mx(b));};
 const lbl=e=>EDGES[e][0]+'–'+EDGES[e][1];
-const kb=e=>{const a=EDGES[e];return idx[a[0]]<=idx[a[1]]?[a[0],a[1]]:[a[1],a[0]];};
-const S0='A';
 const fmtS=s=>'{'+s.join(', ')+'}';
-const T=[]; let INITQ=[];
-{let tree=[S0],Q=[],mst=[],cnt=0,tot=0;
-  const push=ids=>{Q.push(...ids);Q.sort(cmp);};
-  push(adjOf(S0));INITQ=[...Q];
-  while(Q.length&&cnt<N-1){
-    const e=Q.shift(),[a,b,w]=EDGES[e],inA=tree.includes(a),inB=tree.includes(b);
-    if(inA&&inB)continue;
-    const asal=inA?a:b,tujuan=inA?b:a,treeBefore=[...tree],qPop=[...Q];
-    tree.push(tujuan);cnt++;tot+=w;mst.push(e);
-    const pushed=adjOf(tujuan).filter(i=>!tree.includes(other(i,tujuan)));
-    push(pushed);
-    T.push({e,w,asal,tujuan,treeBefore,tree:[...tree],qPop,pushed,qAfter:[...Q],cnt,tot,mst:[...mst]});
-  }}
-const REST=T[T.length-1].qAfter;
-const ACC=T.map(t=>t.e);
-const eIdx=(a,b)=>EDGES.findIndex(e=>(e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a));
-function pathIn(a,b){
-  const adj={};NODES.forEach(n=>adj[n.id]=[]);ACC.forEach(i=>{adj[EDGES[i][0]].push(EDGES[i][1]);adj[EDGES[i][1]].push(EDGES[i][0]);});
-  const prev={[a]:null},q=[a];while(q.length){const u=q.shift();if(u===b)break;adj[u].forEach(v=>{if(!(v in prev)){prev[v]=u;q.push(v);}});}
-  const p=[];let c=b;while(c!==null&&c!==undefined){p.unshift(c);c=prev[c];}return p;}
+/* urutan daftar sisi pada contoh di boruvka.py: C–D, A–C, B–D, A–B, D–E, C–E, B–C */
+const ORDER=['C-D','A-C','B-D','A-B','D-E','C-E','B-C'].map(t=>{const [a,b]=t.split('-');return EDGES.findIndex(e=>e[0]===a&&e[1]===b);});
+const comp=NODES.map(n=>[n.id]);
+const compOf=id=>comp.findIndex(c=>c.includes(id));
+const setsNow=()=>comp.filter(c=>c.length).map(c=>[...c].sort());
+const INIT=NODES.map(n=>[n.id]);
+const SEL=new Map();  /* akar komponen -> sisi termurah (urutan penyisipan seperti kamus Python) */
+for(const e of ORDER){const [a,b]=EDGES[e],ra=compOf(a),rb=compOf(b);if(ra===rb)continue;
+  for(const r of [ra,rb]){if(!SEL.has(r)||keyCmp(e,SEL.get(r))<0)SEL.set(r,e);}}
+const PICKS=[...SEL.entries()].map(([r,e])=>({name:comp[r][0],e}));   /* nama komponen = titiknya (putaran 1) */
+const M=[];{let cnt=0,tot=0,c=N;const inA=[];
+  PICKS.forEach((p,i)=>{const [a,b,w]=EDGES[p.e],ra=compOf(a),rb=compOf(b),before=setsNow(),su=before.find(s=>s.includes(a)),sv=before.find(s=>s.includes(b));
+    const ok=ra!==rb,dupOf=inA.includes(p.e)?PICKS.findIndex(q=>q.e===p.e):-1;
+    if(ok){comp[ra]=comp[ra].concat(comp[rb]);comp[rb]=[];cnt++;tot+=w;c--;inA.push(p.e);}
+    M.push({i,e:p.e,ok,dupOf,su,sv,before,after:setsNow(),cnt,tot,c,mst:[...inA]});});}
+const CHOSEN=[...new Set(PICKS.map(p=>p.e))];
 
-/* ═════════ Pseudocode (ringkasan Pseudocode 3.3, urutan mengikuti prim()) ═════════ */
+/* ═════════ Pseudocode (ringkasan Pseudocode 3.4, urutan mengikuti boruvka()) ═════════ */
 const CODE=[
- [0,'masuk ← SALAH ; <span class="k">masuk[s] ← BENAR</span> ; A ← ∅ ; total ← 0'],
- [0,'Q ← <span class="k">masukkan</span> sisi dari s ke tetangganya'],
- [0,'<span class="k">selama</span> Q tidak kosong dan |A| &lt; n − 1 <span class="k">lakukan</span>'],
- [1,'(w, k, b) ← <span class="k">keluarkan</span> sisi termurah dari Q'],
- [1,'<span class="k">jika</span> masuk[k] dan masuk[b] <span class="k">maka lewati</span>'],
- [1,'tujuan ← ujung baru ; masuk[tujuan] ← BENAR'],
- [1,'A ← A ∪ {(asal, tujuan, w)} ; total ← total + w'],
- [1,'<span class="k">masukkan</span> ke Q sisi dari tujuan ke titik baru'],
- [0,'<span class="k">jika</span> |A| ≠ n − 1 <span class="k">maka galat</span> "Graf tidak terhubung"'],
+ [0,'himpunan ← BUAT-HIMPUNAN(n) ; A ← ∅ ; total ← 0 ; c ← n'],
+ [0,'<span class="k">selama</span> c &gt; 1 <span class="k">lakukan</span>'],
+ [1,'T ← kosong <span class="k">(komponen → sisi termurahnya)</span>'],
+ [1,'<span class="k">untuk setiap</span> (u, v, w) pada E <span class="k">lakukan</span>'],
+ [2,'<span class="k">jika</span> u dan v satu komponen <span class="k">maka lewati</span>'],
+ [2,'simpan sisi ini di T (kedua komponen) jika lebih murah'],
+ [1,'<span class="k">jika</span> T kosong <span class="k">maka galat</span> "Graf tidak terhubung"'],
+ [1,'<span class="k">untuk setiap</span> (u, v, w) pada nilai T <span class="k">lakukan</span>'],
+ [2,'<span class="k">jika</span> GABUNG(u, v) <span class="k">maka</span>'],
+ [3,'A ← A ∪ {(u, v, w)} ; total ← total + w'],
+ [3,'c ← c − 1'],
  [0,'<span class="k">kembalikan</span> (A, total)']
 ];
 const codeEl=$('#code');
-const hd=document.createElement('div');hd.className='ln hd';hd.innerHTML='<span class="no"></span><span class="t">PRIM(n, Adj, s)</span>';codeEl.appendChild(hd);
+const hd=document.createElement('div');hd.className='ln hd';hd.innerHTML='<span class="no"></span><span class="t">BORŮVKA(n, E)</span>';codeEl.appendChild(hd);
 const LN=CODE.map(([ind,html],i)=>{const d=document.createElement('div');d.className='ln';
   d.innerHTML='<span class="no">'+(i+1)+'</span><span class="t" style="--i:'+ind+'">'+html+'</span>';codeEl.appendChild(d);return d;});
-const VR=[['sn','s, n','s titik awal, n jumlah titik'],['masuk','masuk','titik yang sudah di pohon'],['Q','Q','antrean sisi, termurah keluar dulu'],
-  ['wkb','(w, k, b)','w = bobot, k dan b = ujung sisi'],['at','asal, tujuan','ujung lama dan ujung baru'],
+const VR=[['E','E','semua sisi graf'],['nc','n, c','n titik, c komponen'],['him','himpunan','komponen tiap titik'],
+  ['T','T','sisi termurah tiap komponen'],['uvw','(u, v, w)','u, v = ujung sisi, w = bobotnya'],
   ['A','A','sisi MST terpilih, |A| = banyaknya'],['tot','total','jumlah bobot sisi di A']];
 const VEL={};
 (function(){const v=$('#vars');v.innerHTML='<div class="vh"><span>Arti simbol</span><span>nilai saat ini</span></div>';
   VR.forEach(([id,sy,ar])=>{const r=document.createElement('div');r.className='vr';r.innerHTML='<span class="sy">'+sy+'</span><span>'+ar+'</span><span class="vl"></span>';v.appendChild(r);VEL[id]=r;});})();
-const ROWMAP={1:['sn','masuk','A','tot'],2:['Q','sn'],3:['Q','A','sn'],4:['Q','wkb'],5:['wkb','masuk'],6:['at','masuk','wkb'],7:['A','tot','at','wkb'],8:['Q','at','masuk'],9:['A','sn'],10:['A','tot']};
+const ROWMAP={1:['him','nc','A','tot'],2:['nc'],3:['T'],4:['uvw','E'],5:['uvw','him'],6:['uvw','T'],7:['T'],8:['T','uvw'],9:['uvw','him'],10:['A','tot','uvw'],11:['nc'],12:['A','tot']};
 function hl(lines,warn){LN.forEach((d,i)=>{d.classList.toggle('on',lines.includes(i+1));d.classList.toggle('w',!!warn&&lines.includes(i+1));});codeEl.classList.toggle('act',lines.length>0);
   const act=new Set();lines.forEach(l=>(ROWMAP[l]||[]).forEach(x=>act.add(x)));VR.forEach(([id])=>VEL[id].classList.toggle('on',act.has(id)));}
 
 /* ═════════ Keadaan tampilan (S) ═════════ */
 let S={};
-const blank=()=>({init:false,qOn:false,tree:[],q:[],front:null,mst:[],cnt:0,tot:0,dim:false,stale:false,cand:null,path:[],hiN:[],newN:null,newQ:[],wkb:null,at:null,badge:null});
+const blank=()=>({init:false,tOn:false,pickOn:false,sets:INIT,mst:[],cnt:0,tot:0,c:N,dimOthers:false,pickE:null,chipSt:{},uvw:null,hiSets:[],newSet:null,badge:null});
 function showVars(){
   const put=(id,txt)=>{const c=VEL[id].querySelector('.vl');c.textContent=txt==null?'belum ada':txt;c.classList.toggle('no',txt==null);};
-  put('sn','s = '+S0+', n = '+N);
-  put('masuk',S.init?fmtS(S.tree):null);
-  put('Q',S.qOn?(S.q.length?S.q.map(e=>lbl(e)+' '+EDGES[e][2]).join('  '):'kosong'):null);
-  put('wkb',S.wkb?'w='+S.wkb[0]+' k='+S.wkb[1]+' b='+S.wkb[2]:null);
-  put('at',S.at?S.at[0]+' → '+S.at[1]:null);
+  put('E',EDGES.length+' sisi');
+  put('nc','n = '+N+', c = '+S.c);
+  put('him',S.init?S.sets.map(fmtS).join(' '):null);
+  put('T',S.tOn?(S.pickOn?PICKS.map(p=>p.name+':'+EDGES[p.e][0]+EDGES[p.e][1]).join(' '):'kosong'):null);
+  put('uvw',S.uvw?'u='+S.uvw[0]+' v='+S.uvw[1]+' w='+S.uvw[2]:null);
   put('A',S.init?'|A| = '+S.mst.length+(S.mst.length?'  '+S.mst.map(lbl).join(' '):'  ∅'):null);
   put('tot',S.init?String(S.tot):null);
 }
@@ -399,94 +394,81 @@ const EL=EDGES.map(([a,b,w])=>{
 const NL=NODES.map(n=>{const grp=mk('g',{class:'node hidden'},g);
   mk('circle',{class:'halo',cx:n.x,cy:n.y,r:38},grp);mk('circle',{class:'dot',cx:n.x,cy:n.y,r:25},grp);
   mk('text',{x:n.x,y:n.y+1},grp).textContent=n.id;return grp;});
-const bd=mk('g',{id:'siklus'},g), bdR=mk('rect',{width:96,height:28,rx:3},bd), bdT=mk('text',{},bd);bdT.textContent='SIKLUS';
-function placeBadge(i){const A=NODES[idx[EDGES[i][0]]],B=NODES[idx[EDGES[i][1]]],cx=(A.x+B.x)/2-34,cy=(A.y+B.y)/2+50;
-  bdR.setAttribute('x',cx-48);bdR.setAttribute('y',cy-14);bdT.setAttribute('x',cx);bdT.setAttribute('y',cy+1);}
+const bd=mk('g',{id:'siklus'},g), bdR=mk('rect',{width:190,height:28,rx:3},bd), bdT=mk('text',{},bd);bdT.textContent='SUDAH DIPASANG';
+function placeBadge(i){const A=NODES[idx[EDGES[i][0]]],B=NODES[idx[EDGES[i][1]]],cx=(A.x+B.x)/2+46,cy=(A.y+B.y)/2-44;
+  bdR.setAttribute('x',cx-95);bdR.setAttribute('y',cy-14);bdT.setAttribute('x',cx);bdT.setAttribute('y',cy+1);}
 const setE=(i,cls,d=0)=>{EL[i].setAttribute('class','edge '+cls);EL[i].style.setProperty('--d',d+'ms');};
 const setN=(i,cls,d=0)=>{NL[i].setAttribute('class','node '+cls);NL[i].style.setProperty('--d',d+'ms');};
-
 const chipsEl=$('#chips'), GR=$('#grp');
 function RO(c,t,bump){const a=$('#ro1'),b=$('#ro2');a.textContent=c+' / '+(N-1);b.textContent=t;
   a.parentElement.classList.toggle('d',c===N-1);b.parentElement.classList.toggle('d',c===N-1);
   if(bump){[a,b].forEach(x=>{x.classList.remove('bump');void x.offsetWidth;x.classList.add('bump');});}}
 function cap(html){const c=$('#cap');c.innerHTML=html;c.classList.remove('sw');void c.offsetWidth;c.classList.add('sw');}
 
-/* gambar ulang semua dari S */
 function draw(bump){
   EDGES.forEach((_,i)=>{let c='';
-    if(S.mst.includes(i))c='mst';else if(S.cand===i)c='cand';else if(S.front&&S.front.e===i&&S.front.st==='try')c='pick';
-    else if(S.path.includes(i))c='pick';else if(S.q.includes(i))c=S.dim?'dim':'q';else if(S.dim)c='dim';
+    if(S.mst.includes(i))c='mst';else if(S.pickE===i)c='pick';else if(S.pickOn&&CHOSEN.includes(i))c='q';else if(S.dimOthers)c='dim';
     setE(i,c);});
-  NODES.forEach((n,i)=>setN(i,S.tree.includes(n.id)?'in':''));
-  const items=(S.front?[S.front]:[]).concat(S.q.map(e=>({e,st:S.stale?'skip':''})));
-  chipsEl.innerHTML=items.map(it=>'<div class="chip show'+(it.st?' '+it.st:'')+(S.newQ.includes(it.e)&&!(S.front&&S.front.e===it.e)?' new':'')+'"><b>'+lbl(it.e)+'</b><i>'+EDGES[it.e][2]+'</i></div>').join('');
-  if(S.init){GR.innerHTML='<small>Pohon</small>'+S.tree.map(id=>'<span class="gp'+(id===S.newN?' new':'')+(S.hiN.includes(id)?' hi':'')+'">'+id+'</span>').join('');GR.classList.add('show');}
+  NODES.forEach((n,i)=>setN(i,S.sets.find(s=>s.includes(n.id)).length>1?'in':''));
+  chipsEl.innerHTML=S.pickOn?PICKS.map((p,i)=>'<div class="chip show'+(S.chipSt[i]?' '+S.chipSt[i]:'')+(S.chipNew?' new':'')+'" style="--d:'+(i*90)+'ms"><b>'+p.name+'</b><i>'+lbl(p.e)+' '+EDGES[p.e][2]+'</i></div>').join(''):'';
+  if(S.init){GR.innerHTML='<small>Komponen</small>'+S.sets.map(s=>{const k=s.join();return '<span class="gp'+(k===S.newSet?' new':'')+(S.hiSets.includes(k)?' hi':'')+'">'+fmtS(s)+'</span>';}).join('');GR.classList.add('show');}
   else GR.classList.remove('show');
   bd.classList.toggle('show',S.badge!=null);if(S.badge!=null)placeBadge(S.badge);
   RO(S.cnt,S.tot,bump);showVars();
 }
 
 /* ═════════ Langkah: satu klik = satu fase ═════════ */
-const DEMO=2+T.length;
-const SEQ=[[0,0],[1,0],[1,1]];
-T.forEach((t,j)=>{for(let p=0;p<(j===T.length-1?5:4);p++)SEQ.push([2+j,p]);});
-if(REST.length)for(let p=0;p<2;p++)SEQ.push([DEMO,p]);
+const SEQ=[[0,0],[1,0],[1,1],[1,2],[1,3]];
+M.forEach((m,i)=>{SEQ.push([2+i,0]);SEQ.push([2+i,1]);});
+SEQ.push([2+M.length,0]);
 const TOTAL=SEQ.length, LAST=TOTAL-1;
 let step=0,cur=[-1,-1];
 const clearRuns=()=>{};
+const FIN=2+M.length;
 
-/* keadaan di AWAL langkah k */
 function paint(k){
   S=blank();
-  if(k>=2&&k<DEMO){const j=k-2;S.init=true;S.qOn=true;
-    if(j===0){S.tree=[S0];S.q=[...INITQ];}
-    else{const p=T[j-1];S.tree=[...p.tree];S.q=[...p.qAfter];S.mst=[...p.mst];S.cnt=p.cnt;S.tot=p.tot;}}
-  else if(k>=DEMO){const p=T[T.length-1];S.init=true;S.qOn=true;S.tree=[...p.tree];S.q=[...p.qAfter];S.mst=[...p.mst];S.cnt=p.cnt;S.tot=p.tot;S.dim=true;S.stale=true;}
+  if(k>=2){const i=k-2;S.init=true;S.tOn=true;S.pickOn=true;S.dimOthers=true;S.chipNew=false;
+    if(i>0){const p=M[Math.min(i,M.length)-1];S.sets=p.after;S.mst=[...p.mst];S.cnt=p.cnt;S.tot=p.tot;S.c=p.c;
+      PICKS.forEach((_,j)=>{if(j<i)S.chipSt[j]=M[j].ok?'acc':'rej';});}}
   g.classList.add('nt');draw(false);void g.getBoundingClientRect();g.classList.remove('nt');
   hl([]);
 }
-
 function phase(k,ph){
   if(k===0){
     g.classList.add('nt');EDGES.forEach((_,i)=>setE(i,'hidden'));NODES.forEach((_,i)=>setN(i,'hidden'));
     void g.getBoundingClientRect();g.classList.remove('nt');
     NODES.forEach((_,i)=>setN(i,'',i*120));EDGES.forEach((_,i)=>setE(i,'',500+i*110));
-    cap('<b>Ide Prim:</b> tumbuhkan satu pohon dari titik awal <b>A</b>. Setiap kali, ambil sisi <b>termurah</b> yang menghubungkan pohon dengan titik di luarnya.');
+    cap('<b>Ide Borůvka:</b> bekerja dalam putaran. Di tiap putaran, <b>semua komponen sekaligus</b> memilih sisi termurah yang keluar darinya, lalu semua pilihan digabungkan.');
     return;
   }
   if(k===1){
-    if(ph===0){S.init=true;S.tree=[S0];S.newN=S0;hl([1]);draw(false);
-      cap('<b>masuk[s]</b> = BENAR: pohon dimulai dari titik awal <b>s = '+S0+'</b>. <b>A</b> (sisi MST yang terpilih) masih kosong dan <b>total</b> biaya 0.');}
-    else{S.qOn=true;S.q=[...INITQ];S.newQ=[...INITQ];S.newN=null;hl([2]);draw(false);
-      cap('Sisi dari '+S0+' ke tetangganya (<b>'+INITQ.map(e=>lbl(e)+' ('+EDGES[e][2]+')').join('</b> dan <b>')+'</b>) dimasukkan ke antrean <b>Q</b>. Q selalu mengeluarkan sisi termurah lebih dulu.');}
+    if(ph===0){S.init=true;hl([1]);draw(false);
+      cap('<b>himpunan</b> dibuat: tiap titik adalah <b>komponen</b> sendiri, jadi <b>c = '+N+'</b>. <b>A</b> (sisi MST yang terpilih) kosong dan <b>total</b> biaya 0.');}
+    else if(ph===1){S.tOn=true;hl([2,3]);draw(false);
+      cap('<b>c = '+N+' &gt; 1</b>, jadi putaran 1 dimulai. <b>T</b> (tabel pilihan: komponen → sisi termurahnya) masih kosong.');}
+    else if(ph===2){S.pickOn=true;S.dimOthers=true;S.chipNew=true;hl([4,5,6]);draw(false);
+      cap('Tiap komponen memilih sisi <b>termurah</b> yang keluar darinya: '+PICKS.map(p=>'<b>'+p.name+'</b> → '+lbl(p.e)).join(', ')+'. Sisi <b>'+lbl(PICKS.find((p,i)=>PICKS.findIndex(q=>q.e===p.e)!==i).e)+'</b> dipilih dua komponen.');}
+    else{S.pickOn=true;S.dimOthers=true;S.chipNew=false;hl([7,8]);draw(false);
+      cap('<b>T</b> tidak kosong, jadi lanjut. Sekarang semua pilihan di T <b>digabungkan satu per satu</b> dengan GABUNG, dari kiri ke kanan.');}
     return;
   }
-  if(k<DEMO){
-    const j=k-2,t=T[j],[a,b,w]=EDGES[t.e],[kk,bb]=kb(t.e),nm=lbl(t.e),last=j===T.length-1;
-    if(ph===0){S.q=t.qPop;S.front={e:t.e,st:'try'};S.wkb=[w,kk,bb];S.newQ=[];S.newN=null;hl([3,4]);draw(false);
-      cap('Keluarkan sisi <b>termurah</b> dari Q: <b>'+nm+'</b> (w = <b>'+w+'</b>, ujung k = <b>'+kk+'</b> dan b = <b>'+bb+'</b>).');}
-    else if(ph===1){S.at=[t.asal,t.tujuan];S.hiN=[t.asal];S.tree=[...t.tree];S.newN=t.tujuan;hl([5,6]);draw(false);
-      cap('Pohon sebelumnya <b>'+fmtS(t.treeBefore)+'</b>. Hanya <b>'+t.asal+'</b> yang sudah di pohon, <b>'+t.tujuan+'</b> belum, jadi tidak ada siklus. <b>tujuan = '+t.tujuan+'</b> (ujung baru) masuk ke pohon.');}
-    else if(ph===2){S.hiN=[];S.front={e:t.e,st:'acc'};S.mst=[...t.mst];S.cnt=t.cnt;S.tot=t.tot;hl([7]);draw(true);
-      cap('<b>Diterima.</b> Sisi '+nm+' masuk ke A, pohon bertambah menjadi '+fmtS(t.tree)+'. Total biaya sekarang <b>'+t.tot+'</b>.');}
-    else if(ph===3){S.front=null;S.newN=null;S.q=[...t.qAfter];S.newQ=[...t.pushed];hl([8]);draw(false);
-      cap(t.pushed.length?'Tetangga <b>'+t.tujuan+'</b> yang belum masuk pohon menghasilkan sisi <b>'+t.pushed.map(e=>lbl(e)+' ('+EDGES[e][2]+')').join('</b> dan <b>')+'</b>. Keduanya dimasukkan ke Q.'
-                            :'Semua tetangga <b>'+t.tujuan+'</b> sudah di pohon, jadi tidak ada sisi baru yang dimasukkan ke Q.');}
-    else{S.newQ=[];S.dim=true;S.stale=true;hl([3,9,10]);draw(false);
-      cap('<b>|A| = '+t.cnt+' = n − 1</b> (n = '+N+' titik), jadi perulangan <b>berhenti</b>. Semua titik sudah di pohon, sisa '+REST.length+' sisi di Q tidak perlu diproses. Kembalikan MST dengan total biaya <b>'+t.tot+'</b>.');}
+  if(k<FIN){
+    const m=M[k-2],[a,b,w]=EDGES[m.e],nm=lbl(m.e);
+    if(ph===0){S.uvw=[a,b,w];S.pickE=m.e;S.chipSt[m.i]='try';S.hiSets=[m.su.join(),m.sv.join()];hl([8,9]);draw(false);
+      cap('Ambil pilihan komponen <b>'+PICKS[m.i].name+'</b>: sisi <b>'+nm+'</b> (u = <b>'+a+'</b>, v = <b>'+b+'</b>, w = <b>'+w+'</b>). '+(m.ok?a+' ada di <b>'+fmtS(m.su)+'</b> dan '+b+' di <b>'+fmtS(m.sv)+'</b>: beda komponen, jadi <b>GABUNG('+a+', '+b+')</b> berhasil.'
+        :a+' dan '+b+' sudah satu komponen <b>'+fmtS(m.su)+'</b>: <b>GABUNG('+a+', '+b+')</b> gagal.'));}
+    else if(m.ok){S.uvw=[a,b,w];S.pickE=null;S.chipSt[m.i]='acc';S.hiSets=[];S.sets=m.after;S.newSet=setOfJoin(m.after,a);S.mst=[...m.mst];S.cnt=m.cnt;S.tot=m.tot;S.c=m.c;hl([10,11]);draw(true);
+      cap('<b>Diterima.</b> Sisi '+nm+' masuk ke A dan dua komponen digabung menjadi '+fmtS(m.after.find(s=>s.includes(a)))+'. Jumlah komponen <b>c = '+m.c+'</b>, total biaya <b>'+m.tot+'</b>.');}
+    else{S.uvw=[a,b,w];S.pickE=null;S.chipSt[m.i]='rej';S.hiSets=[];S.mst=[...m.mst];S.cnt=m.cnt;S.tot=m.tot;S.c=m.c;S.sets=m.after;S.badge=m.e;hl([9],true);draw(false);
+      cap('Sisi <b>'+nm+'</b> sudah dipasang tadi dari pilihan komponen <b>'+PICKS[m.dupOf].name+'</b>, jadi <b>GABUNG('+a+', '+b+')</b> gagal dan sisi ini <b>tidak dipasang dua kali</b>.');}
     return;
   }
-  /* langkah terakhir: contoh sisi yang akan dilewati */
-  const e=REST[0],[a,b,w]=EDGES[e],[kk,bb]=kb(e),nm=lbl(e),path=pathIn(a,b);
-  if(ph===0){S.q=REST.slice(1);S.front={e,st:'try'};S.cand=e;S.wkb=[w,kk,bb];S.hiN=[a,b];S.stale=false;S.dim=false;
-    S.path=[];for(let q=0;q<path.length-1;q++)S.path.push(eIdx(path[q],path[q+1]));
-    hl([3,4]);draw(false);
-    cap('<b>Seandainya</b> perulangan tetap berjalan: sisi <b>'+nm+'</b> (w = '+w+') dikeluarkan dari Q. Pada kode yang sebenarnya perulangan sudah berhenti sebelum sampai sini.');}
-  else{S.q=REST.slice(1);S.front={e,st:'rej'};S.cand=e;S.hiN=[a,b];S.badge=e;
-    S.path=[];for(let q=0;q<path.length-1;q++)S.path.push(eIdx(path[q],path[q+1]));
-    hl([5],true);draw(false);
-    cap('<b>'+a+'</b> dan <b>'+b+'</b> sudah di pohon, dan keduanya sudah tersambung lewat '+path.join(', ')+'. Menambah '+nm+' membuat sambungan <b>melingkar</b> (siklus), jadi sisi ini <b>dilewati</b>.');}
+  const L=M[M.length-1];S.sets=L.after;S.mst=[...L.mst];S.cnt=L.cnt;S.tot=L.tot;S.c=L.c;S.uvw=null;S.pickE=null;S.hiSets=[];S.newSet=null;S.badge=null;
+  hl([2,12]);draw(false);
+  cap('<b>c = '+L.c+'</b>, jadi perulangan <b>berhenti</b> setelah <b>1 putaran</b>. Semua titik sudah satu komponen. Kembalikan MST dengan total biaya <b>'+L.tot+'</b>.');
 }
+const setOfJoin=(sets,id)=>sets.find(s=>s.includes(id)).join();
 const STEPS=Array.from({length:TOTAL},(_,s)=>()=>{const [k,ph]=SEQ[s];
   if(cur[0]===k&&cur[1]===ph-1&&ph>0){phase(k,ph);}
   else{paint(k);for(let i=0;i<=ph;i++)phase(k,i);}
@@ -499,9 +481,9 @@ function progress(){let start=0;document.querySelectorAll('.seg').forEach((s,gi)
   if(SLIDE_NO>start+c)done=c;else if(SLIDE_NO>start)done=(SLIDE_NO-1-start)+(step+1)/(LAST+1);
   s.querySelector('i').style.width=(done/c*100)+'%';s.classList.toggle('cur',SLIDE_NO>start&&SLIDE_NO<=start+c);start+=c;});}
 function render(){STEPS[step]();progress();$('#cnt').textContent=(step+1)+' / '+(LAST+1);
-  $('#prev').textContent=step===0?'Slide 4':'Sebelumnya';const nx=$('#next');
+  $('#prev').textContent=step===0?'Slide 5':'Sebelumnya';const nx=$('#next');
   if(step<LAST){nx.disabled=false;nx.textContent='Berikutnya';}
-  else if(NEXT_SLIDE){nx.disabled=false;nx.textContent='Slide 6';}else{nx.disabled=true;nx.textContent='Slide 6 menyusul';}}
+  else if(NEXT_SLIDE){nx.disabled=false;nx.textContent='Slide 7';}else{nx.disabled=true;nx.textContent='Slide 7 menyusul';}}
 function leave(u){document.body.classList.add('leaving');setTimeout(()=>{location.href=u;},260);}
 function next(){if(step<LAST){step++;render();}else if(NEXT_SLIDE)leave(NEXT_SLIDE);}
 function prev(){if(step>0){step--;render();}else if(PREV_SLIDE)leave(PREV_SLIDE);}

@@ -3,7 +3,7 @@
 Analisis Perbandingan Algoritma Kruskal, Prim, dan Borůvka pada *Minimum Spanning Tree* (MST).
 Penyaji: Muhammad Alif Qadri. Durasi rencana: 14,5 menit (batas tugas 10 sampai 15 menit).
 
-Status: slide 1 sampai 5 sudah jadi. Slide 6 sampai 12 masih rencana.
+Status: slide 1 sampai 6 sudah jadi. Slide 7 sampai 12 masih rencana.
 
 ## 1. Struktur dan Alokasi Waktu
 
@@ -14,7 +14,7 @@ Status: slide 1 sampai 5 sudah jadi. Slide 6 sampai 12 masih rencana.
 | 3 | Algoritma yang dibahas | 0,5 mnt | Jadi |
 | 4 | Kruskal | 1,5 mnt | Jadi |
 | 5 | Prim | 1,5 mnt | Jadi |
-| 6 | Borůvka | 1,5 mnt | Rencana |
+| 6 | Borůvka | 1,5 mnt | Jadi |
 | 7 | Contoh manual tiga algoritma | 1,5 mnt | Rencana |
 | 8 | Kompleksitas teoretis | 1,5 mnt | Rencana |
 | 9 | Implementasi (struktur data, potongan kode inti, verifikasi) | 1 mnt | Rencana |
@@ -165,9 +165,26 @@ Urutan hasil: A–B 5, B–D 3, D–E 4, C–D 6, total 18 (berbeda urutan denga
 
 Catatan jujur: seperti Kruskal, pada graf contoh ini sisi yang dilewati tidak pernah dikeluarkan dari Q oleh kode, karena perulangan berhenti saat |A| = n − 1. Dua klik terakhir diberi kata "seandainya".
 
-## 6. Slide 6 sampai 12 (Rencana)
+## 5d. Slide 6: Algoritma Borůvka
 
-Belum dikerjakan (slide 3, 4, dan 5 dijelaskan di bagian 5, 5b, dan 5c). Alokasi waktu mengikuti tabel di bagian 1. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
+Tujuan: penonton paham bahwa Borůvka bekerja dalam putaran, dan di tiap putaran semua komponen memilih sisi termurahnya secara serentak. Tata letak sama dengan slide 4 dan 5, satu klik satu fase.
+
+Isi layar: pseudocode 12 baris yang merupakan **ringkasan** Pseudocode 3.4 (BORŮVKA) di Bab 3, urutannya mengikuti `boruvka()` di `boruvka.py` (baris 5 dan 6 asli digabung sebagai "simpan sisi ini di T jika lebih murah"). Bagian lain: graf 5 titik, deret "Pilihan tiap komponen" dalam urutan kamus T seperti di kode (C, D, A, B, E), baris Komponen, pembacaan Sisi MST dan Total biaya, dan panel Arti simbol (E, n dan c, himpunan, T, u v w, A, total). Simulasi memakai urutan daftar sisi yang sama dengan contoh di `boruvka.py`.
+
+Hasil: 1 putaran. Pilihan: C→C–D 6, D→B–D 3, A→A–B 5, B→B–D 3, E→D–E 4. Pemasangan berurutan: C–D 6, B–D 3, A–B 5, lalu B–D 3 gagal (sudah dipasang dari pilihan D), D–E 4, total 18 dan c = 1.
+
+| Klik | Tampilan | Pesan |
+|------|----------|-------|
+| 1 | Graf muncul. Ide Borůvka | Bekerja dalam putaran, semua komponen memilih serentak |
+| 2 sampai 5 | himpunan dibuat dan c = 5 (baris 1), putaran dimulai dan T kosong (baris 2 dan 3), tiap komponen memilih sisi termurah (baris 4 sampai 6), T tidak kosong (baris 7 dan 8) | Pilihan serentak |
+| 6 sampai 15 | Tiap pilihan 2 klik: ambil dan cek GABUNG (baris 8 dan 9), lalu diterima (baris 10 dan 11) atau gagal (baris 9, label SUDAH DIPASANG untuk B–D yang kedua) | Satu sisi bisa dipilih dua komponen |
+| 16 | c = 1, perulangan berhenti, kembalikan hasil (baris 2 dan 12) | Selesai dalam 1 putaran |
+
+Catatan: berbeda dengan slide 4 dan 5, penolakan pada slide ini benar-benar terjadi di kode (GABUNG kedua untuk B–D mengembalikan SALAH), jadi tidak memakai kata "seandainya".
+
+## 6. Slide 7 sampai 12 (Rencana)
+
+Belum dikerjakan (slide 3 sampai 6 dijelaskan di bagian 5, 5b, 5c, dan 5d). Alokasi waktu mengikuti tabel di bagian 1. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
 
 | Slide | Arah isi |
 |-------|----------|
@@ -185,6 +202,6 @@ Aturan yang dijaga di seluruh slide: bahasa mudah dipahami, istilah asing dituli
 ## 7. Hal yang Masih Terbuka
 
 - NIM dan nama dosen di slide 1 belum diisi.
-- Slide 6 sampai 12 belum dibuat.
+- Slide 7 sampai 12 belum dibuat.
 - Sitasi untuk rumus Cayley dan *cut property* belum diverifikasi.
 - Pengujian slide dilakukan di Chromium. Perilaku di layar sentuh belum dicoba.
