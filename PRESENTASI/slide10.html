@@ -201,7 +201,7 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 .sb{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .col{border:1px solid var(--line);background:#07080b}
 .col h4{height:62px;padding:0 24px;display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line2);padding-top:12px}
-.col h4 b{font-size:28px;font-weight:600}
+.col h4 b{font-size:28px;font-weight:600}.col h4 b small{font-size:17px;font-weight:400;color:var(--mute)}
 .col h4 span{font-family:var(--mono);font-size:15px;letter-spacing:.06em;color:var(--mute)}
 .brw{display:grid;grid-template-columns:132px 1fr;align-items:center;height:62px;padding:0 20px 0 24px;position:relative}
 .brw .nm{font-size:20px;color:var(--body);line-height:1.15}
@@ -226,7 +226,7 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 .bx h3 small{display:block;margin-top:6px;font-family:var(--sans);font-size:19px;font-weight:400;color:var(--mute)}
 .mrow{display:grid;grid-template-columns:176px 1fr;align-items:center;height:66px;margin-top:8px}
 .mrow:first-of-type{margin-top:22px}
-.mrow .nm{font-size:21px;color:var(--body)}
+.mrow .nm{font-size:21px;color:var(--body);line-height:1.15}.mrow .nm small{display:block;font-size:15px;color:var(--mute)}
 .mtk{position:relative;height:38px;border-left:1px solid rgba(255,255,255,.4)}
 .mtk .bf{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:0 2px 2px 0;transition:width .9s cubic-bezier(.3,.7,.2,1) var(--d,0ms)}
 .mtk .bv{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:22px;font-weight:500;color:var(--text);opacity:0;transition:opacity .4s ease calc(var(--d,0ms) + .6s);white-space:nowrap}
@@ -267,7 +267,7 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 
 /* panel 4 */
 .rs{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
-.rc{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:22px 22px 24px;height:280px;position:relative;border-top:3px solid var(--amber)}
+.rc{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:22px 22px 24px;height:200px;position:relative;border-top:3px solid var(--amber)}
 .rc strong{display:block;font-family:var(--mono);font-size:34px;font-weight:500;color:var(--amber);letter-spacing:-.02em;line-height:1.05}
 .rc b{display:block;margin-top:12px;font-size:23px;line-height:1.25;font-weight:600;color:var(--text)}
 .rc span{display:block;margin-top:10px;font-size:19px;line-height:1.35;color:var(--body)}
@@ -295,46 +295,46 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
   <div class="src">Dasar: Bab 4 subbab 4.5 dan 4.6, Tabel 4.6 sampai 4.10</div>
 
   <div class="kpis" id="kpis">
-    <div class="kpi"><small>1 · Siapa tercepat</small><strong>Berganti</strong><span>Kruskal di graf jarang, Prim di graf padat</span></div>
-    <div class="kpi"><small>2 · Yang menghambat</small><strong>3,3 sampai 4,7×</strong><span>Borůvka dibanding Kruskal. Daftar tetangga menambah Prim 44 sampai 50%</span></div>
-    <div class="kpi"><small>3 · Dibanding teori</small><strong>1,3 sampai 2,2×</strong><span>Kruskal dan Prim tumbuh lebih cepat dari rumus pada data ini</span></div>
-    <div class="kpi"><small>4 · Seberapa yakin</small><strong>sampai 41%</strong><span>simpangan baku terhadap rata-rata, tertinggi pada satu titik</span></div>
+    <div class="kpi"><small>1 · Siapa tercepat</small><strong>Berganti</strong><span>Kruskal menang (jarang), Prim menang (padat), seri (kembar)</span></div>
+    <div class="kpi"><small>2 · Yang menghambat</small><strong>3,3 sampai 4,7×</strong><span>Borůvka lebih lambat dari Kruskal (jarang 4,7 · padat 3,7 · kembar 3,3)</span></div>
+    <div class="kpi"><small>3 · Dibanding teori</small><strong>1,3 sampai 2,2×</strong><span>Kruskal dan Prim tumbuh lebih cepat dari rumus (jarang, padat, kembar)</span></div>
+    <div class="kpi"><small>4 · Seberapa yakin</small><strong>sampai 41%</strong><span>simpangan baku tertinggi, jadi hasil dibaca hati-hati</span></div>
   </div>
 
   <div class="det">
     <!-- 1 -->
     <div class="pn" id="p0">
       <div class="sb rv" style="--d:0ms" id="sb"></div>
-      <div class="scl rv" style="--d:300ms">Waktu pada ukuran terbesar tiap skenario, dalam milidetik. Batang lebih pendek = lebih cepat. Kotak berarsir: Prim ditambah pembuatan daftar tetangga.</div>
+      <div class="scl rv" style="--d:300ms">Milidetik, ukuran terbesar. Batang pendek = cepat. Arsir = Prim + daftar tetangga.</div>
     </div>
     <!-- 2 -->
     <div class="pn" id="p1"><div class="two">
-      <div class="bx rv" style="--d:0ms"><h3>Borůvka paling lambat<small>Berapa kali waktu Kruskal, pada ukuran terbesar</small></h3><div id="mb"></div><div class="nt2">Borůvka <b>memindai semua sisi di setiap putaran</b>, sejalan dengan faktor log tambahan di teori. Seberapa besar pengaruh tiap sebab <b>tidak diukur</b>.</div></div>
-      <div class="bx rv" style="--d:200ms"><h3>Daftar tetangga itu tidak gratis<small>Waktu Prim dan tambahan untuk membuat daftarnya, dalam milidetik</small></h3><div id="mq"></div>
+      <div class="bx rv" style="--d:0ms"><h3>Borůvka paling lambat<small>Berapa kali waktu Kruskal</small></h3><div id="mb"></div><div class="nt2">Borůvka <b>memindai semua sisi di tiap putaran</b>.</div></div>
+      <div class="bx rv" style="--d:200ms"><h3>Daftar tetangga itu tidak gratis<small>Waktu Prim + pembuatan daftar (milidetik)</small></h3><div id="mq"></div>
         <div class="sg2"><span><i class="bp"></i>Prim inti</span><span><i style="background:var(--amber)"></i>Pembuatan daftar tetangga</span><span><i style="background:#fff;width:3px"></i>Kruskal</span></div>
-        <div class="nt2">Pada graf padat, Prim dengan daftar tetangga hanya <b>sedikit di bawah Kruskal</b>, dan selisihnya lebih kecil daripada simpangan baku. Jadi keunggulan Prim bergantung pada daftar yang <b>sudah tersedia</b>.</div></div>
+        <div class="nt2">Di graf padat, Prim dengan daftar hanya <b>sedikit di bawah Kruskal</b> (dalam simpangan baku).</div></div>
     </div></div>
     <!-- 3 -->
     <div class="pn" id="p2"><div class="thr">
-      <div class="ch3 rv" style="--d:0ms"><h3>Waktu dibanding rumus teori: ukuran terbesar, ukuran terkecil dihitung 1,00</h3>
+      <div class="ch3 rv" style="--d:0ms"><h3>Waktu dibanding rumus teori (ukuran terkecil = 1,00)</h3>
         <div class="plot" id="plot"></div>
-        <div class="lg3"><span><i style="background:var(--accent)"></i>Jarang</span><span><i style="background:var(--accent-bright)"></i>Padat</span><span><i style="background:var(--amber)"></i>Jarang kembar</span><span><i style="background:none;border-top:2px dashed var(--amber);border-radius:0;height:0;width:22px"></i>1,00 = pas dengan rumus</span></div>
+        <div class="lg3"><span><i style="background:var(--accent)"></i>Jarang</span><span><i style="background:var(--accent-bright)"></i>Padat</span><span><i style="background:var(--amber)"></i>Kembar</span><span><i style="background:none;border-top:2px dashed var(--amber);border-radius:0;height:0;width:22px"></i>1,00 = pas dengan rumus</span></div>
       </div>
-      <div class="say rv" style="--d:300ms"><h3>Artinya apa?</h3>
-        <p><span class="pill">Prediksi 1 tidak terpenuhi</span><br>Bila rumus pas, batang setinggi garis <b>1,00</b>. Batang Kruskal dan Prim lebih tinggi, jadi waktunya tumbuh <b>lebih cepat dari rumus</b>.</p>
-        <p>Ini <b>tidak membantah teorema</b>: teorema adalah batas atas untuk graf yang sangat besar, sedangkan data hanya mencakup rentang sempit.</p>
-        <p>Penyebabnya <b>tidak diuji</b>. Dugaan: memori, <i>cache</i>, atau pembersih memori Python.</p></div>
+      <div class="say rv" style="--d:300ms"><h3>Artinya</h3>
+        <p><span class="pill">Prediksi 1 tidak terpenuhi</span><br>Batang di atas garis 1,00 = <b>tumbuh lebih cepat dari rumus</b>.</p>
+        <p>Bukan bantahan teorema: data hanya rentang sempit.</p>
+        <p>Penyebab <b>belum diuji</b>.</p></div>
     </div></div>
     <!-- 4 -->
     <div class="pn" id="p3">
       <div class="rs">
-        <div class="rc rv" style="--d:0ms"><strong>41%</strong><b>Gangguan waktu besar</b><span>Simpangan baku tertinggi. Pada 7 dari 60 kombinasi, simpangan baku sedikitnya 20% dari rata-rata.</span></div>
-        <div class="rc rv" style="--d:100ms"><strong>1 graf</strong><b>Tiap ukuran, mesin Colab gratis</b><span>Kecepatan mesin bisa berubah. Simpangan baku bukan variasi antar graf.</span></div>
-        <div class="rc rv" style="--d:200ms"><strong>1 urutan</strong><b>Selalu sama</b><span>Daftar tetangga, Kruskal, Prim, lalu Borůvka. Pengaruh urutan tidak dipisahkan.</span></div>
-        <div class="rc rv" style="--d:300ms"><strong>16 sampai 25×</strong><b>Rentang sempit</b><span>Perbandingan m terbesar dan terkecil. Eksponen yang dihitung bersifat lokal.</span></div>
-        <div class="rc rv" style="--d:400ms"><strong>2 kepadatan</strong><b>Hanya Python</b><span>Dua kepadatan dan satu varian bobot kembar. Ruang hanya dianalisis secara teori.</span></div>
+        <div class="rc rv" style="--d:0ms"><strong>41%</strong><b>Gangguan waktu besar</b><span>simpangan baku tertinggi</span></div>
+        <div class="rc rv" style="--d:100ms"><strong>1 graf</strong><b>Tiap ukuran</b><span>mesin Colab gratis</span></div>
+        <div class="rc rv" style="--d:200ms"><strong>1 urutan</strong><b>Selalu sama</b><span>tidak diacak</span></div>
+        <div class="rc rv" style="--d:300ms"><strong>16 sampai 25×</strong><b>Rentang sempit</b><span>m terbesar dibanding terkecil</span></div>
+        <div class="rc rv" style="--d:400ms"><strong>2 kepadatan</strong><b>Hanya Python</b><span>jarang dan padat</span></div>
       </div>
-      <div class="fin rv" style="--d:600ms"><b>Kesimpulan hanya berlaku pada rentang yang diukur.</b> Jangan diekstrapolasi ke ukuran lebih besar tanpa pengukuran tambahan.</div>
+      <div class="fin rv" style="--d:600ms"><b>Berlaku hanya pada rentang yang diukur.</b></div>
     </div>
   </div>
 
@@ -350,32 +350,32 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 const PREV_SLIDE='slide9.html', NEXT_SLIDE=null, SLIDE_NO=10;
 const $=s=>document.querySelector(s);
 const CAPS=[
- 'Pada ukuran terbesar, <b>Kruskal tercepat di graf jarang</b> dan <b>Prim tercepat di graf padat</b> (tanpa menghitung pembuatan daftar tetangga). Borůvka paling lambat di semua skenario.',
- 'Selisih Kruskal dan Prim <b>jelas</b> di graf jarang dan padat, tetapi <b>belum pasti</b> di graf jarang kembar karena kurang dari simpangan baku. Tidak ada titik silang yang ditetapkan.',
- '<b>Borůvka 3,3 sampai 4,7 kali</b> lebih lama dari Kruskal, sejalan dengan faktor log tambahan. Membuat <b>daftar tetangga menambah waktu Prim 44 sampai 50%</b>.',
- 'Waktu Kruskal dan Prim tumbuh <b>lebih cepat dari rumus</b> pada rentang diuji. Borůvka melampaui batas m log² n sedikit pada 2 dari 3 skenario. Penyebabnya tidak diuji.',
- 'Hasil punya batas jelas: gangguan waktu besar, satu graf per ukuran, rentang sempit. Kesimpulan <b>tidak boleh diekstrapolasi</b> ke ukuran yang lebih besar.'];
+ '<b>Kruskal</b> tercepat di graf jarang, <b>Prim</b> di graf padat. <b>Borůvka</b> paling lambat.',
+ 'Selisih <b>jelas</b> di jarang dan padat, <b>belum pasti</b> di kembar.',
+ 'Borůvka <b>3,3 sampai 4,7×</b> Kruskal. Daftar tetangga menambah Prim <b>44 sampai 50%</b>.',
+ 'Kruskal dan Prim tumbuh <b>lebih cepat dari rumus</b>. Penyebab belum diuji.',
+ 'Hasil <b>hanya berlaku pada rentang yang diukur</b>.'];
 const LAST=CAPS.length-1;
 let step=0,cur=-1;
 const DATA=[
- {t:'Jarang',s:'n = 64.000',v:[518.64,660.55,972.07,2445.55],win:0,ok:true},
- {t:'Padat',s:'n = 1.000',v:[494.40,308.00,462.61,1828.52],win:1,ok:true},
- {t:'Jarang kembar',s:'n = 64.000',v:[593.21,647.42,935.13,1984.15],win:0,ok:false}];
+ {t:'Jarang',e:'sisi sedikit',s:'n = 64.000',v:[518.64,660.55,972.07,2445.55],win:0,ok:true},
+ {t:'Padat',e:'sisi banyak',s:'n = 1.000',v:[494.40,308.00,462.61,1828.52],win:1,ok:true},
+ {t:'Kembar',e:'bobot sama',s:'n = 64.000',v:[593.21,647.42,935.13,1984.15],win:0,ok:false}];
 const NM=[['Kruskal',''],['Prim','tanpa daftar'],['Prim','dengan daftar'],['Borůvka','']],CL=['bk','bp','bq','bb'];
 const fm=v=>v.toFixed(2).replace('.',',');
 const MAX=2500;
-$('#sb').innerHTML=DATA.map((d,ci)=>'<div class="col"><h4><b>'+d.t+'</b><span>'+d.s+'</span></h4>'
+$('#sb').innerHTML=DATA.map((d,ci)=>'<div class="col"><h4><b>'+d.t+' <small>('+d.e+')</small></b><span>'+d.s+'</span></h4>'
  +d.v.map((v,i)=>'<div class="brw'+(i===d.win?' win':'')+'"><div class="nm">'+NM[i][0]+(NM[i][1]?'<small>'+NM[i][1]+'</small>':'')+'</div><div class="tk"><div class="bf '+CL[i]+'" data-w="'+(v/MAX*100)+'" style="--d:'+(ci*120+i*90)+'ms"></div><div class="bv" data-l="'+(v/MAX*100)+'" data-in="'+(i===3?1:0)+'" style="--d:'+(ci*120+i*90)+'ms">'+fm(v)+'</div></div></div>').join('')
- +'<div class="vd '+(d.ok?'ok':'nk')+'" style="--d:'+(ci*150)+'ms"><b>'+(d.ok?'Selisih jelas':'Selisih belum pasti')+'</b>'+(d.ok?'Selisih lebih besar dari simpangan baku keduanya.':'Selisih kurang dari simpangan baku.')+'</div></div>').join('');
+ +'<div class="vd '+(d.ok?'ok':'nk')+'" style="--d:'+(ci*150)+'ms"><b>'+(d.ok?'Selisih jelas':'Selisih belum pasti')+'</b>'+(d.ok?'lebih besar dari simpangan baku':'kurang dari simpangan baku')+'</div></div>').join('');
 document.querySelectorAll('#sb .bv').forEach(e=>{if(e.dataset.in==='1'){e.style.left='calc('+e.dataset.l+'% - 112px)';e.style.color='#1c1305';e.style.fontWeight='500';}else e.style.left='calc('+e.dataset.l+'% + 10px)';});
 /* panel 2 */
 const KR=[518.64,494.40,593.21],PR=[660.55,308.00,647.42],PQ=[972.07,462.61,935.13],BO=[2445.55,1828.52,1984.15];
-const SN=['Jarang','Padat','Jarang kembar'];
+const SN=['Jarang<small>(sisi sedikit)</small>','Padat<small>(sisi banyak)</small>','Kembar<small>(bobot sama)</small>'];
 $('#mb').innerHTML=BO.map((b,i)=>{const r=b/KR[i];return '<div class="mrow"><div class="nm">'+SN[i]+'</div><div class="mtk"><div class="bf bb" data-w="'+(r/5.4*100)+'" style="--d:'+(i*140)+'ms"></div><div class="bv" style="--d:'+(i*140)+'ms;left:calc('+(r/5.4*100)+'% + 12px)">'+r.toFixed(2).replace('.',',')+'×</div></div></div>';}).join('')
  +'<div style="margin-top:14px;font-size:20px;color:var(--mute)">Garis kiri = 1× (sama dengan Kruskal)</div>';
 const M2=1180;
 $('#mq').innerHTML=PR.map((p,i)=>{const add=PQ[i]-p,pct=(add/p*100).toFixed(1).replace('.',',');
-  return '<div class="mrow" style="grid-template-columns:130px 1fr"><div class="nm">'+SN[i]+'</div><div class="mtk"><div class="bf bp" data-w="'+(p/M2*100)+'" style="--d:'+(i*140)+'ms"></div>'
+  return '<div class="mrow" style="grid-template-columns:176px 1fr"><div class="nm">'+SN[i]+'</div><div class="mtk"><div class="bf bp" data-w="'+(p/M2*100)+'" style="--d:'+(i*140)+'ms"></div>'
   +'<div class="bf" data-w="'+(add/M2*100)+'" data-o="'+(p/M2*100)+'" style="left:'+(p/M2*100)+'%;background:var(--amber);--d:'+(i*140+300)+'ms"></div>'
   +'<div class="kl" style="left:'+(KR[i]/M2*100)+'%"><i>K</i></div>'
   +'<div class="bv" style="--d:'+(i*140+300)+'ms;left:calc('+(Math.max(PQ[i],KR[i])/M2*100)+'% + 16px)">+'+pct+'%</div></div></div>';}).join('');
