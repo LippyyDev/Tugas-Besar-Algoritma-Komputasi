@@ -475,7 +475,7 @@ const STEPS=Array.from({length:TOTAL},(_,s)=>()=>{const [k,ph]=SEQ[s];
   cur=[k,ph];});
 
 /* ═════════ Progres, navigasi ═════════ */
-const GROUPS=[['Pembuka',1],['Konsep',1],['Algoritma',4],['Teori',1],['Eksperimen',3],['Penutup',1]];
+const GROUPS=[['Pembuka',1],['Konsep',1],['Algoritma',4],['Studi Kasus',1],['Teori',1],['Eksperimen',2],['Penutup',1]];
 (function(){const p=$('#prog');GROUPS.forEach(([n,c])=>{const s=document.createElement('div');s.className='seg';s.style.flex=c;s.innerHTML='<div class="bar"><i></i></div><span>'+n+'</span>';p.appendChild(s);});})();
 function progress(){let start=0;document.querySelectorAll('.seg').forEach((s,gi)=>{const c=GROUPS[gi][1];let done=0;
   if(SLIDE_NO>start+c)done=c;else if(SLIDE_NO>start)done=(SLIDE_NO-1-start)+(step+1)/(LAST+1);

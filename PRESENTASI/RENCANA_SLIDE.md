@@ -15,15 +15,15 @@ Status: Semua 11 slide sudah jadi. Slide Implementasi dihapus atas permintaan pe
 | 4 | Kruskal | 1,5 mnt | Jadi |
 | 5 | Prim | 1,5 mnt | Jadi |
 | 6 | Borůvka | 1,5 mnt | Jadi |
-| 7 | Kompleksitas teoretis | 1,5 mnt | Jadi |
-| 8 | Studi kasus: jaringan kabel lima gedung (adegan 3D) | 1 mnt | Jadi |
+| 7 | Studi kasus: jaringan kabel lima gedung (adegan 3D) | 1 mnt | Jadi |
+| 8 | Kompleksitas teoretis | 1,5 mnt | Jadi |
 | 9 | Metode eksperimen | 1 mnt | Jadi |
 | 10 | Hasil dan analisis | 1,5 mnt | Jadi |
 | 11 | Kesimpulan dan penutup | 0,5 mnt | Jadi |
 
-Total 13 menit, di dalam batas 10 sampai 15 menit. Bila perlu dipangkas, ambil dari slide 7 atau 4 sampai 6.
+Total 13 menit, di dalam batas 10 sampai 15 menit. Bila perlu dipangkas, ambil dari slide 8 atau 4 sampai 6.
 
-Pengelompokan pada bar progres di bawah slide: Pembuka (1), Konsep (2), Algoritma (3 sampai 6), Teori (7), Eksperimen (8 sampai 10), Penutup (11).
+Pengelompokan pada bar progres di bawah slide: Pembuka (1), Konsep (2), Algoritma (3 sampai 6), Studi Kasus (7), Teori (8), Eksperimen (9 dan 10), Penutup (11).
 
 ## 2. Gaya dan Cara Pakai
 
@@ -145,7 +145,7 @@ Catatan penyaji (sekitar 1,5 menit):
 4. "Kalau sudah satu kelompok, sisi itu hanya membuat lingkaran, jadi dibuang."
 5. "Berhenti saat sisi terpilih sudah n dikurangi 1. Di sini 4 sisi, total biaya 18."
 
-Kompleksitas tidak dicantumkan di slide ini, karena dibahas di slide 7 setelah diverifikasi.
+Kompleksitas tidak dicantumkan di slide ini, karena dibahas di slide 8 setelah diverifikasi.
 
 ## 5c. Slide 5: Algoritma Prim
 
@@ -181,7 +181,21 @@ Hasil: 1 putaran. Pilihan: C→C–D 6, D→B–D 3, A→A–B 5, B→B–D 3, E
 
 Catatan: berbeda dengan slide 4 dan 5, penolakan pada slide ini benar-benar terjadi di kode (GABUNG kedua untuk B–D mengembalikan SALAH), jadi tidak memakai kata "seandainya".
 
-## 5e. Slide 7: Kompleksitas Teoretis
+## 5e. Slide 7: Studi Kasus
+
+Tujuan: penonton awam mengikuti sebuah cerita dulu (kampus, gedung, biaya), baru melihat MST dipakai dan bahwa tiga metode menghasilkan jawaban sama. Isi mengikuti Bab 4 subbab 4.1 (Tabel 4.1 dan 4.2). Gaya sinematik: adegan 3D layar penuh (gedung sebagai balok di atas lantai kampus, jalur kabel sebagai lengkung), kamera berpindah tiap klik, tanpa kotak panel. Proyeksi dihitung dengan JavaScript sehingga label selalu menghadap layar. Adegan bisa diputar dengan menyeret kursor, klik dua kali mengembalikan sudut. Lima klik. Objek muncul sesuai cerita: lantai dulu, gedung baru muncul saat cerita masuk ke gedung, kabel baru muncul saat cerita masuk ke biaya.
+
+| Klik | Tampilan | Pesan |
+|------|----------|-------|
+| 1 | Cerita: lantai kosong, pertanyaan "Bagaimana menghubungkan lima gedung dengan biaya terkecil?" | Fakultas Teknik Unhas ingin memasang jaringan kabel |
+| 2 | Lima gedung naik satu per satu (abjad), cincin gelombang di lantai, daftar gedung di kanan | 5 gedung = 5 simpul |
+| 3 | Empat pasangan terhalang (✕), lalu enam kabel tergambar satu per satu dengan chip biaya. Tabel pembobotan (Tabel 4.1) muncul bersamaan, kolom arti (insentif, gratis, bayar) | 6 sisi berbobot biaya bersih. Nilai ilustrasi karangan |
+| 4 | Pilihan metode: kartu Kruskal, Prim, Borůvka (klik atau tombol 1, 2, 3). Tiap metode berjalan di adegan dengan catatan langkah dan total berjalan | Cara tiap metode memilih jalur |
+| 5 | Hasil tiga metode sama (4 jalur, 8), rincian −5 − 2 + 0 + 15 = 8, kotak batas | Kasus kecil menguji kebenaran, bukan efisiensi |
+
+Kabel tidak lagi diwarnai menurut tanda biaya (itu sempat membingungkan). Warna tanda hanya ada pada chip biaya dan tabel. Kabel kandidat abu-abu putus, kabel yang sedang dipertimbangkan kuning, kabel yang diterima biru terang menyala. Prim dimulai dari simpul 0 (Arsitektur, urutan abjad seperti kode studi kasus). Borůvka selesai dalam satu putaran karena tiap gedung memilih jalur termurahnya dan keempat pilihan itu tepat membentuk MST (hasil penelusuran manual dari Tabel 4.1, belum dicocokkan dengan keluaran kode). MST tunggal karena semua biaya berbeda.
+
+## 5f. Slide 8: Kompleksitas Teoretis
 
 Tujuan: penonton yang belum akrab dengan notasi *O* tetap paham dari mana batas waktu dan ruang tiap algoritma berasal. Isi mengikuti Bab 3 subbab 3.4 (Teorema 3.5 sampai 3.8, Tabel 3.7 dan 3.8). Komposisinya sengaja berbeda dari slide 4 sampai 6: tiga kartu lebar penuh dan grafik batang, tanpa panel kiri kanan. Satu klik satu langkah.
 
@@ -196,20 +210,6 @@ Catatan: rencana awal menyebut Borůvka hanya "dikutip singkat", tetapi laporan 
 | 5 | Grafik batang skala logaritmik untuk graf jarang, menengah, padat pada n = 1.000, dengan legenda "batang panjang = langkah lebih banyak = lebih berat" dan dua penanda rasio (padat sekitar 500 kali jarang, Borůvka sekitar 10 kali lebih berat) | Graf padat jauh lebih berat. Kruskal dan Prim berbatas atas sama, jadi pembeda diukur lewat eksperimen |
 
 Angka pada grafik dihitung dari rumus: m = n − 1 (jarang), m = n log₂ n (menengah), m = n(n − 1)/2 (padat), lalu m log₂ n dan m log₂² n dengan n = 1.000. Ini ilustrasi satuan langkah menurut rumus, bukan hasil pengukuran, dan diberi label di slide. Kasus "menengah" memakai konstanta 1 pada Θ(n log n) sebagai asumsi ilustrasi.
-
-## 5f. Slide 8: Studi Kasus
-
-Tujuan: penonton awam mengikuti sebuah cerita dulu (kampus, gedung, biaya), baru melihat MST dipakai dan bahwa tiga metode menghasilkan jawaban sama. Isi mengikuti Bab 4 subbab 4.1 (Tabel 4.1 dan 4.2). Gaya sinematik: adegan 3D layar penuh (gedung sebagai balok di atas lantai kampus, jalur kabel sebagai lengkung), kamera berpindah tiap klik, tanpa kotak panel. Proyeksi dihitung dengan JavaScript sehingga label selalu menghadap layar. Adegan bisa diputar dengan menyeret kursor, klik dua kali mengembalikan sudut. Lima klik. Objek muncul sesuai cerita: lantai dulu, gedung baru muncul saat cerita masuk ke gedung, kabel baru muncul saat cerita masuk ke biaya.
-
-| Klik | Tampilan | Pesan |
-|------|----------|-------|
-| 1 | Cerita: lantai kosong, pertanyaan "Bagaimana menghubungkan lima gedung dengan biaya terkecil?" | Fakultas Teknik Unhas ingin memasang jaringan kabel |
-| 2 | Lima gedung naik satu per satu (abjad), cincin gelombang di lantai, daftar gedung di kanan | 5 gedung = 5 simpul |
-| 3 | Empat pasangan terhalang (✕), lalu enam kabel tergambar satu per satu dengan chip biaya. Tabel pembobotan (Tabel 4.1) muncul bersamaan, kolom arti (insentif, gratis, bayar) | 6 sisi berbobot biaya bersih. Nilai ilustrasi karangan |
-| 4 | Pilihan metode: kartu Kruskal, Prim, Borůvka (klik atau tombol 1, 2, 3). Tiap metode berjalan di adegan dengan catatan langkah dan total berjalan | Cara tiap metode memilih jalur |
-| 5 | Hasil tiga metode sama (4 jalur, 8), rincian −5 − 2 + 0 + 15 = 8, kotak batas | Kasus kecil menguji kebenaran, bukan efisiensi |
-
-Kabel tidak lagi diwarnai menurut tanda biaya (itu sempat membingungkan). Warna tanda hanya ada pada chip biaya dan tabel. Kabel kandidat abu-abu putus, kabel yang sedang dipertimbangkan kuning, kabel yang diterima biru terang menyala. Prim dimulai dari simpul 0 (Arsitektur, urutan abjad seperti kode studi kasus). Borůvka selesai dalam satu putaran karena tiap gedung memilih jalur termurahnya dan keempat pilihan itu tepat membentuk MST (hasil penelusuran manual dari Tabel 4.1, belum dicocokkan dengan keluaran kode). MST tunggal karena semua biaya berbeda.
 
 ## 5g. Slide 9: Metode Eksperimen
 
@@ -229,7 +229,7 @@ Angka 225 adalah hitungan dari rancangan (15 graf × 3 algoritma × 5 ulangan), 
 
 Satu layar, tiga klik, tiga lapis dari atas ke bawah dengan label di kiri (animasi: panel masuk bertahap, batang tumbuh, angka berhitung naik, pemenang disorot, kartu hasil muncul berurutan): (1) Apa datanya: waktu dalam milidetik, 225 pengukuran, tabel ukuran terbesar tiap skenario dengan sel tercepat disorot. (2) Highlight: Kruskal tercepat di jarang, Prim di padat, Borůvka 3,3 sampai 4,7 kali Kruskal, daftar tetangga menambah Prim 44 sampai 50%. (3) Bagaimana hasilnya: tidak ada satu pemenang, Borůvka paling lambat, Kruskal dan Prim tumbuh lebih cepat dari rumus (Prediksi 1 tidak terpenuhi), dan batas hasil. Kartu hasil 3 menjawab "sesuai rumus?" (Kruskal dan Prim tidak, rasio 1,29 sampai 2,19; Borůvka mendekati) dan kartu 4 menjawab "membuktikan teori?" (belum terbukti dan belum terbantah, karena teorema adalah batas atas untuk n sangat besar dan data hanya ukuran terbatas).
 
-Istilah kasus terbaik, rata-rata, dan terburuk hanya dipakai di slide 7 (kompleksitas waktu teoretis). Di slide 9 dan 10 skenario hanya disebut jarang, padat, dan kembar. Semua angka dari Tabel 4.6 sampai 4.10.
+Istilah kasus terbaik, rata-rata, dan terburuk hanya dipakai di slide 8 (kompleksitas waktu teoretis). Di slide 9 dan 10 skenario hanya disebut jarang, padat, dan kembar. Semua angka dari Tabel 4.6 sampai 4.10.
 
 ## 6. Slide 11: Kesimpulan dan Penutup
 
@@ -276,7 +276,17 @@ Graf: sisi A–B 5, A–C 8, B–C 11, B–D 3, C–D 6, D–E 4, C–E 9. MST: 
 
 **Simbol.** c jumlah komponen, T sisi termurah tiap komponen, himpunan, A, total, (u, v, w).
 
-### Slide 7: Kompleksitas Teoretis
+### Slide 7: Studi Kasus
+
+**Masalah.** Lima gedung Teknik, enam jalur kandidat, empat pasangan terhalang. Cari jalur yang menghubungkan semua gedung dengan biaya bersih paling kecil (MST).
+
+**Biaya bersih.** Positif bayar sendiri, nol gratis, negatif dapat insentif. Sah karena algoritma hanya memakai urutan bobot.
+
+**Kruskal.** Urutkan: −5, −2, 0, 15, 18, 25. Terima empat pertama (tidak membentuk siklus), lalu berhenti. Total −5 − 2 + 0 + 15 = 8 juta. **Prim** (mulai Arsitektur): −5, −2, 0, 15. **Borůvka**: satu putaran, tiap gedung memilih jalur termurahnya (−5, −5, −2, 0, 15). Ketiganya sama (Tabel 4.2).
+
+**Batas.** Lima gedung hanya menguji kebenaran dan kegunaan, bukan efisiensi.
+
+### Slide 8: Kompleksitas Teoretis
 
 **Ide.** Hitung kira-kira berapa langkah tiap algoritma bila graf membesar. Hasilnya batas atas, bukan waktu pasti.
 
@@ -289,16 +299,6 @@ Graf: sisi A–B 5, A–C 8, B–C 11, B–D 3, C–D 6, D–E 4, C–E 9. MST: 
 **Borůvka.** Paling banyak log n putaran, tiap putaran m sisi dengan 2 CARI-AKAR (m log n). Total O(m log² n), satu faktor log n lebih dari Kruskal dan Prim karena kode mencari komponen dengan CARI-AKAR. Ruang O(n).
 
 **Grafik.** Pada n = 1.000, graf padat jauh lebih berat daripada graf jarang untuk ketiganya. Kruskal dan Prim berbatas atas sama, sehingga mana yang lebih cepat baru terlihat di eksperimen.
-
-### Slide 8: Studi Kasus
-
-**Masalah.** Lima gedung Teknik, enam jalur kandidat, empat pasangan terhalang. Cari jalur yang menghubungkan semua gedung dengan biaya bersih paling kecil (MST).
-
-**Biaya bersih.** Positif bayar sendiri, nol gratis, negatif dapat insentif. Sah karena algoritma hanya memakai urutan bobot.
-
-**Kruskal.** Urutkan: −5, −2, 0, 15, 18, 25. Terima empat pertama (tidak membentuk siklus), lalu berhenti. Total −5 − 2 + 0 + 15 = 8 juta. **Prim** (mulai Arsitektur): −5, −2, 0, 15. **Borůvka**: satu putaran, tiap gedung memilih jalur termurahnya (−5, −5, −2, 0, 15). Ketiganya sama (Tabel 4.2).
-
-**Batas.** Lima gedung hanya menguji kebenaran dan kegunaan, bukan efisiensi.
 
 ### Slide 9: Metode Eksperimen
 
