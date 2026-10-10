@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slide 4 · Kruskal</title>
+<title>Slide 5 · Prim</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -178,7 +178,7 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 .edge-hint.on{opacity:1}
 
 
-/* ───────── Slide 4: pseudocode + graf Kruskal ───────── */
+/* ───────── Slide 5: pseudocode + graf Prim ───────── */
 svg#g{aspect-ratio:960/410}
 .readout strong.bump{animation:bump .6s ease;transform-origin:right center}
 @keyframes bump{40%{color:var(--accent-bright);transform:scale(1.14)}}
@@ -207,9 +207,9 @@ svg#g{aspect-ratio:960/410}
 .ln.w.on .k{color:var(--amber)}
 
 /* legenda warna (di panel kanan) */
-.lgd{position:absolute;right:28px;top:499px;display:flex;gap:22px;font-size:15px;color:var(--body)}
+.lgd{position:absolute;right:28px;top:499px;display:flex;gap:18px;font-size:15px;color:var(--body)}
 .lgd span{display:flex;align-items:center;gap:8px}
-.lgd i{display:block;width:22px;height:0}
+.lgd i{display:block;width:20px;height:0}
 .panel.big{height:756px}
 
 /* panel arti simbol */
@@ -246,6 +246,15 @@ svg#g{aspect-ratio:960/410}
 .gp.new{animation:gpop .7s ease;border-color:var(--accent);color:var(--accent)}
 @keyframes gpop{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.12);opacity:1}100%{transform:none}}
 
+.ln{height:36px}
+.code{padding:10px 0}
+.vr{grid-template-columns:128px 300px 1fr}
+.edge.q .base{stroke:rgba(255,255,255,.9);stroke-width:3.6}
+.edge.q .lab rect{stroke:rgba(255,255,255,.6)}
+.edge.q .lab text{fill:var(--text)}
+.chip.new{animation:chipin .55s ease}
+@keyframes chipin{from{opacity:0;transform:translateY(12px) scale(.9)}to{opacity:1;transform:none}}
+.chip.show.skip{opacity:1}
 #siklus{opacity:0;transition:opacity .5s ease}
 #siklus.show{opacity:1}
 #siklus rect{fill:var(--amber)}
@@ -260,12 +269,12 @@ svg#g{aspect-ratio:960/410}
       <div><b>Universitas Hasanuddin</b><span>Magister Teknik Informatika</span></div></div>
     <div class="tag">Tugas Besar Analisis Algoritma</div>
   </div>
-  <div class="kicker"><h1>Algoritma Kruskal</h1></div>
+  <div class="kicker"><h1>Algoritma Prim</h1></div>
 
   <div class="panel pseudo">
     <i class="c1"></i><i class="c2"></i>
     <div class="phead">
-      <div class="fig"><b>Pseudocode</b> · Kruskal</div>
+      <div class="fig"><b>Pseudocode</b> · Prim</div>
       <div class="fig" style="text-transform:none;letter-spacing:.02em;font-size:14px">arti simbol ada di bawah</div>
     </div>
     <div class="code" id="code"></div>
@@ -275,15 +284,15 @@ svg#g{aspect-ratio:960/410}
   <div class="panel big">
     <i class="c1"></i><i class="c2"></i>
     <div class="phead">
-      <div class="fig"><b>Fig. 04</b> · Kruskal pada graf contoh</div>
+      <div class="fig"><b>Fig. 05</b> · Prim pada graf contoh</div>
       <div class="ros">
         <div class="readout"><small>Sisi MST</small><strong id="ro1">0 / 4</strong></div>
         <div class="readout"><small>Total biaya</small><strong id="ro2">0</strong></div>
       </div>
     </div>
     <svg id="g" viewBox="0 55 960 410" aria-label="Graf contoh lima titik"></svg>
-    <div class="lab-s">Sisi terurut dari termurah</div>
-    <div class="lgd"><span><i style="border-top:4px solid var(--accent-bright)"></i>diperiksa</span><span><i style="border-top:4px solid var(--accent)"></i>masuk MST</span><span><i style="border-top:4px solid var(--amber)"></i>ditolak (siklus)</span></div>
+    <div class="lab-s">Antrean Q, termurah di kiri</div>
+    <div class="lgd"><span><i style="border-top:4px solid var(--accent-bright)"></i>diperiksa</span><span><i style="border-top:4px solid var(--accent)"></i>masuk MST</span><span><i style="border-top:3px solid rgba(255,255,255,.9)"></i>di antrean</span><span><i style="border-top:4px solid var(--amber)"></i>dilewati</span></div>
     <div class="chips" id="chips"></div>
     <div class="grp" id="grp"></div>
     <div class="pfoot"><div class="pf show"><div class="cap" id="cap"></div></div></div>
@@ -307,68 +316,76 @@ const NODES=[{id:'A',x:140,y:260},{id:'B',x:340,y:100},{id:'C',x:340,y:420},{id:
 const EDGES=[['A','B',5],['A','C',8],['B','C',11],['B','D',3],['C','D',6],['D','E',4],['C','E',9]];
 const N=NODES.length, idx=Object.fromEntries(NODES.map((n,i)=>[n.id,i]));
 
-/* ═════════ Jalankan Kruskal sungguhan (urutan sama dengan kruskal.py) ═════════ */
+/* ═════════ Jalankan Prim sungguhan dari titik A (urutan sama dengan prim.py) ═════════ */
 const mn=e=>Math.min(idx[e[0]],idx[e[1]]), mx=e=>Math.max(idx[e[0]],idx[e[1]]);
-const SORTED=EDGES.map((_,i)=>i).sort((p,q)=>{const a=EDGES[p],b=EDGES[q];return a[2]-b[2]||mn(a)-mn(b)||mx(a)-mx(b);});
-const par=[...Array(N).keys()];
-const find=x=>par[x]===x?x:(par[x]=find(par[x]));
-const setsNow=()=>{const m=new Map();NODES.forEach((n,i)=>{const r=find(i);if(!m.has(r))m.set(r,[]);m.get(r).push(n.id);});return [...m.values()];};
-const setOf=(sets,id)=>sets.find(s=>s.includes(id));
+const cmp=(p,q)=>{const a=EDGES[p],b=EDGES[q];return a[2]-b[2]||mn(a)-mn(b)||mx(a)-mx(b);};
+const adjOf=id=>EDGES.map((e,i)=>i).filter(i=>EDGES[i][0]===id||EDGES[i][1]===id);
+const other=(i,id)=>EDGES[i][0]===id?EDGES[i][1]:EDGES[i][0];
+const lbl=e=>EDGES[e][0]+'–'+EDGES[e][1];
+const kb=e=>{const a=EDGES[e];return idx[a[0]]<=idx[a[1]]?[a[0],a[1]]:[a[1],a[0]];};
+const S0='A';
 const fmtS=s=>'{'+s.join(', ')+'}';
-const INIT=NODES.map(n=>[n.id]);
-const T=[]; {let cnt=0,tot=0;
-  for(const i of SORTED){
-    const [a,b,w]=EDGES[i], before=setsNow(), su=setOf(before,a), sv=setOf(before,b);
-    const ra=find(idx[a]), rb=find(idx[b]), ok=ra!==rb;
-    if(ok){par[ra]=rb;cnt++;tot+=w;}
-    T.push({e:i,ok,su,sv,before,after:setsNow(),cnt,tot});
-    if(cnt===N-1)break;
+const T=[]; let INITQ=[];
+{let tree=[S0],Q=[],mst=[],cnt=0,tot=0;
+  const push=ids=>{Q.push(...ids);Q.sort(cmp);};
+  push(adjOf(S0));INITQ=[...Q];
+  while(Q.length&&cnt<N-1){
+    const e=Q.shift(),[a,b,w]=EDGES[e],inA=tree.includes(a),inB=tree.includes(b);
+    if(inA&&inB)continue;
+    const asal=inA?a:b,tujuan=inA?b:a,treeBefore=[...tree],qPop=[...Q];
+    tree.push(tujuan);cnt++;tot+=w;mst.push(e);
+    const pushed=adjOf(tujuan).filter(i=>!tree.includes(other(i,tujuan)));
+    push(pushed);
+    T.push({e,w,asal,tujuan,treeBefore,tree:[...tree],qPop,pushed,qAfter:[...Q],cnt,tot,mst:[...mst]});
   }}
-const REST=SORTED.slice(T.length);
-const ACC=T.filter(t=>t.ok).map(t=>t.e);
+const REST=T[T.length-1].qAfter;
+const ACC=T.map(t=>t.e);
 const eIdx=(a,b)=>EDGES.findIndex(e=>(e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a));
-function pathIn(a,b){ /* jalur a ke b pada sisi yang sudah diterima */
+function pathIn(a,b){
   const adj={};NODES.forEach(n=>adj[n.id]=[]);ACC.forEach(i=>{adj[EDGES[i][0]].push(EDGES[i][1]);adj[EDGES[i][1]].push(EDGES[i][0]);});
   const prev={[a]:null},q=[a];while(q.length){const u=q.shift();if(u===b)break;adj[u].forEach(v=>{if(!(v in prev)){prev[v]=u;q.push(v);}});}
   const p=[];let c=b;while(c!==null&&c!==undefined){p.unshift(c);c=prev[c];}return p;}
 
-/* ═════════ Pseudocode ═════════ */
+/* ═════════ Pseudocode (ringkasan Pseudocode 3.3, urutan mengikuti prim()) ═════════ */
 const CODE=[
- [0,'<span class="k">E′</span> ← E <span class="k">diurutkan</span> menaik menurut κ'],
- [0,'himpunan ← BUAT-HIMPUNAN(n) ; A ← ∅ ; total ← 0'],
- [0,'<span class="k">untuk setiap</span> (u, v, w) pada E′ menurut urutannya <span class="k">lakukan</span>'],
- [1,'<span class="k">jika</span> GABUNG(u, v) <span class="k">maka</span>'],
- [2,'A ← A ∪ {(u, v, w)} ; total ← total + w'],
- [2,'<span class="k">jika</span> |A| = n − 1 <span class="k">maka hentikan</span> perulangan'],
+ [0,'masuk ← SALAH ; <span class="k">masuk[s] ← BENAR</span> ; A ← ∅ ; total ← 0'],
+ [0,'Q ← <span class="k">masukkan</span> sisi dari s ke tetangganya'],
+ [0,'<span class="k">selama</span> Q tidak kosong dan |A| &lt; n − 1 <span class="k">lakukan</span>'],
+ [1,'(w, k, b) ← <span class="k">keluarkan</span> sisi termurah dari Q'],
+ [1,'<span class="k">jika</span> masuk[k] dan masuk[b] <span class="k">maka lewati</span>'],
+ [1,'tujuan ← ujung baru ; masuk[tujuan] ← BENAR'],
+ [1,'A ← A ∪ {(asal, tujuan, w)} ; total ← total + w'],
+ [1,'<span class="k">masukkan</span> ke Q sisi dari tujuan ke titik baru'],
  [0,'<span class="k">jika</span> |A| ≠ n − 1 <span class="k">maka galat</span> "Graf tidak terhubung"'],
  [0,'<span class="k">kembalikan</span> (A, total)']
 ];
 const codeEl=$('#code');
-const hd=document.createElement('div');hd.className='ln hd';hd.innerHTML='<span class="no"></span><span class="t">KRUSKAL(n, E)</span>';codeEl.appendChild(hd);
+const hd=document.createElement('div');hd.className='ln hd';hd.innerHTML='<span class="no"></span><span class="t">PRIM(n, Adj, s)</span>';codeEl.appendChild(hd);
 const LN=CODE.map(([ind,html],i)=>{const d=document.createElement('div');d.className='ln';
   d.innerHTML='<span class="no">'+(i+1)+'</span><span class="t" style="--i:'+ind+'">'+html+'</span>';codeEl.appendChild(d);return d;});
-/* panel arti simbol: arti tiap simbol + nilainya saat ini */
-const lbl=e=>EDGES[e][0]+'–'+EDGES[e][1];
-const VR=[['Ep','E, E′','E semua sisi, E′ sudah diurut'],['k','κ','aturan urut sisi'],['him','himpunan','kelompok tiap titik'],
-  ['A','A','sisi MST terpilih, |A| = banyaknya'],['tot','total','jumlah bobot sisi di A'],['uvw','(u, v, w)','u, v = ujung sisi, w = bobotnya'],['n','n','jumlah titik']];
+const VR=[['sn','s, n','s titik awal, n jumlah titik'],['masuk','masuk','titik yang sudah di pohon'],['Q','Q','antrean sisi, termurah keluar dulu'],
+  ['wkb','(w, k, b)','w = bobot, k dan b = ujung sisi'],['at','asal, tujuan','ujung lama dan ujung baru'],
+  ['A','A','sisi MST terpilih, |A| = banyaknya'],['tot','total','jumlah bobot sisi di A']];
 const VEL={};
 (function(){const v=$('#vars');v.innerHTML='<div class="vh"><span>Arti simbol</span><span>nilai saat ini</span></div>';
   VR.forEach(([id,sy,ar])=>{const r=document.createElement('div');r.className='vr';r.innerHTML='<span class="sy">'+sy+'</span><span>'+ar+'</span><span class="vl"></span>';v.appendChild(r);VEL[id]=r;});})();
-const V={sorted:false,sets:null,A:null,tot:null,uvw:null};
-function showVars(){
-  const put=(id,txt)=>{const c=VEL[id].querySelector('.vl');c.textContent=txt==null?'belum ada':txt;c.classList.toggle('no',txt==null);};
-  put('Ep',EDGES.length+' sisi, '+(V.sorted?'sudah urut':'belum diurut'));
-  put('k','bobot, simpul kecil, besar');
-  put('him',V.sets?V.sets.map(fmtS).join(' '):null);
-  put('A',V.A?'|A| = '+V.A.length+(V.A.length?'  '+V.A.join(' '):'  ∅'):null);
-  put('tot',V.tot==null?null:String(V.tot));
-  put('uvw',V.uvw?'u='+V.uvw[0]+' v='+V.uvw[1]+' w='+V.uvw[2]:null);
-  put('n',String(N));
-}
-const setV=o=>{Object.assign(V,o);showVars();};
-const ROWMAP={1:['Ep','k'],2:['him','A','tot'],3:['uvw','Ep'],4:['uvw','him'],5:['A','tot','uvw'],6:['A','n'],7:['A','n'],8:['A','tot']};
+const ROWMAP={1:['sn','masuk','A','tot'],2:['Q','sn'],3:['Q','A','sn'],4:['Q','wkb'],5:['wkb','masuk'],6:['at','masuk','wkb'],7:['A','tot','at','wkb'],8:['Q','at','masuk'],9:['A','sn'],10:['A','tot']};
 function hl(lines,warn){LN.forEach((d,i)=>{d.classList.toggle('on',lines.includes(i+1));d.classList.toggle('w',!!warn&&lines.includes(i+1));});codeEl.classList.toggle('act',lines.length>0);
   const act=new Set();lines.forEach(l=>(ROWMAP[l]||[]).forEach(x=>act.add(x)));VR.forEach(([id])=>VEL[id].classList.toggle('on',act.has(id)));}
+
+/* ═════════ Keadaan tampilan (S) ═════════ */
+let S={};
+const blank=()=>({init:false,qOn:false,tree:[],q:[],front:null,mst:[],cnt:0,tot:0,dim:false,stale:false,cand:null,path:[],hiN:[],newN:null,newQ:[],wkb:null,at:null,badge:null});
+function showVars(){
+  const put=(id,txt)=>{const c=VEL[id].querySelector('.vl');c.textContent=txt==null?'belum ada':txt;c.classList.toggle('no',txt==null);};
+  put('sn','s = '+S0+', n = '+N);
+  put('masuk',S.init?fmtS(S.tree):null);
+  put('Q',S.qOn?(S.q.length?S.q.map(e=>lbl(e)+' '+EDGES[e][2]).join('  '):'kosong'):null);
+  put('wkb',S.wkb?'w='+S.wkb[0]+' k='+S.wkb[1]+' b='+S.wkb[2]:null);
+  put('at',S.at?S.at[0]+' → '+S.at[1]:null);
+  put('A',S.init?'|A| = '+S.mst.length+(S.mst.length?'  '+S.mst.map(lbl).join(' '):'  ∅'):null);
+  put('tot',S.init?String(S.tot):null);
+}
 
 /* ═════════ Graf ═════════ */
 const g=$('#g');
@@ -387,98 +404,92 @@ function placeBadge(i){const A=NODES[idx[EDGES[i][0]]],B=NODES[idx[EDGES[i][1]]]
   bdR.setAttribute('x',cx-48);bdR.setAttribute('y',cy-14);bdT.setAttribute('x',cx);bdT.setAttribute('y',cy+1);}
 const setE=(i,cls,d=0)=>{EL[i].setAttribute('class','edge '+cls);EL[i].style.setProperty('--d',d+'ms');};
 const setN=(i,cls,d=0)=>{NL[i].setAttribute('class','node '+cls);NL[i].style.setProperty('--d',d+'ms');};
-const nodesFor=sets=>NODES.forEach((n,i)=>setN(i,setOf(sets,n.id).length>1?'in':''));
 
-/* sisi terurut + kelompok */
-const CH=SORTED.map(i=>{const [a,b,w]=EDGES[i],c=document.createElement('div');c.className='chip';
-  c.innerHTML='<b>'+a+'–'+b+'</b><i>'+w+'</i>';$('#chips').appendChild(c);return c;});
-const setChip=(p,st,vis=true)=>{CH[p].className='chip'+(vis?' show':'')+(st?' '+st:'');};
-const GR=$('#grp');
-function renderGroups(sets,o={}){const merged=o.merged?o.merged.join():null,hi=(o.hi||[]).map(s=>s.join());
-  GR.innerHTML='<small>Kelompok</small>'+sets.map(s=>{const k=s.join();return '<span class="gp'+(k===merged?' new':'')+(hi.includes(k)?' hi':'')+'">'+fmtS(s)+'</span>';}).join('');
-  GR.classList.add('show');}
-
-/* readout dan keterangan */
+const chipsEl=$('#chips'), GR=$('#grp');
 function RO(c,t,bump){const a=$('#ro1'),b=$('#ro2');a.textContent=c+' / '+(N-1);b.textContent=t;
   a.parentElement.classList.toggle('d',c===N-1);b.parentElement.classList.toggle('d',c===N-1);
   if(bump){[a,b].forEach(x=>{x.classList.remove('bump');void x.offsetWidth;x.classList.add('bump');});}}
 function cap(html){const c=$('#cap');c.innerHTML=html;c.classList.remove('sw');void c.offsetWidth;c.classList.add('sw');}
 
-/* ═════════ Langkah ═════════ */
-let runs=[];const later=(f,ms)=>runs.push(setTimeout(f,ms));const clearRuns=()=>{runs.forEach(clearTimeout);runs=[];};
-const DEMO=2+T.length;
-const SEQ=[[0,0],[1,0],[1,1],[1,2]];
-T.forEach((t,j)=>{for(let p=0;p<(t.ok?4:3);p++)SEQ.push([2+j,p]);});
-if(REST.length)for(let p=0;p<3;p++)SEQ.push([DEMO,p]);
-const TOTAL=SEQ.length, LAST=TOTAL-1;
-let step=0;
-
-/* keadaan di AWAL langkah k (semua langkah sebelumnya sudah selesai) */
-function paint(k){
-  const done=Math.max(0,Math.min(T.length,k-2)), finished=k>T.length+1;
-  g.classList.add('nt');
-  EDGES.forEach((_,i)=>setE(i,''));
-  T.slice(0,done).forEach(t=>setE(t.e,t.ok?'mst':'dim'));
-  if(finished)REST.forEach(i=>setE(i,'dim'));
-  bd.classList.remove('show');
-  void g.getBoundingClientRect();g.classList.remove('nt');
-  SORTED.forEach((_,p)=>{CH[p].style.setProperty('--d','0ms');
-    if(k<2)setChip(p,'',false);else{let st='';if(p<done)st=T[p].ok?'acc':'rej';else if(finished)st='skip';setChip(p,st,true);}});
-  const sets=k<2?INIT:(done>0?T[done-1].after:INIT);
-  nodesFor(sets);
-  if(k<2)GR.classList.remove('show');else renderGroups(sets);
-  RO(done>0?T[done-1].cnt:0,done>0?T[done-1].tot:0,false);
-  V.sorted=k>=2;V.sets=k<2?null:sets;V.A=k<2?null:T.slice(0,done).filter(t=>t.ok).map(t=>lbl(t.e));V.tot=k<2?null:(done>0?T[done-1].tot:0);V.uvw=null;
-  hl([]);showVars();
+/* gambar ulang semua dari S */
+function draw(bump){
+  EDGES.forEach((_,i)=>{let c='';
+    if(S.mst.includes(i))c='mst';else if(S.cand===i)c='cand';else if(S.front&&S.front.e===i&&S.front.st==='try')c='pick';
+    else if(S.path.includes(i))c='pick';else if(S.q.includes(i))c=S.dim?'dim':'q';else if(S.dim)c='dim';
+    setE(i,c);});
+  NODES.forEach((n,i)=>setN(i,S.tree.includes(n.id)?'in':''));
+  const items=(S.front?[S.front]:[]).concat(S.q.map(e=>({e,st:S.stale?'skip':''})));
+  chipsEl.innerHTML=items.map(it=>'<div class="chip show'+(it.st?' '+it.st:'')+(S.newQ.includes(it.e)&&!(S.front&&S.front.e===it.e)?' new':'')+'"><b>'+lbl(it.e)+'</b><i>'+EDGES[it.e][2]+'</i></div>').join('');
+  if(S.init){GR.innerHTML='<small>Pohon</small>'+S.tree.map(id=>'<span class="gp'+(id===S.newN?' new':'')+(S.hiN.includes(id)?' hi':'')+'">'+id+'</span>').join('');GR.classList.add('show');}
+  else GR.classList.remove('show');
+  bd.classList.toggle('show',S.badge!=null);if(S.badge!=null)placeBadge(S.badge);
+  RO(S.cnt,S.tot,bump);showVars();
 }
 
-/* satu klik = satu fase; tidak ada animasi yang jalan sendiri */
+/* ═════════ Langkah: satu klik = satu fase ═════════ */
+const DEMO=2+T.length;
+const SEQ=[[0,0],[1,0],[1,1]];
+T.forEach((t,j)=>{for(let p=0;p<(j===T.length-1?5:4);p++)SEQ.push([2+j,p]);});
+if(REST.length)for(let p=0;p<2;p++)SEQ.push([DEMO,p]);
+const TOTAL=SEQ.length, LAST=TOTAL-1;
+let step=0,cur=[-1,-1];
+const clearRuns=()=>{};
+
+/* keadaan di AWAL langkah k */
+function paint(k){
+  S=blank();
+  if(k>=2&&k<DEMO){const j=k-2;S.init=true;S.qOn=true;
+    if(j===0){S.tree=[S0];S.q=[...INITQ];}
+    else{const p=T[j-1];S.tree=[...p.tree];S.q=[...p.qAfter];S.mst=[...p.mst];S.cnt=p.cnt;S.tot=p.tot;}}
+  else if(k>=DEMO){const p=T[T.length-1];S.init=true;S.qOn=true;S.tree=[...p.tree];S.q=[...p.qAfter];S.mst=[...p.mst];S.cnt=p.cnt;S.tot=p.tot;S.dim=true;S.stale=true;}
+  g.classList.add('nt');draw(false);void g.getBoundingClientRect();g.classList.remove('nt');
+  hl([]);
+}
+
 function phase(k,ph){
   if(k===0){
     g.classList.add('nt');EDGES.forEach((_,i)=>setE(i,'hidden'));NODES.forEach((_,i)=>setN(i,'hidden'));
     void g.getBoundingClientRect();g.classList.remove('nt');
     NODES.forEach((_,i)=>setN(i,'',i*120));EDGES.forEach((_,i)=>setE(i,'',500+i*110));
-    cap('<b>Ide Kruskal:</b> urutkan semua sisi dari termurah, lalu ambil satu per satu, asal tidak membentuk <b>siklus</b> (sambungan yang melingkar).');
+    cap('<b>Ide Prim:</b> tumbuhkan satu pohon dari titik awal <b>A</b>. Setiap kali, ambil sisi <b>termurah</b> yang menghubungkan pohon dengan titik di luarnya.');
     return;
   }
   if(k===1){
-    if(ph===0){SORTED.forEach((_,p)=>{CH[p].style.setProperty('--d',(p*110)+'ms');setChip(p,'',true);});
-      hl([1]);setV({sorted:true});cap('Langkah pertama: <b>urutkan</b> semua sisi dari bobot terkecil sampai terbesar (<b>E′</b> adalah E yang sudah diurut).');}
-    else if(ph===1){hl([2]);setV({sets:INIT,A:[],tot:0});renderGroups(INIT);nodesFor(INIT);cap('<b>himpunan</b> dibuat: tiap titik mulai sebagai kelompok sendiri, belum ada titik yang tersambung.');}
-    else{hl([2]);cap('<b>A</b> (sisi MST yang terpilih) masih kosong dan <b>total</b> biaya 0. Sekarang periksa sisi dari yang termurah.');}
+    if(ph===0){S.init=true;S.tree=[S0];S.newN=S0;hl([1]);draw(false);
+      cap('<b>masuk[s]</b> = BENAR: pohon dimulai dari titik awal <b>s = '+S0+'</b>. <b>A</b> (sisi MST yang terpilih) masih kosong dan <b>total</b> biaya 0.');}
+    else{S.qOn=true;S.q=[...INITQ];S.newQ=[...INITQ];S.newN=null;hl([2]);draw(false);
+      cap('Sisi dari '+S0+' ke tetangganya (<b>'+INITQ.map(e=>lbl(e)+' ('+EDGES[e][2]+')').join('</b> dan <b>')+'</b>) dimasukkan ke antrean <b>Q</b>. Q selalu mengeluarkan sisi termurah lebih dulu.');}
     return;
   }
   if(k<DEMO){
-    const j=k-2,t=T[j],[a,b,w]=EDGES[t.e],nm=a+'–'+b;
-    if(ph===0){hl([3]);setV({uvw:[a,b,w]});setChip(j,'try');setE(t.e,'pick');
-      cap('Ambil sisi <b>'+nm+'</b>: ujung <b>u = '+a+'</b>, ujung <b>v = '+b+'</b>, bobot <b>w = '+w+'</b>. Apakah '+a+' dan '+b+' sudah satu kelompok?');}
-    else if(ph===1){hl([4]);renderGroups(t.before,{hi:[t.su,t.sv]});
-      cap(t.ok?a+' ada di <b>'+fmtS(t.su)+'</b>, '+b+' di <b>'+fmtS(t.sv)+'</b>: beda kelompok, jadi <b>GABUNG('+a+', '+b+')</b> berhasil.'
-               :a+' dan '+b+' sama-sama di <b>'+fmtS(t.su)+'</b>: <b>GABUNG('+a+', '+b+')</b> gagal, sisi ini membentuk siklus.');}
-    else if(ph===2){
-      if(t.ok){hl([5]);setV({A:T.slice(0,j+1).filter(x=>x.ok).map(x=>lbl(x.e)),tot:t.tot,sets:t.after});setE(t.e,'mst');setChip(j,'acc');renderGroups(t.after,{merged:setOf(t.after,a)});nodesFor(t.after);RO(t.cnt,t.tot,true);
-        cap('<b>Diterima.</b> Dua kelompok digabung menjadi '+fmtS(setOf(t.after,a))+'. Total biaya sekarang <b>'+t.tot+'</b>.');}
-      else{hl([4],true);setE(t.e,'dim');setChip(j,'rej');cap('<b>Ditolak.</b> Sisi '+nm+' dilewati.');}}
-    else{
-      if(t.cnt===N-1){hl([6,7,8]);REST.forEach(i=>setE(i,'dim'));REST.forEach(i=>setChip(SORTED.indexOf(i),'skip'));
-        cap('<b>|A| = '+t.cnt+' = n − 1</b> (n = '+N+' titik), jadi perulangan <b>dihentikan</b>. Semua titik sudah tersambung, sisa '+REST.length+' sisi tidak perlu diperiksa. Kembalikan MST dengan total biaya <b>'+t.tot+'</b>.');}
-      else{hl([6]);cap('|A| (banyak sisi di A) = '+t.cnt+', belum sama dengan n − 1 = '+(N-1)+' (n = '+N+' titik), jadi lanjut ke sisi berikutnya.');}}
+    const j=k-2,t=T[j],[a,b,w]=EDGES[t.e],[kk,bb]=kb(t.e),nm=lbl(t.e),last=j===T.length-1;
+    if(ph===0){S.q=t.qPop;S.front={e:t.e,st:'try'};S.wkb=[w,kk,bb];S.newQ=[];S.newN=null;hl([3,4]);draw(false);
+      cap('Keluarkan sisi <b>termurah</b> dari Q: <b>'+nm+'</b> (w = <b>'+w+'</b>, ujung k = <b>'+kk+'</b> dan b = <b>'+bb+'</b>).');}
+    else if(ph===1){S.at=[t.asal,t.tujuan];S.hiN=[t.asal];S.tree=[...t.tree];S.newN=t.tujuan;hl([5,6]);draw(false);
+      cap('Pohon sebelumnya <b>'+fmtS(t.treeBefore)+'</b>. Hanya <b>'+t.asal+'</b> yang sudah di pohon, <b>'+t.tujuan+'</b> belum, jadi tidak ada siklus. <b>tujuan = '+t.tujuan+'</b> (ujung baru) masuk ke pohon.');}
+    else if(ph===2){S.hiN=[];S.front={e:t.e,st:'acc'};S.mst=[...t.mst];S.cnt=t.cnt;S.tot=t.tot;hl([7]);draw(true);
+      cap('<b>Diterima.</b> Sisi '+nm+' masuk ke A, pohon bertambah menjadi '+fmtS(t.tree)+'. Total biaya sekarang <b>'+t.tot+'</b>.');}
+    else if(ph===3){S.front=null;S.newN=null;S.q=[...t.qAfter];S.newQ=[...t.pushed];hl([8]);draw(false);
+      cap(t.pushed.length?'Tetangga <b>'+t.tujuan+'</b> yang belum masuk pohon menghasilkan sisi <b>'+t.pushed.map(e=>lbl(e)+' ('+EDGES[e][2]+')').join('</b> dan <b>')+'</b>. Keduanya dimasukkan ke Q.'
+                            :'Semua tetangga <b>'+t.tujuan+'</b> sudah di pohon, jadi tidak ada sisi baru yang dimasukkan ke Q.');}
+    else{S.newQ=[];S.dim=true;S.stale=true;hl([3,9,10]);draw(false);
+      cap('<b>|A| = '+t.cnt+' = n − 1</b> (n = '+N+' titik), jadi perulangan <b>berhenti</b>. Semua titik sudah di pohon, sisa '+REST.length+' sisi di Q tidak perlu diproses. Kembalikan MST dengan total biaya <b>'+t.tot+'</b>.');}
     return;
   }
-  /* langkah terakhir: contoh sisi yang ditolak */
-  const e=REST[0],[a,b,w]=EDGES[e],p=SORTED.indexOf(e),nm=a+'–'+b,path=pathIn(a,b),last=T[T.length-1];
-  if(ph===0){hl([3]);setV({uvw:[a,b,w]});setChip(p,'try');setE(e,'cand');
-    for(let q=0;q<path.length-1;q++)setE(eIdx(path[q],path[q+1]),'pick');
-    cap('<b>Seandainya</b> sisi <b>'+nm+'</b> (bobot '+w+') tetap diperiksa. Pada kode yang sebenarnya perulangan sudah dihentikan sebelum sampai sini.');}
-  else if(ph===1){hl([4]);renderGroups(last.after,{hi:[setOf(last.after,a)]});
-    cap(a+' dan '+b+' sudah <b>satu kelompok</b> '+fmtS(setOf(last.after,a))+', karena sudah tersambung lewat '+path.join(', ')+'.');}
-  else{hl([4],true);setChip(p,'rej');placeBadge(e);bd.classList.add('show');
-    cap('<b>GABUNG('+a+', '+b+')</b> gagal. Menambah '+nm+' membuat sambungan <b>melingkar</b> (siklus) dan hanya menambah biaya, jadi sisi ini <b>ditolak</b>.');}
+  /* langkah terakhir: contoh sisi yang akan dilewati */
+  const e=REST[0],[a,b,w]=EDGES[e],[kk,bb]=kb(e),nm=lbl(e),path=pathIn(a,b);
+  if(ph===0){S.q=REST.slice(1);S.front={e,st:'try'};S.cand=e;S.wkb=[w,kk,bb];S.hiN=[a,b];S.stale=false;S.dim=false;
+    S.path=[];for(let q=0;q<path.length-1;q++)S.path.push(eIdx(path[q],path[q+1]));
+    hl([3,4]);draw(false);
+    cap('<b>Seandainya</b> perulangan tetap berjalan: sisi <b>'+nm+'</b> (w = '+w+') dikeluarkan dari Q. Pada kode yang sebenarnya perulangan sudah berhenti sebelum sampai sini.');}
+  else{S.q=REST.slice(1);S.front={e,st:'rej'};S.cand=e;S.hiN=[a,b];S.badge=e;
+    S.path=[];for(let q=0;q<path.length-1;q++)S.path.push(eIdx(path[q],path[q+1]));
+    hl([5],true);draw(false);
+    cap('<b>'+a+'</b> dan <b>'+b+'</b> sudah di pohon, dan keduanya sudah tersambung lewat '+path.join(', ')+'. Menambah '+nm+' membuat sambungan <b>melingkar</b> (siklus), jadi sisi ini <b>dilewati</b>.');}
 }
-let cur=[-1,-1];
-const STEPS=Array.from({length:TOTAL},(_,s)=>()=>{clearRuns();const [k,ph]=SEQ[s];
+const STEPS=Array.from({length:TOTAL},(_,s)=>()=>{const [k,ph]=SEQ[s];
   if(cur[0]===k&&cur[1]===ph-1&&ph>0){phase(k,ph);}
-  else{paint(k);if(k===0||k===1||true){for(let i=0;i<=ph;i++)phase(k,i);}}
+  else{paint(k);for(let i=0;i<=ph;i++)phase(k,i);}
   cur=[k,ph];});
 
 /* ═════════ Progres, navigasi ═════════ */
@@ -488,13 +499,13 @@ function progress(){let start=0;document.querySelectorAll('.seg').forEach((s,gi)
   if(SLIDE_NO>start+c)done=c;else if(SLIDE_NO>start)done=(SLIDE_NO-1-start)+(step+1)/(LAST+1);
   s.querySelector('i').style.width=(done/c*100)+'%';s.classList.toggle('cur',SLIDE_NO>start&&SLIDE_NO<=start+c);start+=c;});}
 function render(){STEPS[step]();progress();$('#cnt').textContent=(step+1)+' / '+(LAST+1);
-  $('#prev').textContent=step===0?'Slide 3':'Sebelumnya';const nx=$('#next');
+  $('#prev').textContent=step===0?'Slide 4':'Sebelumnya';const nx=$('#next');
   if(step<LAST){nx.disabled=false;nx.textContent='Berikutnya';}
-  else if(NEXT_SLIDE){nx.disabled=false;nx.textContent='Slide 5';}else{nx.disabled=true;nx.textContent='Slide 5 menyusul';}}
+  else if(NEXT_SLIDE){nx.disabled=false;nx.textContent='Slide 6';}else{nx.disabled=true;nx.textContent='Slide 6 menyusul';}}
 function leave(u){document.body.classList.add('leaving');setTimeout(()=>{location.href=u;},260);}
 function next(){if(step<LAST){step++;render();}else if(NEXT_SLIDE)leave(NEXT_SLIDE);}
 function prev(){if(step>0){step--;render();}else if(PREV_SLIDE)leave(PREV_SLIDE);}
-function reset(){clearRuns();step=0;render();}
+function reset(){cur=[-1,-1];step=0;render();}
 $('#next').onclick=next;$('#prev').onclick=prev;$('#reset').onclick=reset;
 addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;
   if(k==='ArrowRight'||k===' '||k==='PageDown'||k==='Enter'){e.preventDefault();next();}

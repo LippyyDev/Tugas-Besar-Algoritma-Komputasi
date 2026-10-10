@@ -3,7 +3,7 @@
 Analisis Perbandingan Algoritma Kruskal, Prim, dan Borůvka pada *Minimum Spanning Tree* (MST).
 Penyaji: Muhammad Alif Qadri. Durasi rencana: 14,5 menit (batas tugas 10 sampai 15 menit).
 
-Status: slide 1 sampai 4 sudah jadi. Slide 5 sampai 12 masih rencana.
+Status: slide 1 sampai 5 sudah jadi. Slide 6 sampai 12 masih rencana.
 
 ## 1. Struktur dan Alokasi Waktu
 
@@ -13,7 +13,7 @@ Status: slide 1 sampai 4 sudah jadi. Slide 5 sampai 12 masih rencana.
 | 2 | Masalah MST dan ide dasar *greedy* (*cut property*) | 2 mnt | Jadi |
 | 3 | Algoritma yang dibahas | 0,5 mnt | Jadi |
 | 4 | Kruskal | 1,5 mnt | Jadi |
-| 5 | Prim | 1,5 mnt | Rencana |
+| 5 | Prim | 1,5 mnt | Jadi |
 | 6 | Borůvka | 1,5 mnt | Rencana |
 | 7 | Contoh manual tiga algoritma | 1,5 mnt | Rencana |
 | 8 | Kompleksitas teoretis | 1,5 mnt | Rencana |
@@ -148,9 +148,26 @@ Catatan penyaji (sekitar 1,5 menit):
 
 Kompleksitas tidak dicantumkan di slide ini, karena dibahas di slide 8 setelah diverifikasi.
 
-## 6. Slide 5 sampai 12 (Rencana)
+## 5c. Slide 5: Algoritma Prim
 
-Belum dikerjakan (slide 3 dan 4 dijelaskan di bagian 5 dan 5b). Alokasi waktu mengikuti tabel di bagian 1. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
+Tujuan: penonton paham bahwa Prim menumbuhkan satu pohon dari titik awal A dengan selalu mengambil sisi termurah dari antrean Q. Tata letak sama dengan slide 4, dan satu klik hanya menjalankan satu fase.
+
+Isi layar: pseudocode 10 baris yang merupakan **ringkasan** Pseudocode 3.3 (PRIM) di Bab 3, dengan urutan mengikuti fungsi `prim()` di `prim.py`. Pseudocode 3.3 asli 14 baris dan beberapa barisnya terlalu panjang untuk kotak slide, sehingga beberapa baris digabung atau disingkat (misalnya baris 8 dan 12 asli menjadi "masukkan ke Q sisi dari tujuan ke titik baru"). Bagian lain: graf standar 5 titik, deret antrean Q (termurah di kiri), baris Pohon (titik yang sudah masuk), pembacaan Sisi MST dan Total biaya, serta panel Arti simbol (s dan n, masuk, Q, w k b, asal dan tujuan, A, total) dengan nilai saat ini. Semua angka dihitung kode dari simulasi Prim sungguhan (kunci urut bobot, simpul kecil, simpul besar).
+
+Urutan hasil: A–B 5, B–D 3, D–E 4, C–D 6, total 18 (berbeda urutan dengan Kruskal, hasil sama).
+
+| Klik | Tampilan | Pesan |
+|------|----------|-------|
+| 1 | Graf muncul. Ide Prim | Tumbuh dari satu titik, ambil sisi termurah yang menyeberang |
+| 2 sampai 3 | A masuk pohon (baris 1), sisi A–B 5 dan A–C 8 masuk Q (baris 2) | Persiapan |
+| 4 sampai 19 | Tiap sisi 4 klik: keluarkan termurah dari Q (baris 3 dan 4), cek ujung dan tujuan masuk pohon (baris 5 dan 6), masuk A (baris 7), tetangga baru masuk Q (baris 8). Pada sisi terakhir C–D ada klik tambahan: |A| = n − 1, berhenti, kembalikan hasil (baris 3, 9, 10) | Q selalu mengeluarkan sisi termurah |
+| 20 sampai 21 | "Seandainya" sisi A–C 8 dikeluarkan lagi: kedua ujung sudah di pohon, dilewati (baris 5), label SIKLUS | Mengapa sisi dilewati |
+
+Catatan jujur: seperti Kruskal, pada graf contoh ini sisi yang dilewati tidak pernah dikeluarkan dari Q oleh kode, karena perulangan berhenti saat |A| = n − 1. Dua klik terakhir diberi kata "seandainya".
+
+## 6. Slide 6 sampai 12 (Rencana)
+
+Belum dikerjakan (slide 3, 4, dan 5 dijelaskan di bagian 5, 5b, dan 5c). Alokasi waktu mengikuti tabel di bagian 1. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
 
 | Slide | Arah isi |
 |-------|----------|
@@ -168,6 +185,6 @@ Aturan yang dijaga di seluruh slide: bahasa mudah dipahami, istilah asing dituli
 ## 7. Hal yang Masih Terbuka
 
 - NIM dan nama dosen di slide 1 belum diisi.
-- Slide 5 sampai 12 belum dibuat.
+- Slide 6 sampai 12 belum dibuat.
 - Sitasi untuk rumus Cayley dan *cut property* belum diverifikasi.
 - Pengujian slide dilakukan di Chromium. Perilaku di layar sentuh belum dicoba.
