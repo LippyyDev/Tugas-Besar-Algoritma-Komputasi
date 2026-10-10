@@ -3,7 +3,7 @@
 Analisis Perbandingan Algoritma Kruskal, Prim, dan Borůvka pada *Minimum Spanning Tree* (MST).
 Penyaji: Muhammad Alif Qadri. Durasi rencana: 13 menit (batas tugas 10 sampai 15 menit).
 
-Status: slide 1 sampai 6 sudah jadi. Slide 7 sampai 11 masih rencana.
+Status: slide 1 sampai 7 sudah jadi. Slide 8 sampai 11 masih rencana.
 
 ## 1. Struktur dan Alokasi Waktu
 
@@ -15,13 +15,13 @@ Status: slide 1 sampai 6 sudah jadi. Slide 7 sampai 11 masih rencana.
 | 4 | Kruskal | 1,5 mnt | Jadi |
 | 5 | Prim | 1,5 mnt | Jadi |
 | 6 | Borůvka | 1,5 mnt | Jadi |
-| 7 | Kompleksitas teoretis | 1,5 mnt | Rencana |
+| 7 | Kompleksitas teoretis | 1,5 mnt | Jadi |
 | 8 | Implementasi (struktur data, potongan kode inti, verifikasi) | 1 mnt | Rencana |
 | 9 | Metode eksperimen | 1 mnt | Rencana |
 | 10 | Hasil dan analisis | 1,5 mnt | Rencana |
 | 11 | Kesimpulan | 0,5 mnt | Rencana |
 
-Total 13 menit, di dalam batas 10 sampai 15 menit. Bila perlu dipangkas, ambil dari slide 7.
+Total 13 menit, di dalam batas 10 sampai 15 menit. Bila perlu dipangkas, ambil dari slide 7 atau 4 sampai 6.
 
 Pengelompokan pada bar progres di bawah slide: Pembuka (1), Konsep (2), Algoritma (3 sampai 6), Teori (7), Eksperimen (8 sampai 10), Penutup (11).
 
@@ -181,15 +181,30 @@ Hasil: 1 putaran. Pilihan: C→C–D 6, D→B–D 3, A→A–B 5, B→B–D 3, E
 
 Catatan: berbeda dengan slide 4 dan 5, penolakan pada slide ini benar-benar terjadi di kode (GABUNG kedua untuk B–D mengembalikan SALAH), jadi tidak memakai kata "seandainya".
 
-## 6. Slide 7 sampai 11 (Rencana)
+## 5e. Slide 7: Kompleksitas Teoretis
 
-Belum dikerjakan (slide 3 sampai 6 dijelaskan di bagian 5, 5b, 5c, dan 5d). Alokasi waktu mengikuti tabel di bagian 1. Slide "Contoh manual tiga algoritma" dihapus dari rencana, sehingga nomor slide sesudahnya bergeser satu. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
+Tujuan: penonton yang belum akrab dengan notasi *O* tetap paham dari mana batas waktu dan ruang tiap algoritma berasal. Isi mengikuti Bab 3 subbab 3.4 (Teorema 3.5 sampai 3.8, Tabel 3.7 dan 3.8). Komposisinya sengaja berbeda dari slide 4 sampai 6: tiga kartu lebar penuh dan grafik batang, tanpa panel kiri kanan. Satu klik satu langkah.
+
+Catatan: rencana awal menyebut Borůvka hanya "dikutip singkat", tetapi laporan sudah membuktikan *O*(*m* log² *n*) untuk kode Borůvka (Teorema 3.7), sehingga slide mengikuti laporan.
+
+| Klik | Tampilan | Pesan |
+|------|----------|-------|
+| 1 | Tiga kartu: n (titik), m (sisi), log n (berapa kali n dibelah dua). Deret 1.000, 500, ..., 1 | log n tumbuh sangat lambat, dan *O* adalah batas atas langkah, bukan waktu pasti |
+| 2 | Kartu Kruskal dan Prim: asal biaya tiap algoritma. Keduanya O(m log n) | Sama-sama memproses sekitar m sisi, tiap sisi berbiaya sekitar log n |
+| 3 | Kartu Borůvka: putaran paling banyak log n, tiap putaran m log n. Hasil O(m log² n), label "+1 faktor log n" | Kode ini mencari komponen dengan CARI-AKAR, jadi ada satu faktor log n lebih |
+| 4 | Baris Ruang tambahan pada tiap kartu | Kruskal dan Prim O(n + m), Borůvka O(n) |
+| 5 | Grafik batang skala logaritmik untuk graf jarang, menengah, padat pada n = 1.000 | Graf padat jauh lebih berat. Kruskal dan Prim berbatas atas sama, jadi pembeda diukur lewat eksperimen |
+
+Angka pada grafik dihitung dari rumus: m = n − 1 (jarang), m = n log₂ n (menengah), m = n(n − 1)/2 (padat), lalu m log₂ n dan m log₂² n dengan n = 1.000. Ini ilustrasi satuan langkah menurut rumus, bukan hasil pengukuran, dan diberi label di slide. Kasus "menengah" memakai konstanta 1 pada Θ(n log n) sebagai asumsi ilustrasi.
+
+## 6. Slide 8 sampai 11 (Rencana)
+
+Belum dikerjakan (slide 3 sampai 7 dijelaskan di bagian 5, 5b, 5c, 5d, dan 5e). Alokasi waktu mengikuti tabel di bagian 1. Slide "Contoh manual tiga algoritma" dihapus dari rencana, sehingga nomor slide sesudahnya bergeser satu. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
 
 | Slide | Arah isi |
 |-------|----------|
 | 5 Prim | Ide tumbuh dari satu titik dengan sisi termurah yang menyeberang. Animasi serupa dengan Kruskal |
 | 6 Borůvka | Ide tiap gugus memilih sisi termurahnya lalu digabung. Alasan ikut dibahas: algoritma pembanding ketiga, tidak ada ketentuan tertulis dari dosen |
-| 7 Kompleksitas teoretis | Ringkasan batas waktu ketiga algoritma. Analisis formal hanya untuk Kruskal dan Prim, Borůvka dikutip singkat |
 | 8 Implementasi | Struktur data yang dipakai, potongan kode inti, dan cara verifikasi hasil |
 | 9 Metode eksperimen | Cara graf acak dibuat, ukuran, pengulangan, dan alat ukur waktu |
 | 10 Hasil dan analisis | Grafik hasil eksperimen dan penjelasan sesuai kondisi graf (jarang dan padat) |
@@ -200,7 +215,7 @@ Aturan yang dijaga di seluruh slide: bahasa mudah dipahami, istilah asing dituli
 ## 7. Hal yang Masih Terbuka
 
 - NIM dan nama dosen di slide 1 belum diisi.
-- Slide 7 sampai 11 belum dibuat.
+- Slide 8 sampai 11 belum dibuat.
 - Sitasi untuk rumus Cayley dan *cut property* belum diverifikasi.
 - Pengujian slide dilakukan di Chromium. Perilaku di layar sentuh belum dicoba.
 
@@ -237,3 +252,17 @@ Graf: sisi A–B 5, A–C 8, B–C 11, B–D 3, C–D 6, D–E 4, C–E 9. MST: 
 **Jalannya.** Pilihan: A→A–B, B→B–D, C→C–D, D→B–D, E→D–E. Dipasang berurutan: C–D 6, B–D 3, A–B 5, B–D 3 (gagal, sudah dipasang), D–E 4. Total 18, c = 1, selesai dalam 1 putaran.
 
 **Simbol.** c jumlah komponen, T sisi termurah tiap komponen, himpunan, A, total, (u, v, w).
+
+### Slide 7: Kompleksitas Teoretis
+
+**Ide.** Hitung kira-kira berapa langkah tiap algoritma bila graf membesar. Hasilnya batas atas, bukan waktu pasti.
+
+**Istilah.** n jumlah titik, m jumlah sisi, log n berapa kali n bisa dibelah dua sampai 1 (1.000 sekitar 10 kali).
+
+**Kruskal.** Urutkan m sisi (m log n), lalu tiap sisi satu GABUNG berbiaya log n (m × log n). Total O(m log n). Ruang O(n + m) karena menyimpan salinan sisi terurut.
+
+**Prim.** Tiap sisi masuk lalu keluar antrean paling banyak sekali (≤ 2m operasi), tiap operasi log n. Total O(m log n). Ruang O(n + m).
+
+**Borůvka.** Paling banyak log n putaran, tiap putaran m sisi dengan 2 CARI-AKAR (m log n). Total O(m log² n), satu faktor log n lebih dari Kruskal dan Prim karena kode mencari komponen dengan CARI-AKAR. Ruang O(n).
+
+**Grafik.** Pada n = 1.000, graf padat jauh lebih berat daripada graf jarang untuk ketiganya. Kruskal dan Prim berbatas atas sama, sehingga mana yang lebih cepat baru terlihat di eksperimen.

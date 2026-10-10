@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slide 7 · Kompleksitas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ───────── Token ───────── */
+:root{
+  --bg:#050507;
+  --panel:#0a0b0f;
+  --line:rgba(255,255,255,.13);
+  --line2:rgba(255,255,255,.07);
+  --text:#f1f2f6;
+  --body:#c4c7d4;
+  --mute:#80849a;
+  --accent:#7db4ff;
+  --accent-bright:#c4dcff;
+  --amber:#ffc266;
+  --sans:'Space Grotesk','Segoe UI',system-ui,sans-serif;
+  --mono:'JetBrains Mono','Cascadia Mono',Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#000;overflow:hidden;font-family:var(--sans);color:var(--text)}
+body{opacity:0;animation:fadein .5s ease .05s forwards}
+body.leaving{animation:none;opacity:0;transition:opacity .25s ease}
+@keyframes fadein{to{opacity:1}}
+
+/* ───────── Panggung 1920×1080 ───────── */
+#stage{
+  position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;
+  background:
+    radial-gradient(1100px 600px at 18% -8%,rgba(110,140,220,.13),transparent 70%),
+    radial-gradient(900px 600px at 100% 100%,rgba(90,110,180,.07),transparent 70%),
+    radial-gradient(rgba(255,255,255,.055) 1px,transparent 1.2px) 0 0/32px 32px,
+    var(--bg);
+}
+
+/* ───────── Header ───────── */
+.header{position:absolute;left:96px;right:96px;top:52px;height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line2)}
+.brand{display:flex;align-items:center;gap:20px}
+.brand img{height:60px;width:auto;display:block}
+.brand b{display:block;font-size:28px;font-weight:600;letter-spacing:-.01em}
+.brand span{display:block;font-size:19px;color:var(--mute);margin-top:2px}
+.tag{font-family:var(--mono);font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.kicker{position:absolute;left:96px;top:152px}
+.kicker h1{font-size:56px;line-height:1.1;font-weight:700;letter-spacing:-.03em;color:var(--text)}
+
+/* ───────── Kolom teks ───────── */
+.copy{position:absolute;left:96px;top:322px;width:740px;height:620px;display:flex;flex-direction:column;justify-content:flex-start;gap:18px}
+.blk{opacity:0;transform:translateY(14px);max-height:0;overflow:hidden;margin-top:0;transition:opacity .6s ease,transform .6s ease,max-height .7s ease,margin-top .7s ease;position:relative}
+.blk.show{opacity:1;transform:none;max-height:460px;margin-top:26px}
+.blk.show:first-child{margin-top:0}
+.blk .lbl{font-family:var(--mono);font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:10px;display:block;transition:color .4s}
+.blk p{font-size:30px;line-height:1.45;color:var(--body);font-weight:400;transition:font-size .5s ease,color .5s ease}
+.blk b{color:var(--text);font-weight:600}
+.blk em{font-style:italic;color:var(--text)}
+.blk.active .lbl{color:var(--accent)}
+.blk.active p{color:#e4e6ee}
+.blk.seen{opacity:.5}
+.blk.seen p{font-size:23px}
+.blk .more{display:inline;opacity:0;transition:opacity .7s ease .15s}
+.blk .more.show{opacity:1}
+
+/* ───────── Panel grafik ───────── */
+.panel{position:absolute;left:880px;top:236px;width:944px;height:716px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.005));}
+.panel::before,.panel::after,.panel .c1,.panel .c2{content:"";position:absolute;width:16px;height:16px;border:2px solid var(--accent);opacity:.9}
+.panel::before{left:-2px;top:-2px;border-right:0;border-bottom:0}
+.panel::after{right:-2px;top:-2px;border-left:0;border-bottom:0}
+.panel .c1{left:-2px;bottom:-2px;border-right:0;border-top:0}
+.panel .c2{right:-2px;bottom:-2px;border-left:0;border-top:0}
+.phead{height:76px;border-bottom:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+.fig{font-family:var(--mono);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.fig b{color:var(--text);font-weight:500}
+.readout{text-align:right;transition:opacity .25s ease}
+.readout.swap{opacity:0}
+.readout small{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.readout strong{display:block;font-family:var(--mono);font-size:32px;font-weight:500;color:var(--text);line-height:1.1;margin-top:2px;font-variant-numeric:tabular-nums}
+.readout strong .u{font-size:17px;color:var(--mute);margin-left:6px}
+.readout strong .ok{font-size:16px;letter-spacing:.14em;color:#06121f;background:var(--accent);padding:3px 9px;border-radius:3px;margin-left:12px;vertical-align:middle}
+.readout strong .q{font-size:16px;letter-spacing:.1em;color:var(--amber);margin-left:12px}
+
+svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
+.pfoot{position:absolute;left:0;right:0;bottom:0;height:112px;border-top:1px solid var(--line2);padding:0 28px;display:flex;align-items:center}
+.pf{position:absolute;left:28px;right:28px;top:50%;transform:translateY(-50%);opacity:0;transition:opacity .45s ease;pointer-events:none}
+.pf.show{opacity:1}
+.legend{display:flex;gap:34px;align-items:center;font-size:21px;color:var(--body)}
+.legend span{display:flex;align-items:center;gap:12px}
+.legend .d{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.7)}
+.legend .l{width:30px;height:0;border-top:2px solid rgba(255,255,255,.5)}
+.legend .n{font-family:var(--mono);font-size:15px;border:1px solid var(--line);border-radius:3px;padding:2px 8px;background:#07080b}
+.cap{font-size:23px;line-height:1.45;color:var(--body)}
+.cap b{color:var(--text);font-weight:600}
+.cay{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.cay div{border:1px solid var(--line);background:#07080b;padding:7px 16px 8px;border-radius:3px}
+.cay small{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.cay strong{display:block;font-family:var(--mono);font-weight:500;font-size:24px;color:var(--amber);margin-top:2px}
+.cay-note{font-size:13px;font-family:var(--mono);letter-spacing:.1em;color:var(--mute);text-transform:uppercase;margin-bottom:8px}
+
+/* ───────── Grafik: simpul & sisi ───────── */
+.edge .base{fill:none;stroke:rgba(255,255,255,.3);stroke-width:2;stroke-dasharray:1;stroke-dashoffset:0;
+  transition:stroke-dashoffset .7s cubic-bezier(.3,.7,.2,1) var(--d,0ms),stroke .4s ease var(--d,0ms),opacity .4s ease var(--d,0ms)}
+.edge .hot{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;
+  transition:stroke-dashoffset .7s cubic-bezier(.3,.7,.2,1) var(--d,0ms),opacity .01s linear var(--d,0ms),stroke .35s ease var(--d,0ms),stroke-width .35s ease var(--d,0ms)}
+.edge .lab rect{fill:#07080b;stroke:rgba(255,255,255,.22);stroke-width:1.3;transition:stroke .4s ease var(--d,0ms),opacity .4s ease var(--d,0ms)}
+.edge .lab text{font-family:var(--mono);font-size:19px;font-weight:500;fill:var(--body);text-anchor:middle;dominant-baseline:central;transition:fill .4s ease var(--d,0ms)}
+.edge .lab{transition:opacity .4s ease var(--d,0ms)}
+.edge.hidden .base{stroke-dashoffset:1}
+.edge.hidden .lab{opacity:0}
+.edge.dim .base{stroke:rgba(255,255,255,.09)}
+.edge.dim .lab{opacity:.35}
+.edge.mst .hot,.edge.pick .hot,.edge.cand .hot{stroke-dashoffset:0;opacity:1}
+.edge.mst .lab rect{stroke:var(--accent)} .edge.mst .lab text{fill:var(--accent)}
+.edge.cand .hot{stroke:var(--amber);stroke-width:3.5}
+.edge.cand .lab rect{stroke:var(--amber)} .edge.cand .lab text{fill:var(--amber)}
+.edge.cand.fade .hot{opacity:.28}
+.edge.cand.fade .lab{opacity:.45}
+.edge.pick .hot{stroke:var(--accent-bright);stroke-width:6.5;filter:drop-shadow(0 0 7px var(--accent))}
+.edge.pick .lab rect{stroke:var(--accent-bright);fill:#0e1a2c} .edge.pick .lab text{fill:var(--accent-bright)}
+.edge.try .hot{stroke:var(--accent);stroke-width:4.5;stroke-dashoffset:0;opacity:.9;transition:none}
+.edge.try .base{transition:none}
+
+.node{transform-box:fill-box;transform-origin:center;transition:transform .55s cubic-bezier(.2,1.5,.4,1) var(--d,0ms),opacity .4s ease var(--d,0ms)}
+.node.hidden{transform:scale(0);opacity:0}
+.node .halo{fill:var(--accent);opacity:0;transition:opacity .5s ease var(--d,0ms)}
+.node .dot{fill:#0a0b10;stroke:rgba(255,255,255,.6);stroke-width:2.5;transition:fill .45s ease var(--d,0ms),stroke .45s ease var(--d,0ms)}
+.node text{font-family:var(--mono);font-size:21px;font-weight:500;fill:var(--text);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.node.in .halo{opacity:.2}
+.node.in .dot{stroke:var(--accent);fill:#0f1c31}
+
+#cutd{opacity:0;transition:opacity .5s ease}
+#cutd.show{opacity:1}
+#cutd .line{fill:none;stroke:var(--accent-bright);stroke-width:2.5;stroke-dasharray:11 9;animation:march 1.4s linear infinite}
+#cutd .zone{fill:rgba(125,180,255,.07);stroke:none}
+#cutd text{font-family:var(--mono);font-size:15px;letter-spacing:.18em;fill:var(--accent)}
+@keyframes march{to{stroke-dashoffset:-40}}
+#aman{opacity:0;transition:opacity .5s ease .5s}
+#aman.show{opacity:1}
+#aman rect{fill:var(--accent);rx:3}
+#aman text{font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:.14em;fill:#06121f;text-anchor:middle;dominant-baseline:central}
+
+/* ───────── Footer ───────── */
+.footer{position:absolute;left:96px;right:96px;bottom:44px;height:62px;display:flex;align-items:flex-end;justify-content:space-between}
+.prog{display:flex;gap:8px;width:1000px}
+.seg{position:relative}
+.seg .bar{height:3px;background:rgba(255,255,255,.14);position:relative;overflow:hidden}
+.seg .bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent);transition:width .6s ease}
+.seg span{display:block;margin-top:9px;font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#4b4e60;white-space:nowrap}
+.seg.cur span{color:var(--accent)}
+.ctrl{display:flex;align-items:center;gap:12px}
+.cnt{font-family:var(--mono);font-size:17px;letter-spacing:.12em;color:var(--mute);margin-right:10px;min-width:70px;text-align:right}
+.btn{font-family:var(--mono);font-size:17px;letter-spacing:.1em;text-transform:uppercase;color:var(--text);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:3px;height:50px;padding:0 22px;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.btn:hover:not(:disabled){background:rgba(125,180,255,.12);border-color:var(--accent);color:var(--accent-bright)}
+.btn.pri{border-color:rgba(125,180,255,.55);background:rgba(125,180,255,.1)}
+.btn:disabled{opacity:.3;cursor:default}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hint{position:absolute;right:96px;bottom:12px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:#4b4e60;text-transform:uppercase}
+
+/* ───────── Dock navigasi (pop up, muncul saat kursor di bawah) ───────── */
+.prog{width:100%}
+#dock{position:absolute;left:50%;bottom:78px;transform:translate(-50%,28px);opacity:0;pointer-events:none;z-index:10;
+  display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 16px 9px;
+  background:#0a0b0f;border:1px solid rgba(255,255,255,.2);border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.6);
+  transition:opacity .35s ease,transform .35s ease}
+#dock.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#dock .hint{position:static}
+
+#dock .btn{font-size:14px;height:36px;padding:0 16px;letter-spacing:.08em}
+#dock .cnt{font-size:14px;min-width:54px;margin-right:6px}
+#dock .ctrl{gap:8px}
+#dock .hint{font-size:11px}
+.edge-hint{position:fixed;top:0;bottom:0;width:7vw;pointer-events:none;opacity:0;transition:opacity .25s ease;z-index:5}
+.edge-hint.l{left:0;background:linear-gradient(90deg,rgba(125,180,255,.14),transparent)}
+.edge-hint.r{right:0;background:linear-gradient(270deg,rgba(125,180,255,.14),transparent)}
+.edge-hint.on{opacity:1}
+
+
+/* ───────── Slide 7: kompleksitas ───────── */
+.src{position:absolute;right:96px;top:176px;font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease var(--d,0ms),transform .6s ease var(--d,0ms);pointer-events:none}
+.rv.on{opacity:1;transform:none}
+.zone{position:absolute;left:96px;right:96px;top:248px;height:632px}
+
+/* zona A: cara membaca */
+.defs{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.def{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:38px 34px 40px}
+.def .sym{font-family:var(--mono);font-size:64px;font-weight:500;color:var(--accent-bright);line-height:1}
+.def .sym i{font-style:normal;font-size:30px;color:var(--mute);margin-left:6px}
+.def p{margin-top:14px;font-size:26px;line-height:1.35;color:var(--body)}
+.def p b{color:var(--text);font-weight:600}
+.half{margin-top:40px;border:1px solid var(--line);background:#07080b;padding:34px 34px 38px}
+.half h3{font-family:var(--mono);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:400}
+.hrow{display:flex;align-items:center;gap:10px;margin-top:34px}
+.hb{flex:1;height:110px;border:1px solid rgba(125,180,255,.45);background:rgba(125,180,255,.1);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:26px;color:var(--accent-bright);
+  opacity:0;transform:scale(.85);transition:opacity .45s ease var(--d,0ms),transform .45s ease var(--d,0ms)}
+.hb.last{background:var(--accent);color:#06121f;border-color:var(--accent)}
+.hrow.on .hb{opacity:1;transform:none}
+.ha{flex:none;font-family:var(--mono);font-size:15px;color:var(--mute);width:34px;text-align:center;opacity:0;transition:opacity .4s ease var(--d,0ms)}
+.hrow.on .ha{opacity:1}
+.hnote{display:flex;justify-content:space-between;gap:30px;margin-top:38px;font-size:25px;color:var(--body)}
+.hnote b{color:var(--text);font-weight:600}
+
+/* zona B: tiga kartu */
+.cards{position:absolute;left:0;right:0;top:0;height:632px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{position:relative;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:0;display:flex;flex-direction:column;transition:opacity .6s ease var(--d,0ms),transform .6s ease var(--d,0ms),border-color .4s}
+.card.late{border-style:dashed;border-color:rgba(255,255,255,.18)}
+.card.late>*{opacity:0}
+.card>*{transition:opacity .5s ease}
+.card .ch{height:92px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;border-bottom:1px solid var(--line2)}
+.card .ch b{font-size:34px;font-weight:600;letter-spacing:-.01em}
+.card .ch span{font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.card.k{border-top:3px solid var(--accent)} .card.p{border-top:3px solid var(--accent-bright)} .card.b{border-top:3px solid var(--amber)}
+.rows{padding:10px 30px 0}
+.crow{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:40px 0;border-bottom:1px solid var(--line2)}
+.crow:last-child{border-bottom:0}
+.crow .t{font-size:24px;line-height:1.35;color:var(--body);flex:1}
+.crow .t b{color:var(--text);font-weight:600}
+.chipc{flex:none;font-family:var(--mono);font-size:25px;font-weight:500;color:var(--accent-bright);border:1px solid rgba(125,180,255,.5);background:rgba(125,180,255,.08);padding:7px 14px;border-radius:3px;white-space:nowrap}
+.card.b .chipc{color:var(--amber);border-color:rgba(255,194,102,.55);background:rgba(255,194,102,.08)}
+.res{padding:0 30px 30px}
+.res small{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.res strong{display:block;font-family:var(--mono);font-size:56px;font-weight:500;color:var(--text);letter-spacing:-.02em;line-height:1.1}
+.card.b .res strong{color:var(--amber)}
+.res sup{font-size:.55em;vertical-align:.55em}
+.space{margin:auto 30px 26px;padding-top:18px;border-top:1px solid var(--line2);font-size:23px;color:var(--body);display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.space b{font-family:var(--mono);font-weight:500;font-size:28px;color:var(--text)}
+.plus{position:absolute;right:30px;bottom:98px;font-family:var(--mono);font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:#1c1305;background:var(--amber);padding:6px 12px;border-radius:3px}
+
+/* zona C: grafik batang */
+.chart{position:absolute;left:0;right:0;top:0;height:632px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:26px 36px 0}
+.chart h3{font-family:var(--mono);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:400;display:flex;justify-content:space-between}
+.grp3{display:grid;grid-template-columns:380px 1fr;align-items:center;height:168px;border-bottom:1px solid var(--line2)}
+.grp3:last-of-type{border-bottom:0}
+.grp3 .lb b{display:block;font-size:30px;font-weight:600}
+.grp3 .lb span{display:block;margin-top:6px;font-family:var(--mono);font-size:18px;color:var(--mute)}
+.bars{display:flex;flex-direction:column;gap:14px}
+.br{display:flex;align-items:center;gap:16px;height:44px}
+.br .bn{flex:none;width:210px;font-size:19px;color:var(--body)}
+.br .bt{flex:1;position:relative;height:100%}
+.br .bf{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent);transition:width .9s cubic-bezier(.3,.7,.2,1) var(--d,0ms);border-radius:2px;display:flex;align-items:center;justify-content:flex-end}
+.br.am .bf{background:var(--amber)}
+.br .bv{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:21px;color:var(--text);white-space:nowrap;opacity:0;transition:opacity .4s ease calc(var(--d,0ms) + .7s)}
+.chart.on .br .bv{opacity:1}
+.cnote{position:absolute;left:36px;right:36px;bottom:20px;font-family:var(--mono);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+
+/* keterangan bawah */
+.capbar{position:absolute;left:96px;right:96px;top:902px;height:90px;border-left:4px solid var(--accent);padding:6px 0 0 28px;display:flex;align-items:center}
+.capbar #cap{font-size:27px;line-height:1.4;color:var(--body)}
+.capbar #cap b{color:var(--text);font-weight:600}
+.capbar #cap.sw{animation:capin .45s ease}
+@keyframes capin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="edge-hint l" id="eh-l"></div><div class="edge-hint r" id="eh-r"></div>
+<div id="stage">
+  <div class="header">
+    <div class="brand"><img src="aset/logo-unhas.png" alt="Logo Universitas Hasanuddin">
+      <div><b>Universitas Hasanuddin</b><span>Magister Teknik Informatika</span></div></div>
+    <div class="tag">Tugas Besar Analisis Algoritma</div>
+  </div>
+  <div class="kicker"><h1>Kompleksitas Teoretis</h1></div>
+  <div class="src">Dasar: Bab 3 subbab 3.4, Tabel 3.7 dan 3.8</div>
+
+  <!-- zona A -->
+  <div class="zone" id="zA">
+    <div class="defs">
+      <div class="def rv" data-in="0" data-out="1" style="--d:0ms"><div class="sym">n</div><p><b>jumlah titik</b> pada graf</p></div>
+      <div class="def rv" data-in="0" data-out="1" style="--d:120ms"><div class="sym">m</div><p><b>jumlah sisi</b> pada graf</p></div>
+      <div class="def rv" data-in="0" data-out="1" style="--d:240ms"><div class="sym">log n</div><p><b>berapa kali</b> n bisa dibelah dua sampai tinggal 1</p></div>
+    </div>
+    <div class="half rv" data-in="0" data-out="1" style="--d:420ms">
+      <h3>Contoh n = 1.000, dibelah dua berulang</h3>
+      <div class="hrow" id="hrow"></div>
+      <div class="hnote"><span>1.000 hanya perlu sekitar <b>10</b> kali dibelah.</span><span>1.000.000 hanya sekitar <b>20</b> kali.</span><span>Jadi log n tumbuh <b>sangat lambat</b>.</span></div>
+    </div>
+  </div>
+
+  <!-- zona B -->
+  <div class="zone" id="zB">
+    <div class="cards">
+      <div class="card k rv" id="cK" data-in="1" data-out="4" style="--d:0ms">
+        <div class="ch"><b>Kruskal</b><span>Teorema 3.5</span></div>
+        <div class="rows">
+          <div class="crow"><div class="t"><b>Urutkan</b> semua m sisi</div><div class="chipc">m log n</div></div>
+          <div class="crow"><div class="t">Periksa sisi: tiap sisi <b>1 GABUNG</b> (log n)</div><div class="chipc">m × log n</div></div>
+        </div>
+        <div class="space rv" data-in="3" data-out="4"><span>Ruang tambahan</span><b>O(n + m)</b></div>
+        <div class="res"><small>Waktu, batas atas</small><strong>O(m log n)</strong></div>
+      </div>
+      <div class="card p rv" id="cP" data-in="1" data-out="4" style="--d:180ms">
+        <div class="ch"><b>Prim</b><span>Teorema 3.6</span></div>
+        <div class="rows">
+          <div class="crow"><div class="t">Tiap sisi <b>masuk</b> antrean paling banyak sekali, lalu <b>keluar</b> paling banyak sekali</div><div class="chipc">≤ 2m kali</div></div>
+          <div class="crow"><div class="t">Satu operasi antrean berbiaya</div><div class="chipc">log n</div></div>
+        </div>
+        <div class="space rv" data-in="3" data-out="4"><span>Ruang tambahan</span><b>O(n + m)</b></div>
+        <div class="res"><small>Waktu, batas atas</small><strong>O(m log n)</strong></div>
+      </div>
+      <div class="card b rv late" id="cB" data-in="1" data-out="4" style="--d:360ms">
+        <div class="ch"><b>Borůvka</b><span>Teorema 3.7</span></div>
+        <div class="rows">
+          <div class="crow"><div class="t">Jumlah <b>putaran</b>: komponen berkurang sedikitnya separuh tiap putaran</div><div class="chipc">≤ log n</div></div>
+          <div class="crow"><div class="t">Tiap putaran: m sisi, tiap sisi <b>2 CARI-AKAR</b> (log n)</div><div class="chipc">m log n</div></div>
+        </div>
+        <div class="space rv" data-in="3" data-out="4"><span>Ruang tambahan</span><b>O(n)</b></div>
+        <div class="plus rv" data-in="2" data-out="4">+1 faktor log n</div>
+        <div class="res"><small>Waktu, batas atas</small><strong>O(m log<sup>2</sup> n)</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- zona C -->
+  <div class="zone" id="zC">
+    <div class="chart rv" id="chart" data-in="4" style="--d:0ms">
+      <h3><span>Seberapa besar bedanya? Ilustrasi n = 1.000</span><span>Tabel 3.8</span></h3>
+      <div id="grps"></div>
+      <div class="cnote">Skala logaritmik. Satuan langkah menurut rumus, bukan waktu dalam detik.</div>
+    </div>
+  </div>
+
+  <div class="capbar"><div id="cap"></div></div>
+
+  <div class="footer"><div class="prog" id="prog"></div></div>
+  <div id="dock"><div class="ctrl">
+      <span class="cnt" id="cnt"></span>
+      <button class="btn" id="prev">Sebelumnya</button><button class="btn" id="reset">Reset</button><button class="btn pri" id="next">Berikutnya</button>
+    </div><div class="hint">← → navigasi · R reset · F layar penuh · I indeks</div></div>
+</div>
+<script>
+const PREV_SLIDE='slide6.html', NEXT_SLIDE=null, SLIDE_NO=7;
+const $=s=>document.querySelector(s);
+const N1=1000, L=Math.log2(N1);
+/* kasus menurut Tabel 3.8 (nilai m hanya ilustrasi untuk n = 1.000) */
+const CASES=[
+  {n:'Jarang',s:'terbaik',f:'m = n − 1',m:N1-1},
+  {n:'Menengah',s:'rata-rata',f:'m ≈ n log n',m:Math.round(N1*L)},
+  {n:'Padat',s:'terburuk',f:'m ≈ n(n − 1)/2',m:N1*(N1-1)/2}];
+const fmt=v=>v>=1e6?(v/1e6).toFixed(1).replace('.',',')+' juta':Math.round(v/1e3)+' ribu';
+const LO=3, HI=8; /* skala log10 dari 1.000 sampai 100 juta */
+const pos=v=>Math.max(0.04,(Math.log10(v)-LO)/(HI-LO));
+$('#hrow').innerHTML=(()=>{let v=1000,out=[],i=0;
+  while(true){out.push('<div class="hb'+(v<=1?' last':'')+'" style="--d:'+(600+i*110)+'ms">'+v.toLocaleString('id-ID')+'</div>');if(v<=1)break;out.push('<div class="ha" style="--d:'+(650+i*110)+'ms">÷2</div>');v=Math.floor(v/2);i++;}
+  return out.join('');})();
+$('#grps').innerHTML=CASES.map((c,i)=>{const k=c.m*L,b=c.m*L*L;
+  return '<div class="grp3"><div class="lb"><b>'+c.n+' ('+c.s+')</b><span>'+c.f+'</span></div><div class="bars">'
+   +'<div class="br"><div class="bn">Kruskal dan Prim<br><span style="color:var(--mute);font-size:15px;font-family:var(--mono)">m log n</span></div><div class="bt"><div class="bf" data-w="'+pos(k)+'" style="--d:'+(i*150)+'ms"></div><div class="bv" data-w="'+pos(k)+'" style="--d:'+(i*150)+'ms">≈ '+fmt(k)+'</div></div></div>'
+   +'<div class="br am"><div class="bn">Borůvka<br><span style="color:var(--mute);font-size:15px;font-family:var(--mono)">m log² n</span></div><div class="bt"><div class="bf" data-w="'+pos(b)+'" style="--d:'+(i*150+90)+'ms"></div><div class="bv" data-w="'+pos(b)+'" style="--d:'+(i*150+90)+'ms">≈ '+fmt(b)+'</div></div></div>'
+   +'</div></div>';}).join('');
+
+const CAPS=[
+ 'Tiga huruf ini cukup: <b>n</b> titik, <b>m</b> sisi, dan <b>log n</b> yang tumbuh sangat lambat. Hasil akhirnya hanya <b>batas atas</b> jumlah langkah, bukan waktu pasti.',
+ '<b>Kruskal dan Prim</b> sama-sama memproses sekitar m sisi, dan tiap sisi berbiaya sekitar log n. Hasilnya sama: <b>O(m log n)</b>.',
+ '<b>Borůvka</b> punya satu faktor log n tambahan, karena kode ini mencari komponen dengan CARI-AKAR di setiap putaran. Rumusan pustaka lebih kecil (Bab 3, subbab 3.4.4), tetapi yang dapat dibuktikan untuk kode ini adalah <b>O(m log² n)</b>.',
+ 'Ruang tambahan: <b>Kruskal dan Prim O(n + m)</b> karena menyimpan sisi, <b>Borůvka cukup O(n)</b>.',
+ 'Pada graf padat pekerjaannya jauh lebih besar daripada graf jarang. Kruskal dan Prim punya <b>batas atas yang sama</b>, jadi mana yang lebih cepat dijawab oleh eksperimen.'];
+const LAST=CAPS.length-1;
+let step=0,cur=-1;
+function cap(h){const c=$('#cap');c.innerHTML=h;c.classList.remove('sw');void c.offsetWidth;c.classList.add('sw');}
+function apply(k){
+  document.querySelectorAll('[data-in]').forEach(el=>{const i=+el.dataset.in,o=el.dataset.out===undefined?99:+el.dataset.out;el.classList.toggle('on',k>=i&&k<o);});
+  $('#hrow').classList.toggle('on',k===0);
+  $('#cB').classList.toggle('late',k<2);
+  document.querySelectorAll('.bf').forEach(el=>{el.style.width=(k>=4?(+el.dataset.w*100)+'%':'0');});
+  $('#chart').classList.toggle('on',k>=4);
+  cap(CAPS[k]);
+}
+const STEPS=Array.from({length:CAPS.length},(_,k)=>()=>{apply(k);cur=k;});
+const clearRuns=()=>{};
+/* ═════════ Progres, navigasi ═════════ */
+const GROUPS=[['Pembuka',1],['Konsep',1],['Algoritma',4],['Teori',1],['Eksperimen',3],['Penutup',1]];
+(function(){const p=$('#prog');GROUPS.forEach(([n,c])=>{const s=document.createElement('div');s.className='seg';s.style.flex=c;s.innerHTML='<div class="bar"><i></i></div><span>'+n+'</span>';p.appendChild(s);});})();
+function progress(){let start=0;document.querySelectorAll('.seg').forEach((s,gi)=>{const c=GROUPS[gi][1];let done=0;
+  if(SLIDE_NO>start+c)done=c;else if(SLIDE_NO>start)done=(SLIDE_NO-1-start)+(step+1)/(LAST+1);
+  s.querySelector('i').style.width=(done/c*100)+'%';s.classList.toggle('cur',SLIDE_NO>start&&SLIDE_NO<=start+c);start+=c;});}
+function render(){STEPS[step]();progress();$('#cnt').textContent=(step+1)+' / '+(LAST+1);
+  $('#prev').textContent=step===0?'Slide 6':'Sebelumnya';const nx=$('#next');
+  if(step<LAST){nx.disabled=false;nx.textContent='Berikutnya';}
+  else if(NEXT_SLIDE){nx.disabled=false;nx.textContent='Slide 8';}else{nx.disabled=true;nx.textContent='Slide 8 menyusul';}}
+function leave(u){document.body.classList.add('leaving');setTimeout(()=>{location.href=u;},260);}
+function next(){if(step<LAST){step++;render();}else if(NEXT_SLIDE)leave(NEXT_SLIDE);}
+function prev(){if(step>0){step--;render();}else if(PREV_SLIDE)leave(PREV_SLIDE);}
+function reset(){cur=[-1,-1];step=0;render();}
+$('#next').onclick=next;$('#prev').onclick=prev;$('#reset').onclick=reset;
+addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;
+  if(k==='ArrowRight'||k===' '||k==='PageDown'||k==='Enter'){e.preventDefault();next();}
+  else if(k==='ArrowLeft'||k==='PageUp'||k==='Backspace'){e.preventDefault();prev();}
+  else if(k==='r'||k==='R')reset();
+  else if(k==='f'||k==='F'){if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}
+  else if(k==='i'||k==='I')leave('index.html');});
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080),st=$('#stage');
+  st.style.transform='translate('+((innerWidth-1920*s)/2)+'px,'+((innerHeight-1080*s)/2)+'px) scale('+s+')';}
+addEventListener('resize',fit);fit();
+const q=new URLSearchParams(location.search).get('step');
+if(q!==null){step=Math.max(0,Math.min(LAST,+q||0));render();}else setTimeout(render,500);
+
+/* ═════════ Dock: muncul saat kursor di bawah, hilang 1 detik setelah dilepas ═════════ */
+(function(){
+  const dock=document.getElementById('dock'); let t=null, armed=false;
+  const show=()=>{dock.classList.add('show');clearTimeout(t);armed=false;};
+  const arm=()=>{ if(armed||!dock.classList.contains('show'))return; armed=true; t=setTimeout(()=>{dock.classList.remove('show');armed=false;},1000); };
+  addEventListener('mousemove',e=>{ if(e.clientY>innerHeight*0.85||dock.matches(':hover')) show(); else arm(); });
+  document.addEventListener('mouseleave',arm);
+})();
+const EDGE_PREV=()=>prev(), EDGE_NEXT=()=>next();
+
+/* ═════════ Zona tepi layar ala Canva: kiri jauh = mundur, kanan jauh = maju ═════════ */
+(function(){
+  const EDGE=0.07, mkCur=d=>'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'44\' height=\'44\'><circle cx=\'22\' cy=\'22\' r=\'20\' fill=\'%230a0b0f\' stroke=\'%237db4ff\' stroke-width=\'2\'/><path d=\''+d+'\' fill=\'none\' stroke=\'%23c4dcff\' stroke-width=\'3.2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/></svg>") 22 22, pointer';
+  const CL=mkCur('M25 13l-9 9 9 9'), CR=mkCur('M19 13l9 9-9 9');
+  const zoneOf=x=>{const r=x/innerWidth; const z=r<EDGE?-1:(r>1-EDGE?1:0); return (z===-1&&!EDGE_PREV)?0:z;};
+  const L=document.getElementById('eh-l'), R=document.getElementById('eh-r');
+  addEventListener('mousemove',e=>{ const z=zoneOf(e.clientX);
+    document.documentElement.style.cursor = z<0?CL:(z>0?CR:'');
+    L.classList.toggle('on',z<0); R.classList.toggle('on',z>0); });
+  document.addEventListener('mouseleave',()=>{L.classList.remove('on');R.classList.remove('on');document.documentElement.style.cursor='';});
+  addEventListener('click',e=>{ if(e.target.closest('#dock'))return; const z=zoneOf(e.clientX); if(z<0)EDGE_PREV(); else if(z>0)EDGE_NEXT(); });
+})();
+</script>
+</body>
+</html>
