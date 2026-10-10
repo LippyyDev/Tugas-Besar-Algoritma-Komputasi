@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slide 9 · Hasil dan analisis</title>
+<title>Slide 9 · Metode eksperimen</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -178,65 +178,116 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 .edge-hint.on{opacity:1}
 
 
-/* ───────── Slide 9: hasil (satu layar, tiga lapis) ───────── */
+/* ───────── Slide 9: metode eksperimen ───────── */
 .src{position:absolute;right:96px;top:176px;font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
-.rowg{position:absolute;left:96px;right:96px;display:grid;grid-template-columns:236px 1fr;gap:20px}
-#b1{top:236px;height:78px}#b2{top:328px;height:404px}#b3{top:746px;height:146px}
-.lab{position:relative;border:1px solid var(--line);background:#07080b;padding:14px 20px;display:flex;flex-direction:column;justify-content:center;transition:border-color .5s ease,background .5s ease}
-.lab::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:rgba(255,255,255,.18);transition:background .5s ease}
-.lab i{font-style:normal;font-family:var(--mono);font-size:13px;letter-spacing:.18em;color:var(--mute);transition:color .5s}
-.lab b{font-size:26px;font-weight:600;line-height:1.1;color:var(--body);margin-top:4px;transition:color .5s}
-.lab small{display:block;margin-top:6px;font-size:16px;color:var(--mute);line-height:1.25}
-.lab.on{border-color:rgba(125,180,255,.55);background:linear-gradient(90deg,rgba(125,180,255,.14),rgba(125,180,255,.02))}
-.lab.on::before{background:var(--accent)} .lab.on i{color:var(--accent)} .lab.on b{color:var(--text)}
-.dots{display:flex;gap:10px;align-items:center;flex-wrap:nowrap}
-.sc{opacity:0;transform:translateY(12px);transition:opacity .5s ease var(--d,0ms),transform .5s ease var(--d,0ms)}
-.sc.in{opacity:1;transform:none}
-.chip{border:1px solid var(--line);background:#07080b;padding:8px 16px;font-size:19px;color:var(--body);white-space:nowrap}
-.chip b{color:var(--text);font-weight:600;font-family:var(--mono)}
-.legd{margin-left:auto;display:flex;gap:16px;align-items:center;font-size:17px;color:var(--body);white-space:nowrap}
-.legd span{display:flex;align-items:center;gap:7px}
-.legd i{display:inline-block;width:18px;height:14px;border-radius:2px}
-.dstrip{display:flex;align-items:center;gap:12px;border:1px solid var(--line);background:linear-gradient(90deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:0 22px}
-.dstrip .chip{border:0;background:none;padding:0 6px 0 0;font-size:20px}
-.dstrip .sep{width:1px;height:30px;background:var(--line)}
-/* panel skenario */
-.three{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.pnl{border:1px solid var(--line);background:#07080b;position:relative;overflow:hidden;opacity:0;transform:translateY(16px);transition:opacity .6s ease var(--d,0ms),transform .6s ease var(--d,0ms),border-color .5s ease}
-.pnl.in{opacity:1;transform:none}
-.pnl h4{height:58px;padding:0 20px;display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line2);padding-top:13px}
-.pnl h4 b{font-size:27px;font-weight:600}.pnl h4 b small{font-size:16px;font-weight:400;color:var(--mute);margin-left:6px}
-.pnl h4 span{font-family:var(--mono);font-size:15px;color:var(--mute)}
-.br2{display:grid;grid-template-columns:104px 1fr 150px;align-items:center;height:66px;padding:0 14px 0 20px;position:relative;transition:background .5s ease}
-.br2 .nm{font-size:19px;color:var(--body);line-height:1.15}
-.br2 .nm small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
-.br2 .tk{position:relative;height:30px}
-.br2 .bf{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:2px;transition:width 1s cubic-bezier(.3,.7,.2,1) var(--d,0ms)}
-.br2 .bv{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:18px;color:var(--text);white-space:nowrap;opacity:0;transition:opacity .4s ease calc(var(--d,0ms) + .5s)}
-.pnl.in .bv{opacity:1}
-.bk{background:var(--accent)}.bp{background:var(--accent-bright)}.bq{background:repeating-linear-gradient(135deg,rgba(196,220,255,.6) 0 6px,rgba(196,220,255,.22) 6px 12px)}.bb{background:var(--amber)}
-.tg{justify-self:end;font-family:var(--mono);font-size:14px;letter-spacing:.06em;padding:4px 9px;border-radius:3px;white-space:nowrap;opacity:0;transform:translateX(10px);transition:opacity .5s ease var(--d,0ms),transform .5s ease var(--d,0ms)}
-.hi .tg{opacity:1;transform:none}
-.tg.win{background:var(--accent);color:#06121f;font-weight:500}
-.tg.win.q{background:rgba(125,180,255,.4);color:var(--text)}
-.tg.am{border:1px solid rgba(255,194,102,.7);color:var(--amber)}
-.tg.ad{border:1px solid rgba(196,220,255,.6);color:var(--accent-bright)}
-.hi .br2.w{background:linear-gradient(90deg,rgba(125,180,255,.16),rgba(125,180,255,.02))}
-.hi .br2.w::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;background:var(--accent-bright);box-shadow:0 0 12px var(--accent)}
-.hi .br2.w .nm{color:var(--text);font-weight:600}
-.pfoot{position:absolute;left:0;right:0;bottom:0;height:40px;border-top:1px dashed var(--line);padding:0 20px;display:flex;align-items:center;font-size:17px;color:var(--body);opacity:0;transition:opacity .6s ease .6s}
-.pfoot b{margin-right:8px}
-.hi .pfoot{opacity:1}
-.pfoot.ok b{color:var(--accent-bright)}.pfoot.nk b{color:var(--amber)}
-/* hasil */
-.four{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.rz{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.005));padding:16px 20px 0;position:relative;opacity:0;transform:translateY(22px) scale(.97);transition:opacity .6s ease var(--d,0ms),transform .6s cubic-bezier(.2,1.2,.4,1) var(--d,0ms)}
-.rz.in{opacity:1;transform:none}
-.rz::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--accent-bright)}
-.rz.w::before{background:var(--amber)}
-.rz small{font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--mute)}
-.rz strong{display:block;font-size:25px;font-weight:600;color:var(--text);margin-top:6px;line-height:1.15}
-.rz span{display:block;margin-top:6px;font-size:18px;line-height:1.3;color:var(--body)}
+.qhead{position:absolute;left:96px;right:96px;top:240px;height:96px}
+.qn{font-family:var(--mono);font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);display:flex;align-items:center;gap:16px}
+.qn i{display:inline-block;width:30px;height:4px;background:rgba(255,255,255,.18);transition:background .4s}
+.qn i.on{background:var(--amber)}
+.qt{position:relative;height:56px;margin-top:10px}
+.qt div{position:absolute;left:0;top:0;font-size:46px;font-weight:600;letter-spacing:-.02em;color:var(--text);opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease;white-space:nowrap}
+.qt div.on{opacity:1;transform:none}
+.qt div em{font-style:normal;color:var(--accent-bright)}
+.ans{position:absolute;left:96px;right:96px;top:352px;height:540px}
+.pn{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .45s ease}
+.pn.on{opacity:1}
+.pn .rv{opacity:0;transform:translateY(14px);transition:opacity .55s ease var(--d,0ms),transform .55s ease var(--d,0ms)}
+.pn.on .rv{opacity:1;transform:none}
+
+/* jalur skenario */
+.lane{display:grid;grid-template-columns:270px 420px 1fr 330px;align-items:center;border:1px solid var(--line);background:linear-gradient(90deg,rgba(255,255,255,.035),rgba(255,255,255,.005));margin-bottom:14px;height:160px;position:relative}
+.lane::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--lc,var(--accent))}
+.lane svg{width:250px;height:150px;margin-left:12px}
+.lane .nm b{display:block;font-size:34px;font-weight:600;color:var(--text)}
+.lane .nm span{display:block;margin-top:6px;font-size:22px;color:var(--body);line-height:1.3;padding-right:20px}
+.lane .nm code{font-family:var(--mono);font-size:20px;color:var(--lc,var(--accent-bright))}
+.lane .ns small,.lane .bb small{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:8px}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chips span{font-family:var(--mono);font-size:22px;color:var(--text);border:1px solid var(--line);background:#07080b;padding:5px 13px;border-radius:3px}
+.lane .bb{padding-left:24px;border-left:1px dashed var(--line);height:96px;display:flex;flex-direction:column;justify-content:center}
+.lane .bb p{font-size:22px;color:var(--body);line-height:1.3}
+.lane .bb p b{color:var(--text);font-weight:600}
+.lane{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease,border-color .5s ease,box-shadow .5s ease}
+.lane.show{opacity:.55;transform:none}
+.lane.cur{opacity:1;border-color:var(--lc);box-shadow:0 0 30px rgba(125,180,255,.12)}
+.me{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .5s ease var(--d,0ms)}
+.mn{opacity:0;transition:opacity .4s ease}
+.lb{opacity:0;transition:opacity .5s ease 1.3s}
+.go .me{stroke-dashoffset:0}.go .mn{opacity:1}.go .lb{opacity:1}
+.lb2{transition:opacity .5s ease 1.3s,fill .5s ease 2.2s,font-size .5s ease 2.2s}
+.go .lb2{fill:#fff!important;font-size:17px}
+.lane .df{font-size:22px;line-height:1.35;color:var(--body);padding-right:18px;margin-top:8px}
+.lane .df b{display:inline;font-size:inherit;color:var(--text);font-weight:600}
+.lane.j{--lc:var(--accent)} .lane.d{--lc:var(--accent-bright)} .lane.k{--lc:var(--amber)}
+.lane.k .bb p b{color:var(--amber)}
+.lnote{font-family:var(--mono);font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:#5a5e72;margin-top:2px}
+
+/* rentang sisi */
+.rng{border:1px solid var(--line);background:#07080b;padding:26px 34px 22px;position:relative;height:310px}
+.rng h3{font-family:var(--mono);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:400}
+.rrow{display:grid;grid-template-columns:150px 1fr;align-items:center;height:78px;margin-top:6px}
+.rrow b{font-size:28px;font-weight:600}
+.rtrack{position:relative;height:100%;border-bottom:1px solid var(--line2)}
+.rbar{position:absolute;top:18px;height:36px;background:var(--accent);border-radius:2px;transform-origin:left;transform:scaleX(0);transition:transform .9s cubic-bezier(.3,.7,.2,1) var(--d,0ms);display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-family:var(--mono);font-size:19px;color:#06121f;font-weight:500;white-space:nowrap}
+.pn.on .rbar{transform:none}
+.rbar.p{background:var(--accent-bright)}
+.rlab{position:absolute;top:56px;font-family:var(--mono);font-size:16px;color:var(--mute);white-space:nowrap}
+.axis{display:grid;grid-template-columns:150px 1fr;margin-top:4px}
+.axis div{position:relative;height:26px;font-family:var(--mono);font-size:15px;color:var(--mute)}
+.axis span{position:absolute;top:4px;transform:translateX(-50%)}
+.zone2{position:absolute;top:70px;bottom:22px;background:rgba(255,194,102,.08);border-left:1px dashed rgba(255,194,102,.55);border-right:1px dashed rgba(255,194,102,.55);opacity:0;transition:opacity .6s ease 1s;pointer-events:none}
+.pn.on .zone2{opacity:1}
+.zlab{position:absolute;bottom:3px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:14px;letter-spacing:.12em;color:var(--amber);text-transform:uppercase}
+.why{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+.why div{border:1px solid var(--line);background:#07080b;padding:18px 26px 20px;font-size:23px;line-height:1.4;color:var(--body)}
+.why div b{color:var(--text);font-weight:600}
+.why div small{display:block;font-family:var(--mono);font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.why div.hot{border-color:rgba(255,194,102,.55)}
+.why div.hot small{color:var(--amber)}
+
+/* pembangkit graf */
+.gen{display:grid;grid-template-columns:780px 1fr;gap:34px;height:540px}
+.gbox{border:1px solid var(--line);background:#07080b;position:relative}
+.gbox svg{width:100%;height:100%;display:block}
+.gedge{stroke-dasharray:1;stroke-dashoffset:1;fill:none;stroke-width:3.2;stroke-linecap:round;transition:stroke-dashoffset .6s ease var(--d,0ms)}
+.gedge.t{stroke:var(--accent)} .gedge.x{stroke:var(--amber)}
+.pn.on .gedge{stroke-dashoffset:0}
+.gn circle{fill:#0a0b10;stroke:rgba(255,255,255,.65);stroke-width:2.5}
+.gn text{font-family:var(--mono);font-size:19px;fill:var(--text);text-anchor:middle;dominant-baseline:central}
+.gleg{position:absolute;left:18px;bottom:14px;font-family:var(--mono);font-size:14px;letter-spacing:.1em;color:var(--mute);text-transform:uppercase}
+.steps2{display:flex;flex-direction:column;gap:16px}
+.s2{border:1px solid var(--line);background:#07080b;padding:20px 28px 22px;border-left:4px solid var(--accent)}
+.s2.x{border-left-color:var(--amber)}
+.s2 small{font-family:var(--mono);font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.s2.x small{color:var(--amber)}
+.s2 h4{font-size:30px;font-weight:600;margin:6px 0 6px}
+.s2 p{font-size:22px;line-height:1.4;color:var(--body)}
+.s2 p b{color:var(--text);font-weight:600}
+.seedb{display:flex;align-items:center;gap:16px;border:1px dashed var(--line);padding:14px 24px;font-size:22px;color:var(--body)}
+.seedb code{font-family:var(--mono);font-size:21px;color:var(--accent-bright);border:1px solid rgba(125,180,255,.5);background:rgba(125,180,255,.08);padding:3px 12px;border-radius:3px}
+
+/* pengulangan */
+.runs{display:grid;grid-template-columns:200px 22px repeat(5,1fr) 22px 330px;align-items:stretch}
+.rb{border:1px solid var(--line);background:#07080b;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px 8px;min-height:140px;text-align:center}
+.rb b{font-family:var(--mono);font-size:38px;font-weight:500;color:var(--accent-bright)}
+.rb span{font-size:19px;color:var(--body);margin-top:6px;line-height:1.25}
+.rb.w{border-style:dashed;opacity:.85}
+.rb.w b{color:var(--mute);font-size:30px}
+.rb.r{border-color:var(--amber);background:linear-gradient(180deg,rgba(255,194,102,.14),rgba(255,194,102,.03));opacity:0;transform:scale(.96);transition:opacity .6s ease,transform .6s ease}
+.rb.r b{color:var(--amber);font-size:32px}
+.pn.rep .rb.r{opacity:1;transform:none}
+.ra{display:flex;align-items:center;justify-content:center;color:var(--mute);font-family:var(--mono);font-size:22px}
+.cnts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:22px}
+.cn{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:20px 28px 22px}
+.cn strong{display:block;font-family:var(--mono);font-size:64px;font-weight:500;color:var(--text);line-height:1}
+.cn strong sub{font-size:22px;color:var(--mute);margin-left:8px;font-weight:400}
+.cn span{display:block;margin-top:10px;font-size:22px;line-height:1.35;color:var(--body)}
+.cn span b{color:var(--text);font-weight:600}
+.cn small{display:block;margin-top:8px;font-family:var(--mono);font-size:14px;letter-spacing:.12em;color:var(--mute);text-transform:uppercase}
+.sdn{margin-top:20px;border-left:4px solid var(--amber);background:rgba(255,194,102,.07);padding:16px 26px;font-size:23px;line-height:1.4;color:var(--body);opacity:0;transition:opacity .6s ease .35s}
+.sdn b{color:var(--text);font-weight:600}
+.pn.rep .sdn{opacity:1}
+
 /* keterangan bawah */
 .capbar{position:absolute;left:96px;right:96px;top:902px;height:90px;border-left:4px solid var(--accent);padding:6px 0 0 28px;display:flex;align-items:center}
 .capbar #cap{font-size:26px;line-height:1.4;color:var(--body)}
@@ -253,32 +304,81 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
       <div><b>Universitas Hasanuddin</b><span>Magister Teknik Informatika</span></div></div>
     <div class="tag">Tugas Besar Analisis Algoritma</div>
   </div>
-  <div class="kicker"><h1>Hasil dan Analisis</h1></div>
-  <div class="src">Dasar: Bab 4 subbab 4.5 dan 4.6, Tabel 4.6 sampai 4.10</div>
+  <div class="kicker"><h1>Metode Eksperimen</h1></div>
+  <div class="src">Dasar: Bab 4 subbab 4.4, Tabel 4.5</div>
 
-  <div class="rowg" id="b1">
-    <div class="lab on" id="l1"><i>1</i><b>Apa datanya</b></div>
-    <div class="dstrip">
-      <span class="chip sc" style="--d:0ms"><b>Waktu</b> eksekusi (ms)</span><span class="sep"></span>
-      <span class="chip sc" style="--d:120ms">rata-rata <b>5</b> ulangan</span><span class="sep"></span>
-      <span class="chip sc" style="--d:240ms"><b>3</b> skenario × <b>5</b> ukuran</span><span class="sep"></span>
-      <span class="chip sc" style="--d:360ms"><b>225</b> pengukuran</span>
-      <div class="legd sc" style="--d:480ms"><span><i class="bk"></i>Kruskal</span><span><i class="bp"></i>Prim</span><span><i class="bq"></i>Prim + daftar tetangga</span><span><i class="bb"></i>Borůvka</span></div>
+  <div class="qhead">
+    <div class="qn" id="qn"><span id="qnt"></span><span id="qdots"></span></div>
+    <div class="qt" id="qt">
+      <div>Graf seperti apa yang <em>diuji</em>?</div>
+      <div>Mengapa graf padat dibuat <em>lebih kecil</em>?</div>
+      <div>Dari mana grafnya? <em>Dibangkitkan</em> secara acak</div>
+      <div>Berapa kali <em>diukur</em>, dan dilaporkan bagaimana?</div>
     </div>
   </div>
 
-  <div class="rowg" id="b2">
-    <div class="lab" id="l2"><i>2</i><b>Highlight</b><small>Ukuran terbesar tiap skenario. Batang pendek = cepat.</small></div>
-    <div class="three" id="three"></div>
-  </div>
+  <div class="ans">
+    <!-- 1 -->
+    <div class="pn" id="p0">
+      <div class="lane j" id="ln0"><svg id="mg0" viewBox="0 0 250 150"></svg>
+        <div class="nm"><b>Jarang</b><code>m = 3n</code><div class="df"><b>Sisi sedikit.</b> Rata-rata tiap titik hanya tersambung ke <b>6 titik</b> lain.</div></div>
+        <div class="ns"><small>Jumlah titik n</small><div class="chips"><span>4.000</span><span>8.000</span><span>16.000</span><span>32.000</span><span>64.000</span></div></div>
+        <div class="bb"><small>Bobot sisi</small><p>acak <b>1 sampai 1.000.000</b></p></div></div>
+      <div class="lane d" id="ln1"><svg id="mg1" viewBox="0 0 250 150"></svg>
+        <div class="nm"><b>Padat</b><code>m = n(n − 1)/4</code><div class="df"><b>Sisi banyak.</b> Tiap titik tersambung ke <b>sekitar separuh</b> titik lain.</div></div>
+        <div class="ns"><small>Jumlah titik n</small><div class="chips"><span>200</span><span>400</span><span>600</span><span>800</span><span>1.000</span></div></div>
+        <div class="bb"><small>Bobot sisi</small><p>acak <b>1 sampai 1.000.000</b></p></div></div>
+      <div class="lane k" id="ln2"><svg id="mg2" viewBox="0 0 250 150"></svg>
+        <div class="nm"><b>Jarang kembar</b><code>m = 3n</code><div class="df"><b>Seperti jarang</b>, tetapi bobot 1 sampai 5, jadi <b>banyak sisi berbobot seri</b>.</div></div>
+        <div class="ns"><small>Jumlah titik n</small><div class="chips"><span>4.000</span><span>8.000</span><span>16.000</span><span>32.000</span><span>64.000</span></div></div>
+        <div class="bb"><small>Bobot sisi</small><p>acak <b>hanya 1 sampai 5</b></p></div></div>
+      <div class="lnote" style="position:absolute;left:0;bottom:-6px">Gambar graf kecil hanya ilustrasi (9 titik), bukan skala</div>
+    </div>
 
-  <div class="rowg" id="b3">
-    <div class="lab" id="l3"><i>3</i><b>Bagaimana hasilnya</b></div>
-    <div class="four">
-      <div class="rz" data-i="0" style="--d:0ms"><small>HASIL 1</small><strong>Tidak ada satu pemenang</strong><span>Bergantung kepadatan graf</span></div>
-      <div class="rz" data-i="1" style="--d:150ms"><small>HASIL 2</small><strong>Borůvka paling lambat</strong><span><b id="cb" style="color:var(--amber);font-family:var(--mono);font-weight:500">3,3 sampai 4,7×</b> Kruskal</span></div>
-      <div class="rz w" data-i="2" style="--d:300ms"><small>HASIL 3 · SESUAI RUMUS?</small><strong>Kruskal dan Prim: tidak</strong><span>Naik <b style="color:var(--amber);font-family:var(--mono);font-weight:500">1,29 sampai 2,19×</b> rumus. Borůvka mendekati</span></div>
-      <div class="rz w" data-i="3" style="--d:450ms"><small>HASIL 4 · MEMBUKTIKAN TEORI?</small><strong>Belum terbukti</strong><span>Tidak terbantah juga. Teorema untuk n sangat besar, data terbatas</span></div>
+    <!-- 2 -->
+    <div class="pn" id="p1">
+      <div class="rng rv" style="--d:0ms">
+        <h3>Jumlah sisi yang diuji, dari paling sedikit sampai paling banyak</h3>
+        <div class="zone2" id="zone2"><div class="zlab">rentang yang sama</div></div>
+        <div class="rrow"><b>Jarang</b><div class="rtrack"><div class="rbar" id="rb0" style="--d:200ms"><span>12.000</span><span>192.000</span></div><div class="rlab" id="rl0">n = 4.000 sampai 64.000</div></div></div>
+        <div class="rrow"><b>Padat</b><div class="rtrack"><div class="rbar p" id="rb1" style="--d:500ms"><span>9.950</span><span>249.750</span></div><div class="rlab" id="rl1">n = 200 sampai 1.000</div></div></div>
+        <div class="axis"><div></div><div id="ax"></div></div>
+      </div>
+      <div class="why">
+        <div class="rv" style="--d:700ms"><small>Alasan</small>Jumlah sisi graf padat tumbuh sebesar <b>kuadrat n</b>. Ukuran n dibuat kecil supaya jumlah sisinya tetap setara dengan graf jarang.</div>
+        <div class="hot rv" style="--d:850ms"><small>Hitungan sederhana</small>Jika graf padat memakai n = 64.000, separuh sisi maksimumnya sekitar <b>1 miliar sisi</b>. Itu jauh di luar rentang yang diuji.</div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="pn" id="p2">
+      <div class="gen">
+        <div class="gbox rv" style="--d:0ms"><svg id="gsvg" viewBox="0 0 780 540"></svg><div class="gleg">ilustrasi 10 titik · <span style="color:var(--accent)">biru</span> pohon · <span style="color:var(--amber)">kuning</span> sisi tambahan</div></div>
+        <div class="steps2">
+          <div class="s2 rv" style="--d:100ms"><small>Langkah 1</small><h4>Bentuk pohon acak</h4><p>Tiap titik disambung ke <b>satu titik bernomor lebih kecil</b>. Hasilnya pasti <b>terhubung</b>.</p></div>
+          <div class="s2 x rv" style="--d:1500ms"><small>Langkah 2</small><h4>Tambah sisi acak</h4><p>Sisi baru ditambahkan <b>tanpa sisi ganda dan tanpa loop</b>, sampai jumlah sisi terpenuhi.</p></div>
+          <div class="seedb rv" style="--d:2400ms"><code>random.Random(2026)</code><span>Acak yang bisa diulang: <b style="color:var(--text)">seed</b> sama menghasilkan graf yang sama.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="pn" id="p3">
+      <div class="runs rv" style="--d:0ms">
+        <div class="rb w"><b>1×</b><span>Pemanasan, tidak dicatat</span></div><div class="ra">→</div>
+        <div class="rb"><b>1</b><span>ukur</span></div>
+        <div class="rb"><b>2</b><span>ukur</span></div>
+        <div class="rb"><b>3</b><span>ukur</span></div>
+        <div class="rb"><b>4</b><span>ukur</span></div>
+        <div class="rb"><b>5</b><span>ukur</span></div><div class="ra">→</div>
+        <div class="rb r"><b>rata-rata ± SD</b><span>simpangan baku sampel</span></div>
+      </div>
+      <div class="cnts rv" style="--d:250ms">
+        <div class="cn"><strong>15<sub>graf</sub></strong><span><b>3 skenario × 5 ukuran</b>, satu graf untuk tiap pasangan</span></div>
+        <div class="cn"><strong>5<sub>ulangan</sub></strong><span>pada <b>graf yang sama</b>, setelah satu putaran pemanasan</span></div>
+        <div class="cn"><strong>225<sub>pengukuran</sub></strong><span>15 graf × 3 algoritma × 5 ulangan</span><small>hitungan dari rancangan</small></div>
+      </div>
+      <div class="sdn"><b>Catatan jujur:</b> karena grafnya sama di kelima ulangan, simpangan baku hanya menunjukkan <b>gangguan waktu pada mesin</b>, bukan perbedaan antar graf.</div>
     </div>
   </div>
 
@@ -291,62 +391,74 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
     </div><div class="hint">← → navigasi · R reset · F layar penuh · I indeks</div></div>
 </div>
 <script>
-const PREV_SLIDE='slide8.html', NEXT_SLIDE=null, SLIDE_NO=9;
+const PREV_SLIDE='slide8.html', NEXT_SLIDE='slide10.html', SLIDE_NO=9;
 const $=s=>document.querySelector(s);
 const CAPS=[
- 'Datanya: <b>waktu eksekusi</b> tiga algoritma pada tiga skenario graf, diambil pada ukuran terbesar.',
- 'Highlight: <b>Kruskal tercepat</b> di graf jarang, <b>Prim</b> di graf padat. <b>Borůvka</b> paling lambat. Daftar tetangga menambah waktu Prim.',
- 'Hasilnya: pemenang <b>bergantung kepadatan graf</b>, Borůvka paling lambat, Kruskal dan Prim <b>tidak sesuai rumus</b>. Teorema <b>belum terbukti dan belum terbantah</b>.'];
+ '<b>Graf jarang</b>: sisi sedikit, hanya 3 kali jumlah titik. Rata-rata tiap titik tersambung ke 6 titik lain.',
+ '<b>Graf padat</b>: sisi banyak, separuh dari semua sisi yang mungkin. Tiap titik tersambung ke sekitar separuh titik lain.',
+ '<b>Jarang kembar</b>: bentuk sama dengan jarang, tetapi bobot hanya 1 sampai 5. Lihat angka 2 yang berulang: banyak sisi berbobot seri, untuk menguji aturan seri.',
+ 'Jumlah sisi graf padat tumbuh sebesar kuadrat n, jadi <b>n padat dibuat lebih kecil</b>. Dengan begitu jumlah sisi kedua jenis graf sebanding, sekitar 10 ribu sampai 250 ribu.',
+ 'Graf dibuat <b>secara acak</b>: pohon dulu supaya pasti terhubung, lalu sisi acak ditambahkan. <b>Seed 2026</b> membuat hasilnya dapat diulang.',
+ 'Tiap graf diukur <b>lima kali</b> setelah satu putaran pemanasan, lalu dilaporkan sebagai rata-rata dan simpangan baku. Jumlah pengukuran dihitung dari rancangan di atas.',
+ 'Perhatikan batasnya: karena grafnya sama di kelima ulangan, <b>simpangan baku tidak mewakili variasi antar graf</b>. Itu hanya gangguan waktu pada mesin.'];
 const LAST=CAPS.length-1;
 let step=0,cur=-1;
-const DATA=[
- {t:'Jarang',e:'sisi sedikit',s:'n = 64.000',v:[518.64,660.55,972.07,2445.55],win:0,ok:true,ft:'Selisih jelas: lebih besar dari simpangan baku'},
- {t:'Padat',e:'sisi banyak',s:'n = 1.000',v:[494.40,308.00,462.61,1828.52],win:1,ok:true,ft:'Selisih jelas: lebih besar dari simpangan baku'},
- {t:'Kembar',e:'bobot sama',s:'n = 64.000',v:[593.21,647.42,935.13,1984.15],win:0,ok:false,ft:'Selisih belum pasti: kurang dari simpangan baku'}];
-const NM=[['Kruskal',''],['Prim','tanpa daftar'],['Prim','dengan daftar'],['Borůvka','']],CL=['bk','bp','bq','bb'];
-const fm=v=>v.toFixed(2).replace('.',',');
-const MAX=3100;
-function tags(d){const k=d.v[0],p=d.v[1];
-  return [
-   d.win===0?'<span class="tg win'+(d.ok?'':' q')+'">'+(d.ok?'tercepat':'tercepat?')+'</span>':'',
-   d.win===1?'<span class="tg win">tercepat</span>':'',
-   '<span class="tg ad">+'+((d.v[2]-p)/p*100).toFixed(1).replace('.',',')+'%</span>',
-   '<span class="tg am">'+(d.v[3]/k).toFixed(1).replace('.',',')+'× Kruskal</span>'];}
-$('#three').innerHTML=DATA.map((d,ci)=>{const tg=tags(d);
- const tgr=[d.win===0?tg[0]:'',d.win===1?tg[1]:'',tg[2],tg[3]];
- return '<div class="pnl" data-c="'+ci+'" style="--d:'+(ci*160)+'ms"><h4><b>'+d.t+'<small>('+d.e+')</small></b><span>'+d.s+'</span></h4>'
- +d.v.map((v,i)=>'<div class="br2'+(i===d.win?' w':'')+'"><div class="nm">'+NM[i][0]+(NM[i][1]?'<small>'+NM[i][1]+'</small>':'')+'</div><div class="tk"><div class="bf '+CL[i]+'" data-w="'+(v/MAX*100)+'" style="--d:'+(ci*160+i*110+250)+'ms"></div><div class="bv" data-v="'+v+'" data-in="'+(i===3?1:0)+'" data-l="'+(v/MAX*100)+'" style="--d:'+(ci*160+i*110+250)+'ms">'+fm(v)+'</div></div>'
-  +(tgr[i]?tgr[i].replace('class="tg','style="--d:'+(i*120+150)+'ms" class="tg'):'<span></span>')+'</div>').join('')
- +'<div class="pfoot '+(d.ok?'ok':'nk')+'"><b>'+(d.ok?'●':'○')+'</b>'+d.ft+'</div></div>';}).join('');
-document.querySelectorAll('#three .bv').forEach(e=>{if(e.dataset.in==='1'){e.style.left='calc('+e.dataset.l+'% - 104px)';e.style.color='#1c1305';e.style.fontWeight='500';}else e.style.left='calc('+e.dataset.l+'% + 10px)';});
-/* hitung naik */
-let raf=null;
-function countUp(){const els=[...document.querySelectorAll('#three .bv')];const t0=performance.now();
-  cancelAnimationFrame(raf);
-  const f=now=>{const p=Math.min(1,(now-t0)/1300),e=1-Math.pow(1-p,3);els.forEach(el=>{el.textContent=fm(+el.dataset.v*e);});if(p<1)raf=requestAnimationFrame(f);};
-  raf=requestAnimationFrame(f);}
+const NS='http://www.w3.org/2000/svg';
+/* graf mini */
+function mini(id,edges,labels,col){
+  const P=[];for(let i=0;i<9;i++){const a=-Math.PI/2+i*2*Math.PI/9;P.push([125+88*Math.cos(a),75+58*Math.sin(a)]);}
+  let h='';edges.forEach(([a,b],k)=>{h+='<line class="me" pathLength="1" style="--d:'+(150+k*Math.min(90,1300/edges.length))+'ms" x1="'+P[a][0]+'" y1="'+P[a][1]+'" x2="'+P[b][0]+'" y2="'+P[b][1]+'" stroke="'+col+'" stroke-opacity=".8" stroke-width="2.2"/>';
+    if(labels)h+='<text class="lb'+(labels[k%labels.length]===2?' lb2':'')+'" x="'+((P[a][0]+P[b][0])/2)+'" y="'+((P[a][1]+P[b][1])/2)+'" fill="#ffc266" font-family="JetBrains Mono,monospace" font-size="13" text-anchor="middle" dominant-baseline="central" stroke="#07080b" stroke-width="4" paint-order="stroke">'+labels[k%labels.length]+'</text>';});
+  P.forEach(p=>{h+='<circle class="mn" cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="#0a0b10" stroke="#fff" stroke-opacity=".7" stroke-width="2"/>';});
+  $('#'+id).innerHTML=h;}
+const TREE=[[1,0],[2,0],[3,1],[4,1],[5,2],[6,3],[7,4],[8,5]];
+const SP=TREE.concat([[6,7],[8,2],[3,5]]);
+const DN=TREE.concat([[0,3],[0,4],[1,5],[2,6],[3,8],[4,6],[5,7],[6,8],[7,1],[2,7]]);
+mini('mg0',SP,null,'#7db4ff');mini('mg1',DN,null,'#c4dcff');mini('mg2',SP,[2,2,3,2,5,2,3,5,2,3,2],'#ffc266');
+/* sumbu rentang */
+(function(){const MAX=260000;const pc=v=>(v/MAX*100)+'%';
+  [[ 'rb0',12000,192000,'rl0'],['rb1',9950,249750,'rl1']].forEach(([id,a,b,l])=>{const e=$('#'+id);e.style.left=pc(a);e.style.width=((b-a)/MAX*100)+'%';$('#'+l).style.left=pc(a);});
+  const z=$('#zone2');
+  let ax='';[0,50000,100000,150000,200000,250000].forEach(v=>{ax+='<span style="left:'+pc(v)+'">'+v.toLocaleString('id-ID')+'</span>';});$('#ax').innerHTML=ax;
+  /* zona tumpang tindih 12.000 sampai 192.000, diposisikan terhadap lintasan */
+  const rng=document.querySelector('.rng');
+  window.placeZone=()=>{const tr=document.querySelector('.rtrack');const rr=rng.getBoundingClientRect(),tt=tr.getBoundingClientRect();const sc=rr.width/rng.offsetWidth;
+    const lx=(tt.left-rr.left)/sc,w=tt.width/sc;z.style.left=(lx+w*12000/MAX)+'px';z.style.width=(w*(192000-12000)/MAX)+'px';};
+})();
+/* pembangkit graf */
+(function(){
+  const N=[[110,260],[260,120],[250,400],[420,60],[430,250],[420,460],[590,150],[620,330],[700,230],[560,480]];
+  const T=[[1,0],[2,0],[3,1],[4,1],[5,2],[6,4],[7,4],[8,6],[9,5]];
+  const X=[[3,4],[4,2],[6,3],[7,5],[8,7],[9,7],[1,2],[5,4]];
+  let h='';
+  T.forEach(([a,b],i)=>{h+='<line class="gedge t" pathLength="1" style="--d:'+(250+i*130)+'ms" x1="'+N[a][0]+'" y1="'+N[a][1]+'" x2="'+N[b][0]+'" y2="'+N[b][1]+'"/>';});
+  X.forEach(([a,b],i)=>{h+='<line class="gedge x" pathLength="1" style="--d:'+(1900+i*190)+'ms" x1="'+N[a][0]+'" y1="'+N[a][1]+'" x2="'+N[b][0]+'" y2="'+N[b][1]+'"/>';});
+  N.forEach(([x,y],i)=>{h+='<g class="gn"><circle cx="'+x+'" cy="'+y+'" r="21"/><text x="'+x+'" y="'+y+'">'+i+'</text></g>';});
+  $('#gsvg').innerHTML=h;
+})();
+$('#qdots').innerHTML=[0,1,2,3].map(i=>'<i data-i="'+i+'"></i>').join('');
 function cap(h){const c=$('#cap');c.innerHTML=h;c.classList.remove('sw');void c.offsetWidth;c.classList.add('sw');}
-let lastK=-1;
 function apply(k){
-  document.querySelectorAll('.sc').forEach(e=>e.classList.add('in'));
-  document.querySelectorAll('.pnl').forEach(e=>e.classList.add('in'));
-  document.querySelectorAll('#three .bf').forEach(e=>{e.style.width=e.dataset.w+'%';});
-  document.querySelectorAll('.pnl').forEach(e=>e.classList.toggle('hi',k>=1));
-  document.querySelectorAll('.rz').forEach(e=>e.classList.toggle('in',k>=2));
-  $('#l1').classList.toggle('on',k===0);$('#l2').classList.toggle('on',k===1);$('#l3').classList.toggle('on',k===2);
-  if(k===0&&lastK!==0)countUp();else if(k!==0){cancelAnimationFrame(raf);document.querySelectorAll('#three .bv').forEach(el=>{el.textContent=fm(+el.dataset.v);});}
-  lastK=k;cap(CAPS[k]);
+  const s=[0,0,0,1,2,3,3][k];
+  [0,1,2].forEach(i=>{const el=$('#ln'+i);el.classList.toggle('show',s===0&&k>=i);el.classList.toggle('cur',s===0&&k===i);el.classList.toggle('go',s===0&&k>=i);});
+  document.querySelectorAll('.pn').forEach((el,i)=>el.classList.toggle('on',i===s));
+  $('#p3').classList.toggle('rep',k>=6);
+  document.querySelectorAll('#qt>div').forEach((el,i)=>el.classList.toggle('on',i===s));
+  document.querySelectorAll('#qdots i').forEach((el,i)=>el.classList.toggle('on',i<=s));
+  $('#qnt').textContent='Pertanyaan '+(s+1)+' dari 4';
+  if(s===1)window.placeZone();
+  cap(CAPS[k]);
 }
 const STEPS=Array.from({length:CAPS.length},(_,k)=>()=>{apply(k);cur=k;});
 const clearRuns=()=>{};
 /* ═════════ Progres, navigasi ═════════ */
-const GROUPS=[['Pembuka',1],['Konsep',1],['Algoritma',4],['Teori',1],['Eksperimen',2],['Penutup',1]];
+const GROUPS=[['Pembuka',1],['Konsep',1],['Algoritma',4],['Teori',1],['Eksperimen',3],['Penutup',1]];
 (function(){const p=$('#prog');GROUPS.forEach(([n,c])=>{const s=document.createElement('div');s.className='seg';s.style.flex=c;s.innerHTML='<div class="bar"><i></i></div><span>'+n+'</span>';p.appendChild(s);});})();
 function progress(){let start=0;document.querySelectorAll('.seg').forEach((s,gi)=>{const c=GROUPS[gi][1];let done=0;
   if(SLIDE_NO>start+c)done=c;else if(SLIDE_NO>start)done=(SLIDE_NO-1-start)+(step+1)/(LAST+1);
   s.querySelector('i').style.width=(done/c*100)+'%';s.classList.toggle('cur',SLIDE_NO>start&&SLIDE_NO<=start+c);start+=c;});}
 function render(){STEPS[step]();progress();$('#cnt').textContent=(step+1)+' / '+(LAST+1);
-  $('#prev').textContent=step===0?'Slide 9':'Sebelumnya';const nx=$('#next');
+  $('#prev').textContent=step===0?'Slide 8':'Sebelumnya';const nx=$('#next');
   if(step<LAST){nx.disabled=false;nx.textContent='Berikutnya';}
   else if(NEXT_SLIDE){nx.disabled=false;nx.textContent='Slide 10';}else{nx.disabled=true;nx.textContent='Slide 10 menyusul';}}
 function leave(u){document.body.classList.add('leaving');setTimeout(()=>{location.href=u;},260);}

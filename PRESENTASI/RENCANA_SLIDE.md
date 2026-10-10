@@ -1,9 +1,9 @@
 # Rencana Presentasi Tugas Besar Analisis Algoritma
 
 Analisis Perbandingan Algoritma Kruskal, Prim, dan Borůvka pada *Minimum Spanning Tree* (MST).
-Penyaji: Muhammad Alif Qadri. Durasi rencana: 12 menit (batas tugas 10 sampai 15 menit).
+Penyaji: Muhammad Alif Qadri. Durasi rencana: 13 menit (batas tugas 10 sampai 15 menit).
 
-Status: slide 1 sampai 9 sudah jadi. Slide 10 masih rencana. Slide Implementasi dihapus atas permintaan pengguna.
+Status: slide 1 sampai 10 sudah jadi. Slide 11 (Kesimpulan) masih rencana. Slide Implementasi dihapus atas permintaan pengguna.
 
 ## 1. Struktur dan Alokasi Waktu
 
@@ -16,13 +16,14 @@ Status: slide 1 sampai 9 sudah jadi. Slide 10 masih rencana. Slide Implementasi 
 | 5 | Prim | 1,5 mnt | Jadi |
 | 6 | Borůvka | 1,5 mnt | Jadi |
 | 7 | Kompleksitas teoretis | 1,5 mnt | Jadi |
-| 8 | Metode eksperimen | 1 mnt | Jadi |
-| 9 | Hasil dan analisis | 1,5 mnt | Jadi |
-| 10 | Kesimpulan | 0,5 mnt | Rencana |
+| 8 | Studi kasus: jaringan kabel lima gedung (adegan 3D) | 1 mnt | Jadi |
+| 9 | Metode eksperimen | 1 mnt | Jadi |
+| 10 | Hasil dan analisis | 1,5 mnt | Jadi |
+| 11 | Kesimpulan | 0,5 mnt | Rencana |
 
-Total 12 menit, di dalam batas 10 sampai 15 menit. Bila perlu dipangkas, ambil dari slide 7 atau 4 sampai 6.
+Total 13 menit, di dalam batas 10 sampai 15 menit. Bila perlu dipangkas, ambil dari slide 7 atau 4 sampai 6.
 
-Pengelompokan pada bar progres di bawah slide: Pembuka (1), Konsep (2), Algoritma (3 sampai 6), Teori (7), Eksperimen (8 dan 9), Penutup (10).
+Pengelompokan pada bar progres di bawah slide: Pembuka (1), Konsep (2), Algoritma (3 sampai 6), Teori (7), Eksperimen (8 sampai 10), Penutup (11).
 
 ## 2. Gaya dan Cara Pakai
 
@@ -196,7 +197,21 @@ Catatan: rencana awal menyebut Borůvka hanya "dikutip singkat", tetapi laporan 
 
 Angka pada grafik dihitung dari rumus: m = n − 1 (jarang), m = n log₂ n (menengah), m = n(n − 1)/2 (padat), lalu m log₂ n dan m log₂² n dengan n = 1.000. Ini ilustrasi satuan langkah menurut rumus, bukan hasil pengukuran, dan diberi label di slide. Kasus "menengah" memakai konstanta 1 pada Θ(n log n) sebagai asumsi ilustrasi.
 
-## 5g. Slide 8: Metode Eksperimen
+## 5f. Slide 8: Studi Kasus
+
+Tujuan: penonton awam melihat MST dipakai pada masalah nyata kecil, dan bahwa ketiga algoritma menghasilkan jawaban sama. Isi mengikuti Bab 4 subbab 4.1 (Tabel 4.1 dan 4.2). Gaya berbeda dari slide lain: adegan 3D layar penuh (lima gedung sebagai balok, jalur kabel sebagai lengkung di atas lantai kampus), tanpa kotak panel. Proyeksi dihitung dengan JavaScript (bukan CSS 3D) sehingga label selalu menghadap layar. Adegan bisa diputar dengan menyeret kursor, klik dua kali mengembalikan sudut. Lima klik.
+
+| Klik | Tampilan | Pesan |
+|------|----------|-------|
+| 1 | Lima gedung naik, enam jalur kandidat (garis putus), empat pasangan terhalang bertanda ✕ | 5 simpul, 6 sisi, tujuan MST |
+| 2 | Jalur diwarnai menurut tanda biaya (biru negatif, putih nol, kuning positif) dengan chip biaya, legenda arti bobot | Bobot nol dan negatif sah. Nilai ilustrasi karangan |
+| 3 | Kruskal menerima −5, −2, 0 berurutan (kabel menyala, total berjalan −7) | Terima yang tidak membentuk siklus |
+| 4 | Jalur 15 menyambung Industri, total 8, jalur 18 dan 25 dicoret (tidak diperiksa) | Berhenti setelah n − 1 = 4 sisi |
+| 5 | Hasil Kruskal, Prim, Borůvka sama (4 sisi, 8), rincian −5 − 2 + 0 + 15 = 8, kotak batas | Kasus kecil menguji kebenaran, bukan efisiensi |
+
+Prim dan Borůvka tidak dianimasikan terpisah di slide ini, hanya hasilnya yang disebut (Tabel 4.2). MST tunggal karena semua biaya berbeda.
+
+## 5g. Slide 9: Metode Eksperimen
 
 Tujuan: penonton awam paham graf apa yang diuji, mengapa ukurannya begitu, dari mana grafnya, dan berapa kali diukur. Isi mengikuti Bab 4 subbab 4.4 (Tabel 4.5). Gaya tanya jawab: judul berupa pertanyaan besar (empat pertanyaan), jawabannya visual. Tujuh klik (tiga klik pertama membangun satu jalur skenario tiap klik, dengan graf mini beranimasi: sisi tergambar satu per satu, pada kembar bobot 2 yang berulang disorot).
 
@@ -210,29 +225,28 @@ Tujuan: penonton awam paham graf apa yang diuji, mengapa ukurannya begitu, dari 
 
 Angka 225 adalah hitungan dari rancangan (15 graf × 3 algoritma × 5 ulangan), diberi label di slide. Angka 1 miliar adalah hitungan n(n − 1)/4 untuk n = 64.000, hanya ilustrasi alasan.
 
-## 5h. Slide 9: Hasil dan Analisis
+## 5h. Slide 10: Hasil dan Analisis
 
 Satu layar, tiga klik, tiga lapis dari atas ke bawah dengan label di kiri (animasi: panel masuk bertahap, batang tumbuh, angka berhitung naik, pemenang disorot, kartu hasil muncul berurutan): (1) Apa datanya: waktu dalam milidetik, 225 pengukuran, tabel ukuran terbesar tiap skenario dengan sel tercepat disorot. (2) Highlight: Kruskal tercepat di jarang, Prim di padat, Borůvka 3,3 sampai 4,7 kali Kruskal, daftar tetangga menambah Prim 44 sampai 50%. (3) Bagaimana hasilnya: tidak ada satu pemenang, Borůvka paling lambat, Kruskal dan Prim tumbuh lebih cepat dari rumus (Prediksi 1 tidak terpenuhi), dan batas hasil. Kartu hasil 3 menjawab "sesuai rumus?" (Kruskal dan Prim tidak, rasio 1,29 sampai 2,19; Borůvka mendekati) dan kartu 4 menjawab "membuktikan teori?" (belum terbukti dan belum terbantah, karena teorema adalah batas atas untuk n sangat besar dan data hanya ukuran terbatas).
 
-Istilah kasus terbaik, rata-rata, dan terburuk hanya dipakai di slide 7 (kompleksitas waktu teoretis). Di slide 8 dan 9 skenario hanya disebut jarang, padat, dan kembar. Semua angka dari Tabel 4.6 sampai 4.10.
+Istilah kasus terbaik, rata-rata, dan terburuk hanya dipakai di slide 7 (kompleksitas waktu teoretis). Di slide 9 dan 10 skenario hanya disebut jarang, padat, dan kembar. Semua angka dari Tabel 4.6 sampai 4.10.
 
-## 6. Slide 10 (Rencana)
+## 6. Slide 11 (Rencana)
 
-Belum dikerjakan (slide 3 sampai 9 dijelaskan di bagian 5 sampai 5h). Alokasi waktu mengikuti tabel di bagian 1. Slide "Contoh manual tiga algoritma" dihapus dari rencana, sehingga nomor slide sesudahnya bergeser satu. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
+Belum dikerjakan (slide 3 sampai 10 dijelaskan di bagian 5 sampai 5h). Alokasi waktu mengikuti tabel di bagian 1. Slide "Contoh manual tiga algoritma" dihapus dari rencana, sehingga nomor slide sesudahnya bergeser satu. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
 
 | Slide | Arah isi |
 |-------|----------|
 | 5 Prim | Ide tumbuh dari satu titik dengan sisi termurah yang menyeberang. Animasi serupa dengan Kruskal |
 | 6 Borůvka | Ide tiap gugus memilih sisi termurahnya lalu digabung. Alasan ikut dibahas: algoritma pembanding ketiga, tidak ada ketentuan tertulis dari dosen |
-| 10 Kesimpulan | Ringkas, bahasa sederhana |
+| 11 Kesimpulan | Ringkas, bahasa sederhana |
 
 Aturan yang dijaga di seluruh slide: bahasa mudah dipahami, istilah asing ditulis miring, tanpa tanda pisah panjang, dan hanya angka yang bisa dipertanggungjawabkan dari laporan.
 
 ## 7. Hal yang Masih Terbuka
 
 - NIM dan nama dosen di slide 1 belum diisi.
-- Slide 10 belum dibuat.
-- Studi kasus (Bab 4 subbab 4.1): slide terpisah (jadi 11 slide, sekitar 13 menit) atau digabung ke slide lain. Belum diputuskan. Slide Implementasi sudah dihapus.
+- Slide 11 belum dibuat.
 - Sitasi untuk rumus Cayley dan *cut property* belum diverifikasi.
 - Pengujian slide dilakukan di Chromium. Perilaku di layar sentuh belum dicoba.
 
@@ -284,7 +298,17 @@ Graf: sisi A–B 5, A–C 8, B–C 11, B–D 3, C–D 6, D–E 4, C–E 9. MST: 
 
 **Grafik.** Pada n = 1.000, graf padat jauh lebih berat daripada graf jarang untuk ketiganya. Kruskal dan Prim berbatas atas sama, sehingga mana yang lebih cepat baru terlihat di eksperimen.
 
-### Slide 8: Metode Eksperimen
+### Slide 8: Studi Kasus
+
+**Masalah.** Lima gedung Teknik, enam jalur kandidat, empat pasangan terhalang. Cari jalur yang menghubungkan semua gedung dengan biaya bersih paling kecil (MST).
+
+**Biaya bersih.** Positif bayar sendiri, nol gratis, negatif dapat insentif. Sah karena algoritma hanya memakai urutan bobot.
+
+**Kruskal.** Urutkan: −5, −2, 0, 15, 18, 25. Terima empat pertama (tidak membentuk siklus), lalu berhenti. Total −5 − 2 + 0 + 15 = 8 juta. Prim dan Borůvka sama (Tabel 4.2).
+
+**Batas.** Lima gedung hanya menguji kebenaran dan kegunaan, bukan efisiensi.
+
+### Slide 9: Metode Eksperimen
 
 **Skenario.** Jarang (m = 3n, n 4.000 sampai 64.000), padat (m = n(n − 1)/4, n 200 sampai 1.000), jarang kembar (seperti jarang, bobot hanya 1 sampai 5). Bobot lainnya acak 1 sampai 1.000.000.
 
@@ -294,7 +318,7 @@ Graf: sisi A–B 5, A–C 8, B–C 11, B–D 3, C–D 6, D–E 4, C–E 9. MST: 
 
 **Pengukuran.** Satu graf per pasangan skenario dan ukuran, 1 putaran pemanasan, 5 ulangan pada graf yang sama, laporan rata-rata dan simpangan baku sampel. Simpangan baku hanya mengukur gangguan mesin, bukan variasi antar graf.
 
-### Slide 9: Hasil dan Analisis
+### Slide 10: Hasil dan Analisis
 
 **Siapa tercepat.** Pada ukuran terbesar: Kruskal tercepat di graf jarang, Prim tanpa daftar tetangga tercepat di graf padat. Di jarang kembar selisihnya kurang dari simpangan baku, jadi belum pasti. Borůvka paling lambat di semua.
 
