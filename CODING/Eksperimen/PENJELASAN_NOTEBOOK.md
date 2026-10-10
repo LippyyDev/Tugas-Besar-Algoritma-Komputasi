@@ -180,20 +180,19 @@ Memeriksa otomatis syarat jumlah dan berkas. Tanda **[OK]** berarti terpenuhi.
 **Sumber**
 - P. Sanders, K. Mehlhorn, M. Dietzfelbinger, R. Dementiev, *Sequential and Parallel Algorithms and Data Structures: The Basic Toolbox*, edisi ke-2, Springer, 2019, Bab 11: penyajian Kruskal, Prim, Borůvka, dan struktur data *disjoint set* (Bagian 11.2 sampai 11.4 dan 11.6).
 - Kruskal (1956), Prim (1957), dan Nešetřil *et al.* (2001) untuk Borůvka, seperti di daftar pustaka Bab 1.
-- Tidak ada kode yang disalin dari repositori GitHub, buku, atau forum. Draf kode dibuat dengan bantuan AI (lihat laporan di bawah).
+- Tidak ada kode yang disalin dari repositori GitHub, buku, atau forum. Kode inti algoritma ditulis sendiri, dan AI hanya membantu bagian eksperimen pada notebook (lihat laporan di bawah).
 
-**Laporan penggunaan AI (DRAF, sesuaikan dengan kenyataan sebelum dikumpulkan)**
+**Laporan penggunaan AI**
 
-> **Isi bagian ini dengan jujur dan dengan kata-katamu sendiri.** Dosen mewajibkan pemakaian AI dilaporkan di lampiran, dan kamu harus bisa menjelaskan setiap baris kode serta setiap langkah penurunan kompleksitas saat tanya jawab. Jika kamu menulis ulang bagian kode dengan versimu sendiri, catat itu di sini.
+Ringkasan lengkap ada di bagian "Penggunaan AI" pada `../../README.md`. Dosen mewajibkan pemakaian AI dilaporkan di lampiran.
 
-| Butir | Isi (draf) |
+| Butir | Isi |
 |---|---|
 | Alat AI yang dipakai | Claude (Anthropic) |
-| Tujuan | Memahami konsep Kruskal, Prim, dan Borůvka; contoh penerapan; contoh implementasi; *debugging*; pembuatan kerangka eksperimen |
-| Bagian pekerjaan yang dibantu | Draf kode Kruskal, Prim, Borůvka; kerangka notebook, pembuat graf, dan eksperimen; visualisasi HTML untuk belajar |
+| Bagian kode yang ditulis sendiri | Kode inti algoritma Kruskal, Prim, dan Borůvka |
+| Bagian kode yang dibantu AI | Bagian eksperimen pada notebook, yaitu pembangkitan graf acak ber-*seed* |
 | Cara verifikasi | (1) Uji kasus kecil dengan hitungan tangan (`../Uji_Kecil/uji_kecil.py`); (2) perbandingan total bobot dengan `networkx` pada 300 graf acak kecil; (3) pemeriksaan total bobot ketiga algoritma sama pada setiap ulangan eksperimen |
-| Referensi | Setiap referensi di laporan sudah dicek keberadaannya ke sumber aslinya (**centang setelah kamu benar-benar memeriksa**) |
-| Bagian yang kamu tulis atau ubah sendiri | (isi sendiri) |
+| Referensi laporan | AI membantu mencari, lalu penulis memverifikasi keberadaan dan kesesuaian tiap referensi secara manual |
 
 ### 6.18 Sel 18. Simpan semua hasil
 Mendaftar berkas yang tersimpan, menutup `lingkungan_dan_log.txt`, lalu di Colab memaksa Drive menyinkronkan semuanya dan melepasnya. Jalankan paling akhir. Untuk menjalankan ulang, mulai lagi dari Sel 2.

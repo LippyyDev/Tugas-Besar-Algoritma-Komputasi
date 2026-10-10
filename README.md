@@ -64,18 +64,19 @@ Di Windows, `CODING\jalankan_notebook.bat` melakukan langkah notebook di atas. P
 
 ## Penggunaan AI
 
-Kecerdasan buatan (AI) digunakan sebagai alat bantu pada tiga bagian berikut. Keputusan isi, arah, dan pemeriksaan akhir tetap dilakukan sendiri oleh penulis.
+Kecerdasan buatan (AI) dipakai sebagai alat bantu pada tiga bagian berikut. Keputusan isi, arah, dan pemeriksaan akhir tetap dilakukan sendiri oleh penulis.
 
 | Bagian | Dikerjakan sendiri | Dibantu AI |
 |---|---|---|
-| Kode | Kode inti algoritma (Kruskal, Prim, dan Borůvka) | Bagian eksperimen pada notebook `.ipynb`, yaitu pembangkitan graf acak ber-*seed* |
-| Laporan | Penentuan isi dan pembahasan, verifikasi referensi, serta perhitungan manual | *Brainstorming* isi laporan, pencarian jurnal atau artikel, perbaikan penulisan yang belum baku, dan perhitungan matematis yang sulit |
+| Kode | Kode inti algoritma Kruskal, Prim, dan Borůvka | Bagian eksperimen pada notebook `.ipynb`, yaitu pembangkitan graf acak ber-*seed* |
+| Laporan | Penentuan isi dan pembahasan, verifikasi referensi, dan perhitungan manual | *Brainstorming*, pencarian jurnal atau artikel, perbaikan penulisan yang belum baku, dan perhitungan matematis yang sulit |
 | Presentasi | Penentuan isi dan rancangan desain tiap slide, serta pemeriksaan dan revisi | Pembuatan slide sesuai arahan penulis |
 
 Cara kerja pada tiap bagian:
 
-- **Laporan.** Isi dan pembahasan didiskusikan lebih dulu. AI kemudian mencari jurnal atau artikel yang sesuai, lalu penulis memverifikasinya secara manual. Referensi yang belum sesuai diganti dengan hasil pencarian lain. AI tidak diminta menulis seluruh laporan sekaligus.
-- **Presentasi.** Slide dibuat satu per satu, bukan seluruhnya sekaligus. Setiap slide diperiksa dan direvisi oleh penulis bila diperlukan.
+- **Kode.** Kode inti algoritma ditulis sendiri oleh penulis. AI hanya dipakai pada bagian eksperimen di notebook, yaitu pembangkitan graf acak dengan *seed*.
+- **Laporan.** AI tidak diminta menulis seluruh laporan. Isi dan pembahasan didiskusikan terlebih dahulu, kemudian AI mencari jurnal atau artikel yang sesuai. Penulis memverifikasi setiap referensi secara manual, dan referensi yang belum sesuai diganti dengan hasil pencarian lain. AI juga membantu memperbaiki penulisan yang belum baku serta perhitungan matematis yang sulit, sedangkan perhitungan manual tetap dikerjakan penulis sendiri.
+- **Presentasi.** Penulis menentukan isi dan desain, lalu AI membuat slide satu per satu, bukan seluruhnya sekaligus. Setiap slide diperiksa dan direvisi oleh penulis bila diperlukan.
 
 ## Status
 

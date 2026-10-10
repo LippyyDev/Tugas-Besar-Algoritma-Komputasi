@@ -115,5 +115,5 @@ Klik dua kali berkas `.html` di `Contoh_Dasar/<algoritma>/`. Dibuka di browser, 
 ## Pengingat sebelum dikumpulkan
 - Pakai hasil waktu dari eksperimen yang kamu jalankan sendiri di laporan (Bab 4), bukan angka dari orang lain. Catat mesinnya (Colab atau komputer sendiri) sesuai `lingkungan_dan_log.txt`.
 - Hitung ulang sendiri jawaban uji kasus kecil di `Uji_Kecil/uji_kecil.py` (draf perhitungan ada di `Uji_Kecil/PENJELASAN_UJI_KECIL.md`) dan total studi kasus (8 juta rupiah).
-- Isi laporan penggunaan AI (draf di `Eksperimen/PENJELASAN_NOTEBOOK.md`, bagian 6.17) dengan kata-katamu sendiri. Kode di folder ini disusun dengan bantuan AI, jadi pelajari dan tulis ulang versimu sendiri sebelum diklaim sebagai karya sendiri.
+- Pastikan laporan penggunaan AI di lampiran sesuai dengan bagian "Penggunaan AI" pada `../README.md` dan catatan di `Eksperimen/PENJELASAN_NOTEBOOK.md` (bagian 6.17). Kode inti algoritma ditulis sendiri, sedangkan AI hanya membantu bagian eksperimen pada notebook.
 - Buat repositori GitHub atau GitLab publik untuk tautan di lampiran laporan.
