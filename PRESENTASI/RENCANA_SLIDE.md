@@ -189,11 +189,11 @@ Catatan: rencana awal menyebut Borůvka hanya "dikutip singkat", tetapi laporan 
 
 | Klik | Tampilan | Pesan |
 |------|----------|-------|
-| 1 | Tiga kartu: n (titik), m (sisi), log n (berapa kali n dibelah dua). Deret 1.000, 500, ..., 1 | log n tumbuh sangat lambat, dan *O* adalah batas atas langkah, bukan waktu pasti |
-| 2 | Kartu Kruskal dan Prim: asal biaya tiap algoritma. Keduanya O(m log n) | Sama-sama memproses sekitar m sisi, tiap sisi berbiaya sekitar log n |
-| 3 | Kartu Borůvka: putaran paling banyak log n, tiap putaran m log n. Hasil O(m log² n), label "+1 faktor log n" | Kode ini mencari komponen dengan CARI-AKAR, jadi ada satu faktor log n lebih |
-| 4 | Baris Ruang tambahan pada tiap kartu | Kruskal dan Prim O(n + m), Borůvka O(n) |
-| 5 | Grafik batang skala logaritmik untuk graf jarang, menengah, padat pada n = 1.000 | Graf padat jauh lebih berat. Kruskal dan Prim berbatas atas sama, jadi pembeda diukur lewat eksperimen |
+| 1 | Empat kartu: n (titik), m (sisi), log n (berapa kali n dibelah dua), *O*( ) (batas atas). Strip rumus kunci "banyak pekerjaan × biaya tiap pekerjaan". Deret 1.000, 500, ..., 1 | log n tumbuh sangat lambat, dan *O* adalah batas atas langkah, bukan waktu pasti |
+| 2 | Kartu Kruskal dan Prim dengan pola "berapa kali × biaya tiap kali". Prim: ≤ m masuk + ≤ m keluar, angka 2 dibuang di *O*. Keduanya O(m log n) | Sama-sama memproses sekitar m sisi, tiap sisi berbiaya sekitar log n. Batas atas sama belum tentu sama cepat |
+| 3 | Kartu Borůvka: putaran paling banyak log n (contoh: 1.000 titik sekitar 10 putaran, graf contoh 1 putaran), tiap putaran m log n. Hasil O(m log² n), label "+1 faktor log n" | Kode ini mencari komponen dengan CARI-AKAR, jadi ada satu faktor log n lebih |
+| 4 | Baris "Memori ekstra di luar data" pada tiap kartu, lengkap dengan isi yang disimpan | Kruskal dan Prim O(n + m), Borůvka O(n) |
+| 5 | Grafik batang skala logaritmik untuk graf jarang, menengah, padat pada n = 1.000, dengan legenda "batang panjang = langkah lebih banyak = lebih berat" dan dua penanda rasio (padat sekitar 500 kali jarang, Borůvka sekitar 10 kali lebih berat) | Graf padat jauh lebih berat. Kruskal dan Prim berbatas atas sama, jadi pembeda diukur lewat eksperimen |
 
 Angka pada grafik dihitung dari rumus: m = n − 1 (jarang), m = n log₂ n (menengah), m = n(n − 1)/2 (padat), lalu m log₂ n dan m log₂² n dengan n = 1.000. Ini ilustrasi satuan langkah menurut rumus, bukan hasil pengukuran, dan diberi label di slide. Kasus "menengah" memakai konstanta 1 pada Θ(n log n) sebagai asumsi ilustrasi.
 

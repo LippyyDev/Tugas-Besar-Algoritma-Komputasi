@@ -182,73 +182,88 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 .src{position:absolute;right:96px;top:176px;font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
 .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease var(--d,0ms),transform .6s ease var(--d,0ms);pointer-events:none}
 .rv.on{opacity:1;transform:none}
-.zone{position:absolute;left:96px;right:96px;top:248px;height:632px}
+.zone{position:absolute;left:96px;right:96px;top:248px;height:640px}
 
 /* zona A: cara membaca */
-.defs{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.def{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:38px 34px 40px}
-.def .sym{font-family:var(--mono);font-size:64px;font-weight:500;color:var(--accent-bright);line-height:1}
-.def .sym i{font-style:normal;font-size:30px;color:var(--mute);margin-left:6px}
-.def p{margin-top:14px;font-size:26px;line-height:1.35;color:var(--body)}
+.defs{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.def{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:24px 28px 26px}
+.def.o{border-color:rgba(125,180,255,.45);background:linear-gradient(180deg,rgba(125,180,255,.1),rgba(125,180,255,.02))}
+.def .sym{font-family:var(--mono);font-size:54px;font-weight:500;color:var(--accent-bright);line-height:1}
+.def p{margin-top:12px;font-size:23px;line-height:1.35;color:var(--body)}
 .def p b{color:var(--text);font-weight:600}
-.half{margin-top:40px;border:1px solid var(--line);background:#07080b;padding:34px 34px 38px}
+.key{margin-top:22px;display:flex;align-items:center;gap:22px;border-left:4px solid var(--amber);background:rgba(255,194,102,.07);padding:18px 28px;font-size:28px;color:var(--body)}
+.key small{font-family:var(--mono);font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);flex:none}
+.key b{color:var(--text);font-weight:600}
+.key .eq{font-family:var(--mono);color:var(--amber);margin:0 8px}
+.half{margin-top:22px;border:1px solid var(--line);background:#07080b;padding:24px 30px 26px}
 .half h3{font-family:var(--mono);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:400}
-.hrow{display:flex;align-items:center;gap:10px;margin-top:34px}
-.hb{flex:1;height:110px;border:1px solid rgba(125,180,255,.45);background:rgba(125,180,255,.1);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:26px;color:var(--accent-bright);
+.hrow{display:flex;align-items:center;gap:10px;margin-top:20px}
+.hb{flex:1;height:78px;border:1px solid rgba(125,180,255,.45);background:rgba(125,180,255,.1);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:25px;color:var(--accent-bright);
   opacity:0;transform:scale(.85);transition:opacity .45s ease var(--d,0ms),transform .45s ease var(--d,0ms)}
 .hb.last{background:var(--accent);color:#06121f;border-color:var(--accent)}
 .hrow.on .hb{opacity:1;transform:none}
 .ha{flex:none;font-family:var(--mono);font-size:15px;color:var(--mute);width:34px;text-align:center;opacity:0;transition:opacity .4s ease var(--d,0ms)}
 .hrow.on .ha{opacity:1}
-.hnote{display:flex;justify-content:space-between;gap:30px;margin-top:38px;font-size:25px;color:var(--body)}
+.hnote{display:flex;justify-content:space-between;gap:30px;margin-top:20px;font-size:23px;color:var(--body)}
 .hnote b{color:var(--text);font-weight:600}
 
 /* zona B: tiga kartu */
-.cards{position:absolute;left:0;right:0;top:0;height:632px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.cards{position:absolute;left:0;right:0;top:0;height:640px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .card{position:relative;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:0;display:flex;flex-direction:column;transition:opacity .6s ease var(--d,0ms),transform .6s ease var(--d,0ms),border-color .4s}
 .card.late{border-style:dashed;border-color:rgba(255,255,255,.18)}
 .card.late>*{opacity:0}
 .card>*{transition:opacity .5s ease}
-.card .ch{height:92px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;border-bottom:1px solid var(--line2)}
-.card .ch b{font-size:34px;font-weight:600;letter-spacing:-.01em}
+.card .ch{height:78px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;border-bottom:1px solid var(--line2)}
+.card .ch b{font-size:32px;font-weight:600;letter-spacing:-.01em}
 .card .ch span{font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 .card.k{border-top:3px solid var(--accent)} .card.p{border-top:3px solid var(--accent-bright)} .card.b{border-top:3px solid var(--amber)}
-.rows{padding:10px 30px 0}
-.crow{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:40px 0;border-bottom:1px solid var(--line2)}
+.rows{padding:4px 30px 0}
+.crow{display:block;padding:16px 0 15px;border-bottom:1px solid var(--line2)}
 .crow:last-child{border-bottom:0}
-.crow .t{font-size:24px;line-height:1.35;color:var(--body);flex:1}
+.crow .t{font-size:22px;line-height:1.3;color:var(--body)}
 .crow .t b{color:var(--text);font-weight:600}
-.chipc{flex:none;font-family:var(--mono);font-size:25px;font-weight:500;color:var(--accent-bright);border:1px solid rgba(125,180,255,.5);background:rgba(125,180,255,.08);padding:7px 14px;border-radius:3px;white-space:nowrap}
+.calc{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;margin-top:10px}
+.calc i{font-style:normal;font-family:var(--mono);color:var(--mute);font-size:22px}
+.calc .nt{font-size:17px;line-height:1.3;color:var(--mute);flex-basis:100%}
+.chipc{flex:none;font-family:var(--mono);font-size:23px;font-weight:500;color:var(--accent-bright);border:1px solid rgba(125,180,255,.5);background:rgba(125,180,255,.08);padding:5px 12px;border-radius:3px;white-space:nowrap}
 .card.b .chipc{color:var(--amber);border-color:rgba(255,194,102,.55);background:rgba(255,194,102,.08)}
-.res{padding:0 30px 30px}
-.res small{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
-.res strong{display:block;font-family:var(--mono);font-size:56px;font-weight:500;color:var(--text);letter-spacing:-.02em;line-height:1.1}
+.res{padding:0 30px 24px}
+.res small{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+.res strong{display:block;font-family:var(--mono);font-size:52px;font-weight:500;color:var(--text);letter-spacing:-.02em;line-height:1.1}
 .card.b .res strong{color:var(--amber)}
 .res sup{font-size:.55em;vertical-align:.55em}
-.space{margin:auto 30px 26px;padding-top:18px;border-top:1px solid var(--line2);font-size:23px;color:var(--body);display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-.space b{font-family:var(--mono);font-weight:500;font-size:28px;color:var(--text)}
-.plus{position:absolute;right:30px;bottom:98px;font-family:var(--mono);font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:#1c1305;background:var(--amber);padding:6px 12px;border-radius:3px}
+.space{margin:auto 30px 16px;padding-top:12px;border-top:1px solid var(--line2)}
+.space .sp1{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:21px;color:var(--body)}
+.space .sp1 b{font-family:var(--mono);font-weight:500;font-size:26px;color:var(--text)}
+.space .sp2{margin-top:2px;font-size:18px;color:var(--mute)}
+.plus{position:absolute;right:30px;bottom:92px;font-family:var(--mono);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:#1c1305;background:var(--amber);padding:5px 11px;border-radius:3px}
 
 /* zona C: grafik batang */
-.chart{position:absolute;left:0;right:0;top:0;height:632px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:26px 36px 0}
+.chart{position:absolute;left:0;right:0;top:0;height:640px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:22px 36px 0}
 .chart h3{font-family:var(--mono);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:400;display:flex;justify-content:space-between}
-.grp3{display:grid;grid-template-columns:380px 1fr;align-items:center;height:168px;border-bottom:1px solid var(--line2)}
+.chart h3 em{font-style:normal;color:var(--accent-bright)}
+.grp3{display:grid;grid-template-columns:380px 1fr;align-items:center;height:140px;border-bottom:1px solid var(--line2)}
 .grp3:last-of-type{border-bottom:0}
 .grp3 .lb b{display:block;font-size:30px;font-weight:600}
 .grp3 .lb span{display:block;margin-top:6px;font-family:var(--mono);font-size:18px;color:var(--mute)}
-.bars{display:flex;flex-direction:column;gap:14px}
+.bars{display:flex;flex-direction:column;gap:10px}
 .br{display:flex;align-items:center;gap:16px;height:44px}
-.br .bn{flex:none;width:210px;font-size:19px;color:var(--body)}
+.br .bn{flex:none;width:210px;font-size:19px;color:var(--body);line-height:1.15}
 .br .bt{flex:1;position:relative;height:100%}
-.br .bf{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent);transition:width .9s cubic-bezier(.3,.7,.2,1) var(--d,0ms);border-radius:2px;display:flex;align-items:center;justify-content:flex-end}
+.br .bf{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent);transition:width .9s cubic-bezier(.3,.7,.2,1) var(--d,0ms);border-radius:2px}
 .br.am .bf{background:var(--amber)}
-.br .bv{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:21px;color:var(--text);white-space:nowrap;opacity:0;transition:opacity .4s ease calc(var(--d,0ms) + .7s)}
+.br .bv{position:absolute;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:21px;color:var(--text);white-space:nowrap;opacity:0;transition:opacity .4s ease calc(var(--d,0ms) + .7s);left:14px}
 .chart.on .br .bv{opacity:1}
-.cnote{position:absolute;left:36px;right:36px;bottom:20px;font-family:var(--mono);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.pills{position:absolute;left:36px;right:36px;bottom:52px;display:flex;gap:20px}
+.pill{flex:1;border:1px solid var(--line);background:#07080b;padding:12px 18px;font-size:21px;color:var(--body);line-height:1.3;opacity:0;transition:opacity .6s ease 1.2s}
+.chart.on .pill{opacity:1}
+.pill b{color:var(--text);font-weight:600}
+.pill.a{border-color:rgba(125,180,255,.5)} .pill.m{border-color:rgba(255,194,102,.55)}
+.cnote{position:absolute;left:36px;right:36px;bottom:16px;font-family:var(--mono);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
 
 /* keterangan bawah */
 .capbar{position:absolute;left:96px;right:96px;top:902px;height:90px;border-left:4px solid var(--accent);padding:6px 0 0 28px;display:flex;align-items:center}
-.capbar #cap{font-size:27px;line-height:1.4;color:var(--body)}
+.capbar #cap{font-size:26px;line-height:1.4;color:var(--body)}
 .capbar #cap b{color:var(--text);font-weight:600}
 .capbar #cap.sw{animation:capin .45s ease}
 @keyframes capin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
@@ -269,10 +284,12 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
   <div class="zone" id="zA">
     <div class="defs">
       <div class="def rv" data-in="0" data-out="1" style="--d:0ms"><div class="sym">n</div><p><b>jumlah titik</b> pada graf</p></div>
-      <div class="def rv" data-in="0" data-out="1" style="--d:120ms"><div class="sym">m</div><p><b>jumlah sisi</b> pada graf</p></div>
-      <div class="def rv" data-in="0" data-out="1" style="--d:240ms"><div class="sym">log n</div><p><b>berapa kali</b> n bisa dibelah dua sampai tinggal 1</p></div>
+      <div class="def rv" data-in="0" data-out="1" style="--d:100ms"><div class="sym">m</div><p><b>jumlah sisi</b> pada graf</p></div>
+      <div class="def rv" data-in="0" data-out="1" style="--d:200ms"><div class="sym">log n</div><p><b>berapa kali</b> n bisa dibelah dua sampai tinggal 1</p></div>
+      <div class="def o rv" data-in="0" data-out="1" style="--d:300ms"><div class="sym">O( )</div><p><b>batas atas</b> jumlah langkah, angka pengali dibuang</p></div>
     </div>
-    <div class="half rv" data-in="0" data-out="1" style="--d:420ms">
+    <div class="key rv" data-in="0" data-out="1" style="--d:420ms"><small>Rumus kunci</small><span><b>banyak pekerjaan</b><span class="eq">×</span><b>biaya tiap pekerjaan</b><span class="eq">=</span>total langkah</span></div>
+    <div class="half rv" data-in="0" data-out="1" style="--d:540ms">
       <h3>Contoh n = 1.000, dibelah dua berulang</h3>
       <div class="hrow" id="hrow"></div>
       <div class="hnote"><span>1.000 hanya perlu sekitar <b>10</b> kali dibelah.</span><span>1.000.000 hanya sekitar <b>20</b> kali.</span><span>Jadi log n tumbuh <b>sangat lambat</b>.</span></div>
@@ -285,28 +302,34 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
       <div class="card k rv" id="cK" data-in="1" data-out="4" style="--d:0ms">
         <div class="ch"><b>Kruskal</b><span>Teorema 3.5</span></div>
         <div class="rows">
-          <div class="crow"><div class="t"><b>Urutkan</b> semua m sisi</div><div class="chipc">m log n</div></div>
-          <div class="crow"><div class="t">Periksa sisi: tiap sisi <b>1 GABUNG</b> (log n)</div><div class="chipc">m × log n</div></div>
+          <div class="crow"><div class="t"><b>Urutkan</b> semua sisi di awal</div>
+            <div class="calc"><span class="chipc">m log n</span><span class="nt">sebenarnya m log m, nilainya setara dengan m log n</span></div></div>
+          <div class="crow"><div class="t">Periksa sisi satu per satu, tiap sisi <b>1 GABUNG</b></div>
+            <div class="calc"><span class="chipc">m kali</span><i>×</i><span class="chipc">log n</span><i>=</i><span class="chipc">m log n</span></div></div>
         </div>
-        <div class="space rv" data-in="3" data-out="4"><span>Ruang tambahan</span><b>O(n + m)</b></div>
+        <div class="space rv" data-in="3" data-out="4"><div class="sp1"><span>Memori ekstra di luar data</span><b>O(n + m)</b></div><div class="sp2">menyimpan salinan semua sisi yang terurut, ditambah catatan kelompok tiap titik</div></div>
         <div class="res"><small>Waktu, batas atas</small><strong>O(m log n)</strong></div>
       </div>
       <div class="card p rv" id="cP" data-in="1" data-out="4" style="--d:180ms">
         <div class="ch"><b>Prim</b><span>Teorema 3.6</span></div>
         <div class="rows">
-          <div class="crow"><div class="t">Tiap sisi <b>masuk</b> antrean paling banyak sekali, lalu <b>keluar</b> paling banyak sekali</div><div class="chipc">≤ 2m kali</div></div>
-          <div class="crow"><div class="t">Satu operasi antrean berbiaya</div><div class="chipc">log n</div></div>
+          <div class="crow"><div class="t">Tiap sisi <b>masuk</b> antrean paling banyak sekali, lalu <b>keluar</b> paling banyak sekali</div>
+            <div class="calc"><span class="chipc">≤ m masuk</span><i>+</i><span class="chipc">≤ m keluar</span><span class="nt">jadi paling banyak 2m operasi, angka 2 dibuang di O</span></div></div>
+          <div class="crow"><div class="t">Tiap operasi antrean berbiaya</div>
+            <div class="calc"><span class="chipc">m kali</span><i>×</i><span class="chipc">log n</span><i>=</i><span class="chipc">m log n</span></div></div>
         </div>
-        <div class="space rv" data-in="3" data-out="4"><span>Ruang tambahan</span><b>O(n + m)</b></div>
+        <div class="space rv" data-in="3" data-out="4"><div class="sp1"><span>Memori ekstra di luar data</span><b>O(n + m)</b></div><div class="sp2">menyimpan daftar tetangga tiap titik dan antrean yang bisa berisi banyak sisi</div></div>
         <div class="res"><small>Waktu, batas atas</small><strong>O(m log n)</strong></div>
       </div>
       <div class="card b rv late" id="cB" data-in="1" data-out="4" style="--d:360ms">
         <div class="ch"><b>Borůvka</b><span>Teorema 3.7</span></div>
         <div class="rows">
-          <div class="crow"><div class="t">Jumlah <b>putaran</b>: komponen berkurang sedikitnya separuh tiap putaran</div><div class="chipc">≤ log n</div></div>
-          <div class="crow"><div class="t">Tiap putaran: m sisi, tiap sisi <b>2 CARI-AKAR</b> (log n)</div><div class="chipc">m log n</div></div>
+          <div class="crow"><div class="t">Banyak <b>putaran</b>: komponen menyusut sedikitnya separuh tiap putaran</div>
+            <div class="calc"><span class="chipc">≤ log n</span><span class="nt">1.000 titik: paling banyak sekitar 10 putaran. Graf contoh: cukup 1 putaran</span></div></div>
+          <div class="crow"><div class="t">Tiap putaran: periksa semua sisi, tiap sisi <b>2 CARI-AKAR</b></div>
+            <div class="calc"><span class="chipc">m kali</span><i>×</i><span class="chipc">log n</span><i>=</i><span class="chipc">m log n</span></div></div>
         </div>
-        <div class="space rv" data-in="3" data-out="4"><span>Ruang tambahan</span><b>O(n)</b></div>
+        <div class="space rv" data-in="3" data-out="4"><div class="sp1"><span>Memori ekstra di luar data</span><b>O(n)</b></div><div class="sp2">hanya catatan kelompok dan tabel pilihan, tanpa menyalin sisi</div></div>
         <div class="plus rv" data-in="2" data-out="4">+1 faktor log n</div>
         <div class="res"><small>Waktu, batas atas</small><strong>O(m log<sup>2</sup> n)</strong></div>
       </div>
@@ -316,9 +339,10 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
   <!-- zona C -->
   <div class="zone" id="zC">
     <div class="chart rv" id="chart" data-in="4" style="--d:0ms">
-      <h3><span>Seberapa besar bedanya? Ilustrasi n = 1.000</span><span>Tabel 3.8</span></h3>
+      <h3><span>Ilustrasi n = 1.000</span><span><em>Batang panjang = langkah lebih banyak = lebih berat</em></span></h3>
       <div id="grps"></div>
-      <div class="cnote">Skala logaritmik. Satuan langkah menurut rumus, bukan waktu dalam detik.</div>
+      <div class="pills" id="pills"></div>
+      <div class="cnote">Tabel 3.8. Skala logaritmik. Satuan langkah menurut rumus, bukan waktu dalam detik.</div>
     </div>
   </div>
 
@@ -351,11 +375,13 @@ $('#grps').innerHTML=CASES.map((c,i)=>{const k=c.m*L,b=c.m*L*L;
    +'<div class="br am"><div class="bn">Borůvka<br><span style="color:var(--mute);font-size:15px;font-family:var(--mono)">m log² n</span></div><div class="bt"><div class="bf" data-w="'+pos(b)+'" style="--d:'+(i*150+90)+'ms"></div><div class="bv" data-w="'+pos(b)+'" style="--d:'+(i*150+90)+'ms">≈ '+fmt(b)+'</div></div></div>'
    +'</div></div>';}).join('');
 
+const RAT1=Math.round((CASES[2].m*L)/(CASES[0].m*L)), RAT2=Math.round(L);
+$('#pills').innerHTML='<div class="pill a">Pada algoritma yang sama, graf padat sekitar <b>'+RAT1+' kali</b> lebih berat daripada graf jarang.</div><div class="pill m">Pada graf yang sama, Borůvka sekitar <b>'+RAT2+' kali</b> lebih berat, karena faktor log n tambahan.</div>';
 const CAPS=[
- 'Tiga huruf ini cukup: <b>n</b> titik, <b>m</b> sisi, dan <b>log n</b> yang tumbuh sangat lambat. Hasil akhirnya hanya <b>batas atas</b> jumlah langkah, bukan waktu pasti.',
- '<b>Kruskal dan Prim</b> sama-sama memproses sekitar m sisi, dan tiap sisi berbiaya sekitar log n. Hasilnya sama: <b>O(m log n)</b>.',
+ 'Cukup ingat <b>n</b> titik, <b>m</b> sisi, dan <b>log n</b> yang tumbuh sangat lambat. Hasil akhirnya <b>O( )</b>: batas atas jumlah langkah, bukan waktu pasti.',
+ '<b>Kruskal dan Prim</b> sama-sama memproses sekitar m sisi, dan tiap sisi berbiaya sekitar log n, jadi sama-sama <b>O(m log n)</b>. Batas atas sama belum tentu sama cepat: pembedanya diukur di eksperimen.',
  '<b>Borůvka</b> punya satu faktor log n tambahan, karena kode ini mencari komponen dengan CARI-AKAR di setiap putaran. Rumusan pustaka lebih kecil (Bab 3, subbab 3.4.4), tetapi yang dapat dibuktikan untuk kode ini adalah <b>O(m log² n)</b>.',
- 'Ruang tambahan: <b>Kruskal dan Prim O(n + m)</b> karena menyimpan sisi, <b>Borůvka cukup O(n)</b>.',
+ 'Ruang adalah <b>memori ekstra</b> di luar data masukan. <b>Kruskal dan Prim O(n + m)</b> karena menyimpan sisi, <b>Borůvka cukup O(n)</b>.',
  'Pada graf padat pekerjaannya jauh lebih besar daripada graf jarang. Kruskal dan Prim punya <b>batas atas yang sama</b>, jadi mana yang lebih cepat dijawab oleh eksperimen.'];
 const LAST=CAPS.length-1;
 let step=0,cur=-1;
