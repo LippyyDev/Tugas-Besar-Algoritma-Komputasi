@@ -58,7 +58,7 @@ Isi:
 - Judul: Analisis Perbandingan Algoritma Kruskal, Prim, dan Borůvka pada *Minimum Spanning Tree*.
 - Tiga label algoritma: Kruskal, Prim, Borůvka.
 - Satu kalimat deskripsi: membandingkan cara kerja, kompleksitas teoretis, dan hasil eksperimen tiga algoritma.
-- Nama penyaji. NIM dan nama dosen masih berupa placeholder `[ISI NIM]` dan `[ISI NAMA DOSEN]` yang harus diisi di `slide1.html`.
+- Nama penyaji, NIM (D082261018), dan nama dosen sudah diisi di `slide1.html`.
 
 Visual dan gerak: judul muncul kata demi kata, lalu label algoritma satu per satu. Latar berupa jaringan titik yang bergerak dan menghitung MST secara langsung. Tombol R memutar ulang animasi pembuka.
 
