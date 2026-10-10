@@ -72,7 +72,7 @@ Kecerdasan buatan (AI) dipakai sebagai alat bantu pada beberapa bagian berikut. 
 |---|---|---|
 | Lain-lain | Keputusan dan pemeriksaan atas setiap perubahan di repositori | Pembuatan *commit*, penulisan README, dan penamaan berkas |
 | Kode | Kode inti algoritma Kruskal, Prim, dan Borůvka | Bagian eksperimen pada notebook `.ipynb`, yaitu pembangkitan graf acak ber-*seed* |
-| Laporan | Penentuan isi dan pembahasan, penyimpanan hasil kesepakatan dalam draf, verifikasi referensi, dan perhitungan manual | *Brainstorming*, pencarian jurnal atau artikel, perbaikan penulisan yang belum baku, perhitungan matematis yang sulit, dan penyusunan dokumen Word berformat IEEE dari draf |
+| Laporan | Penentuan isi dan pembahasan, penyimpanan hasil kesepakatan dalam draf, verifikasi referensi, dan perhitungan manual | *Brainstorming*, pencarian jurnal atau artikel, perbaikan penulisan yang belum baku, serta perhitungan matematis yang sulit |
 | Presentasi | Seluruh ide, penentuan isi, dan rancangan desain tiap slide, serta pemeriksaan dan revisi | Pembuatan slide sesuai arahan penulis |
 
 Cara kerja pada tiap bagian:
