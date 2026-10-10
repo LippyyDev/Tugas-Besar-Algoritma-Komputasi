@@ -213,7 +213,7 @@ Kutipan kode disingkat (tanda …) dan diberi label. Studi kasus (subbab 4.1) be
 
 ## 5g. Slide 9: Metode Eksperimen
 
-Tujuan: penonton awam paham graf apa yang diuji, mengapa ukurannya begitu, dari mana grafnya, dan berapa kali diukur. Isi mengikuti Bab 4 subbab 4.4 (Tabel 4.5). Gaya tanya jawab: judul berupa pertanyaan besar (empat pertanyaan), jawabannya visual. Lima klik.
+Tujuan: penonton awam paham graf apa yang diuji, mengapa ukurannya begitu, dari mana grafnya, dan berapa kali diukur. Isi mengikuti Bab 4 subbab 4.4 (Tabel 4.5). Gaya tanya jawab: judul berupa pertanyaan besar (empat pertanyaan), jawabannya visual. Tujuh klik (tiga klik pertama membangun satu jalur skenario tiap klik, dengan graf mini beranimasi: sisi tergambar satu per satu, pada kembar bobot 2 yang berulang disorot).
 
 | Klik | Pertanyaan dan tampilan | Pesan |
 |------|-------------------------|-------|

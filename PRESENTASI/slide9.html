@@ -207,6 +207,17 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 .lane .bb{padding-left:24px;border-left:1px dashed var(--line);height:96px;display:flex;flex-direction:column;justify-content:center}
 .lane .bb p{font-size:22px;color:var(--body);line-height:1.3}
 .lane .bb p b{color:var(--text);font-weight:600}
+.lane{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease,border-color .5s ease,box-shadow .5s ease}
+.lane.show{opacity:.55;transform:none}
+.lane.cur{opacity:1;border-color:var(--lc);box-shadow:0 0 30px rgba(125,180,255,.12)}
+.me{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .5s ease var(--d,0ms)}
+.mn{opacity:0;transition:opacity .4s ease}
+.lb{opacity:0;transition:opacity .5s ease 1.3s}
+.go .me{stroke-dashoffset:0}.go .mn{opacity:1}.go .lb{opacity:1}
+.lb2{transition:opacity .5s ease 1.3s,fill .5s ease 2.2s,font-size .5s ease 2.2s}
+.go .lb2{fill:#fff!important;font-size:17px}
+.lane .df{font-size:22px;line-height:1.35;color:var(--body);padding-right:18px;margin-top:8px}
+.lane .df b{display:inline;font-size:inherit;color:var(--text);font-weight:600}
 .lane.j{--lc:var(--accent)} .lane.d{--lc:var(--accent-bright)} .lane.k{--lc:var(--amber)}
 .lane.k .bb p b{color:var(--amber)}
 .lnote{font-family:var(--mono);font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:#5a5e72;margin-top:2px}
@@ -309,19 +320,19 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
   <div class="ans">
     <!-- 1 -->
     <div class="pn" id="p0">
-      <div class="lane j rv" style="--d:0ms"><svg id="mg0" viewBox="0 0 250 150"></svg>
-        <div class="nm"><b>Jarang</b><code>m = 3n</code><span>Sisi sedikit dibanding jumlah titik</span></div>
+      <div class="lane j" id="ln0"><svg id="mg0" viewBox="0 0 250 150"></svg>
+        <div class="nm"><b>Jarang</b><code>m = 3n</code><div class="df"><b>Sisi sedikit.</b> Rata-rata tiap titik hanya tersambung ke <b>6 titik</b> lain.</div></div>
         <div class="ns"><small>Jumlah titik n</small><div class="chips"><span>4.000</span><span>8.000</span><span>16.000</span><span>32.000</span><span>64.000</span></div></div>
         <div class="bb"><small>Bobot sisi</small><p>acak <b>1 sampai 1.000.000</b></p></div></div>
-      <div class="lane d rv" style="--d:140ms"><svg id="mg1" viewBox="0 0 250 150"></svg>
-        <div class="nm"><b>Padat</b><code>m = n(n − 1)/4</code><span>Separuh dari semua sisi yang mungkin</span></div>
+      <div class="lane d" id="ln1"><svg id="mg1" viewBox="0 0 250 150"></svg>
+        <div class="nm"><b>Padat</b><code>m = n(n − 1)/4</code><div class="df"><b>Sisi banyak.</b> Tiap titik tersambung ke <b>sekitar separuh</b> titik lain.</div></div>
         <div class="ns"><small>Jumlah titik n</small><div class="chips"><span>200</span><span>400</span><span>600</span><span>800</span><span>1.000</span></div></div>
         <div class="bb"><small>Bobot sisi</small><p>acak <b>1 sampai 1.000.000</b></p></div></div>
-      <div class="lane k rv" style="--d:280ms"><svg id="mg2" viewBox="0 0 250 150"></svg>
-        <div class="nm"><b>Jarang kembar</b><code>m = 3n</code><span>Bentuk sama dengan jarang, tetapi banyak bobot yang sama</span></div>
+      <div class="lane k" id="ln2"><svg id="mg2" viewBox="0 0 250 150"></svg>
+        <div class="nm"><b>Jarang kembar</b><code>m = 3n</code><div class="df"><b>Seperti jarang</b>, tetapi bobot 1 sampai 5, jadi <b>banyak sisi berbobot seri</b>.</div></div>
         <div class="ns"><small>Jumlah titik n</small><div class="chips"><span>4.000</span><span>8.000</span><span>16.000</span><span>32.000</span><span>64.000</span></div></div>
         <div class="bb"><small>Bobot sisi</small><p>acak <b>hanya 1 sampai 5</b></p></div></div>
-      <div class="lnote">Gambar graf kecil hanya ilustrasi, bukan skala</div>
+      <div class="lnote" style="position:absolute;left:0;bottom:-6px">Gambar graf kecil hanya ilustrasi (9 titik), bukan skala</div>
     </div>
 
     <!-- 2 -->
@@ -383,7 +394,9 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 const PREV_SLIDE='slide8.html', NEXT_SLIDE='slide10.html', SLIDE_NO=9;
 const $=s=>document.querySelector(s);
 const CAPS=[
- 'Ada <b>tiga skenario graf</b>: jarang, padat, dan jarang kembar. Kembar memakai bobot 1 sampai 5 agar banyak bobot sama, untuk menguji aturan seri.',
+ '<b>Graf jarang</b>: sisi sedikit, hanya 3 kali jumlah titik. Rata-rata tiap titik tersambung ke 6 titik lain.',
+ '<b>Graf padat</b>: sisi banyak, separuh dari semua sisi yang mungkin. Tiap titik tersambung ke sekitar separuh titik lain.',
+ '<b>Jarang kembar</b>: bentuk sama dengan jarang, tetapi bobot hanya 1 sampai 5. Lihat angka 2 yang berulang: banyak sisi berbobot seri, untuk menguji aturan seri.',
  'Jumlah sisi graf padat tumbuh sebesar kuadrat n, jadi <b>n padat dibuat lebih kecil</b>. Dengan begitu jumlah sisi kedua jenis graf sebanding, sekitar 10 ribu sampai 250 ribu.',
  'Graf dibuat <b>secara acak</b>: pohon dulu supaya pasti terhubung, lalu sisi acak ditambahkan. <b>Seed 2026</b> membuat hasilnya dapat diulang.',
  'Tiap graf diukur <b>lima kali</b> setelah satu putaran pemanasan, lalu dilaporkan sebagai rata-rata dan simpangan baku. Jumlah pengukuran dihitung dari rancangan di atas.',
@@ -394,9 +407,9 @@ const NS='http://www.w3.org/2000/svg';
 /* graf mini */
 function mini(id,edges,labels,col){
   const P=[];for(let i=0;i<9;i++){const a=-Math.PI/2+i*2*Math.PI/9;P.push([125+88*Math.cos(a),75+58*Math.sin(a)]);}
-  let h='';edges.forEach(([a,b],k)=>{h+='<line x1="'+P[a][0]+'" y1="'+P[a][1]+'" x2="'+P[b][0]+'" y2="'+P[b][1]+'" stroke="'+col+'" stroke-opacity=".7" stroke-width="2"/>';
-    if(labels)h+='<text x="'+((P[a][0]+P[b][0])/2)+'" y="'+((P[a][1]+P[b][1])/2)+'" fill="#ffc266" font-family="JetBrains Mono,monospace" font-size="13" text-anchor="middle" dominant-baseline="central" stroke="#07080b" stroke-width="4" paint-order="stroke">'+labels[k%labels.length]+'</text>';});
-  P.forEach(p=>{h+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="#0a0b10" stroke="#fff" stroke-opacity=".7" stroke-width="2"/>';});
+  let h='';edges.forEach(([a,b],k)=>{h+='<line class="me" pathLength="1" style="--d:'+(150+k*Math.min(90,1300/edges.length))+'ms" x1="'+P[a][0]+'" y1="'+P[a][1]+'" x2="'+P[b][0]+'" y2="'+P[b][1]+'" stroke="'+col+'" stroke-opacity=".8" stroke-width="2.2"/>';
+    if(labels)h+='<text class="lb'+(labels[k%labels.length]===2?' lb2':'')+'" x="'+((P[a][0]+P[b][0])/2)+'" y="'+((P[a][1]+P[b][1])/2)+'" fill="#ffc266" font-family="JetBrains Mono,monospace" font-size="13" text-anchor="middle" dominant-baseline="central" stroke="#07080b" stroke-width="4" paint-order="stroke">'+labels[k%labels.length]+'</text>';});
+  P.forEach(p=>{h+='<circle class="mn" cx="'+p[0]+'" cy="'+p[1]+'" r="6" fill="#0a0b10" stroke="#fff" stroke-opacity=".7" stroke-width="2"/>';});
   $('#'+id).innerHTML=h;}
 const TREE=[[1,0],[2,0],[3,1],[4,1],[5,2],[6,3],[7,4],[8,5]];
 const SP=TREE.concat([[6,7],[8,2],[3,5]]);
@@ -426,9 +439,10 @@ mini('mg0',SP,null,'#7db4ff');mini('mg1',DN,null,'#c4dcff');mini('mg2',SP,[2,2,3
 $('#qdots').innerHTML=[0,1,2,3].map(i=>'<i data-i="'+i+'"></i>').join('');
 function cap(h){const c=$('#cap');c.innerHTML=h;c.classList.remove('sw');void c.offsetWidth;c.classList.add('sw');}
 function apply(k){
-  const s=Math.min(k,3);
+  const s=[0,0,0,1,2,3,3][k];
+  [0,1,2].forEach(i=>{const el=$('#ln'+i);el.classList.toggle('show',s===0&&k>=i);el.classList.toggle('cur',s===0&&k===i);el.classList.toggle('go',s===0&&k>=i);});
   document.querySelectorAll('.pn').forEach((el,i)=>el.classList.toggle('on',i===s));
-  $('#p3').classList.toggle('rep',k>=4);
+  $('#p3').classList.toggle('rep',k>=6);
   document.querySelectorAll('#qt>div').forEach((el,i)=>el.classList.toggle('on',i===s));
   document.querySelectorAll('#qdots i').forEach((el,i)=>el.classList.toggle('on',i<=s));
   $('#qnt').textContent='Pertanyaan '+(s+1)+' dari 4';
