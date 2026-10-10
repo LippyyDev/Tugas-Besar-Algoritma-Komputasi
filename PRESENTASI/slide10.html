@@ -332,7 +332,7 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
         <div class="rc rv" style="--d:100ms"><strong>1 graf</strong><b>Tiap ukuran</b><span>mesin Colab gratis</span></div>
         <div class="rc rv" style="--d:200ms"><strong>1 urutan</strong><b>Selalu sama</b><span>tidak diacak</span></div>
         <div class="rc rv" style="--d:300ms"><strong>16 sampai 25×</strong><b>Rentang sempit</b><span>m terbesar dibanding terkecil</span></div>
-        <div class="rc rv" style="--d:400ms"><strong>2 kepadatan</strong><b>Hanya Python</b><span>jarang dan padat</span></div>
+        <div class="rc rv" style="--d:400ms"><strong>2 kepadatan</strong><b>Hanya Python</b><span>jarang dan padat, rata-rata tidak diukur</span></div>
       </div>
       <div class="fin rv" style="--d:600ms"><b>Berlaku hanya pada rentang yang diukur.</b></div>
     </div>
@@ -358,8 +358,8 @@ const CAPS=[
 const LAST=CAPS.length-1;
 let step=0,cur=-1;
 const DATA=[
- {t:'Jarang',e:'sisi sedikit',s:'n = 64.000',v:[518.64,660.55,972.07,2445.55],win:0,ok:true},
- {t:'Padat',e:'sisi banyak',s:'n = 1.000',v:[494.40,308.00,462.61,1828.52],win:1,ok:true},
+ {t:'Jarang',e:'mendekati terbaik',s:'n = 64.000',v:[518.64,660.55,972.07,2445.55],win:0,ok:true},
+ {t:'Padat',e:'terburuk',s:'n = 1.000',v:[494.40,308.00,462.61,1828.52],win:1,ok:true},
  {t:'Kembar',e:'bobot sama',s:'n = 64.000',v:[593.21,647.42,935.13,1984.15],win:0,ok:false}];
 const NM=[['Kruskal',''],['Prim','tanpa daftar'],['Prim','dengan daftar'],['Borůvka','']],CL=['bk','bp','bq','bb'];
 const fm=v=>v.toFixed(2).replace('.',',');
@@ -370,7 +370,7 @@ $('#sb').innerHTML=DATA.map((d,ci)=>'<div class="col"><h4><b>'+d.t+' <small>('+d
 document.querySelectorAll('#sb .bv').forEach(e=>{if(e.dataset.in==='1'){e.style.left='calc('+e.dataset.l+'% - 112px)';e.style.color='#1c1305';e.style.fontWeight='500';}else e.style.left='calc('+e.dataset.l+'% + 10px)';});
 /* panel 2 */
 const KR=[518.64,494.40,593.21],PR=[660.55,308.00,647.42],PQ=[972.07,462.61,935.13],BO=[2445.55,1828.52,1984.15];
-const SN=['Jarang<small>(sisi sedikit)</small>','Padat<small>(sisi banyak)</small>','Kembar<small>(bobot sama)</small>'];
+const SN=['Jarang<small>(mendekati terbaik)</small>','Padat<small>(terburuk)</small>','Kembar<small>(bobot sama)</small>'];
 $('#mb').innerHTML=BO.map((b,i)=>{const r=b/KR[i];return '<div class="mrow"><div class="nm">'+SN[i]+'</div><div class="mtk"><div class="bf bb" data-w="'+(r/5.4*100)+'" style="--d:'+(i*140)+'ms"></div><div class="bv" style="--d:'+(i*140)+'ms;left:calc('+(r/5.4*100)+'% + 12px)">'+r.toFixed(2).replace('.',',')+'×</div></div></div>';}).join('')
  +'<div style="margin-top:14px;font-size:20px;color:var(--mute)">Garis kiri = 1× (sama dengan Kruskal)</div>';
 const M2=1180;

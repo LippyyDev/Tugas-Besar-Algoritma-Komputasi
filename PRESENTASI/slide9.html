@@ -310,18 +310,18 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
     <!-- 1 -->
     <div class="pn" id="p0">
       <div class="lane j rv" style="--d:0ms"><svg id="mg0" viewBox="0 0 250 150"></svg>
-        <div class="nm"><b>Jarang</b><code>m = 3n</code><span>Sisi sedikit dibanding jumlah titik</span></div>
+        <div class="nm"><b>Jarang</b><code>m = 3n</code><span>Sisi sedikit, mendekati <em style="font-style:normal;color:var(--text);font-weight:600">kasus terbaik</em></span></div>
         <div class="ns"><small>Jumlah titik n</small><div class="chips"><span>4.000</span><span>8.000</span><span>16.000</span><span>32.000</span><span>64.000</span></div></div>
         <div class="bb"><small>Bobot sisi</small><p>acak <b>1 sampai 1.000.000</b></p></div></div>
       <div class="lane d rv" style="--d:140ms"><svg id="mg1" viewBox="0 0 250 150"></svg>
-        <div class="nm"><b>Padat</b><code>m = n(n − 1)/4</code><span>Separuh dari semua sisi yang mungkin</span></div>
+        <div class="nm"><b>Padat</b><code>m = n(n − 1)/4</code><span>Separuh dari semua sisi yang mungkin, <em style="font-style:normal;color:var(--text);font-weight:600">kasus terburuk</em></span></div>
         <div class="ns"><small>Jumlah titik n</small><div class="chips"><span>200</span><span>400</span><span>600</span><span>800</span><span>1.000</span></div></div>
         <div class="bb"><small>Bobot sisi</small><p>acak <b>1 sampai 1.000.000</b></p></div></div>
       <div class="lane k rv" style="--d:280ms"><svg id="mg2" viewBox="0 0 250 150"></svg>
         <div class="nm"><b>Jarang kembar</b><code>m = 3n</code><span>Bentuk sama dengan jarang, tetapi banyak bobot yang sama</span></div>
         <div class="ns"><small>Jumlah titik n</small><div class="chips"><span>4.000</span><span>8.000</span><span>16.000</span><span>32.000</span><span>64.000</span></div></div>
         <div class="bb"><small>Bobot sisi</small><p>acak <b>hanya 1 sampai 5</b></p></div></div>
-      <div class="lnote">Gambar graf kecil hanya ilustrasi, bukan skala</div>
+      <div class="lnote">Gambar graf kecil hanya ilustrasi, bukan skala. Jarang bukan persis kasus terbaik di teori (m = n − 1)</div>
     </div>
 
     <!-- 2 -->
@@ -383,7 +383,7 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
 const PREV_SLIDE='slide8.html', NEXT_SLIDE='slide10.html', SLIDE_NO=9;
 const $=s=>document.querySelector(s);
 const CAPS=[
- 'Ada <b>tiga skenario graf</b>: jarang, padat, dan jarang kembar. Skenario kembar sengaja memakai bobot 1 sampai 5 supaya banyak sisi berbobot sama, yaitu ujian untuk aturan seri.',
+ 'Ada <b>tiga skenario graf</b>: jarang, padat, dan jarang kembar. Kembar memakai bobot 1 sampai 5 agar banyak bobot sama. Kasus rata-rata (kepadatan menengah) tidak diukur.',
  'Jumlah sisi graf padat tumbuh sebesar kuadrat n, jadi <b>n padat dibuat lebih kecil</b>. Dengan begitu jumlah sisi kedua jenis graf sebanding, sekitar 10 ribu sampai 250 ribu.',
  'Graf dibuat <b>secara acak</b>: pohon dulu supaya pasti terhubung, lalu sisi acak ditambahkan. <b>Seed 2026</b> membuat hasilnya dapat diulang.',
  'Tiap graf diukur <b>lima kali</b> setelah satu putaran pemanasan, lalu dilaporkan sebagai rata-rata dan simpangan baku. Jumlah pengukuran dihitung dari rancangan di atas.',
