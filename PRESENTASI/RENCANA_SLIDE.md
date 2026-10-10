@@ -206,178 +206,36 @@ Aturan yang dijaga di seluruh slide: bahasa mudah dipahami, istilah asing dituli
 - Sitasi untuk rumus Cayley dan *cut property* belum diverifikasi.
 - Pengujian slide dilakukan di Chromium. Perilaku di layar sentuh belum dicoba.
 
-## 8. Panduan Belajar: Penjelasan Mudah Slide 4 sampai 6
+## 8. Panduan Belajar Singkat: Slide 4 sampai 6
 
-Bagian ini untuk dipelajari penyaji, bukan untuk dibacakan. Semua angka memakai graf yang sama dengan slide: titik A sampai E, sisi A–B 5, A–C 8, B–C 11, B–D 3, C–D 6, D–E 4, C–E 9. MST yang benar berisi 4 sisi dengan total 18. Pseudocode di slide 5 dan 6 adalah ringkasan dari Bab 3 (lihat 5c dan 5d), jadi bila ada selisih kata, rujukan resminya tetap Pseudocode 3.2 sampai 3.4.
+Graf: sisi A–B 5, A–C 8, B–C 11, B–D 3, C–D 6, D–E 4, C–E 9. MST: 4 sisi, total 18. Pseudocode slide 5 dan 6 adalah ringkasan dari Bab 3.
 
-### 8.1 Dasar yang Sama untuk Ketiganya
+### Slide 4: Kruskal
 
-- **Spanning tree**: sekumpulan sisi yang menghubungkan semua titik tanpa ada lingkaran. Untuk 5 titik, jumlah sisinya selalu 4, yaitu n − 1.
-- **MST** adalah *spanning tree* dengan jumlah bobot terkecil.
-- **Siklus** adalah lingkaran. Sisi yang membuat lingkaran tidak pernah berguna, karena dua titik itu sudah tersambung lewat jalan lain.
-- Ketiga algoritma bersifat *greedy*: di setiap langkah mengambil pilihan yang paling murah dan aman, lalu tidak pernah menarik kembali pilihan itu. Alasan aman: sisi termurah yang menyeberangi sebuah pembagian titik (*cut property*, slide 2) selalu boleh masuk MST.
-- Bila ada dua sisi berbobot sama, urutannya ditentukan kunci κ: bobot dulu, lalu simpul terkecil, lalu simpul terbesar. Pada graf contoh tidak ada bobot kembar, jadi aturan ini tidak terlihat.
-- Beda cara berpikir: **Kruskal** melihat seluruh sisi dari termurah, **Prim** menumbuhkan satu pohon dari satu titik, **Borůvka** membuat semua titik atau kelompok memilih sisinya sekaligus.
+**Ide.** Urutkan sisi dari termurah, ambil satu per satu asal tidak membuat lingkaran.
 
-### 8.2 Slide 4: Kruskal
+**Pseudocode.** Baris 1 urutkan sisi. Baris 2 siapkan kelompok (tiap titik sendiri), A kosong, total 0. Baris 3 ambil sisi berikutnya. Baris 4 `GABUNG(u, v)`: bila beda kelompok, digabung (berhasil). Baris 5 sisi masuk A, tambah bobot. Baris 6 berhenti bila A berisi n − 1 sisi. Baris 7 dan 8 cek galat lalu kembalikan hasil.
 
-**Ide satu kalimat.** Urutkan semua sisi dari yang termurah, lalu ambil satu per satu asalkan tidak membuat lingkaran.
+**Jalannya.** B–D 3 (total 3), D–E 4 (7), A–B 5 (12), C–D 6 (18). A berisi 4 sisi, berhenti. A–C, C–E, B–C tidak diperiksa. Klik terakhir ("seandainya"): A–C 8 akan ditolak karena A dan C sudah satu kelompok.
 
-**Analogi.** Membangun jalan antar desa. Anda mulai dari rencana jalan paling murah. Jalan baru dibangun hanya bila menghubungkan dua kelompok desa yang belum tersambung. Jalan yang menghubungkan dua desa yang sudah tersambung dibatalkan, karena sia-sia.
+**Simbol.** E sisi graf, E′ sisi terurut, κ aturan urut, himpunan = kelompok tiap titik, A = sisi terpilih, (u, v, w) = ujung dan bobot sisi, n = jumlah titik.
 
-**Alat bantu: kelompok (himpunan).** Awalnya tiap titik adalah kelompok sendiri: {A} {B} {C} {D} {E}. Fungsi `GABUNG(u, v)` bekerja dua hal sekaligus: mengecek apakah u dan v sudah satu kelompok, dan bila belum, menggabungkan kedua kelompoknya. Hasilnya BENAR bila berhasil digabung dan SALAH bila sudah satu kelompok (artinya akan membuat lingkaran).
+### Slide 5: Prim
 
-**Pseudocode baris demi baris** (Pseudocode 3.2).
+**Ide.** Mulai dari A, perbesar satu pohon dengan sisi termurah yang keluar dari pohon.
 
-| Baris | Arti dalam bahasa biasa |
-|-------|--------------------------|
-| 1 | Urutkan semua sisi dari bobot terkecil (E′ adalah E yang sudah urut) |
-| 2 | Siapkan kelompok (tiap titik sendiri), daftar sisi terpilih A kosong, total biaya 0 |
-| 3 | Untuk setiap sisi dari yang termurah, kerjakan baris 4 sampai 6 |
-| 4 | Bila ujung sisi (u dan v) beda kelompok, gabungkan |
-| 5 | Sisi masuk ke A, tambahkan bobotnya ke total |
-| 6 | Bila A sudah berisi n − 1 sisi, berhenti |
-| 7 | Bila setelah semua sisi habis A belum n − 1, graf tidak terhubung (galat) |
-| 8 | Kembalikan A dan total |
+**Pseudocode.** Baris 1 A masuk pohon. Baris 2 sisi dari A masuk antrean Q (termurah keluar dulu). Baris 3 ulangi selama Q ada isi dan A belum n − 1 sisi. Baris 4 keluarkan sisi termurah (w, k, b). Baris 5 bila kedua ujung sudah di pohon, lewati. Baris 6 ujung baru (tujuan) masuk pohon. Baris 7 sisi masuk A, tambah bobot. Baris 8 sisi dari tujuan ke titik baru masuk Q.
 
-**Jalannya pada graf contoh.** Urutan sisi: B–D 3, D–E 4, A–B 5, C–D 6, A–C 8, C–E 9, B–C 11.
+**Jalannya.** A–B 5 (total 5), B–D 3 (8), D–E 4 (12), C–D 6 (18). Sisa Q tidak diproses. Klik terakhir ("seandainya"): A–C 8 dilewati karena kedua ujung sudah di pohon.
 
-| Sisi | Kelompok sebelum | Hasil | Total |
-|------|------------------|-------|-------|
-| B–D 3 | B dan D beda | diterima, jadi {B, D} | 3 |
-| D–E 4 | D di {B, D}, E sendiri | diterima, jadi {B, D, E} | 7 |
-| A–B 5 | A sendiri, B di {B, D, E} | diterima, jadi {A, B, D, E} | 12 |
-| C–D 6 | C sendiri, D di {A, B, D, E} | diterima, jadi {A, B, C, D, E} | 18 |
+**Simbol.** s titik awal, masuk = titik di pohon, Q antrean, (w, k, b) sisi yang keluar, asal dan tujuan = ujung lama dan baru, A, total.
 
-Setelah C–D, A berisi 4 sisi = n − 1, jadi perulangan berhenti. Sisa A–C 8, C–E 9, B–C 11 tidak pernah diperiksa.
+### Slide 6: Borůvka
 
-**Mengapa klik terakhir bertuliskan "seandainya".** Pada graf ini kode berhenti sebelum ada sisi yang ditolak. Klik terakhir hanya memperlihatkan apa yang akan terjadi bila A–C 8 diperiksa: A dan C sudah satu kelompok (tersambung lewat A–B, B–D, C–D), jadi `GABUNG` gagal dan sisi ditolak karena membuat lingkaran.
+**Ide.** Dalam putaran: semua komponen sekaligus memilih sisi termurah yang keluar darinya, lalu semua pilihan digabung.
 
-**Panel Arti simbol.** E semua sisi, E′ sisi yang sudah urut, κ aturan urut, himpunan kelompok tiap titik, A sisi MST terpilih, total jumlah bobot di A, (u, v, w) ujung dan bobot sisi yang sedang diperiksa, n jumlah titik.
+**Pseudocode.** Baris 1 tiap titik satu komponen, c = n. Baris 2 ulangi selama c > 1. Baris 3 kosongkan tabel T. Baris 4 sampai 6 periksa semua sisi, simpan sisi termurah tiap komponen di T. Baris 7 cek T tidak kosong. Baris 8 ambil pilihan di T satu per satu. Baris 9 sampai 11 bila `GABUNG` berhasil: sisi masuk A, tambah bobot, c berkurang satu. Baris 12 kembalikan hasil.
 
-**Hal yang paling sering salah paham.**
-- Kruskal tidak menumbuhkan satu pohon. Selama berjalan, sisi terpilih bisa membentuk beberapa potongan terpisah (hutan), dan baru menyatu di akhir. Pada contoh ini potongannya langsung {B, D}, lalu membesar.
-- Berhenti di n − 1 sisi, bukan setelah semua sisi diperiksa.
+**Jalannya.** Pilihan: A→A–B, B→B–D, C→C–D, D→B–D, E→D–E. Dipasang berurutan: C–D 6, B–D 3, A–B 5, B–D 3 (gagal, sudah dipasang), D–E 4. Total 18, c = 1, selesai dalam 1 putaran.
 
-### 8.3 Slide 5: Prim
-
-**Ide satu kalimat.** Mulai dari satu titik, lalu terus perluas satu pohon dengan sisi termurah yang menghubungkan pohon itu ke titik di luarnya.
-
-**Analogi.** Membangun jaringan listrik dari satu gardu. Setiap kali, tarik kabel termurah dari jaringan yang sudah ada menuju rumah yang belum teraliri.
-
-**Alat bantu: antrean Q.** Antrean prioritas yang menyimpan sisi calon. Yang termurah selalu keluar lebih dulu. Q berisi sisi yang menyentuh pohon. Sisi lama yang kedua ujungnya sudah di pohon bisa tertinggal di Q, lalu dibuang saat keluar (baris 5 di slide).
-
-**Pseudocode (ringkasan Pseudocode 3.3).**
-
-| Baris | Arti dalam bahasa biasa |
-|-------|--------------------------|
-| 1 | Tandai semua titik belum masuk, lalu masukkan titik awal s ke pohon. A kosong, total 0 |
-| 2 | Masukkan sisi dari s ke tetangganya ke dalam Q |
-| 3 | Selama Q tidak kosong dan A belum n − 1 sisi, ulangi baris 4 sampai 8 |
-| 4 | Keluarkan sisi termurah dari Q. Sisi ditulis (w, k, b): bobot, dan dua ujungnya |
-| 5 | Bila kedua ujungnya sudah di pohon, sisi dilewati (akan membuat lingkaran) |
-| 6 | Ujung yang belum masuk disebut tujuan. Tandai tujuan sebagai masuk pohon |
-| 7 | Sisi masuk ke A, tambahkan bobotnya ke total |
-| 8 | Masukkan ke Q sisi dari tujuan ke titik yang belum masuk |
-| 9 | Bila A belum n − 1 sisi, graf tidak terhubung (galat) |
-| 10 | Kembalikan A dan total |
-
-**Jalannya pada graf contoh, mulai dari A.**
-
-| Putaran | Isi Q sebelum keluar | Sisi keluar | Tujuan | Total | Sisi baru masuk Q |
-|---------|----------------------|-------------|--------|-------|--------------------|
-| awal | A–B 5, A–C 8 | | | 0 | |
-| 1 | A–B 5, A–C 8 | A–B 5 | B | 5 | B–D 3, B–C 11 |
-| 2 | B–D 3, A–C 8, B–C 11 | B–D 3 | D | 8 | C–D 6, D–E 4 |
-| 3 | D–E 4, C–D 6, A–C 8, B–C 11 | D–E 4 | E | 12 | C–E 9 |
-| 4 | C–D 6, A–C 8, C–E 9, B–C 11 | C–D 6 | C | 18 | tidak ada |
-
-Setelah putaran 4, A berisi 4 sisi, perulangan berhenti. Sisa Q (A–C 8, C–E 9, B–C 11) tidak diproses. Hasil sama dengan Kruskal (A–B, B–D, D–E, C–D, total 18), hanya urutan terpilihnya berbeda.
-
-**Panel Arti simbol.** s titik awal (A), n jumlah titik, masuk titik yang sudah di pohon, Q antrean sisi, (w, k, b) sisi yang baru keluar dari Q, asal dan tujuan ujung lama dan ujung baru, A sisi terpilih, total jumlah bobot.
-
-**Mengapa Q berisi sisi, bukan titik.** Rumusan Prim yang berbasis titik membutuhkan operasi menurunkan nilai kunci titik di antrean, yang tidak disediakan `heapq` Python. Karena itu implementasi ini menyimpan sisi di Q (alasan ini tertulis di Bab 3, subbab 3.2.3).
-
-**Klik terakhir "seandainya".** Sama seperti Kruskal: bila A–C 8 keluar dari Q, kedua ujungnya sudah di pohon sehingga dilewati (baris 5). Pada kode sebenarnya perulangan sudah berhenti sebelum itu.
-
-**Beda utama dengan Kruskal.** Prim selalu satu pohon yang membesar dari A. Kruskal boleh punya beberapa potongan lebih dulu. Prim memeriksa sisi lewat Q, Kruskal lewat daftar terurut.
-
-### 8.4 Slide 6: Borůvka
-
-**Ide satu kalimat.** Bekerja dalam putaran: di tiap putaran, setiap kelompok sekaligus memilih sisi termurah yang keluar darinya, lalu semua pilihan digabung.
-
-**Analogi.** Setiap desa menunjuk jalan termurah ke desa tetangga. Semua penunjukan dikerjakan serentak, lalu jalan-jalan itu dibangun. Desa yang tersambung membentuk kelompok baru, dan putaran berikutnya diulang antar kelompok.
-
-**Istilah.** *Komponen* adalah kelompok titik yang sudah tersambung. Awalnya tiap titik adalah komponen sendiri (c = n = 5). Tabel T menyimpan pilihan: komponen → sisi termurah yang keluar darinya.
-
-**Pseudocode (ringkasan Pseudocode 3.4).**
-
-| Baris | Arti dalam bahasa biasa |
-|-------|--------------------------|
-| 1 | Siapkan kelompok, A kosong, total 0, jumlah komponen c = n |
-| 2 | Selama komponen lebih dari satu, kerjakan satu putaran (baris 3 sampai 11) |
-| 3 | Kosongkan tabel T |
-| 4 | Periksa setiap sisi (u, v, w) pada graf |
-| 5 | Bila u dan v satu komponen, lewati sisi itu |
-| 6 | Bila sisi ini lebih murah dari pilihan yang tersimpan, jadikan pilihan untuk kedua komponen ujungnya |
-| 7 | Bila T kosong padahal komponen masih banyak, graf tidak terhubung (galat) |
-| 8 | Ambil pilihan di T satu per satu |
-| 9 | Bila `GABUNG(u, v)` berhasil |
-| 10 | Sisi masuk ke A, tambahkan bobotnya ke total |
-| 11 | Kurangi c satu |
-| 12 | Kembalikan A dan total |
-
-**Jalannya pada graf contoh (hanya 1 putaran).** Pilihan tiap komponen, dari sisi yang keluar darinya:
-
-| Komponen | Sisi keluar (bobot) | Pilihan termurah |
-|----------|---------------------|-------------------|
-| A | A–B 5, A–C 8 | A–B 5 |
-| B | A–B 5, B–D 3, B–C 11 | B–D 3 |
-| C | A–C 8, C–D 6, C–E 9, B–C 11 | C–D 6 |
-| D | B–D 3, C–D 6, D–E 4 | B–D 3 |
-| E | D–E 4, C–E 9 | D–E 4 |
-
-Sisi B–D 3 dipilih dua komponen sekaligus (B dan D). Pada kode, T berurutan C, D, A, B, E (urutan sisi pertama kali ditemui), sehingga pemasangannya:
-
-| Pilihan | Hasil | c | Total |
-|---------|-------|---|-------|
-| C: C–D 6 | berhasil | 4 | 6 |
-| D: B–D 3 | berhasil | 3 | 9 |
-| A: A–B 5 | berhasil | 2 | 14 |
-| B: B–D 3 | gagal, B dan D sudah satu komponen (sisi sudah dipasang dari pilihan D) | 2 | 14 |
-| E: D–E 4 | berhasil | 1 | 18 |
-
-Setelah c = 1, perulangan berhenti. Total 18, sama dengan Kruskal dan Prim.
-
-**Panel Arti simbol.** E semua sisi, n jumlah titik, c jumlah komponen, himpunan komponen tiap titik, T sisi termurah tiap komponen, (u, v, w) sisi yang sedang diproses, A sisi terpilih, total jumlah bobot.
-
-**Mengapa B–D tidak dipasang dua kali.** Dua komponen bisa memilih sisi yang sama. `GABUNG` kedua kalinya mengembalikan SALAH, sehingga sisi itu tidak masuk A dua kali. Pada slide ini penolakan itu benar-benar terjadi di kode, sehingga tidak diberi kata "seandainya".
-
-**Mengapa hanya 1 putaran.** Pada graf kecil ini pilihan semua komponen sudah cukup untuk menyambung seluruh titik. Menurut dokumentasi di `boruvka.py`, jumlah komponen menyusut sedikitnya separuh per putaran. Pada graf lain bisa dibutuhkan lebih dari satu putaran, lalu pilihan diulang antar komponen yang lebih besar.
-
-### 8.5 Perbandingan Singkat Ketiganya
-
-| | Kruskal | Prim | Borůvka |
-|---|---------|------|---------|
-| Unit yang diproses | Sisi, urut dari termurah | Titik baru lewat sisi termurah di Q | Seluruh komponen serentak |
-| Bentuk selama berjalan | Beberapa potongan bergabung | Satu pohon membesar | Banyak komponen bergabung per putaran |
-| Alat bantu | Himpunan terpisah (*disjoint set*) | Antrean prioritas Q | Himpunan terpisah dan tabel T |
-| Cara mendeteksi lingkaran | `GABUNG` gagal | Kedua ujung sudah masuk pohon | `GABUNG` gagal |
-| Berhenti saat | A berisi n − 1 sisi | A berisi n − 1 sisi | Komponen tinggal satu |
-| Urutan sisi pada contoh | B–D, D–E, A–B, C–D | A–B, B–D, D–E, C–D | C–D, B–D, A–B, D–E |
-| Total | 18 | 18 | 18 |
-
-Ketiganya menghasilkan total yang sama karena semuanya benar. Bila bobot semua sisi berbeda, MST-nya tunggal. Perbedaan baru terasa pada kecepatan, yang dibahas di slide 8 dan 11, bukan di bagian ini.
-
-### 8.6 Kemungkinan Pertanyaan Penguji
-
-1. *Mengapa Kruskal berhenti sebelum semua sisi diperiksa?* Karena MST dari n titik selalu n − 1 sisi. Setelah terkumpul, sisa sisi pasti hanya membuat lingkaran.
-2. *Apa bedanya Kruskal dan Prim?* Kruskal memilih dari seluruh sisi yang terurut dan boleh membentuk potongan terpisah dulu. Prim selalu memperbesar satu pohon dari titik awal.
-3. *Apa gunanya `GABUNG`?* Satu operasi yang mengecek dan menggabung sekaligus. Hasil SALAH berarti akan membuat lingkaran.
-4. *Mengapa Prim di sini memakai antrean berisi sisi?* Karena `heapq` tidak punya operasi menurunkan kunci. Entri usang di Q dibuang saat keluar.
-5. *Mengapa Borůvka dibahas?* Sebagai algoritma pembanding tambahan di eksperimen. Ini bukan ketentuan tertulis dari dosen, melainkan tafsiran (lihat 5).
-6. *Mengapa hasil ketiganya sama padahal urutannya beda?* Semuanya mengikuti prinsip *cut property*, sehingga tiap sisi yang diambil aman masuk MST.
-7. *Mengapa ada klik "seandainya"?* Karena pada graf contoh, kode Kruskal dan Prim berhenti sebelum sisi bermasalah diperiksa. Klik itu hanya ilustrasi, dan diberi label jelas.
-8. *Bagaimana bila graf tidak terhubung?* Ketiga kode melaporkan galat "Graf tidak terhubung". Pemeriksaan ini hanya pengaman, karena masukan diasumsikan terhubung (butir 1 subbab 1.4 laporan).
-
-Kompleksitas waktu sengaja tidak dibahas di bagian ini, karena akan dibahas di slide 8 setelah diverifikasi dengan literatur.
+**Simbol.** c jumlah komponen, T sisi termurah tiap komponen, himpunan, A, total, (u, v, w).
