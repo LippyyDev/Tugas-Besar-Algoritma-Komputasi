@@ -277,8 +277,8 @@ svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
     <div class="four">
       <div class="rz" data-i="0" style="--d:0ms"><small>HASIL 1</small><strong>Tidak ada satu pemenang</strong><span>Bergantung kepadatan graf</span></div>
       <div class="rz" data-i="1" style="--d:150ms"><small>HASIL 2</small><strong>Borůvka paling lambat</strong><span><b id="cb" style="color:var(--amber);font-family:var(--mono);font-weight:500">3,3 sampai 4,7×</b> Kruskal</span></div>
-      <div class="rz w" data-i="2" style="--d:300ms"><small>HASIL 3</small><strong>Lebih cepat dari rumus</strong><span>Kruskal dan Prim melampaui m log n. Penyebab belum diuji</span></div>
-      <div class="rz w" data-i="3" style="--d:450ms"><small>HASIL 4</small><strong>Ada batasnya</strong><span>Simpangan baku sampai 41%. Jangan diekstrapolasi</span></div>
+      <div class="rz w" data-i="2" style="--d:300ms"><small>HASIL 3 · SESUAI RUMUS?</small><strong>Kruskal dan Prim: tidak</strong><span>Naik <b style="color:var(--amber);font-family:var(--mono);font-weight:500">1,29 sampai 2,19×</b> rumus. Borůvka mendekati</span></div>
+      <div class="rz w" data-i="3" style="--d:450ms"><small>HASIL 4 · MEMBUKTIKAN TEORI?</small><strong>Belum terbukti</strong><span>Tidak terbantah juga. Teorema untuk n sangat besar, data terbatas</span></div>
     </div>
   </div>
 
@@ -296,7 +296,7 @@ const $=s=>document.querySelector(s);
 const CAPS=[
  'Datanya: <b>waktu eksekusi</b> tiga algoritma pada tiga skenario graf, diambil pada ukuran terbesar.',
  'Highlight: <b>Kruskal tercepat</b> di graf jarang, <b>Prim</b> di graf padat. <b>Borůvka</b> paling lambat. Daftar tetangga menambah waktu Prim.',
- 'Hasilnya: pemenang <b>bergantung kepadatan graf</b>, Borůvka paling lambat, dan hasil <b>hanya berlaku pada rentang yang diukur</b>.'];
+ 'Hasilnya: pemenang <b>bergantung kepadatan graf</b>, Borůvka paling lambat, Kruskal dan Prim <b>tidak sesuai rumus</b>. Teorema <b>belum terbukti dan belum terbantah</b>.'];
 const LAST=CAPS.length-1;
 let step=0,cur=-1;
 const DATA=[
