@@ -1,9 +1,9 @@
 # Rencana Presentasi Tugas Besar Analisis Algoritma
 
 Analisis Perbandingan Algoritma Kruskal, Prim, dan Borůvka pada *Minimum Spanning Tree* (MST).
-Penyaji: Muhammad Alif Qadri. Durasi rencana: 14,5 menit (batas tugas 10 sampai 15 menit).
+Penyaji: Muhammad Alif Qadri. Durasi rencana: 13 menit (batas tugas 10 sampai 15 menit).
 
-Status: slide 1 sampai 6 sudah jadi. Slide 7 sampai 12 masih rencana.
+Status: slide 1 sampai 6 sudah jadi. Slide 7 sampai 11 masih rencana.
 
 ## 1. Struktur dan Alokasi Waktu
 
@@ -15,16 +15,15 @@ Status: slide 1 sampai 6 sudah jadi. Slide 7 sampai 12 masih rencana.
 | 4 | Kruskal | 1,5 mnt | Jadi |
 | 5 | Prim | 1,5 mnt | Jadi |
 | 6 | Borůvka | 1,5 mnt | Jadi |
-| 7 | Contoh manual tiga algoritma | 1,5 mnt | Rencana |
-| 8 | Kompleksitas teoretis | 1,5 mnt | Rencana |
-| 9 | Implementasi (struktur data, potongan kode inti, verifikasi) | 1 mnt | Rencana |
-| 10 | Metode eksperimen | 1 mnt | Rencana |
-| 11 | Hasil dan analisis | 1,5 mnt | Rencana |
-| 12 | Kesimpulan | 0,5 mnt | Rencana |
+| 7 | Kompleksitas teoretis | 1,5 mnt | Rencana |
+| 8 | Implementasi (struktur data, potongan kode inti, verifikasi) | 1 mnt | Rencana |
+| 9 | Metode eksperimen | 1 mnt | Rencana |
+| 10 | Hasil dan analisis | 1,5 mnt | Rencana |
+| 11 | Kesimpulan | 0,5 mnt | Rencana |
 
-Slide 3 menambah 0,5 menit sehingga total menjadi 14,5 menit, masih di dalam batas 10 sampai 15 menit. Bila perlu dipangkas, ambil dari slide 7 atau 8.
+Total 13 menit, di dalam batas 10 sampai 15 menit. Bila perlu dipangkas, ambil dari slide 7.
 
-Pengelompokan pada bar progres di bawah slide: Pembuka (1), Konsep (2), Algoritma (3 sampai 7), Teori (8), Eksperimen (9 sampai 11), Penutup (12).
+Pengelompokan pada bar progres di bawah slide: Pembuka (1), Konsep (2), Algoritma (3 sampai 6), Teori (7), Eksperimen (8 sampai 10), Penutup (11).
 
 ## 2. Gaya dan Cara Pakai
 
@@ -146,7 +145,7 @@ Catatan penyaji (sekitar 1,5 menit):
 4. "Kalau sudah satu kelompok, sisi itu hanya membuat lingkaran, jadi dibuang."
 5. "Berhenti saat sisi terpilih sudah n dikurangi 1. Di sini 4 sisi, total biaya 18."
 
-Kompleksitas tidak dicantumkan di slide ini, karena dibahas di slide 8 setelah diverifikasi.
+Kompleksitas tidak dicantumkan di slide ini, karena dibahas di slide 7 setelah diverifikasi.
 
 ## 5c. Slide 5: Algoritma Prim
 
@@ -182,27 +181,26 @@ Hasil: 1 putaran. Pilihan: C→C–D 6, D→B–D 3, A→A–B 5, B→B–D 3, E
 
 Catatan: berbeda dengan slide 4 dan 5, penolakan pada slide ini benar-benar terjadi di kode (GABUNG kedua untuk B–D mengembalikan SALAH), jadi tidak memakai kata "seandainya".
 
-## 6. Slide 7 sampai 12 (Rencana)
+## 6. Slide 7 sampai 11 (Rencana)
 
-Belum dikerjakan (slide 3 sampai 6 dijelaskan di bagian 5, 5b, 5c, dan 5d). Alokasi waktu mengikuti tabel di bagian 1. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
+Belum dikerjakan (slide 3 sampai 6 dijelaskan di bagian 5, 5b, 5c, dan 5d). Alokasi waktu mengikuti tabel di bagian 1. Slide "Contoh manual tiga algoritma" dihapus dari rencana, sehingga nomor slide sesudahnya bergeser satu. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
 
 | Slide | Arah isi |
 |-------|----------|
 | 5 Prim | Ide tumbuh dari satu titik dengan sisi termurah yang menyeberang. Animasi serupa dengan Kruskal |
 | 6 Borůvka | Ide tiap gugus memilih sisi termurahnya lalu digabung. Alasan ikut dibahas: algoritma pembanding ketiga, tidak ada ketentuan tertulis dari dosen |
-| 7 Contoh manual tiga algoritma | Satu graf kecil dijalankan dengan ketiga algoritma, hasil MST yang sama dibandingkan |
-| 8 Kompleksitas teoretis | Ringkasan batas waktu ketiga algoritma. Analisis formal hanya untuk Kruskal dan Prim, Borůvka dikutip singkat |
-| 9 Implementasi | Struktur data yang dipakai, potongan kode inti, dan cara verifikasi hasil |
-| 10 Metode eksperimen | Cara graf acak dibuat, ukuran, pengulangan, dan alat ukur waktu |
-| 11 Hasil dan analisis | Grafik hasil eksperimen dan penjelasan sesuai kondisi graf (jarang dan padat) |
-| 12 Kesimpulan | Ringkas, bahasa sederhana |
+| 7 Kompleksitas teoretis | Ringkasan batas waktu ketiga algoritma. Analisis formal hanya untuk Kruskal dan Prim, Borůvka dikutip singkat |
+| 8 Implementasi | Struktur data yang dipakai, potongan kode inti, dan cara verifikasi hasil |
+| 9 Metode eksperimen | Cara graf acak dibuat, ukuran, pengulangan, dan alat ukur waktu |
+| 10 Hasil dan analisis | Grafik hasil eksperimen dan penjelasan sesuai kondisi graf (jarang dan padat) |
+| 11 Kesimpulan | Ringkas, bahasa sederhana |
 
 Aturan yang dijaga di seluruh slide: bahasa mudah dipahami, istilah asing ditulis miring, tanpa tanda pisah panjang, dan hanya angka yang bisa dipertanggungjawabkan dari laporan.
 
 ## 7. Hal yang Masih Terbuka
 
 - NIM dan nama dosen di slide 1 belum diisi.
-- Slide 7 sampai 12 belum dibuat.
+- Slide 7 sampai 11 belum dibuat.
 - Sitasi untuk rumus Cayley dan *cut property* belum diverifikasi.
 - Pengujian slide dilakukan di Chromium. Perilaku di layar sentuh belum dicoba.
 
