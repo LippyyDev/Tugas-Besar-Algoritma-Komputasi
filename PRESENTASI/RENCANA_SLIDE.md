@@ -227,7 +227,7 @@ Angka 225 adalah hitungan dari rancangan (15 graf × 3 algoritma × 5 ulangan), 
 
 ## 5h. Slide 10: Hasil dan Analisis
 
-Satu layar, tanpa klik, tiga bagian dari kiri ke kanan: (1) Apa datanya: waktu dalam milidetik, 225 pengukuran, tabel ukuran terbesar tiap skenario dengan sel tercepat disorot. (2) Highlight: Kruskal tercepat di jarang, Prim di padat, Borůvka 3,3 sampai 4,7 kali Kruskal, daftar tetangga menambah Prim 44 sampai 50%. (3) Bagaimana hasilnya: tidak ada satu pemenang, Borůvka paling lambat, Kruskal dan Prim tumbuh lebih cepat dari rumus (Prediksi 1 tidak terpenuhi), dan batas hasil.
+Satu layar, tiga klik, tiga lapis dari atas ke bawah dengan label di kiri (animasi: panel masuk bertahap, batang tumbuh, angka berhitung naik, pemenang disorot, kartu hasil muncul berurutan): (1) Apa datanya: waktu dalam milidetik, 225 pengukuran, tabel ukuran terbesar tiap skenario dengan sel tercepat disorot. (2) Highlight: Kruskal tercepat di jarang, Prim di padat, Borůvka 3,3 sampai 4,7 kali Kruskal, daftar tetangga menambah Prim 44 sampai 50%. (3) Bagaimana hasilnya: tidak ada satu pemenang, Borůvka paling lambat, Kruskal dan Prim tumbuh lebih cepat dari rumus (Prediksi 1 tidak terpenuhi), dan batas hasil.
 
 Istilah kasus terbaik, rata-rata, dan terburuk hanya dipakai di slide 7 (kompleksitas waktu teoretis). Di slide 9 dan 10 skenario hanya disebut jarang, padat, dan kembar. Semua angka dari Tabel 4.6 sampai 4.10.
 
