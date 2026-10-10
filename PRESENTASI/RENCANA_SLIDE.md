@@ -227,17 +227,9 @@ Angka 225 adalah hitungan dari rancangan (15 graf × 3 algoritma × 5 ulangan), 
 
 ## 5h. Slide 10: Hasil dan Analisis
 
-Tujuan: penonton awam menangkap temuan utama tanpa membaca tabel. Isi mengikuti Bab 4 subbab 4.5 dan 4.6 (Tabel 4.6 sampai 4.10). Gaya papan skor: empat kartu angka besar di atas yang juga menjadi penanda tahap, panel data di bawahnya. Lima klik. Hasil yang tidak mendukung teori ditampilkan apa adanya.
+Satu layar, tanpa klik, tiga bagian dari kiri ke kanan: (1) Apa datanya: waktu dalam milidetik, 225 pengukuran, tabel ukuran terbesar tiap skenario dengan sel tercepat disorot. (2) Highlight: Kruskal tercepat di jarang, Prim di padat, Borůvka 3,3 sampai 4,7 kali Kruskal, daftar tetangga menambah Prim 44 sampai 50%. (3) Bagaimana hasilnya: tidak ada satu pemenang, Borůvka paling lambat, Kruskal dan Prim tumbuh lebih cepat dari rumus (Prediksi 1 tidak terpenuhi), dan batas hasil.
 
-| Klik | Tampilan | Pesan |
-|------|----------|-------|
-| 1 | Kartu 1. Tiga kolom skenario, batang waktu pada ukuran terbesar (Kruskal, Prim tanpa dan dengan daftar tetangga, Borůvka) | Kruskal tercepat di jarang, Prim tanpa daftar tercepat di padat, Borůvka paling lambat |
-| 2 | Label di tiap kolom: selisih jelas (jarang, padat) atau belum pasti (jarang kembar) | Selisih dibandingkan simpangan baku. Titik silang tidak ditetapkan |
-| 3 | Kartu 2. Borůvka 4,72, 3,70, 3,34 kali Kruskal. Batang Prim ditambah pembuatan daftar tetangga (+47,2%, +50,2%, +44,4%) dengan penanda Kruskal | Borůvka lambat karena faktor log. Pada padat, Prim dengan daftar hanya sedikit di bawah Kruskal, dalam simpangan baku |
-| 4 | Kartu 3. Batang rasio terhadap rumus teori (Tabel 4.9) dengan garis 1,00 | Prediksi 1 tidak terpenuhi. Tidak membantah teorema, penyebab tidak diuji |
-| 5 | Kartu 4. Lima batas (simpangan baku 41%, 1 graf per ukuran, 1 urutan, rentang 16 sampai 25 kali, 2 kepadatan dan hanya Python) | Tidak boleh diekstrapolasi |
-
-Semua angka diambil dari tabel laporan. Rasio Borůvka terhadap Kruskal (4,72, 3,70, 3,34) dihitung dari Tabel 4.6 sampai 4.8, cocok dengan rentang 3,34 sampai 4,72 di laporan.
+Istilah kasus terbaik, rata-rata, dan terburuk hanya dipakai di slide 7 (kompleksitas waktu teoretis). Di slide 9 dan 10 skenario hanya disebut jarang, padat, dan kembar. Semua angka dari Tabel 4.6 sampai 4.10.
 
 ## 6. Slide 11 (Rencana)
 
