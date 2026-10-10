@@ -1,5 +1,7 @@
 # Tugas Besar Algoritma Komputasi: Minimum Spanning Tree
 
+> **Catatan:** AI membantu membuat *commit*, menulis README, dan menamai berkas. Karena Claude terhubung dengan akun GitHub penulis, namanya tercatat sebagai *co-author* pada *commit* yang dibuat dengan bantuannya. Penulis tetap menentukan isi dan memeriksa setiap perubahan. Laporan penggunaan AI selengkapnya ada di bagian [Penggunaan AI](#penggunaan-ai) di bawah.
+
 Implementasi dan analisis algoritma Kruskal dan Prim untuk *Minimum Spanning Tree* (MST), dengan Borůvka sebagai pembanding.
 
 - Nama: Muhammad Alif Qadri
