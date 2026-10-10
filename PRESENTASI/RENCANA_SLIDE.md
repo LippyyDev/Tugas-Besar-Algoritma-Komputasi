@@ -3,7 +3,7 @@
 Analisis Perbandingan Algoritma Kruskal, Prim, dan Borůvka pada *Minimum Spanning Tree* (MST).
 Penyaji: Muhammad Alif Qadri. Durasi rencana: 13 menit (batas tugas 10 sampai 15 menit).
 
-Status: slide 1 sampai 8 sudah jadi. Slide 9 sampai 11 masih rencana.
+Status: slide 1 sampai 9 sudah jadi. Slide 10 sampai 11 masih rencana.
 
 ## 1. Struktur dan Alokasi Waktu
 
@@ -17,7 +17,7 @@ Status: slide 1 sampai 8 sudah jadi. Slide 9 sampai 11 masih rencana.
 | 6 | Borůvka | 1,5 mnt | Jadi |
 | 7 | Kompleksitas teoretis | 1,5 mnt | Jadi |
 | 8 | Implementasi (struktur data, potongan kode inti, verifikasi) | 1 mnt | Jadi |
-| 9 | Metode eksperimen | 1 mnt | Rencana |
+| 9 | Metode eksperimen | 1 mnt | Jadi |
 | 10 | Hasil dan analisis | 1,5 mnt | Rencana |
 | 11 | Kesimpulan | 0,5 mnt | Rencana |
 
@@ -211,15 +211,28 @@ Tujuan: penonton awam paham apa yang ditulis, bagaimana waktu diukur, dan bagaim
 
 Kutipan kode disingkat (tanda …) dan diberi label. Studi kasus (subbab 4.1) belum punya slide sendiri, keputusannya masih terbuka.
 
-## 6. Slide 9 sampai 11 (Rencana)
+## 5g. Slide 9: Metode Eksperimen
 
-Belum dikerjakan (slide 3 sampai 8 dijelaskan di bagian 5, 5b, 5c, 5d, 5e, dan 5f). Alokasi waktu mengikuti tabel di bagian 1. Slide "Contoh manual tiga algoritma" dihapus dari rencana, sehingga nomor slide sesudahnya bergeser satu. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
+Tujuan: penonton awam paham graf apa yang diuji, mengapa ukurannya begitu, dari mana grafnya, dan berapa kali diukur. Isi mengikuti Bab 4 subbab 4.4 (Tabel 4.5). Gaya tanya jawab: judul berupa pertanyaan besar (empat pertanyaan), jawabannya visual. Lima klik.
+
+| Klik | Pertanyaan dan tampilan | Pesan |
+|------|-------------------------|-------|
+| 1 | Graf seperti apa yang diuji? Tiga jalur (jarang m = 3n, padat m = n(n − 1)/4, jarang kembar) dengan graf mini, ukuran n, dan bobot | Skenario kembar memakai bobot 1 sampai 5 agar banyak bobot sama |
+| 2 | Mengapa graf padat dibuat lebih kecil? Batang rentang jumlah sisi (12.000 sampai 192.000 dan 9.950 sampai 249.750), zona tumpang tindih, hitungan n = 64.000 sekitar 1 miliar sisi | Jumlah sisi padat tumbuh kuadrat n, jadi n dibuat kecil agar jumlah sisi sebanding |
+| 3 | Dari mana grafnya? Animasi pohon acak (biru) lalu sisi tambahan (kuning), catatan *seed* 2026 | Pohon dulu agar pasti terhubung, tanpa sisi ganda dan tanpa *loop*, hasil dapat diulang |
+| 4 | Berapa kali diukur? 1 pemanasan tidak dicatat, 5 ulangan, 15 graf, 225 pengukuran | Rata-rata dan simpangan baku sampel |
+| 5 | Catatan jujur muncul | Graf sama di kelima ulangan, jadi simpangan baku hanya gangguan waktu mesin |
+
+Angka 225 adalah hitungan dari rancangan (15 graf × 3 algoritma × 5 ulangan), diberi label di slide. Angka 1 miliar adalah hitungan n(n − 1)/4 untuk n = 64.000, hanya ilustrasi alasan.
+
+## 6. Slide 10 sampai 11 (Rencana)
+
+Belum dikerjakan (slide 3 sampai 9 dijelaskan di bagian 5 sampai 5g). Alokasi waktu mengikuti tabel di bagian 1. Slide "Contoh manual tiga algoritma" dihapus dari rencana, sehingga nomor slide sesudahnya bergeser satu. Isi di bawah adalah arah yang direncanakan dan masih bisa berubah.
 
 | Slide | Arah isi |
 |-------|----------|
 | 5 Prim | Ide tumbuh dari satu titik dengan sisi termurah yang menyeberang. Animasi serupa dengan Kruskal |
 | 6 Borůvka | Ide tiap gugus memilih sisi termurahnya lalu digabung. Alasan ikut dibahas: algoritma pembanding ketiga, tidak ada ketentuan tertulis dari dosen |
-| 9 Metode eksperimen | Cara graf acak dibuat, ukuran, pengulangan, dan alat ukur waktu |
 | 10 Hasil dan analisis | Grafik hasil eksperimen dan penjelasan sesuai kondisi graf (jarang dan padat) |
 | 11 Kesimpulan | Ringkas, bahasa sederhana |
 
@@ -228,7 +241,7 @@ Aturan yang dijaga di seluruh slide: bahasa mudah dipahami, istilah asing dituli
 ## 7. Hal yang Masih Terbuka
 
 - NIM dan nama dosen di slide 1 belum diisi.
-- Slide 9 sampai 11 belum dibuat.
+- Slide 10 dan 11 belum dibuat.
 - Studi kasus (Bab 4 subbab 4.1): slide terpisah (jadi 12 slide, sekitar 14 menit) atau digabung ke slide 8. Belum diputuskan.
 - Sitasi untuk rumus Cayley dan *cut property* belum diverifikasi.
 - Pengujian slide dilakukan di Chromium. Perilaku di layar sentuh belum dicoba.
@@ -292,3 +305,13 @@ Graf: sisi A–B 5, A–C 8, B–C 11, B–D 3, C–D 6, D–E 4, C–E 9. MST: 
 **Pengukuran.** gc.collect lalu stopwatch (perf_counter) hanya di sekitar algoritma. Graf sama untuk ketiganya. Prim dicatat dua kali karena butuh daftar tetangga. Mesin: Colab gratis, AMD EPYC 7B12 2 CPU, Python 3.13.16, *seed* 2026.
 
 **Pembuktian.** Lima cara: 4 kasus uji kecil, himpunan sisi, networkx pada 300 graf, uji *seed*, total bobot tiap ulangan. Batasnya: bukti empiris saja, total sama belum menjamin sisi sama, Borůvka tidak dibuktikan formal.
+
+### Slide 9: Metode Eksperimen
+
+**Skenario.** Jarang (m = 3n, n 4.000 sampai 64.000), padat (m = n(n − 1)/4, n 200 sampai 1.000), jarang kembar (seperti jarang, bobot hanya 1 sampai 5). Bobot lainnya acak 1 sampai 1.000.000.
+
+**Mengapa padat lebih kecil.** Sisi padat tumbuh kuadrat n. Dengan n kecil, jumlah sisi kedua jenis graf sebanding (sekitar 10 ribu sampai 250 ribu).
+
+**Pembangkit.** Pohon acak dulu (tiap titik disambung ke titik bernomor lebih kecil, pasti terhubung), lalu sisi acak tanpa sisi ganda dan tanpa *loop*. *Seed* 2026.
+
+**Pengukuran.** Satu graf per pasangan skenario dan ukuran, 1 putaran pemanasan, 5 ulangan pada graf yang sama, laporan rata-rata dan simpangan baku sampel. Simpangan baku hanya mengukur gangguan mesin, bukan variasi antar graf.
