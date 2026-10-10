@@ -62,6 +62,21 @@ Di Windows, `CODING\jalankan_notebook.bat` melakukan langkah notebook di atas. P
 - Dijalankan di Google Colab versi gratis, sehingga waktu bergantung pada mesin dan hasil di komputer lain akan berbeda.
 - Grafik waktu terhadap kurva teori ada di `DRAF/gambar/`. Berkas `hasil/` dan `grafik/` dibuat otomatis saat notebook dijalankan dan tidak disimpan di repositori ini.
 
+## Penggunaan AI
+
+Kecerdasan buatan (AI) digunakan sebagai alat bantu pada tiga bagian berikut. Keputusan isi, arah, dan pemeriksaan akhir tetap dilakukan sendiri oleh penulis.
+
+| Bagian | Dikerjakan sendiri | Dibantu AI |
+|---|---|---|
+| Kode | Kode inti algoritma (Kruskal, Prim, dan Borůvka) | Bagian eksperimen pada notebook `.ipynb`, yaitu pembangkitan graf acak ber-*seed* |
+| Laporan | Penentuan isi dan pembahasan, verifikasi referensi, serta perhitungan manual | *Brainstorming* isi laporan, pencarian jurnal atau artikel, perbaikan penulisan yang belum baku, dan perhitungan matematis yang sulit |
+| Presentasi | Penentuan isi dan rancangan desain tiap slide, serta pemeriksaan dan revisi | Pembuatan slide sesuai arahan penulis |
+
+Cara kerja pada tiap bagian:
+
+- **Laporan.** Isi dan pembahasan didiskusikan lebih dulu. AI kemudian mencari jurnal atau artikel yang sesuai, lalu penulis memverifikasinya secara manual. Referensi yang belum sesuai diganti dengan hasil pencarian lain. AI tidak diminta menulis seluruh laporan sekaligus.
+- **Presentasi.** Slide dibuat satu per satu, bukan seluruhnya sekaligus. Setiap slide diperiksa dan direvisi oleh penulis bila diperlukan.
+
 ## Status
 
 - Naskah Abstrak, Bab 1 sampai 5, dan Lampiran tersedia di `DRAF/`.
