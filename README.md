@@ -7,6 +7,8 @@ Implementasi dan analisis algoritma Kruskal dan Prim untuk _Minimum Spanning Tre
 - Program studi: Magister Teknik Informatika
 - Mata kuliah: Algoritma Komputasi
 
+https://github.com/user-attachments/assets/36d970bc-c838-4b34-8211-27d4679e0ecd
+
 ## Algoritma
 
 | Algoritma            | Ringkasan implementasi                                                                                                       |
@@ -54,7 +56,7 @@ Cara kerja pada tiap bagian:
 
 - **Lain-lain.** AI membantu membuat _commit_, menulis README, dan menamai berkas. Penulis tetap menentukan isi dan memeriksa setiap perubahan.
 - **Kode.** Kode inti algoritma ditulis sendiri oleh penulis. AI hanya dipakai pada bagian eksperimen di notebook, yaitu pembangkitan graf acak dengan _seed_.
-- **Laporan.** AI tidak diminta menulis seluruh laporan. Isi dan pembahasan didiskusikan terlebih dahulu, dan hasil _brainstorming_ yang disepakati disimpan dalam draf (folder `DRAF/`). AI kemudian mencari jurnal atau artikel yang sesuai. Penulis memverifikasi setiap referensi secara manual, dan referensi yang belum sesuai diganti dengan hasil pencarian lain. AI juga membantu memperbaiki penulisan yang belum baku serta perhitungan matematis yang sulit, sedangkan perhitungan manual tetap dikerjakan penulis sendiri. Setelah draf selesai dikerjakan, AI membantu menyusunnya menjadi dokumen Word sesuai format IEEE.
+- **Laporan.** AI tidak diminta menulis seluruh laporan. Isi dan pembahasan didiskusikan terlebih dahulu, dan hasil _brainstorming_ yang disepakati disimpan dalam draf (folder `DRAF/`). AI kemudian mencari jurnal atau artikel yang sesuai. Penulis memverifikasi setiap referensi secara manual, dan referensi yang belum sesuai diganti dengan hasil pencarian lain. AI juga membantu memperbaiki penulisan yang belum baku serta perhitungan matematis yang sulit, sedangkan perhitungan manual tetap dikerjakan penulis sendiri.
 - **Presentasi.** Seluruh ide berasal dari penulis, mulai dari isi hingga rancangan desain tiap slide. AI hanya mewujudkannya menjadi slide sesuai arahan, dikerjakan satu per satu dan bukan seluruhnya sekaligus. Setiap slide diperiksa dan direvisi oleh penulis bila diperlukan.
 
 ## Status
