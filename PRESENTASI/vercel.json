@@ -1,0 +1,32 @@
+{
+  "cleanUrls": false,
+  "rewrites": [
+    { "source": "/", "destination": "/INDEX.html" },
+    { "source": "/index", "destination": "/INDEX.html" },
+    { "source": "/index.html", "destination": "/INDEX.html" },
+    { "source": "/slide1", "destination": "/SLIDE1.html" },
+    { "source": "/slide2", "destination": "/SLIDE2.html" },
+    { "source": "/slide3", "destination": "/SLIDE3.html" },
+    { "source": "/slide4", "destination": "/SLIDE4.html" },
+    { "source": "/slide5", "destination": "/SLIDE5.html" },
+    { "source": "/slide6", "destination": "/SLIDE6.html" },
+    { "source": "/slide7", "destination": "/SLIDE7.html" },
+    { "source": "/slide8", "destination": "/SLIDE8.html" },
+    { "source": "/slide9", "destination": "/SLIDE9.html" },
+    { "source": "/slide10", "destination": "/SLIDE10.html" },
+    { "source": "/slide11", "destination": "/SLIDE11.html" },
+    { "source": "/slide12", "destination": "/SLIDE12.html" },
+    { "source": "/slide1.html", "destination": "/SLIDE1.html" },
+    { "source": "/slide2.html", "destination": "/SLIDE2.html" },
+    { "source": "/slide3.html", "destination": "/SLIDE3.html" },
+    { "source": "/slide4.html", "destination": "/SLIDE4.html" },
+    { "source": "/slide5.html", "destination": "/SLIDE5.html" },
+    { "source": "/slide6.html", "destination": "/SLIDE6.html" },
+    { "source": "/slide7.html", "destination": "/SLIDE7.html" },
+    { "source": "/slide8.html", "destination": "/SLIDE8.html" },
+    { "source": "/slide9.html", "destination": "/SLIDE9.html" },
+    { "source": "/slide10.html", "destination": "/SLIDE10.html" },
+    { "source": "/slide11.html", "destination": "/SLIDE11.html" },
+    { "source": "/slide12.html", "destination": "/SLIDE12.html" }
+  ]
+}
