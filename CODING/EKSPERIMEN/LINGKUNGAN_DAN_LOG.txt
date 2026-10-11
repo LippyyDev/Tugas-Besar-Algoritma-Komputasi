@@ -1,0 +1,118 @@
+=== Log notebook: Tugas_MST_Lokal ===
+Log ditulis ke: /content/drive/MyDrive/TUGAS BESAR PAK ABDI/HASIL_EKSPERIMEN/lingkungan_dan_log.txt
+Parameter: SEED = 2026 | ULANGAN = 5 | ULANG_GRAF_BARU = False | MODE_CEPAT = False
+  skenario jarang        : graf jarang, m = 3n; ukuran n = [4000, 8000, 16000, 32000, 64000]
+  skenario padat         : graf padat, m = n(n-1)/4 (separuh dari jumlah sisi maksimum); ukuran n = [200, 400, 600, 800, 1000]
+  skenario jarang_kembar : graf jarang, m = 3n, bobot 1..5 (banyak bobot kembar); ukuran n = [4000, 8000, 16000, 32000, 64000]
+Python      : 3.13.16
+Sistem      : Linux 6.6.122+
+Lingkungan  : Google Colab (mesin virtual yang dipakai bersama)
+Prosesor    : AMD EPYC 7B12 | jumlah CPU: 2
+Folder hasil: /content/drive/MyDrive/TUGAS BESAR PAK ABDI/HASIL_EKSPERIMEN
+pandas      : 2.2.3 | numpy: 2.1.3
+Seed tetap: seed sama menghasilkan graf identik, seed beda menghasilkan graf lain.
+jarang        : n =  4000, m =  12000, kepadatan = 0.0015 | terhubung, tanpa sisi ganda atau loop
+padat         : n =   200, m =   9950, kepadatan = 0.5000 | terhubung, tanpa sisi ganda atau loop
+jarang_kembar : n =  4000, m =  12000, kepadatan = 0.0015 | terhubung, tanpa sisi ganda atau loop
+Lolos: total bobot Kruskal, Prim, dan Borůvka sama dengan networkx pada 300 graf acak.
+Folder Contoh_Dasar tidak ditemukan di samping folder dasar (normal di Colab), pencocokan file .py dilewati.
+Kruskal           :     4.42 ms | total bobot = 188656937
+Prim              :     5.96 ms | total bobot = 188656937
+Prim (+konversi)  :     8.28 ms | total bobot = 188656937
+Borůvka           :    19.36 ms | total bobot = 188656937
+selesai: jarang         n =   4000, m =   12000
+selesai: jarang         n =   8000, m =   24000
+selesai: jarang         n =  16000, m =   48000
+selesai: jarang         n =  32000, m =   96000
+selesai: jarang         n =  64000, m =  192000
+selesai: padat          n =    200, m =    9950
+selesai: padat          n =    400, m =   39900
+selesai: padat          n =    600, m =   89850
+selesai: padat          n =    800, m =  159800
+selesai: padat          n =   1000, m =  249750
+selesai: jarang_kembar  n =   4000, m =   12000
+selesai: jarang_kembar  n =   8000, m =   24000
+selesai: jarang_kembar  n =  16000, m =   48000
+selesai: jarang_kembar  n =  32000, m =   96000
+selesai: jarang_kembar  n =  64000, m =  192000
+
+Eksperimen selesai dalam 149.2 detik. Data mentah: /content/drive/MyDrive/TUGAS BESAR PAK ABDI/HASIL_EKSPERIMEN/hasil/eksperimen_mentah.csv
+
+=== Skenario: jarang (graf jarang, m = 3n) ===
+algoritma     Kruskal     Prim  Prim (+konversi)   Borůvka
+n     m                                                   
+4000  12000    14.408   17.372            24.386    74.315
+8000  24000    35.434   41.597            55.879   190.534
+16000 48000   111.679  107.426           144.620   498.811
+32000 96000   214.930  287.205           364.164   968.724
+64000 192000  518.644  660.553           972.073  2445.552
+
+=== Skenario: padat (graf padat, m = n(n-1)/4 (separuh dari jumlah sisi maksimum)) ===
+algoritma    Kruskal     Prim  Prim (+konversi)   Borůvka
+n    m                                                   
+200  9950      6.912    7.323            11.671    36.248
+400  39900    47.732   38.557            59.236   247.488
+600  89850   138.169   96.386           144.507   518.471
+800  159800  272.739  192.683           285.042  1227.783
+1000 249750  494.401  307.995           462.610  1828.519
+
+=== Skenario: jarang_kembar (graf jarang, m = 3n, bobot 1..5 (banyak bobot kembar)) ===
+algoritma     Kruskal     Prim  Prim (+konversi)   Borůvka
+n     m                                                   
+4000  12000    17.928   19.053            26.133    73.381
+8000  24000    47.391   52.027            68.673   190.262
+16000 48000    92.199   96.133           126.251   386.681
+32000 96000   222.099  240.434           309.967   903.785
+64000 192000  593.210  647.416           935.130  1984.147
+
+Ringkasan lengkap disimpan di: /content/drive/MyDrive/TUGAS BESAR PAK ABDI/HASIL_EKSPERIMEN/hasil/ringkasan.csv
+Grafik disimpan di: /content/drive/MyDrive/TUGAS BESAR PAK ABDI/HASIL_EKSPERIMEN/grafik
+
+=== Rasio waktu/teori, skenario jarang (ukuran terkecil = 1,00) ===
+algoritma     Kruskal   Prim  Borůvka
+n     m                              
+4000  12000     1.000  1.000    1.000
+8000  24000     1.145  1.105    1.183
+16000 48000     1.689  1.325    1.438
+32000 96000     1.527  1.652    1.303
+64000 192000    1.737  1.781    1.541
+
+=== Rasio waktu/teori, skenario padat (ukuran terkecil = 1,00) ===
+algoritma    Kruskal   Prim  Borůvka
+n    m                              
+200  9950      1.000  1.000    1.000
+400  39900     1.496  1.161    1.506
+600  89850     1.787  1.207    1.312
+800  159800    1.888  1.298    1.672
+1000 249750    2.111  1.285    1.541
+
+=== Rasio waktu/teori, skenario jarang_kembar (ukuran terkecil = 1,00) ===
+algoritma     Kruskal   Prim  Borůvka
+n     m                              
+4000  12000     1.000  1.000    1.000
+8000  24000     1.231  1.260    1.196
+16000 48000     1.120  1.081    1.129
+32000 96000     1.268  1.261    1.231
+64000 192000    1.597  1.592    1.267
+[OK]    Kruskal, Prim, dan Borůvka ada dan berjalan
+[OK]    Seed tetap dipakai (SEED = 2026)
+[OK]    Skenario jarang: minimal 5 ukuran berbeda (5 ukuran)
+[OK]    Skenario padat: minimal 5 ukuran berbeda (5 ukuran)
+[OK]    Skenario jarang_kembar: minimal 5 ukuran berbeda (5 ukuran)
+[OK]    Minimal 5 ulangan per percobaan (ULANGAN = 5)
+[OK]    Setiap kombinasi punya >= 5 data (rata-rata dan simpangan baku valid)
+[OK]    CSV data mentah tersimpan
+[OK]    CSV ringkasan tersimpan
+[OK]    Grafik dengan kurva teori tersimpan untuk semua skenario
+[OK]    Pembanding ketiga (Borůvka) ikut diukur
+
+Hasil: SEMUA SYARAT KODE TERPENUHI
+Folder hasil: /content/drive/MyDrive/TUGAS BESAR PAK ABDI/HASIL_EKSPERIMEN
+Folder dasar: /content/drive/MyDrive/TUGAS BESAR PAK ABDI/HASIL_EKSPERIMEN
+  hasil/eksperimen_mentah.csv  (15,161 byte)
+  hasil/rasio_terhadap_teori.csv  (1,524 byte)
+  hasil/ringkasan.csv  (3,975 byte)
+  grafik/waktu_jarang.png  (188,065 byte)
+  grafik/waktu_jarang_kembar.png  (205,644 byte)
+  grafik/waktu_padat.png  (198,513 byte)
+  lingkungan_dan_log.txt  (log ini, ditutup setelah sel ini)

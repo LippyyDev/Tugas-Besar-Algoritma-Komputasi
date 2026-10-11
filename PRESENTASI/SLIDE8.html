@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slide 8 · Kompleksitas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ASET/KATEX/katex.min.css">
+<script src="ASET/KATEX/katex.min.js"></script>
+<style>
+/* ───────── Token ───────── */
+:root{
+  --bg:#050507;
+  --panel:#0a0b0f;
+  --line:rgba(255,255,255,.13);
+  --line2:rgba(255,255,255,.07);
+  --text:#f1f2f6;
+  --body:#c4c7d4;
+  --mute:#80849a;
+  --accent:#7db4ff;
+  --accent-bright:#c4dcff;
+  --amber:#ffc266;
+  --sans:'Space Grotesk','Segoe UI',system-ui,sans-serif;
+  --mono:'JetBrains Mono','Cascadia Mono',Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:#050507;overflow:hidden;font-family:var(--sans);color:var(--text)}
+
+/* ───────── Panggung 1920×1080 ───────── */
+#stage{
+  position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;
+  background:
+    radial-gradient(1100px 600px at 18% -8%,rgba(110,140,220,.13),transparent 70%),
+    radial-gradient(900px 600px at 100% 100%,rgba(90,110,180,.07),transparent 70%),
+    radial-gradient(rgba(255,255,255,.055) 1px,transparent 1.2px) 0 0/32px 32px,
+    var(--bg);
+}
+
+/* ───────── Header ───────── */
+.header{position:absolute;left:96px;right:96px;top:52px;height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line2)}
+.brand{display:flex;align-items:center;gap:20px}
+.brand img{height:60px;width:auto;display:block}
+.brand b{display:block;font-size:28px;font-weight:600;letter-spacing:-.01em}
+.brand span{display:block;font-size:19px;color:var(--mute);margin-top:2px}
+.tag{font-family:var(--mono);font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.kicker{position:absolute;left:96px;top:152px}
+.kicker h1{font-size:56px;line-height:1.1;font-weight:700;letter-spacing:-.03em;color:var(--text)}
+
+/* ───────── Kolom teks ───────── */
+.copy{position:absolute;left:96px;top:322px;width:740px;height:620px;display:flex;flex-direction:column;justify-content:flex-start;gap:18px}
+.blk{opacity:0;transform:translateY(14px);max-height:0;overflow:hidden;margin-top:0;transition:opacity .6s ease,transform .6s ease,max-height .7s ease,margin-top .7s ease;position:relative}
+.blk.show{opacity:1;transform:none;max-height:460px;margin-top:26px}
+.blk.show:first-child{margin-top:0}
+.blk .lbl{font-family:var(--mono);font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);margin-bottom:10px;display:block;transition:color .4s}
+.blk p{font-size:30px;line-height:1.45;color:var(--body);font-weight:400;transition:font-size .5s ease,color .5s ease}
+.blk b{color:var(--text);font-weight:600}
+.blk em{font-style:italic;color:var(--text)}
+.blk.active .lbl{color:var(--accent)}
+.blk.active p{color:#e4e6ee}
+.blk.seen{opacity:.5}
+.blk.seen p{font-size:23px}
+.blk .more{display:inline;opacity:0;transition:opacity .7s ease .15s}
+.blk .more.show{opacity:1}
+
+/* ───────── Panel grafik ───────── */
+.panel{position:absolute;left:880px;top:236px;width:944px;height:716px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.005));}
+.panel::before,.panel::after,.panel .c1,.panel .c2{content:"";position:absolute;width:16px;height:16px;border:2px solid var(--accent);opacity:.9}
+.panel::before{left:-2px;top:-2px;border-right:0;border-bottom:0}
+.panel::after{right:-2px;top:-2px;border-left:0;border-bottom:0}
+.panel .c1{left:-2px;bottom:-2px;border-right:0;border-top:0}
+.panel .c2{right:-2px;bottom:-2px;border-left:0;border-top:0}
+.phead{height:76px;border-bottom:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+.fig{font-family:var(--mono);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.fig b{color:var(--text);font-weight:500}
+.readout{text-align:right;transition:opacity .25s ease}
+.readout.swap{opacity:0}
+.readout small{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.readout strong{display:block;font-family:var(--mono);font-size:32px;font-weight:500;color:var(--text);line-height:1.1;margin-top:2px;font-variant-numeric:tabular-nums}
+.readout strong .u{font-size:17px;color:var(--mute);margin-left:6px}
+.readout strong .ok{font-size:16px;letter-spacing:.14em;color:#06121f;background:var(--accent);padding:3px 9px;border-radius:3px;margin-left:12px;vertical-align:middle}
+.readout strong .q{font-size:16px;letter-spacing:.1em;color:var(--amber);margin-left:12px}
+
+svg#g{display:block;width:100%;height:auto;aspect-ratio:960/520;margin-top:0}
+.pfoot{position:absolute;left:0;right:0;bottom:0;height:112px;border-top:1px solid var(--line2);padding:0 28px;display:flex;align-items:center}
+.pf{position:absolute;left:28px;right:28px;top:50%;transform:translateY(-50%);opacity:0;transition:opacity .45s ease;pointer-events:none}
+.pf.show{opacity:1}
+.legend{display:flex;gap:34px;align-items:center;font-size:21px;color:var(--body)}
+.legend span{display:flex;align-items:center;gap:12px}
+.legend .d{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.7)}
+.legend .l{width:30px;height:0;border-top:2px solid rgba(255,255,255,.5)}
+.legend .n{font-family:var(--mono);font-size:15px;border:1px solid var(--line);border-radius:3px;padding:2px 8px;background:#07080b}
+.cap{font-size:23px;line-height:1.45;color:var(--body)}
+.cap b{color:var(--text);font-weight:600}
+.cay{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.cay div{border:1px solid var(--line);background:#07080b;padding:7px 16px 8px;border-radius:3px}
+.cay small{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.cay strong{display:block;font-family:var(--mono);font-weight:500;font-size:24px;color:var(--amber);margin-top:2px}
+.cay-note{font-size:13px;font-family:var(--mono);letter-spacing:.1em;color:var(--mute);text-transform:uppercase;margin-bottom:8px}
+
+/* ───────── Grafik: simpul & sisi ───────── */
+.edge .base{fill:none;stroke:rgba(255,255,255,.3);stroke-width:2;stroke-dasharray:1;stroke-dashoffset:0;
+  transition:stroke-dashoffset .7s cubic-bezier(.3,.7,.2,1) var(--d,0ms),stroke .4s ease var(--d,0ms),opacity .4s ease var(--d,0ms)}
+.edge .hot{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;
+  transition:stroke-dashoffset .7s cubic-bezier(.3,.7,.2,1) var(--d,0ms),opacity .01s linear var(--d,0ms),stroke .35s ease var(--d,0ms),stroke-width .35s ease var(--d,0ms)}
+.edge .lab rect{fill:#07080b;stroke:rgba(255,255,255,.22);stroke-width:1.3;transition:stroke .4s ease var(--d,0ms),opacity .4s ease var(--d,0ms)}
+.edge .lab text{font-family:var(--mono);font-size:19px;font-weight:500;fill:var(--body);text-anchor:middle;dominant-baseline:central;transition:fill .4s ease var(--d,0ms)}
+.edge .lab{transition:opacity .4s ease var(--d,0ms)}
+.edge.hidden .base{stroke-dashoffset:1}
+.edge.hidden .lab{opacity:0}
+.edge.dim .base{stroke:rgba(255,255,255,.09)}
+.edge.dim .lab{opacity:.35}
+.edge.mst .hot,.edge.pick .hot,.edge.cand .hot{stroke-dashoffset:0;opacity:1}
+.edge.mst .lab rect{stroke:var(--accent)} .edge.mst .lab text{fill:var(--accent)}
+.edge.cand .hot{stroke:var(--amber);stroke-width:3.5}
+.edge.cand .lab rect{stroke:var(--amber)} .edge.cand .lab text{fill:var(--amber)}
+.edge.cand.fade .hot{opacity:.28}
+.edge.cand.fade .lab{opacity:.45}
+.edge.pick .hot{stroke:var(--accent-bright);stroke-width:6.5;filter:drop-shadow(0 0 7px var(--accent))}
+.edge.pick .lab rect{stroke:var(--accent-bright);fill:#0e1a2c} .edge.pick .lab text{fill:var(--accent-bright)}
+.edge.try .hot{stroke:var(--accent);stroke-width:4.5;stroke-dashoffset:0;opacity:.9;transition:none}
+.edge.try .base{transition:none}
+
+.node{transform-box:fill-box;transform-origin:center;transition:transform .55s cubic-bezier(.2,1.5,.4,1) var(--d,0ms),opacity .4s ease var(--d,0ms)}
+.node.hidden{transform:scale(0);opacity:0}
+.node .halo{fill:var(--accent);opacity:0;transition:opacity .5s ease var(--d,0ms)}
+.node .dot{fill:#0a0b10;stroke:rgba(255,255,255,.6);stroke-width:2.5;transition:fill .45s ease var(--d,0ms),stroke .45s ease var(--d,0ms)}
+.node text{font-family:var(--mono);font-size:21px;font-weight:500;fill:var(--text);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.node.in .halo{opacity:.2}
+.node.in .dot{stroke:var(--accent);fill:#0f1c31}
+
+#cutd{opacity:0;transition:opacity .5s ease}
+#cutd.show{opacity:1}
+#cutd .line{fill:none;stroke:var(--accent-bright);stroke-width:2.5;stroke-dasharray:11 9;animation:march 1.4s linear infinite}
+#cutd .zone{fill:rgba(125,180,255,.07);stroke:none}
+#cutd text{font-family:var(--mono);font-size:15px;letter-spacing:.18em;fill:var(--accent)}
+@keyframes march{to{stroke-dashoffset:-40}}
+#aman{opacity:0;transition:opacity .5s ease .5s}
+#aman.show{opacity:1}
+#aman rect{fill:var(--accent);rx:3}
+#aman text{font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:.14em;fill:#06121f;text-anchor:middle;dominant-baseline:central}
+
+/* ───────── Footer ───────── */
+.footer{position:absolute;left:96px;right:96px;bottom:44px;height:62px;display:flex;align-items:flex-end;justify-content:space-between}
+.prog{display:flex;gap:8px;width:1000px}
+.seg{position:relative}
+.seg .bar{height:3px;background:rgba(255,255,255,.14);position:relative;overflow:hidden}
+.seg .bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--accent);transition:width .6s ease}
+.seg span{display:block;margin-top:9px;font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#4b4e60;white-space:nowrap}
+.seg.cur span{color:var(--accent)}
+.ctrl{display:flex;align-items:center;gap:12px}
+.cnt{font-family:var(--mono);font-size:17px;letter-spacing:.12em;color:var(--mute);margin-right:10px;min-width:70px;text-align:right}
+.btn{font-family:var(--mono);font-size:17px;letter-spacing:.1em;text-transform:uppercase;color:var(--text);background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:3px;height:50px;padding:0 22px;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.btn:hover:not(:disabled){background:rgba(125,180,255,.12);border-color:var(--accent);color:var(--accent-bright)}
+.btn.pri{border-color:rgba(125,180,255,.55);background:rgba(125,180,255,.1)}
+.btn:disabled{opacity:.3;cursor:default}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hint{position:absolute;right:96px;bottom:12px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:#4b4e60;text-transform:uppercase}
+
+/* ───────── Dock navigasi (pop up, muncul saat kursor di bawah) ───────── */
+.prog{width:100%}
+#dock{position:absolute;left:50%;bottom:78px;transform:translate(-50%,28px);opacity:0;pointer-events:none;z-index:10;
+  display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 16px 9px;
+  background:#0a0b0f;border:1px solid rgba(255,255,255,.2);border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.6);
+  transition:opacity .35s ease,transform .35s ease}
+#dock.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#dock .hint{position:static}
+
+#dock .btn{font-size:14px;height:36px;padding:0 16px;letter-spacing:.08em}
+#dock .cnt{font-size:14px;min-width:54px;margin-right:6px}
+#dock .ctrl{gap:8px}
+#dock .hint{font-size:11px}
+.edge-hint{position:fixed;top:0;bottom:0;width:7vw;pointer-events:none;opacity:0;transition:opacity .25s ease;z-index:5}
+.edge-hint.l{left:0;background:linear-gradient(90deg,rgba(125,180,255,.14),transparent)}
+.edge-hint.r{right:0;background:linear-gradient(270deg,rgba(125,180,255,.14),transparent)}
+.edge-hint.on{opacity:1}
+
+
+.src{position:absolute;right:96px;top:176px;font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease var(--d,0ms),transform .6s ease var(--d,0ms);pointer-events:none}
+.rv.on{opacity:1;transform:none}
+.zone{position:absolute;left:96px;right:96px;top:248px;height:640px}
+
+/* zona A: cara membaca */
+.defs{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.def{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:24px 28px 26px}
+.def.o{border-color:rgba(125,180,255,.45);background:linear-gradient(180deg,rgba(125,180,255,.1),rgba(125,180,255,.02))}
+.def .sym{font-family:var(--mono);font-size:54px;font-weight:500;color:var(--accent-bright);line-height:1}
+.def p{margin-top:12px;font-size:23px;line-height:1.35;color:var(--body)}
+.def p b{color:var(--text);font-weight:600}
+.key{margin-top:22px;display:flex;align-items:center;gap:22px;border-left:4px solid var(--amber);background:rgba(255,194,102,.07);padding:18px 28px;font-size:28px;color:var(--body)}
+.key small{font-family:var(--mono);font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);flex:none}
+.key b{color:var(--text);font-weight:600}
+.key .eq{font-family:var(--mono);color:var(--amber);margin:0 8px}
+.half{margin-top:22px;border:1px solid var(--line);background:#07080b;padding:24px 30px 26px}
+.half h3{font-family:var(--mono);font-size:15px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:400}
+.hrow{display:flex;align-items:center;gap:10px;margin-top:20px}
+.hb{flex:1;height:78px;border:1px solid rgba(125,180,255,.45);background:rgba(125,180,255,.1);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:25px;color:var(--accent-bright);
+  opacity:0;transform:scale(.85);transition:opacity .45s ease var(--d,0ms),transform .45s ease var(--d,0ms)}
+.hb.last{background:var(--accent);color:#06121f;border-color:var(--accent)}
+.hrow.on .hb{opacity:1;transform:none}
+.ha{flex:none;font-family:var(--mono);font-size:15px;color:var(--mute);width:34px;text-align:center;opacity:0;transition:opacity .4s ease var(--d,0ms)}
+.hrow.on .ha{opacity:1}
+.hnote{display:flex;justify-content:space-between;gap:30px;margin-top:20px;font-size:23px;color:var(--body)}
+.hnote b{color:var(--text);font-weight:600}
+
+/* zona B: tiga kartu */
+.cards{position:absolute;left:0;right:0;top:0;height:640px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{position:relative;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:0;display:flex;flex-direction:column;transition:opacity .6s ease var(--d,0ms),transform .6s ease var(--d,0ms),border-color .4s}
+.card.late{border-style:dashed;border-color:rgba(255,255,255,.18)}
+.card.late>*{opacity:0}
+.card>*{transition:opacity .5s ease}
+.card .ch{height:78px;display:flex;align-items:center;justify-content:space-between;padding:0 30px;border-bottom:1px solid var(--line2)}
+.card .ch b{font-size:32px;font-weight:600;letter-spacing:-.01em}
+.card .ch span{font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.card.k{border-top:3px solid var(--accent)} .card.p{border-top:3px solid var(--accent-bright)} .card.b{border-top:3px solid var(--amber)}
+.rows{padding:4px 30px 0}
+.crow{display:block;padding:16px 0 15px;border-bottom:1px solid var(--line2)}
+.crow:last-child{border-bottom:0}
+.crow .t{font-size:22px;line-height:1.3;color:var(--body)}
+.crow .t b{color:var(--text);font-weight:600}
+.calc{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;margin-top:10px}
+.calc i{font-style:normal;font-family:var(--mono);color:var(--mute);font-size:22px}
+.calc .nt{font-size:17px;line-height:1.3;color:var(--mute);flex-basis:100%}
+.chipc{flex:none;font-family:var(--sans);font-size:25px;font-weight:500;color:var(--accent-bright);border:1px solid rgba(125,180,255,.5);background:rgba(125,180,255,.08);padding:5px 12px;border-radius:3px;white-space:nowrap}
+.card.b .chipc{color:var(--amber);border-color:rgba(255,194,102,.55);background:rgba(255,194,102,.08)}
+.res{padding:0 30px 24px}
+.res small{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+.res strong{display:block;font-family:var(--mono);font-size:52px;font-weight:500;color:var(--text);letter-spacing:-.02em;line-height:1.1}
+.card.b .res strong{color:var(--amber)}
+.res sup{font-size:.55em;vertical-align:.55em}
+.space{margin:auto 30px 16px;padding-top:12px;border-top:1px solid var(--line2)}
+.space .sp1{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:21px;color:var(--body)}
+.space .sp1 b{font-family:var(--mono);font-weight:500;font-size:26px;color:var(--text)}
+.space .sp2{margin-top:2px;font-size:18px;color:var(--mute)}
+.plus{position:absolute;right:30px;bottom:92px;font-family:var(--mono);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:#1c1305;background:var(--amber);padding:5px 11px;border-radius:3px}
+
+/* ───────── Slide 8: penurunan kompleksitas per baris kode ───────── */
+.zn{opacity:0;transition:opacity .45s ease;pointer-events:none}
+.zn.on{opacity:1}
+.zn .rv{opacity:0;transform:translateY(18px)}
+.zn.on .rv{opacity:1;transform:none}
+
+/* panel pseudocode dan panel penurunan */
+#pp,#dp{top:0;height:640px;width:auto}
+#pp{left:0;width:840px}
+#dp{left:868px;width:860px}
+.ph{height:60px;border-bottom:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+.code{padding:10px 0}
+.ln{display:flex;align-items:center;height:var(--lh,44px);border-left:3px solid transparent;font-family:var(--mono);font-size:18px;color:#aeb2c4;white-space:nowrap;transition:background .35s ease,border-color .35s ease,opacity .35s ease,color .35s ease}
+.ln .no{flex:none;width:54px;text-align:right;padding-right:16px;font-size:15px;color:#4b4e60;transition:color .35s ease}
+.ln .t{padding-left:calc(var(--i)*24px)}
+.ln.hd{color:var(--text);font-weight:500}
+.ln.hd .t{padding-left:0}
+.ln .k{color:var(--accent-bright)}
+.code.act .ln:not(.on):not(.hd){opacity:.3}
+.ln.on{background:rgba(125,180,255,.24);border-left-color:var(--accent);color:#fff;box-shadow:inset 0 0 0 1px rgba(125,180,255,.35)}
+.ln.on .no{color:var(--accent)}
+.card.bb .ln.on{background:rgba(255,194,102,.2)}
+
+/* baris penurunan */
+.dbody{height:420px;padding:6px 28px 0;overflow:hidden}
+.dr{display:grid;grid-template-columns:176px 1fr;gap:0 18px;padding:13px 0 14px;border-bottom:1px solid var(--line2);opacity:0;transform:translateY(12px);transition:opacity .5s ease var(--d,0ms),transform .5s ease var(--d,0ms)}
+.dr.on{opacity:1;transform:none}
+.dr:last-child{border-bottom:0}
+.dr .bl{font-family:var(--mono);font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);line-height:1.5;padding-top:5px}
+.dr .tx{font-size:22px;line-height:1.3;color:var(--body)}
+.dr .tx b{color:var(--text);font-weight:600}
+.dr .calc{margin-top:8px}
+.dr .calc .nt{font-size:17px}
+.dkey{margin:12px 0 0;border-left:4px solid var(--amber);background:rgba(255,194,102,.07);padding:12px 20px;font-size:22px;line-height:1.35;color:var(--body);opacity:0;transform:translateY(12px);transition:opacity .5s ease var(--d,0ms),transform .5s ease var(--d,0ms)}
+.dkey.on{opacity:1;transform:none}
+.dkey b{color:var(--text);font-weight:600}
+.dkey small{font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-right:10px}
+
+/* jumlah sementara */
+.sumbar{position:absolute;left:0;right:0;bottom:0;height:154px;border-top:1px solid var(--line);background:rgba(125,180,255,.05);padding:14px 28px 0}
+.sumbar small{display:block;font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.terms{display:flex;flex-wrap:wrap;align-items:center;gap:8px 9px;margin-top:10px;min-height:46px}
+.terms i{font-style:normal;font-family:var(--mono);color:var(--mute);font-size:22px}
+.terms .tm{font-family:var(--mono);font-size:22px;color:var(--accent-bright);border:1px solid rgba(125,180,255,.45);background:rgba(125,180,255,.08);padding:4px 11px;border-radius:3px;white-space:nowrap}
+.terms .tm.nw{color:var(--amber);border-color:rgba(255,194,102,.7);background:rgba(255,194,102,.1)}
+.fin{position:absolute;left:28px;right:28px;bottom:12px;display:flex;align-items:baseline;gap:20px;opacity:0;transition:opacity .5s ease .25s}
+.fin.on{opacity:1}
+.fin strong{white-space:nowrap;flex:none;font-family:var(--sans);font-weight:400;font-size:42px;color:var(--text);letter-spacing:-.02em;line-height:1}
+.fin strong sup{font-size:.55em;vertical-align:.55em}
+.fin>span{font-size:19px;color:var(--mute);line-height:1.25}
+.fin.am strong{color:var(--amber)}
+.fin>em{font-style:normal;font-family:var(--mono);font-size:22px;color:var(--mute)}
+
+/* ringkasan: kartu */
+/* ringkasan: hasil + grafik Big-O */
+#zC .rs{position:absolute;left:0;top:0;width:700px;display:flex;flex-direction:column;gap:18px}
+.rc{position:relative;height:178px;border:1px solid var(--line);border-left:5px solid var(--accent);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.005));padding:16px 28px 0;transition:opacity .6s ease var(--d,0ms),transform .6s ease var(--d,0ms)}
+.rc.b{border-left-color:var(--amber)}
+.rc .rn{display:flex;justify-content:space-between;align-items:baseline}
+.rc .rn b{font-size:30px;font-weight:600}
+.rc .rn span{font-family:var(--mono);font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.rc .rv2{font-family:var(--mono);font-size:50px;font-weight:500;line-height:1.2;color:var(--text);letter-spacing:-.02em}
+.rc.b .rv2{color:var(--amber)}
+.rc .rv2 small{font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin-right:14px;vertical-align:middle}
+.rc .rsp{font-size:21px;color:var(--mute)}
+.rc .rsp b{color:var(--body);font-weight:500}
+#zC .chart{position:absolute;left:728px;top:0;width:1000px;height:572px;border:1px solid var(--line);background:rgba(255,255,255,.015)}
+#zC .chart svg{width:100%;height:100%;display:block}
+.ax{stroke:rgba(255,255,255,.55);stroke-width:2}
+.gr{stroke:rgba(255,255,255,.07);stroke-width:1}
+.cv{fill:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.cv.g{stroke:rgba(255,255,255,.38);stroke-width:3.5}
+.cv.kp{stroke:var(--accent-bright);stroke-width:6}
+.cv.bv{stroke:var(--amber);stroke-width:6}
+.chart.draw .cv{animation:drw 1.5s cubic-bezier(.3,.6,.3,1) forwards;animation-delay:var(--cd,0s)}
+@keyframes drw{to{stroke-dashoffset:0}}
+.cl{position:absolute;white-space:nowrap;font-family:var(--sans);font-size:25px;font-weight:600;line-height:1.2;opacity:0}
+.cl.cs{font-size:20px;font-weight:500}
+.cl .katex{font-size:1.05em;font-weight:400}
+.chart.draw .cl{animation:fadeI .5s ease forwards;animation-delay:var(--cd,0s)}
+@keyframes fadeI{to{opacity:1}}
+.at{font-family:var(--sans);font-size:21px;fill:var(--mute)}
+.pillbar{position:absolute;left:0;right:0;top:588px;height:50px;border:1px solid rgba(125,180,255,.4);background:rgba(125,180,255,.06);display:flex;align-items:center;padding:0 26px;font-size:22px;color:var(--body)}
+.pillbar b{color:var(--text);font-weight:600}
+
+
+.rc .rv2 sup{font-size:.55em;vertical-align:.55em}
+.katex{font-size:1.1em;font-weight:400}
+.sym .katex{font-size:1em}
+.chipc .katex,.tm .katex{font-size:1.02em}
+.fin strong .katex{font-size:1em}
+.rc .rv2 .katex{font-size:1em}
+.terms .tm{font-family:var(--sans)}
+#zA .defs{margin-top:14px}
+#zA .def{padding:40px 30px 34px;min-height:320px}
+#zA .def p{font-size:25px;margin-top:18px}
+#zA .key{margin-top:56px;padding:26px 32px;font-size:32px}
+.symfoot{position:absolute;left:96px;right:96px;top:970px;height:30px;line-height:30px;font-size:20px;color:var(--mute);padding-left:32px;white-space:nowrap;}
+.symfoot>span{display:inline-block;margin-right:44px}
+.symfoot span.mxd{display:inline}
+.symfoot b{color:var(--body);font-weight:500}
+.symfoot .lh{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-bright);margin-right:30px}
+.symfoot var{font-family:KaTeX_Math,'Times New Roman',serif;font-style:italic;font-size:1.12em;color:var(--body)}
+/* keterangan bawah */
+.capbar{position:absolute;left:96px;right:96px;top:894px;height:72px;border-left:4px solid var(--accent);padding:0 0 0 28px;display:flex;align-items:center}
+.capbar #cap{font-size:25px;line-height:1.4;color:var(--body)}
+.capbar #cap b{color:var(--text);font-weight:600}
+.capbar #cap.sw{animation:capin .45s ease}
+@keyframes capin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+</style>
+<link rel="stylesheet" href="ASET/tema.css">
+<script src="ASET/tema.js"></script>
+</head>
+<body>
+<div class="edge-hint l" id="eh-l"></div><div class="edge-hint r" id="eh-r"></div>
+<div id="stage">
+  <div class="header">
+    <div class="brand"><img src="ASET/LOGO-UNHAS.png" alt="Logo Universitas Hasanuddin">
+      <div><b>Universitas Hasanuddin</b><span>Magister Teknik Informatika</span></div></div>
+    <div class="tag">Tugas Besar Analisis Algoritma</div>
+  </div>
+  <div class="kicker"><h1>Kompleksitas Teoretis</h1></div>
+  <div class="src">Dasar: Bab 3, subbab 3.2 dan 3.4</div>
+
+  <!-- zona A: cara membaca -->
+  <div class="zone zn on" id="zA">
+    <div class="defs">
+      <div class="def rv" style="--d:0ms"><div class="sym">n</div><p><b>jumlah titik</b> pada graf</p></div>
+      <div class="def rv" style="--d:100ms"><div class="sym">m</div><p><b>jumlah sisi</b> pada graf</p></div>
+      <div class="def rv" style="--d:200ms"><div class="sym">log n</div><p><b>berapa kali</b> n bisa dibelah dua sampai tinggal 1</p></div>
+      <div class="def o rv" style="--d:300ms"><div class="sym">O( )</div><p><b>batas atas</b> jumlah langkah, angka pengali dibuang</p></div>
+    </div>
+    <div class="key rv" style="--d:420ms"><small>Cara menghitung</small><span>setiap baris kode: <b>berapa kali dijalankan</b><span class="eq">×</span><b>biaya sekali jalan</b></span></div>
+  </div>
+
+  <!-- zona B: pseudocode dan penurunan -->
+  <div class="zone zn" id="zB">
+    <div class="panel" id="pp">
+      <i class="c1"></i><i class="c2"></i>
+      <div class="ph"><div class="fig" id="pt"></div><div class="fig" id="ps" style="text-transform:none;letter-spacing:.02em;font-size:14px"></div></div>
+      <div class="code" id="code"></div>
+    </div>
+    <div class="panel" id="dp">
+      <i class="c1"></i><i class="c2"></i>
+      <div class="ph"><div class="fig" id="dt"></div><div class="fig" id="dn"></div></div>
+      <div class="dbody" id="dbody"></div>
+      <div class="sumbar"><small>Jumlah sementara</small><div class="terms" id="terms"></div>
+        <div class="fin" id="fin"></div></div>
+    </div>
+  </div>
+
+  <!-- zona C: ringkasan -->
+  <div class="zone zn" id="zC">
+    <div class="rs" id="rs"></div>
+    <div class="chart" id="chart"></div>
+    <div class="pillbar rv" style="--d:1500ms"><span>Kruskal dan Prim <b>sama</b>, keduanya lebih cepat dari Borůvka <b>satu faktor log n</b>. Pembeda Kruskal dan Prim diukur di <b>eksperimen</b>.</span></div>
+  </div>
+  </div>
+
+  <div class="capbar"><div id="cap"></div></div>
+  <div class="symfoot" id="leg"><span class="lh">Arti simbol</span><span><span class="mxd"><var>n</var></span> = <b>jumlah titik</b></span><span><span class="mxd"><var>m</var></span> = <b>jumlah sisi</b></span><span><span class="mxd"><var>m</var></span> kali = <b>dijalankan sebanyak <span class="mxd"><var>m</var></span> kali, satu kali untuk tiap sisi</b></span></div>
+
+  <div class="footer"><div class="prog" id="prog"></div></div>
+  <div id="dock"><div class="ctrl">
+      <span class="cnt" id="cnt"></span>
+      <button class="btn" id="prev">Sebelumnya</button><button class="btn" id="reset">Reset</button><button class="btn pri" id="next">Berikutnya</button>
+    </div><div class="hint">← → navigasi · R reset · F layar penuh · I indeks</div></div>
+</div>
+<script>
+const PREV_SLIDE='SLIDE7.html', NEXT_SLIDE='SLIDE9.html', SLIDE_NO=8;
+const $=s=>document.querySelector(s);
+
+/* ═════════ Pseudocode: baris sama dengan slide 4, 5, dan 6 ═════════ */
+const ALG={
+ k:{nm:'Kruskal',head:'KRUSKAL(n, E)',sl:'slide 4',lines:[
+  [0,'<span class="k">E′</span> ← <span class="k">URUTKAN</span>(E) menaik berdasarkan bobot w'],
+  [0,'himpunan ← BUAT-HIMPUNAN(n)'],
+  [0,'A ← ∅'],
+  [0,'total ← 0'],
+  [0,'<span class="k">untuk setiap</span> sisi (u, v, w) pada E′ <span class="k">lakukan:</span>'],
+  [1,'<span class="k">jika</span> GABUNG(u, v) bernilai BENAR<span class="k">:</span>'],
+  [2,'A ← A ∪ {(u, v, w)}'],
+  [2,'total ← total + w'],
+  [2,'<span class="k">jika</span> |A| = n − 1 <span class="k">maka hentikan</span> perulangan'],
+  [0,'<span class="k">jika</span> |A| &lt; n − 1 <span class="k">maka galat</span> "Graf tidak terhubung"'],
+  [0,'<span class="k">kembalikan</span> (A, total)']]},
+ p:{nm:'Prim',head:'PRIM(n, Adj, s)',sl:'slide 5',lines:[
+  [0,'masuk ← SALAH untuk semua simpul'],
+  [0,'<span class="k">masuk[s] ← BENAR</span>'],
+  [0,'A ← ∅'],
+  [0,'total ← 0'],
+  [0,'Q ← <span class="k">masukkan</span> semua sisi dari s ke antrean prioritas'],
+  [0,'<span class="k">selama</span> Q tidak kosong dan |A| &lt; n − 1 <span class="k">lakukan:</span>'],
+  [1,'(w, k, b) ← <span class="k">keluarkan</span> sisi dengan bobot minimum dari Q'],
+  [1,'<span class="k">jika</span> masuk[k] dan masuk[b] <span class="k">maka lewati</span>'],
+  [1,'tujuan ← b <span class="k">jika tidak</span> masuk[b] <span class="k">selain itu</span> k'],
+  [1,'<span class="k">masuk[tujuan] ← BENAR</span>'],
+  [1,'A ← A ∪ {(k, b, w)}'],
+  [1,'total ← total + w'],
+  [1,'<span class="k">masukkan</span> ke Q sisi dari tujuan ke tetangga yang belum masuk'],
+  [0,'<span class="k">jika</span> |A| &lt; n − 1 <span class="k">maka galat</span> "Graf tidak terhubung"'],
+  [0,'<span class="k">kembalikan</span> (A, total)']]},
+ b:{nm:'Borůvka',head:'BORŮVKA(n, E)',sl:'slide 6',lines:[
+  [0,'himpunan ← BUAT-HIMPUNAN(n)'],
+  [0,'A ← ∅'],
+  [0,'total ← 0'],
+  [0,'c ← n'],
+  [0,'<span class="k">selama</span> c &gt; 1 <span class="k">lakukan:</span>'],
+  [1,'T ← ∅ <span class="k">(pencarian sisi termurah per komponen)</span>'],
+  [1,'<span class="k">untuk setiap</span> sisi (u, v, w) pada E <span class="k">lakukan:</span>'],
+  [2,'<span class="k">jika</span> u dan v dalam komponen yang sama <span class="k">maka lewati</span>'],
+  [2,'simpan (u, v, w) ke T untuk komponen u dan v jika lebih murah'],
+  [1,'<span class="k">jika</span> T kosong <span class="k">maka galat</span> "Graf tidak terhubung"'],
+  [1,'<span class="k">untuk setiap</span> sisi (u, v, w) pada T <span class="k">lakukan:</span>'],
+  [2,'<span class="k">jika</span> GABUNG(u, v) bernilai BENAR<span class="k">:</span>'],
+  [3,'A ← A ∪ {(u, v, w)}'],
+  [3,'total ← total + w'],
+  [3,'c ← c − 1'],
+  [0,'<span class="k">kembalikan</span> (A, total)']]}
+};
+
+/* ═════════ Data tiap langkah (11 langkah) ═════════
+   rows: t = label baris, x = pekerjaan, c = rumus (kali x biaya), n = catatan
+   terms: suku jumlah sementara, awalan * = suku baru pada langkah ini */
+const S=[
+ {z:'A',cap:'Cukup ingat <b>n</b> titik, <b>m</b> sisi, dan <b>log n</b> yang tumbuh sangat lambat. Cara menghitungnya: tiap baris kode, <b>berapa kali dijalankan</b> dikali <b>biaya sekali jalan</b>.'},
+
+ {z:'B',a:'k',hl:[1,2,3,4],no:'1 / 3',
+  rows:[
+   {t:'Baris 1',x:'Urutkan semua m sisi menurut bobot',c:['O(m log m)','=','O(m log n)'],n:'m &lt; n², jadi log m &lt; 2 log n; angka 2 dibuang di <em>Big-O</em>'},
+   {t:'Baris 2 sampai 4',x:'Siapkan himpunan untuk n titik, A kosong, total 0',c:['O(n)']}],
+  terms:['*m log n','*n'],
+  cap:'<b>Kruskal, baris 1 sampai 4.</b> Mengurutkan <b>m</b> sisi berbiaya m log m, yang setara m log n. Menyiapkan himpunan untuk n titik berbiaya <b>n</b>.'},
+ {z:'B',a:'k',hl:[5,6,7,8,9],no:'2 / 3',
+  rows:[
+   {t:'Baris 5 sampai 9',x:'Perulangan memeriksa paling banyak m sisi, tiap sisi 1 GABUNG',c:['m kali','×','log n','=','O(m log n)'],n:'GABUNG = 2 CARI-AKAR; pohon paling tinggi log n karena <em>union by rank</em>'},
+   {t:'Isi lainnya',x:'Menambah ke A dan memeriksa |A|, tiap sisi',c:['m kali','×','O(1)','=','O(m)']}],
+  terms:['m log n','n','*m log n','*m'],
+  cap:'<b>Baris 5 sampai 9.</b> Perulangan memeriksa paling banyak <b>m</b> sisi, dan tiap sisi memanggil GABUNG satu kali yang berbiaya <b>log n</b>.'},
+ {z:'B',a:'k',hl:[10,11],no:'3 / 3',
+  rows:[
+   {t:'Baris 10 dan 11',x:'Memeriksa |A| dan mengembalikan hasil',c:['O(1)']},
+   {t:'Buang yang kecil',x:'Suku n, m, dan 1 lebih kecil dari m log n, jadi terserap',c:[],n:'n = O(m) karena graf terhubung (m ≥ n − 1)'}],
+  terms:['m log n','n','m log n','m','*1'],
+  fin:{v:'O(m log n)',n:'dua suku m log n, sisanya terserap'},
+  cap:'<b>Jumlahkan, lalu buang yang kecil.</b> Dua suku m log n menghasilkan <b>O(m log n)</b>. Berhenti dini di baris 9 tidak mengubah batas ini, karena pengurutan sudah dikerjakan lebih dulu.'},
+
+ {z:'B',a:'p',hl:[1,2,3,4,5],no:'1 / 3',
+  rows:[
+   {t:'Persiapan',x:'Bangun daftar tetangga: n daftar kosong, tiap sisi ditambahkan 2 kali',c:['n + 2m','=','O(n + m)']},
+   {t:'Baris 1 sampai 5',x:'Tandai n titik; sisi dari titik awal masuk antrean',c:['O(n)'],n:'sisi dari titik awal dihitung bersama baris 13'}],
+  key:'<small>Kunci</small>Tiap sisi masuk antrean paling banyak <b>sekali</b>, jadi antrean menerima ≤ m sisi dan mengeluarkan ≤ m sisi.',
+  terms:['*n + m','*n'],
+  cap:'<b>Prim, persiapan.</b> Daftar tetangga dan inisialisasi berbiaya n + m. Kunci analisisnya: tiap sisi masuk antrean <b>paling banyak sekali</b>.'},
+ {z:'B',a:'p',hl:[6,7,8,9,10,11,12],no:'2 / 3',
+  rows:[
+   {t:'Baris 6 sampai 12',x:'Tiap putaran mengeluarkan 1 sisi termurah; paling banyak m putaran',c:['m kali','×','log n','=','O(m log n)'],n:'antrean berisi ≤ m sisi, jadi log m = O(log n)'},
+   {t:'Baris 8 sampai 12',x:'Memeriksa ujung sisi dan menambah ke A, tiap putaran',c:['m kali','×','O(1)','=','O(m)']}],
+  terms:['n + m','n','*m log n','*m'],
+  cap:'<b>Baris 6 sampai 12.</b> Tiap putaran mengeluarkan satu sisi. Karena tiap sisi masuk paling banyak sekali, putarannya paling banyak <b>m</b>, tiap pengeluaran berbiaya <b>log n</b>.'},
+ {z:'B',a:'p',hl:[13,14,15],no:'3 / 3',
+  rows:[
+   {t:'Baris 13',x:'Tiap titik baru memindai tetangganya sekali; seluruh daftar berjumlah 2m',c:['O(2m)','=','O(m)']},
+   {t:'Baris 13',x:'Tiap sisi yang masuk antrean berbiaya log n',c:['≤ m kali','×','log n','=','O(m log n)']},
+   {t:'Baris 14 dan 15',x:'Pemeriksaan dan hasil',c:['O(1)']}],
+  terms:['n + m','n','m log n','m','*m','*m log n','*1'],
+  fin:{v:'O(m log n)',n:'suku n dan m terserap; sama dengan Kruskal'},
+  cap:'<b>Baris 13.</b> Tiap titik dipindai sekali (total 2m), dan tiap sisi yang masuk antrean berbiaya log n. Jumlahnya <b>O(m log n)</b>, sama dengan Kruskal.'},
+
+ {z:'B',a:'b',hl:[1,2,3,4,5,6],no:'1 / 3',
+  rows:[
+   {t:'Baris 1 sampai 4',x:'Siapkan himpunan untuk n titik, A kosong, total 0, c = n',c:['O(n)']},
+   {t:'Baris 5',x:'Berapa putaran? Tiap komponen bergabung dengan komponen lain, jadi jumlah komponen menyusut sedikitnya separuh',c:['n','→','n/2','→','n/4','→','⋯','→','1'],n:'paling banyak log n putaran; untuk 1.000 titik sekitar 10 putaran'}],
+  terms:['*n','*log n putaran × biaya satu putaran'],
+  cap:'<b>Borůvka: berapa putaran?</b> Jumlah komponen menyusut sedikitnya separuh tiap putaran, jadi paling banyak <b>log n putaran</b>.'},
+ {z:'B',a:'b',hl:[7,8,9,10,11,12,13,14,15],no:'2 / 3',
+  rows:[
+   {t:'Baris 7 sampai 9',x:'Periksa semua m sisi; tiap sisi 2 CARI-AKAR',c:['m kali','×','log n','=','O(m log n)'],n:'CARI-AKAR berbiaya log n berkat <em>union by rank</em>'},
+   {t:'Baris 11 sampai 15',x:'Pasang pilihan: ≤ 1 sisi per komponen, jadi ≤ n sisi, tiap sisi 1 GABUNG',c:['n kali','×','log n','=','O(n log n)']},
+   {t:'Satu putaran',x:'n ≤ m + 1, jadi n log n terserap oleh m log n',c:['O(m log n)']}],
+  terms:['n','*log n putaran × (m log n + n log n)'],
+  cap:'<b>Biaya satu putaran.</b> Memeriksa m sisi berbiaya m log n, memasang ≤ n sisi berbiaya n log n: <b>O(m log n)</b> per putaran.'},
+ {z:'B',a:'b',hl:[5],no:'3 / 3',
+  rows:[
+   {t:'Baris 5',x:'Banyak putaran × biaya satu putaran',c:['log n','×','m log n','=','O(m log² n)']},
+   {t:'Mengapa lebih besar',x:'Pustaka menulis O(m log n) karena komponen tiap titik dianggap tersedia O(1). Kode ini mencarinya dengan CARI-AKAR yang berbiaya log n, jadi ada satu log n tambahan.',c:[]}],
+  terms:['n','*log n × m log n'],
+  fin:{v:'O(m log² n)',n:'suku n terserap; satu log n lebih banyak dari Kruskal',am:true},
+  cap:'<b>Kalikan.</b> log n putaran kali m log n per putaran menghasilkan <b>O(m log² n)</b>, satu log n lebih banyak karena kode ini memakai CARI-AKAR.'},
+
+ {z:'C',cap:''}
+];
+const LAST=S.length-1;
+
+const RES=[
+ {c:'k',nm:'Kruskal',th:'Teorema 3.5',v:'O(m log n)',sp:'O(n + m)'},
+ {c:'p',nm:'Prim',th:'Teorema 3.6',v:'O(m log n)',sp:'O(n + m)'},
+ {c:'b',nm:'Borůvka',th:'Teorema 3.7',v:'O(m log² n)',sp:'O(n)'}];
+$('#rs').innerHTML=(RES.map((d,i)=>'<div class="rc '+d.c+' rv" style="--d:'+(i*160)+'ms"><div class="rn"><b>'+d.nm+'</b><span>'+d.th+'</span></div>'
+  +'<div class="rv2"><small>Waktu</small>'+d.v+'</div><div class="rsp">Ruang tambahan <b>'+d.sp+'</b></div></div>').join(''));
+/* grafik Big-O (m sebanding n, hanya untuk membandingkan bentuk kurva) */
+(function(){
+  const X0=90,X1=790,Y0=500,Y1=50,NMAX=100,YM=4400,L2=Math.log2;
+  const F=[
+   {k:'g',f:n=>L2(n),lab:'O(log n)',cd:0},
+   {k:'g',f:n=>n,lab:'O(n)',cd:.25},
+   {k:'g',f:n=>n*n,lab:'O(n²)',cd:.5},
+   {k:'kp',f:n=>n*L2(n),lab:'O(m log n)',sub:'Kruskal dan Prim',cd:.9},
+   {k:'bv',f:n=>n*L2(n)*L2(n),lab:'O(m log² n)',sub:'Borůvka',cd:1.3}];
+  let h='<svg viewBox="0 0 1000 572">';
+  for(let i=1;i<=4;i++){const y=Y0-(Y0-Y1)*i/4;h+='<line class="gr" x1="'+X0+'" x2="'+X1+'" y1="'+y+'" y2="'+y+'"/>';}
+  h+='<line class="ax" x1="'+X0+'" y1="'+Y1+'" x2="'+X0+'" y2="'+Y0+'"/><line class="ax" x1="'+X0+'" y1="'+Y0+'" x2="'+X1+'" y2="'+Y0+'"/>';
+  F.forEach(c=>{let d='',ex=0,ey=0;const pts=[];
+    for(let n=1;n<=NMAX;n+=.5){const v=c.f(n);if(v>YM){const t=NMAX; }
+      const vv=Math.min(v,YM);const x=X0+(X1-X0)*n/NMAX,y=Y0-(Y0-Y1)*vv/YM;
+      d+=(d?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);pts.push([x,y]);ex=x;ey=y;if(v>=YM)break;}
+    h+='<path class="cv '+c.k+'" pathLength="1" style="--cd:'+c.cd+'s" d="'+d+'"/>';
+    c.ex=ex;c.ey=ey;c.pts=pts;});
+  let lb='';
+  F.forEach(c=>{const col=c.k==='kp'?'var(--accent-bright)':c.k==='bv'?'var(--amber)':'rgba(255,255,255,.6)';
+    let x=c.ex+10,y=c.ey+8;
+    if(c.lab==='O(n²)'){y=c.ey+22;}
+    if(c.lab==='O(m log² n)'){x=c.ex+12;y=c.ey+6;}
+    if(c.lab==='O(m log n)'){y=c.ey-4;}
+    if(c.lab==='O(n)'){y=c.ey-1;}
+    if(c.lab==='O(log n)'){y=c.ey+24;}
+    lb+='<div class="cl" style="--cd:'+(c.cd+1.2)+'s;color:'+col+';left:'+x+'px;top:'+(y-30)+'px">'+c.lab+'</div>';
+    if(c.sub){const sy=c.k==='bv'?c.ey+30:c.ey+22;
+      lb+='<div class="cl cs" style="--cd:'+(c.cd+1.4)+'s;color:'+col+';left:'+x+'px;top:'+(sy-22)+'px">'+c.sub+'</div>';}});
+  h+='<g id="idle" opacity="0"><circle id="rk" r="9" fill="none" stroke="var(--accent-bright)" stroke-width="3"/><circle id="rb" r="9" fill="none" stroke="var(--amber)" stroke-width="3"/><circle id="dk" r="9" fill="var(--accent-bright)"/><circle id="db" r="9" fill="var(--amber)"/></g>';
+  h+='<text class="at" x="'+((X0+X1)/2)+'" y="545" text-anchor="middle">Ukuran graf (n), dengan m sebanding n</text>';
+  h+='<text class="at" transform="translate(30 '+((Y0+Y1)/2)+') rotate(-90)" text-anchor="middle">Waktu (jumlah langkah)</text></svg>';
+  $('#chart').innerHTML=h+lb;
+  const KP=F[3].pts,BV=F[4].pts;
+  const at=(P,t)=>{const i=Math.min(P.length-1,Math.max(0,Math.round(t*(P.length-1))));return P[i];};
+  let raf=0,t0=0;
+  function loop(ts){
+    if(!t0)t0=ts;const T=(ts-t0)/1000,per=4.5,ph=T%per,g=$('#idle');
+    const t=Math.min(1,ph/3.2),e=1-Math.pow(1-t,2);
+    const a=at(KP,e),b=at(BV,e);
+    const dk=$('#dk'),db=$('#db');dk.setAttribute('cx',a[0]);dk.setAttribute('cy',a[1]);db.setAttribute('cx',b[0]);db.setAttribute('cy',b[1]);
+    const rk=$('#rk'),rb=$('#rb'),q=ph<3.2?0:(ph-3.2)/1.3;
+    [[rk,a],[rb,b]].forEach(([r,pp])=>{r.setAttribute('cx',pp[0]);r.setAttribute('cy',pp[1]);r.setAttribute('r',9+q*22);r.setAttribute('opacity',ph<3.2?0:1-q);});
+    g.setAttribute('opacity',ph<3.2?Math.min(1,ph/.3):1);
+    raf=requestAnimationFrame(loop);
+  }
+  window.chartIdle=on=>{cancelAnimationFrame(raf);t0=0;$('#idle').setAttribute('opacity',0);if(on)setTimeout(()=>{raf=requestAnimationFrame(loop);},4200);};
+})();
+
+/* ═════════ Penggambar ═════════ */
+let shownAlg=null,LNS=[];
+const OPS='×=+≤→';
+function chips(c){return c.map(t=>OPS.includes(t)&&t.length===1?'<i>'+t+'</i>':'<span class="chipc">'+t+'</span>').join('');}
+function buildCode(k){
+  const a=ALG[k],el=$('#code');el.innerHTML='';el.style.setProperty('--lh',Math.min(44,Math.floor(556/(a.lines.length+1)))+'px');
+  $('#pt').innerHTML='<b>Pseudocode</b> · '+a.nm;$('#ps').textContent='baris sama dengan '+a.sl;
+  const hd=document.createElement('div');hd.className='ln hd';hd.innerHTML='<span class="no"></span><span class="t">'+a.head+'</span>';el.appendChild(hd);
+  LNS=a.lines.map(([ind,h],i)=>{const d=document.createElement('div');d.className='ln';d.innerHTML='<span class="no">'+(i+1)+'</span><span class="t" style="--i:'+ind+'">'+h+'</span>';el.appendChild(d);return d;});
+  shownAlg=k;
+}
+function renderB(s){
+  if(shownAlg!==s.a)buildCode(s.a);
+  $('#code').classList.add('act');
+  LNS.forEach((d,i)=>d.classList.toggle('on',s.hl.includes(i+1)));
+  $('#dt').innerHTML='<b>Penurunan</b> · '+ALG[s.a].nm;
+  $('#dn').textContent='langkah '+s.no;
+  const rows=s.rows.map((r,i)=>'<div class="dr" style="--d:'+(i*140)+'ms"><div class="bl">'+r.t+'</div><div><div class="tx">'+r.x+'</div>'
+    +((r.c&&r.c.length)||r.n?'<div class="calc">'+chips(r.c||[])+(r.n?'<span class="nt">'+r.n+'</span>':'')+'</div>':'')+'</div></div>').join('')
+    +(s.key?'<div class="dkey" style="--d:'+(s.rows.length*140)+'ms">'+s.key+'</div>':'');
+  $('#dbody').innerHTML=rows;
+  $('#terms').innerHTML=s.terms.map((t,i)=>{const nw=t[0]==='*',v=nw?t.slice(1):t;return (i?'<i>+</i>':'')+'<span class="tm'+(nw?' nw':'')+'">'+v+'</span>';}).join('');
+  const f=$('#fin');
+  if(s.fin){f.className='fin on'+(s.fin.am?' am':'');f.innerHTML='<em>=</em><strong>'+s.fin.v+'</strong><span>'+s.fin.n+'</span>';}
+  else{f.className='fin';f.innerHTML='';}
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{document.querySelectorAll('#dbody .dr,#dbody .dkey').forEach(e=>e.classList.add('on'));}));
+}
+function cap(h){const c=$('#cap');c.parentElement.style.visibility=h?'':'hidden';c.innerHTML=h;c.classList.remove('sw');void c.offsetWidth;c.classList.add('sw');}
+
+/* ═════════ Rumus: teks dikenali lalu dirender sebagai persamaan (KaTeX), Big-O huruf O kaligrafi ═════════ */
+const VART='\\d*[nm]²?(?:/\\d+)?', LOGT='(?:\\d+\\s?)?log²?\\s?'+VART;
+const TERM='(?:O\\((?:[^()]|\\([^()]*\\))*\\)|'+LOGT+'|'+VART+'(?:\\s+'+LOGT+')*)';
+const RUN=new RegExp('(?<![\\p{L}\\p{N}_])(?:[≤≥<]\\s?)?'+TERM+'(?:\\s*[+×<≤≥=→−-]\\s*(?:'+TERM+'|\\d+(?:\\.\\d{3})*))*(?![\\p{L}\\p{N}_])','gu');
+function toTeX(m){return m.replace(/(^|[^\\\w])O\(/g,'$1\\mathcal{O}(').replace(/log²/g,'\\log^{2}').replace(/(^|[^\\\w])log(?![a-zA-Z])/g,'$1\\log ')
+  .replace(/²/g,'^{2}').replace(/(\d*[nm])\/(\d+)/g,'\\frac{$1}{$2}').replace(/×/g,'\\times ').replace(/≤/g,'\\le ').replace(/≥/g,'\\ge ').replace(/→/g,'\\to ').replace(/−/g,'-').replace(/\\log\^\{2\}\s*/g,'\\log^{2} ');}
+function mathify(root){
+  if(!root||!window.katex)return;
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('.katex,svg,script,style,#pp,.mxd,h3')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});
+  const L=[];while(w.nextNode())L.push(w.currentNode);
+  L.forEach(n=>{const t=n.nodeValue;RUN.lastIndex=0;if(!RUN.test(t))return;RUN.lastIndex=0;
+    const f=document.createDocumentFragment();let last=0,m;
+    while((m=RUN.exec(t))){if(!m[0].trim())continue;
+      if(m.index>last)f.appendChild(document.createTextNode(t.slice(last,m.index)));
+      const sp=document.createElement('span');sp.className='mxd';
+      try{sp.innerHTML=katex.renderToString(toTeX(m[0]),{throwOnError:false,output:'html'});}catch(e){sp.textContent=m[0];}
+      f.appendChild(sp);last=m.index+m[0].length;}
+    if(last<t.length)f.appendChild(document.createTextNode(t.slice(last)));
+    n.parentNode.replaceChild(f,n);});
+}
+function mathAll(){['#zA','#dp','#zC','#cap','#chart','#leg'].forEach(q=>mathify(document.querySelector(q)));}
+function apply(k){
+  const s=S[k];
+  ['A','B','C'].forEach(z=>$('#z'+z).classList.toggle('on',z===s.z));
+  if(s.z==='B')renderB(s);
+  const ch=$('#chart');ch.classList.remove('draw');if(s.z==='C'){void ch.getBoundingClientRect();setTimeout(()=>ch.classList.add('draw'),350);}
+  window.chartIdle&&window.chartIdle(s.z==='C');
+  cap(s.cap);
+  mathAll();
+}
+const STEPS=S.map((_,k)=>()=>apply(k));
+let step=0;
+let cur=-1;
+/* ═════════ Progres, navigasi ═════════ */
+const GROUPS=[['Pembuka',1],['Konsep',1],['Algoritma',4],['Studi Kasus',1],['Teori',1],['Eksperimen',2],['Penutup',2]];
+(function(){const p=$('#prog');GROUPS.forEach(([n,c])=>{const s=document.createElement('div');s.className='seg';s.style.flex=c;s.innerHTML='<div class="bar"><i></i></div><span>'+n+'</span>';p.appendChild(s);});})();
+function progress(){let start=0;document.querySelectorAll('.seg').forEach((s,gi)=>{const c=GROUPS[gi][1];let done=0;
+  if(SLIDE_NO>start+c)done=c;else if(SLIDE_NO>start)done=(SLIDE_NO-1-start)+(step+1)/(LAST+1);
+  s.querySelector('i').style.width=(done/c*100)+'%';s.classList.toggle('cur',SLIDE_NO>start&&SLIDE_NO<=start+c);start+=c;});}
+function render(){STEPS[step]();progress();$('#cnt').textContent=(step+1)+' / '+(LAST+1);
+  $('#prev').textContent=step===0?'Slide 7':'Sebelumnya';const nx=$('#next');
+  if(step<LAST){nx.disabled=false;nx.textContent='Berikutnya';}
+  else if(NEXT_SLIDE){nx.disabled=false;nx.textContent='Slide 9';}else{nx.disabled=true;nx.textContent='Slide 9 menyusul';}}
+function leave(u){if(window.TEMA)TEMA.leave(u);else location.href=u;}
+function next(){if(step<LAST){step++;render();}else if(NEXT_SLIDE)leave(NEXT_SLIDE);}
+function prev(){if(step>0){step--;render();}else if(PREV_SLIDE)leave(PREV_SLIDE);}
+function reset(){cur=[-1,-1];step=0;render();}
+$('#next').onclick=next;$('#prev').onclick=prev;$('#reset').onclick=reset;
+addEventListener('keydown',e=>{if(e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key;
+  if(k==='ArrowRight'||k===' '||k==='PageDown'||k==='Enter'){e.preventDefault();next();}
+  else if(k==='ArrowLeft'||k==='PageUp'||k==='Backspace'){e.preventDefault();prev();}
+  else if(k==='r'||k==='R')reset();
+  else if(k==='f'||k==='F'){if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}
+  else if(k==='i'||k==='I')leave('INDEX.html');});
+function fit(){const s=Math.min(innerWidth/1920,innerHeight/1080),st=$('#stage');
+  st.style.transform='translate('+((innerWidth-1920*s)/2)+'px,'+((innerHeight-1080*s)/2)+'px) scale('+s+')';}
+addEventListener('resize',fit);fit();
+const q=new URLSearchParams(location.search).get('step');
+if(q!==null){step=Math.max(0,Math.min(LAST,+q||0));render();}else setTimeout(render,500);
+
+/* ═════════ Dock: muncul saat kursor di bawah, hilang 1 detik setelah dilepas ═════════ */
+(function(){
+  const dock=document.getElementById('dock'); let t=null, armed=false;
+  const show=()=>{dock.classList.add('show');clearTimeout(t);armed=false;};
+  const arm=()=>{ if(armed||!dock.classList.contains('show'))return; armed=true; t=setTimeout(()=>{dock.classList.remove('show');armed=false;},1000); };
+  addEventListener('mousemove',e=>{ if(e.clientY>innerHeight*0.85||dock.matches(':hover')) show(); else arm(); });
+  document.addEventListener('mouseleave',arm);
+})();
+const EDGE_PREV=()=>prev(), EDGE_NEXT=()=>next();
+
+/* ═════════ Zona tepi layar ala Canva: kiri jauh = mundur, kanan jauh = maju ═════════ */
+(function(){
+  const EDGE=0.07, mkCur=d=>'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'44\' height=\'44\'><circle cx=\'22\' cy=\'22\' r=\'20\' fill=\'%230a0b0f\' stroke=\'%237db4ff\' stroke-width=\'2\'/><path d=\''+d+'\' fill=\'none\' stroke=\'%23c4dcff\' stroke-width=\'3.2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/></svg>") 22 22, pointer';
+  const CL=mkCur('M25 13l-9 9 9 9'), CR=mkCur('M19 13l9 9-9 9');
+  const zoneOf=x=>{const r=x/innerWidth; const z=r<EDGE?-1:(r>1-EDGE?1:0); return (z===-1&&!EDGE_PREV)?0:z;};
+  const L=document.getElementById('eh-l'), R=document.getElementById('eh-r');
+  addEventListener('mousemove',e=>{ const z=zoneOf(e.clientX);
+    document.documentElement.style.cursor = z<0?CL:(z>0?CR:'');
+    L.classList.toggle('on',z<0); R.classList.toggle('on',z>0); });
+  document.addEventListener('mouseleave',()=>{L.classList.remove('on');R.classList.remove('on');document.documentElement.style.cursor='';});
+  addEventListener('click',e=>{ if(e.target.closest('#dock'))return; const z=zoneOf(e.clientX); if(z<0)EDGE_PREV(); else if(z>0)EDGE_NEXT(); });
+})();
+</script>
+</body>
+</html>
